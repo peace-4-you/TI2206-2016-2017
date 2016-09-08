@@ -28,14 +28,14 @@ public class BubbleGenerator {
   }
 
   /**
-   * returns Bubble instance with supplied Bubble.ColorChoice
+   * returns BubbleModel instance with supplied BubbleModel.ColorChoice
    *
    * @param x  double value for starting x position
    * @param y  double value for starting y position
    * @param color  ColorChoice enum value for bubble's color
    */
-  public Bubble spawn(double x, double y, Bubble.ColorChoice color) {
-    return new Bubble(x, y, color);
+  public BubbleGenerator spawn(double x, double y, BubbleModel.ColorChoice color) {
+    return new BubbleModel(x, y, color);
   }
   /**
    * returns Bubble instance of random color
@@ -44,35 +44,35 @@ public class BubbleGenerator {
    * @param y  double value for starting y position
    * @param forCannon  boolean value true if Bubble is for cannon, else false
    */
-  public Bubble spawn(double x, double y, boolean forCannon) {
-    Bubble.ColorChoice color;
+  public BubbleGenerator spawn(double x, double y, boolean forCannon) {
+    BubbleModel.ColorChoice color;
 
     if (forCannon) {
       // TODO: determine colors from arena
       double r = Math.random();
       if (r < 0.25) {
-        color = Bubble.ColorChoice.RED;
+        color = BubbleModel.ColorChoice.RED;
       } else if (r < 0.5) {
-        color = Bubble.ColorChoice.BLUE;
+        color = BubbleModel.ColorChoice.BLUE;
       } else if (r < 0.75) {
-        color = Bubble.ColorChoice.YELLOW;
+        color = BubbleModel.ColorChoice.YELLOW;
       } else if (r < 1) {
-        color = Bubble.ColorChoice.GREEN;
+        color = BubbleModel.ColorChoice.GREEN;
       }
     } else {
       double r = Math.random();
       if (r < 0.25) {
-        color = Bubble.ColorChoice.RED;
+        color = BubbleModel.ColorChoice.RED;
       } else if (r < 0.5) {
-        color = Bubble.ColorChoice.BLUE;
+        color = BubbleModel.ColorChoice.BLUE;
       } else if (r < 0.75) {
-        color = Bubble.ColorChoice.YELLOW;
+        color = BubbleModel.ColorChoice.YELLOW;
       } else if (r < 1) {
-        color = Bubble.ColorChoice.GREEN;
+        color = BubbleModel.ColorChoice.GREEN;
       }
     }
 
-    return new Bubble(x, y, color);
+    return new BubbleModel(x, y, color);
   }
 
 }

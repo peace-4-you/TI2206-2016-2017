@@ -1,7 +1,7 @@
 /*
- * File: Bubble.java
+ * File: BubbleModel.java
  *
- * Class: Bubble
+ * Class: BubbleModel
  *
  * Version: 0.0.1
  *
@@ -10,20 +10,19 @@
  */
 
 
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
+package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubblemodel;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.geom.Rectangle2D;
+import java.util.Observable;
 
 /**
- * The Bubble class represents a single bubble entity and
- * is responsible for storing data for and rendering a Bubble.
+ * The BubbleModel class represents a single bubble entity
  *
  * @author Calvin Nhieu
  *
  */
-public class Bubble {
+public class BubbleModel implements Observable {
   public static final double DIAMETER = 40;
   public static final double SPEED = 5;
 
@@ -50,7 +49,7 @@ public class Bubble {
   private State state;
 
   /**
-   * Creates Bubble instance
+   * Creates BubbleModel instance
    *
    * @param x  double value for starting x position
    * @param y  double value for starting y position
@@ -79,22 +78,14 @@ public class Bubble {
         this.drawColor = Bubble.GREEN_COLOR;
         break;
     }
-  }
 
-  /**
-   * draws the Bubble
-   *
-   * @param g  Java Graphics instance
-   */
-  public void draw(Graphics g) {
-    g.setColor(this.drawColor);
-    g.fillOval((int) this.x, (int) this.y, (int) Bubble.DIAMETER);
+    this.updateObservers();
   }
 
   /**
    * updates the Bubble's position per game tick
    */
-  public void update() {
+  public void move() {
     switch(this.state) {
       case State.STILL:
         break;
@@ -109,6 +100,14 @@ public class Bubble {
         this.setY(this.getY() + this.getYSpeed());
         break;
     }
+  }
+
+  /**
+   * updates subscribed Observers
+   */
+  public void updateObservers() {
+    this.setChanged(true);
+    this.notifyObservers();
   }
 
   /**
@@ -169,6 +168,7 @@ public class Bubble {
    */
   public void setX(double x) {
     this.x = x;
+    this.updateObservers();
   }
 
   /**
@@ -184,6 +184,7 @@ public class Bubble {
    */
   public void setY(double y) {
     this.y = y;
+    this.updateObservers();
   }
 
   /**
