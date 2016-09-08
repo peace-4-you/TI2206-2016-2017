@@ -3,6 +3,9 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.graph;
 /**
 * Graph ADT 
 * Coded by Amir El Bawab
+* 
+* Modified by Winer Bao
+* 
 * Date: 22 December 2014
 * License: MIT License ~ Please read License.txt for more information about the usage of this software
 * */
