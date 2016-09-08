@@ -21,7 +21,7 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
  * @author Winer Bao
  *
  */
-public class Arena<T> {
+public class ArenaModel<T> {
 	private int xPos;
 	private int yPos;
 	private int height;
@@ -40,7 +40,7 @@ public class Arena<T> {
 	/**
 	 * Creates Arena for bubbles storage and render variables
 	 */
-	public Arena(int xVal, int yVal, int height_t, int width_t) {
+	public ArenaModel(int xVal, int yVal, int height_t, int width_t) {
 		xPos = xVal;
 		yPos = yVal;
 		height = height_t;
