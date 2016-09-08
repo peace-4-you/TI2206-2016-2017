@@ -8,6 +8,8 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -21,9 +23,9 @@ public class Cannon {
 
 	private int ANGLE;
 
-	private int currBubbleColour;
+	private Bubble.ColorChoice currBubbleColour;
 
-	private int nextBubbleColour;
+	private Bubble.ColorChoice nextBubbleColour;
 
 	private int X;
 
@@ -32,6 +34,7 @@ public class Cannon {
 	private int SIZE;
 
 	private Color cannonColour;
+	
 
 	/**
 	 * Creates Cannon instance
@@ -62,7 +65,6 @@ public class Cannon {
 	 */
 
 	private void loadNextBubble() {
-		// TODO Needs to get colour ENUM
 		this.currBubbleColour = this.nextBubbleColour;
 		this.nextBubbleColour = this.getNextColour();
 	}
@@ -71,9 +73,9 @@ public class Cannon {
 	 * Determines next colour
 	 */
 
-	private int getNextColour() {
+	private Bubble.ColorChoice getNextColour() {
 		// TODO Needs to refer to bubble checking function
-		int nextColor = 1;
+		Bubble.ColorChoice nextColor = Bubble.ColorChoice.BLUE;
 		return nextColor;
 	}
 
