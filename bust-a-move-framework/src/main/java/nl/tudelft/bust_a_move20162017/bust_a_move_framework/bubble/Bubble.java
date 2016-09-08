@@ -9,7 +9,9 @@
  *
  */
 
+
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -155,83 +157,83 @@ public class Bubble {
   }
 
   /**
-	 * returns x value
-	 */
+   * returns x value
+   */
   public double getX() {
     return this.x;
   }
   /**
-	 * sets x value
+   * sets x value
    *
    * @param x  double value to set x to
-	 */
+   */
   public void setX(double x) {
     this.x = x;
   }
 
   /**
-	 * returns y value
-	 */
+   * returns y value
+   */
   public double getY() {
     return this.y;
   }
   /**
-	 * sets y value
+   * sets y value
    *
    * @param y  double value to set y to
-	 */
+   */
   public void setY(double y) {
     this.y = y;
   }
 
   /**
-	 * returns xSpeed value
+   * returns xSpeed value
 	 */
   public double getXSpeed() {
     return this.xSpeed;
   }
   /**
-	 * sets xSpeed value
+   * sets xSpeed value
    *
    * @param xSpeed  double value to set xSpeed to
-	 */
+   */
   public void setXSpeed(double xSpeed) {
     this.xSpeed = xSpeed;
   }
 
   /**
-	 * returns ySpeed value
-	 */
+   * returns ySpeed value
+   */
   public double getYSpeed() {
     return this.xSpeed;
   }
   /**
-	 * sets ySpeed value
+   * sets ySpeed value
    *
    * @param ySpeed  double value to set ySpeed to
-	 */
+   */
   public void setYSpeed(double ySpeed) {
     this.ySpeed = ySpeed;
   }
 
   /**
-	 * returns Color value
-	 */
+   * returns Color value
+   */
   public ColorChoice getColor() {
     return this.color;
   }
 
   /**
-	 * returns state
-	 */
+   * returns state
+   */
   public State getState() {
     return this.state;
   }
   /**
-	 * sets state
+   * sets state
    *
    * @param state  State enum value to set state to
-	 */
+   */
   public void setState(State state) {
     this.state = state;
   }
