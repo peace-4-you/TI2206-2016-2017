@@ -25,7 +25,7 @@ public class PlayerModel {
   }
 
   /**
-   * returns name
+   * @return String name
    */
   public String getName() {
     return this.name;
@@ -42,7 +42,7 @@ public class PlayerModel {
   }
 
   /**
-   * returns score
+   * @return int score
    */
   public int getScore() {
     return this.score;
@@ -58,7 +58,7 @@ public class PlayerModel {
   }
 
   /**
-   * returns combo
+   * @return int combo
    */
   public int getCombo() {
     return this.combo;
