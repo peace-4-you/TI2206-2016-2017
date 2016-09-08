@@ -22,29 +22,32 @@ public class BubbleGenerator {
 
   /**
    * Creates BubbleGenerator instance
+   *
+   * @param Arena instance
+   *
    */
   public BubbleGenerator(Arena arena) {
     this.arena = arena;
   }
 
   /**
-   * returns BubbleModel instance with supplied BubbleModel.ColorChoice
+   * @return BubbleModel instance with supplied BubbleModel.ColorChoice
    *
    * @param x  double value for starting x position
    * @param y  double value for starting y position
    * @param color  ColorChoice enum value for bubble's color
    */
-  public BubbleGenerator spawn(double x, double y, BubbleModel.ColorChoice color) {
+  public BubbleModel spawn(double x, double y, BubbleModel.ColorChoice color) {
     return new BubbleModel(x, y, color);
   }
   /**
-   * returns Bubble instance of random color
+   * @return BubbleModel instance of random color
    *
    * @param x  double value for starting x position
    * @param y  double value for starting y position
    * @param forCannon  boolean value true if Bubble is for cannon, else false
    */
-  public BubbleGenerator spawn(double x, double y, boolean forCannon) {
+  public BubbleModel spawn(double x, double y, boolean forCannon) {
     BubbleModel.ColorChoice color;
 
     if (forCannon) {

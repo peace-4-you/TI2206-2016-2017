@@ -55,7 +55,7 @@ public class BubbleModel implements Observable {
    * @param y  double value for starting y position
    * @param color  ColorChoice enum value for bubble's color
    */
-  public Bubble(double x, double y, ColorChoice color) {
+  public BubbleModel(double x, double y, ColorChoice color) {
     this.x = x;
     this.y = y;
     this.xSpeed = 0;
