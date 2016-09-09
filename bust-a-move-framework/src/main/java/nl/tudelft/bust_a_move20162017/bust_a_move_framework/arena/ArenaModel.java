@@ -12,8 +12,9 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena;
 
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.graph.Graph;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
+import java.util.LinkedList;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.graph.*;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.*;
 
 /**
  * The arena class maintains a graph data structure to store the bubble objects. 
@@ -21,12 +22,14 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
  * @author Winer Bao
  *
  */
-public class ArenaModel<T> {
+public class ArenaModel {
 	private int xPos;
 	private int yPos;
 	private int height;
 	private int width;
 	private final Graph storageGraph;
+	private LinkedList<Bubble> topBubbleList; 
+	private LinkedList<Bubble> edgeBubbleList;
 	
 	/* Amount of bubbles that fit in the horizontal axis */
 	private final int width_hex;		
@@ -45,7 +48,9 @@ public class ArenaModel<T> {
 		yPos = yVal;
 		height = height_t;
 		width = width_t;
-		storageGraph = new Graph<T, Integer>(false);
+		storageGraph = new Graph<Bubble, Integer>(false);
+		topBubbleList = new LinkedList<Bubble>();
+		edgeBubbleList = new LinkedList<Bubble>();
 		
 		/* TODO: calculate width_hex and height_hex */
 		width_hex = 8;
@@ -106,16 +111,24 @@ public class ArenaModel<T> {
 	 */
 	public void landBubble(Bubble shotBubble) {
 		boolean landed = false; 
+		Bubble[] popBubbles;
 		
 		/* TODO: Use non-blocking strategy to land bubble*/
 		while(landed = false) {
 			/* TODO: check location of bubble to detect collision
 			 * Once collision is detected, the bubble is saved in the graph
 			 */
+			landed = true;
+			storageGraph.addVertex(shotBubble);
+		}
+
+		popBubbles = checkBubblesToPop(shotBubble);
+		for(int i = 0; i < popBubbles.length; i++) {
+			popBubble(popBubbles[i]);
 		}
 		
 		bubbleCount++;
-		if(bubbleCount > 12) {
+		if(bubbleCount > 10) {
 			bubbleCount = 1;
 			addBubbleRow();
 		}
@@ -146,9 +159,19 @@ public class ArenaModel<T> {
 	 * row is added to the top of the Arena and saved in the graph.
 	 */
 	private void addBubbleRow() {
+		BubbleGenerator bubbleGen = new BubbleGenerator(this);
 		for(int i = 0; i < width_hex; i++) {
 			/* TODO: Add new Bubble objects to top */
 		}
+	}
+	
+	private Bubble[] checkBubblesToPop(Bubble lastBubble) {
+		Bubble[] array;
+		
+		storageGraph
+		array = new Bubble[1];
+		//Check 3 or more connected bubbles
+		return array;
 	}
 	
 }
