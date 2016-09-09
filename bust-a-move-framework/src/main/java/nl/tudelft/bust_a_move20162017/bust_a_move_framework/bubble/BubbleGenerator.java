@@ -9,7 +9,7 @@
  *
  */
 
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubblegenerator;
+package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
 /**
  * The BubbleGenerator class is an interface to create Bubble instances

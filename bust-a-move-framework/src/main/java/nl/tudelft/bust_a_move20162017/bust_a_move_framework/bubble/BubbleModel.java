@@ -10,7 +10,7 @@
  */
 
 
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubblemodel;
+package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
 import java.awt.Color;
 import java.awt.Graphics;
