@@ -27,9 +27,8 @@ public class ArenaModel {
 	private int yPos;
 	private int height;
 	private int width;
-	private final Graph storageGraph;
-	private LinkedList<Bubble> topBubbleList; 
-	private LinkedList<Bubble> edgeBubbleList;
+	private final Graph<BubbleModel, Integer> storageGraph;
+	private LinkedList<BubbleModel> topBubbleList; 
 	
 	/* Amount of bubbles that fit in the horizontal axis */
 	private final int width_hex;		
@@ -48,9 +47,8 @@ public class ArenaModel {
 		yPos = yVal;
 		height = height_t;
 		width = width_t;
-		storageGraph = new Graph<Bubble, Integer>(false);
-		topBubbleList = new LinkedList<Bubble>();
-		edgeBubbleList = new LinkedList<Bubble>();
+		storageGraph = new Graph<BubbleModel, Integer>(false);
+		topBubbleList = new LinkedList<BubbleModel>();
 		
 		/* TODO: calculate width_hex and height_hex */
 		width_hex = 8;
@@ -102,6 +100,15 @@ public class ArenaModel {
 	}
 	
 	/**
+	 * Returns the storage graph in which all the bubbles are stored.
+	 * 
+	 * @return storageGraph
+	 */
+	public Graph<BubbleModel, Integer> get_Graph() {
+		return storageGraph;
+	}
+	
+	/**
 	 * Calculates where the shot bubble lands on the arena. The location is 
 	 * saved in the graph. It checks if there are 3 or more bubbles connected
 	 * together and calls the pop and drop bubbles methods. 
@@ -109,24 +116,9 @@ public class ArenaModel {
 	 * @param shotBubble The bubble shot by the cannon
 	 * 
 	 */
-	public void landBubble(Bubble shotBubble) {
-		boolean landed = false; 
-		Bubble[] popBubbles;
-		
-		/* TODO: Use non-blocking strategy to land bubble*/
-		while(landed = false) {
-			/* TODO: check location of bubble to detect collision
-			 * Once collision is detected, the bubble is saved in the graph
-			 */
-			landed = true;
-			storageGraph.addVertex(shotBubble);
-		}
+	public void landBubble(BubbleModel shotBubble) {
+		storageGraph.addVertex(shotBubble);
 
-		popBubbles = checkBubblesToPop(shotBubble);
-		for(int i = 0; i < popBubbles.length; i++) {
-			popBubble(popBubbles[i]);
-		}
-		
 		bubbleCount++;
 		if(bubbleCount > 10) {
 			bubbleCount = 1;
@@ -140,7 +132,7 @@ public class ArenaModel {
 	 * @param popBubble The bubble to be popped
 	 * 
 	 */
-	private void popBubble(Bubble popBubble) {
+	private void popBubble(BubbleModel popBubble) {
 		popBubble.pop();
 	}
 	
@@ -150,7 +142,7 @@ public class ArenaModel {
 	 * @param dropBubble The bubble to be dropped
 	 * 
 	 */
-	private void dropBubble(Bubble dropBubble) {
+	private void dropBubble(BubbleModel dropBubble) {
 		dropBubble.drop();
 	}
 	
@@ -165,12 +157,32 @@ public class ArenaModel {
 		}
 	}
 	
-	private Bubble[] checkBubblesToPop(Bubble lastBubble) {
-		Bubble[] array;
+	/**
+	 * Checks which bubble needs to be popped.
+	 * 
+	 * @param lastBubble	Last bubble added to the graph.
+	 * 
+	 * @return An array of BubbleModel containing the bubbles to be popped. 
+	 */
+	private BubbleModel[] checkBubblesToPop(BubbleModel lastBubble) {
+		BubbleModel[] array;
 		
-		storageGraph
-		array = new Bubble[1];
+		
+		array = new BubbleModel[1];
 		//Check 3 or more connected bubbles
+		return array;
+	}
+	
+	/**
+	 * Checks which bubble needs to be dropped.	
+	 * 
+	 * @return An array of BubbleModel containing the bubbles to be dropped.
+	 */
+	private BubbleModel[] checkBubblesToDrop() {
+		BubbleModel[] array;
+		
+		array = new BubbleModel[1];
+		//Check drop bubbles
 		return array;
 	}
 	
