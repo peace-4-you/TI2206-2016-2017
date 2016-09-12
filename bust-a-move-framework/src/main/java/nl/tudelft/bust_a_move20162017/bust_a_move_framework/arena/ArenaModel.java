@@ -23,11 +23,12 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.*;
  *
  */
 public class ArenaModel {
+	
 	private int xPos;
 	private int yPos;
 	private int height;
 	private int width;
-	private final Graph<BubbleModel, Integer> storageGraph;
+	private final Graph<BubbleModel, Integer> graph;
 	private LinkedList<BubbleModel> topBubbleList; 
 	
 	/* Amount of bubbles that fit in the horizontal axis */
@@ -47,7 +48,7 @@ public class ArenaModel {
 		yPos = yVal;
 		height = height_t;
 		width = width_t;
-		storageGraph = new Graph<BubbleModel, Integer>(false);
+		graph = new Graph<BubbleModel, Integer>(false);
 		topBubbleList = new LinkedList<BubbleModel>();
 		
 		/* TODO: calculate width_hex and height_hex */
@@ -105,19 +106,24 @@ public class ArenaModel {
 	 * @return storageGraph
 	 */
 	public Graph<BubbleModel, Integer> get_Graph() {
-		return storageGraph;
+		return graph;
 	}
 	
 	/**
 	 * Calculates where the shot bubble lands on the arena. The location is 
-	 * saved in the graph. It checks if there are 3 or more bubbles connected
-	 * together and calls the pop and drop bubbles methods. 
+	 * saved in the graph. It also calls the pop bubbles method. 
 	 * 
-	 * @param shotBubble The bubble shot by the cannon
+	 * @param bubble_vtx The bubble shot by the cannon
 	 * 
 	 */
-	public void landBubble(BubbleModel shotBubble) {
-		storageGraph.addVertex(shotBubble);
+	public void landBubble(Vertex<BubbleModel, Integer>[] bubble_vtx) {
+		Vertex<BubbleModel, Integer> shotBubble_vtx = graph.addVertex(bubble_vtx[0]);
+		
+		for(int i = 1; i < bubble_vertex.length; i++) {
+			graph.addEdge(shotBubble_vtx, bubble_vtx[i]);
+		}
+		
+		popBubbles(shotBubble_vtx);
 
 		bubbleCount++;
 		if(bubbleCount > 10) {
@@ -127,23 +133,44 @@ public class ArenaModel {
 	}
 	
 	/**
-	 * Signals the bubble object to pop.
+	 * Checks for 3 (or more) connected bubbles. If so, it signals the bubble objects to 
+	 * pop and removes it from the graph. It also calls the drop bubbles method. 
 	 * 
 	 * @param popBubble The bubble to be popped
 	 * 
 	 */
-	private void popBubble(BubbleModel popBubble) {
-		popBubble.pop();
+	private void popBubbles(Vertex<BubbleModel, Integer> popBubble) {
+		LinkedList<Vertex<BubbleModel,Integer>> popList = new LinkedList<Vertex<BubbleModel,Integer>>();
+		
+		checkBubblesToPop(popBubble);
+		
+		if(popList.size() >= 3) {
+			
+			for(int i = 0; i < popList.size(); i++) {
+				Vertex<BubbleModel,Integer> bubbleToPop = popList.pop();
+				dropBubbles(bubbleToPop);
+				bubbleToPop.getdata().pop();
+				graph.removeVertex(bubbleToPop);
+			}
+		}
 	}
 	
 	/**
-	 * Signal the bubble object to drop
+	 * Checks if bubbles needs to be dropped. If so, it signal the bubble object to drop 
+	 * and remove it from the graph.
 	 * 
 	 * @param dropBubble The bubble to be dropped
 	 * 
 	 */
-	private void dropBubble(BubbleModel dropBubble) {
-		dropBubble.drop();
+	private void dropBubbles(Vertex<BubbleModel,Integer> dropBubble) {
+		LinkedList<Vertex<BubbleModel,Integer>> dropList = new LinkedList<Vertex<BubbleModel,Integer>>();
+		
+		checkBubblesToDrop(bubbleToDrop, dropList);
+		for(int i = 0; i < dropList.size(); i++) {
+			Vertex<BubbleModel,Integer> bubbleToDrop = dropList.pop();
+			bubbleToDrop.getdata().drop();
+			graph.removeVertex(bubbleToDrop);
+		}
 	}
 	
 	/**
@@ -158,32 +185,53 @@ public class ArenaModel {
 	}
 	
 	/**
-	 * Checks which bubble needs to be popped.
+	 * Checks which bubble needs to be popped using recursive calls.
 	 * 
-	 * @param lastBubble	Last bubble added to the graph.
+	 * @param lastBubble	checks the neighbors of this bubble.
 	 * 
-	 * @return An array of BubbleModel containing the bubbles to be popped. 
 	 */
-	private BubbleModel[] checkBubblesToPop(BubbleModel lastBubble) {
-		BubbleModel[] array;
+	private void checkBubblesToPop(Vertex<BubbleModel,Integer> lastBubble, LinkedList<Vertex<BubbleModel,Integer>> popList) {
+		Vertex<BubbleModel,Integer>[] neightbors = lastBubble.getNeighbors();
 		
+		popList.add(lastBubble);
 		
-		array = new BubbleModel[1];
-		//Check 3 or more connected bubbles
-		return array;
+		if(neightbors.length == 0) {
+			return;
+		}
+		
+		for(int i = 0; i < neightbors.length; i++) {
+			Vertex<BubbleModel,Integer> bubble_vtx = neightbors[i];
+			
+			if(bubble_vtx.getdata().getColor() == lastBubble.getdata().getColor() 
+			   && !popList.contains(bubble_vtx)) {
+				checkbubblesToPop(bubble_vtx);
+			}
+		}
+		return;
 	}
 	
 	/**
-	 * Checks which bubble needs to be dropped.	
+	 * Checks which bubble needs to be dropped using recursive calls.	
 	 * 
-	 * @return An array of BubbleModel containing the bubbles to be dropped.
+	 * @param lastBubble	checks the neighbors of this bubble.
+	 * 
 	 */
-	private BubbleModel[] checkBubblesToDrop() {
-		BubbleModel[] array;
+	private void checkBubblesToDrop(Vertex<BubbleModel,Integer> lastBubble, LinkedList<Vertex<BubbleModel,Integer>> dropList) {
+		Vertex<BubbleModel,Integer>[] neightbors = lastBubble.getNeighbors();
 		
-		array = new BubbleModel[1];
-		//Check drop bubbles
-		return array;
+		if(neightbors.length == 0) {
+			return;
+		}
+		
+		for(int i = 0; i < neightbors.length; i++) {
+			Vertex<BubbleModel,Integer> bubble_vtx = neightbors[i];
+			
+			if(bubble_vtx.getdata().getY() < lastBubble.getdata().getY()) {
+				dropList.add(lastBubble);
+				checkbubblesToDrop(bubble_vtx);
+			}
+		}
+		return;
 	}
 	
 }
