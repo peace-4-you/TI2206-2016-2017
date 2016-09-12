@@ -1,6 +1,6 @@
 /*
- * File: PlayerModel.java
- * Class: PlayerModel
+ * File: Player.java
+ * Class: Player
  *
  * Version: 0.0.1
  * Date: September 8th, 2016
@@ -9,16 +9,16 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.player;
 
 /**
- * The PlayerModel class represents a player entity.
+ * The Player class represents a player entity.
  *
  * @author Calvin Nhieu
  */
-public class PlayerModel {
+public class Player {
   private String name;
   private int score;
   private int combo;
 
-  public PlayerModel(String name) {
+  public Player(String name) {
     this.name = name;
     this.score = 0;
     this.combo = 1;
