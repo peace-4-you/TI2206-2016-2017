@@ -11,6 +11,7 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleChoice;
 /**
  * The BubbleGenerator class is an interface to create Bubble instances
  *
@@ -31,51 +32,51 @@ public class BubbleGenerator {
   }
 
   /**
-   * @return BubbleModel instance with supplied BubbleModel.ColorChoice
+   * @return Bubble instance with supplied Bubble.ColorChoice
    *
    * @param x  double value for starting x position
    * @param y  double value for starting y position
    * @param color  ColorChoice enum value for bubble's color
    */
-  public BubbleModel spawn(double x, double y, BubbleModel.ColorChoice color) {
-    return new BubbleModel(x, y, color);
+  public Bubble spawn(double x, double y, Bubble.ColorChoice color) {
+    return new Bubble(x, y, color);
   }
   /**
-   * @return BubbleModel instance of random color
+   * @return Bubble instance of random color
    *
    * @param x  double value for starting x position
    * @param y  double value for starting y position
    * @param forCannon  boolean value true if Bubble is for cannon, else false
    */
-  public BubbleModel spawn(double x, double y, boolean forCannon) {
-    BubbleModel.ColorChoice color;
+  public Bubble spawn(double x, double y, boolean forCannon) {
+    Bubble.ColorChoice color;
 
     if (forCannon) {
       // TODO: determine colors from arena
       double r = Math.random();
       if (r < 0.25) {
-        color = BubbleModel.ColorChoice.RED;
+        color = Bubble.ColorChoice.RED;
       } else if (r < 0.5) {
-        color = BubbleModel.ColorChoice.BLUE;
+        color = Bubble.ColorChoice.BLUE;
       } else if (r < 0.75) {
-        color = BubbleModel.ColorChoice.YELLOW;
+        color = Bubble.ColorChoice.YELLOW;
       } else if (r < 1) {
-        color = BubbleModel.ColorChoice.GREEN;
+        color = Bubble.ColorChoice.GREEN;
       }
     } else {
       double r = Math.random();
       if (r < 0.25) {
-        color = BubbleModel.ColorChoice.RED;
+        color = Bubble.ColorChoice.RED;
       } else if (r < 0.5) {
-        color = BubbleModel.ColorChoice.BLUE;
+        color = Bubble.ColorChoice.BLUE;
       } else if (r < 0.75) {
-        color = BubbleModel.ColorChoice.YELLOW;
+        color = Bubble.ColorChoice.YELLOW;
       } else if (r < 1) {
-        color = BubbleModel.ColorChoice.GREEN;
+        color = Bubble.ColorChoice.GREEN;
       }
     }
 
-    return new BubbleModel(x, y, color);
+    return new Bubble(x, y, color);
   }
 
 }

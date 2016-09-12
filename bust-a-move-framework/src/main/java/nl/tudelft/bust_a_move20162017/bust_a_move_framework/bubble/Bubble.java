@@ -1,7 +1,7 @@
 /*
- * File: BubbleModel.java
+ * File: Bubble.java
  *
- * Class: BubbleModel
+ * Class: Bubble
  *
  * Version: 0.0.1
  *
@@ -12,32 +12,22 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.util.Observable;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 
 /**
- * The BubbleModel class represents a single bubble entity
+ * The Bubble class represents a single bubble entity
  *
  * @author Calvin Nhieu
  *
  */
-public class BubbleModel implements Observable {
+public class Bubble {
   public static final double DIAMETER = 40;
   public static final double SPEED = 5;
-
-  private static final Color RED_COLOR = new Color(0xFF0000);
-  private static final Color BLUE_COLOR = new Color(0x00FF00);
-  private static final Color YELLOW_COLOR = new Color(0x00FFFF);
-  private static final Color GREEN_COLOR = new Color(0x0000FF);
-
-  public enum ColorChoice {
-    RED, BLUE, YELLOW, GREEN
-  }
-  public enum State {
-    STILL, FIRING, POPPING, DROPPING
-  }
-
+  private static final Color RED_COLOR = Color.red;
+  private static final Color BLUE_COLOR = Color.blue;
+  private static final Color YELLOW_COLOR = Color.yellow;
+  private static final Color GREEN_COLOR = Color.green;
   private double x;
   private double y;
   private double xSpeed;
@@ -45,17 +35,23 @@ public class BubbleModel implements Observable {
   private int angle;
   private ColorChoice color;
   private Color drawColor;
-
   private State state;
 
+  public enum State {
+    STILL, FIRING, POPPING, DROPPING
+  }
+  public enum ColorChoice {
+    RED, BLUE, YELLOW, GREEN
+  }
+
   /**
-   * Creates BubbleModel instance
+   * Creates Bubble instance
    *
    * @param x  double value for starting x position
    * @param y  double value for starting y position
    * @param color  ColorChoice enum value for bubble's color
    */
-  public BubbleModel(double x, double y, ColorChoice color) {
+  public Bubble(double x, double y, ColorChoice color) {
     this.x = x;
     this.y = y;
     this.xSpeed = 0;
@@ -78,8 +74,16 @@ public class BubbleModel implements Observable {
         this.drawColor = Bubble.GREEN_COLOR;
         break;
     }
+  }
 
-    this.updateObservers();
+  /**
+   * draws the Bubble
+   *
+   * @param g  Java Graphics instance
+   */
+  public void draw(Graphics g) {
+    g.setColor(this.drawColor);
+    g.fillOval((int) this.x, (int) this.y, (int) Bubble.DIAMETER, (int) Bubble.DIAMETER);
   }
 
   /**
@@ -103,14 +107,6 @@ public class BubbleModel implements Observable {
   }
 
   /**
-   * updates subscribed Observers
-   */
-  public void updateObservers() {
-    this.setChanged(true);
-    this.notifyObservers();
-  }
-
-  /**
    * stops the Bubble
    */
   public void still() {
@@ -125,16 +121,8 @@ public class BubbleModel implements Observable {
   public void fire(int angle) {
     this.setAngle(angle);
     this.setState(State.FIRING);
-    if (this.angle > 0) {
-      this.setXSpeed(Math.sin(angle)*Bubble.SPEED);
-      this.setYSpeed(-Math.cos(angle)*Bubble.SPEED);
-    } else if (this.angle < 0) {
-      this.setXSpeed(-Math.sin(angle)*Bubble.SPEED);
-      this.setYSpeed(-Math.cos(angle)*Bubble.SPEED);
-    } else {
-      this.setXSpeed(0);
-      this.setYSpeed(Bubble.SPEED);
-    }
+    this.setXSpeed(Math.cos(Math.toRadians(angle + 90)) * Bubble.SPEED);
+    this.setYSpeed(-Math.sin(Math.toRadians(angle + 90)) * Bubble.SPEED);
   }
 
   /**
