@@ -140,7 +140,7 @@ public class ArenaModel {
 			if(Bubble2DArray.peekLast == null || Bubble2DArray.peekLast.length != WIDTH_BUBBLES ) {
 				bubble2DArray.add(new BubbleModel[WIDTH_BUBBLES]);
 			} else {
-				bubble2DArray.add(new BubbleModel[WIDTHBUBBLES-1]);
+				bubble2DArray.add(new BubbleModel[WIDTH_BUBBLES-1]);
 			}
 		}
 		
@@ -170,7 +170,7 @@ public class ArenaModel {
 	 * 
 	 */
 	private void popBubbles(BubbleModel popBubble) {
-		LinkedList<BubbleModel> popList = new LinkedList<BubbleModel>;
+		LinkedList<BubbleModel> popList = new LinkedList<BubbleModel>();
 		int OFFSET = DIAMETER / 2; 				// Temporarily  
 		int row = popBubble.getY() / DIAMETER;
 		int column = 0;
@@ -350,7 +350,7 @@ public class ArenaModel {
 		}
 	
 		if(empty) {
-			if(dropBubble.getY() == OFFSET) {
+			if(lastBubble.getY() == OFFSET) {
 				return null;
 			} else {
 				return dropList;
