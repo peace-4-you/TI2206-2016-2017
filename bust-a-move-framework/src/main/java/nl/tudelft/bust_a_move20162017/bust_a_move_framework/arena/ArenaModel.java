@@ -276,11 +276,14 @@ public class ArenaModel {
 		if(get_BubbleArray().size() >= HEIGHT_BUBBLES) {
 			// Lose the game
 		}
+		// TODO: Use the width of the first row and check if it is a wide row
+		// or a smaller row, like hexagonal grid.
 		Bubble[] bubbleRow = new Bubble[getWidth()];
 		
 		Random rand = new Random();
 		// TODO: Store the value of a Random() class somewhere instead of making
 		// a new instance every time.
+		
 		ColorChoice[] colors = ColorChoice.values();
 		// TODO: should get a list of currently available colors,
 		// therefore we should make a method that returns all colors on the map.
