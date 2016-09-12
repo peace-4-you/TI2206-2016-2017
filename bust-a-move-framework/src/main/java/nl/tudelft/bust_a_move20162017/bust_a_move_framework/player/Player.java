@@ -3,7 +3,7 @@
  * Class: Player
  *
  * Version: 0.0.1
- * Date: September 7th, 2016
+ * Date: September 8th, 2016
  */
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.player;
@@ -25,7 +25,7 @@ public class Player {
   }
 
   /**
-   * returns name
+   * @return String name
    */
   public String getName() {
     return this.name;
@@ -42,7 +42,7 @@ public class Player {
   }
 
   /**
-   * returns score
+   * @return int score
    */
   public int getScore() {
     return this.score;
@@ -58,7 +58,7 @@ public class Player {
   }
 
   /**
-   * returns combo
+   * @return int combo
    */
   public int getCombo() {
     return this.combo;
