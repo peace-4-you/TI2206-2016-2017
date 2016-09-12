@@ -134,28 +134,26 @@ public class ArenaModel {
 		
 		int OFFSET = DIAMETER / 2; 				// Temporarily  
 		int row = shotBubble.getY() / DIAMETER;
-		int column;
+		int column = 0;
 		
-		if(bubble2DArray.size() <= (row + 1)) {
-			// Even bubbles in a row
-			if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-				column = shotBubble.getX()/ DIAMETER;
-			} else { // Uneven bubbles in a row
-				column = (shotBubble.getX() + OFFSET) / DIAMETER;
+		if(bubble2DArray.size() != (row+1)) {
+			if(Bubble2DArray.peekLast == null || Bubble2DArray.peekLast.length != WIDTH_BUBBLES ) {
+				bubble2DArray.add(new BubbleModel[WIDTH_BUBBLES]);
+			} else {
+				bubble2DArray.add(new BubbleModel[WIDTHBUBBLES-1]);
 			}
+		}
+		
+		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
+			column = shotBubble.getX()/ DIAMETER;
 		} else {
-			if(bubble2DArray.get(row-1).length == WIDTH_BUBBLES) {
-				column = (shotBubble.getX() + OFFSET) / DIAMETER;
-			} else { 
-				column = shotBubble.getX()/ DIAMETER;
-			}
+			if(shotBubble.getX() >= OFFSET) {
+				column = (shotBubble.getX() - OFFSET) / DIAMETER;
+			} 
 		}
 		
-		while(bubble2DArray.size() != row) {
-			if((bubble2DArray.peekLast() != null) && (bubble2DArray.peekLast().length == WIDTH_BUBBLES)){
-				bubble2DAra
-			}
-		}
+		bubble2DArray.get(row)[column] = shotBubble;
+		popBubbles(shotBubble);
 		
 		bubbleCount++;
 		if(bubbleCount > 10) {
@@ -171,18 +169,40 @@ public class ArenaModel {
 	 * @param popBubble The bubble to be popped
 	 * 
 	 */
-	private void popBubbles(Vertex<BubbleModel, Integer> popBubble) {
-		LinkedList<Vertex<BubbleModel,Integer>> popList = new LinkedList<Vertex<BubbleModel,Integer>>();
+	private void popBubbles(BubbleModel popBubble) {
+		LinkedList<BubbleModel> popList = new LinkedList<BubbleModel>;
+		int OFFSET = DIAMETER / 2; 				// Temporarily  
+		int row = popBubble.getY() / DIAMETER;
+		int column = 0;
+		boolean empty = true;
 		
-		checkBubblesToPop(popBubble);
+		popList = checkBubblesToPop(popBubble, popList);
 		
 		if(popList.size() >= 3) {
-			
 			for(int i = 0; i < popList.size(); i++) {
-				Vertex<BubbleModel,Integer> bubbleToPop = popList.pop();
+				BubbleModel bubbleToPop = popList.pop();
 				dropBubbles(bubbleToPop);
-				bubbleToPop.getdata().pop();
-				graph.removeVertex(bubbleToPop);
+				bubbleToPop.pop();
+				
+				if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
+					column = popBubble.getX()/ DIAMETER;
+				} else {
+					if(popBubble.getX() >= OFFSET) {
+						column = (popBubble.getX() - OFFSET) / DIAMETER;
+					} 
+				}
+				bubble2DArray.get(row)[column] = null;
+				
+				for(BubbleModel b: bubble2DArray.get(row)) {
+					if (b != null) {
+						empty = false;
+						break;
+					}
+				}
+				
+				if(empty) {
+					bubble2DArray.remove(row);
+				}
 			}
 		}
 	}
@@ -194,14 +214,42 @@ public class ArenaModel {
 	 * @param dropBubble The bubble to be dropped
 	 * 
 	 */
-	private void dropBubbles(Vertex<BubbleModel,Integer> dropBubble) {
-		LinkedList<Vertex<BubbleModel,Integer>> dropList = new LinkedList<Vertex<BubbleModel,Integer>>();
+	private void dropBubbles(BubbleModel dropBubble) {
+		LinkedList<BubbleModel> dropList = new LinkedList<BubbleModel>();
+		int OFFSET = DIAMETER / 2; 				// Temporarily  
+		int row = dropBubble.getY() / DIAMETER;
+		int column = 0;
+		boolean empty = true;
 		
-		checkBubblesToDrop(bubbleToDrop, dropList);
+		dropList = checkBubblesToDrop(dropBubble, dropList);
+		
+		if(dropList == null) {
+			return;
+		}
+		
 		for(int i = 0; i < dropList.size(); i++) {
-			Vertex<BubbleModel,Integer> bubbleToDrop = dropList.pop();
-			bubbleToDrop.getdata().drop();
-			graph.removeVertex(bubbleToDrop);
+			BubbleModel bubbleToDrop = dropList.pop();
+			bubbleToDrop.drop();
+
+			if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
+				column = dropBubble.getX()/ DIAMETER;
+			} else {
+				if(dropBubble.getX() >= OFFSET) {
+					column = (dropBubble.getX() - OFFSET) / DIAMETER;
+				} 
+			}
+			bubble2DArray.get(row)[column] = null;
+			
+			for(BubbleModel b: bubble2DArray.get(row)) {
+				if (b != null) {
+					empty = false;
+					break;
+				}
+			}
+			
+			if(empty) {
+				bubble2DArray.remove(row);
+			}
 		}
 	}
 	
@@ -222,24 +270,48 @@ public class ArenaModel {
 	 * @param lastBubble	checks the neighbors of this bubble.
 	 * 
 	 */
-	private void checkBubblesToPop(Vertex<BubbleModel,Integer> lastBubble, LinkedList<Vertex<BubbleModel,Integer>> popList) {
-		Vertex<BubbleModel,Integer>[] neightbors = lastBubble.getNeighbors();
+	private LinkedList<BubbleModel> checkBubblesToPop(BubbleModel lastBubble, LinkedList<BubbleModel> popList) {
+		BubbleModel[] neightbors = new BubbleModel[6];
+		int OFFSET = DIAMETER / 2; 				// Temporarily  
+		int row = lastBubble.getY() / DIAMETER;
+		int column = 0;
+		boolean empty = true;
+		
+		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
+			column = lastBubble.getX()/ DIAMETER;
+		} else {
+			if(lastBubble.getX() >= OFFSET) {
+				column = (lastBubble.getX() - OFFSET) / DIAMETER;
+			} 
+		}
+		
+		neightbors[0] = bubble2DArray.get(row-1)[column];
+		neightbors[1] = bubble2DArray.get(row-1)[column+1];
+		neightbors[2] = bubble2DArray.get(row)[column-1];
+		neightbors[3] = bubble2DArray.get(row)[column+1];
+		neightbors[4] = bubble2DArray.get(row+1)[column];
+		neightbors[5] = bubble2DArray.get(row+1)[column+1];
 		
 		popList.add(lastBubble);
 		
-		if(neightbors.length == 0) {
-			return;
-		}
-		
-		for(int i = 0; i < neightbors.length; i++) {
-			Vertex<BubbleModel,Integer> bubble_vtx = neightbors[i];
-			
-			if(bubble_vtx.getdata().getColor() == lastBubble.getdata().getColor() 
-			   && !popList.contains(bubble_vtx)) {
-				checkbubblesToPop(bubble_vtx);
+		for(BubbleModel b: neightbors) {
+			if(b != null) {
+				empty = false;
+				break;
 			}
 		}
-		return;
+	
+		if(empty) {
+			return popList;
+		}
+		
+		for(BubbleModel b: neightbors) {
+			if(b.getColor() == lastBubble.getColor() 
+			   && !popList.contains(b)) {
+				popList = checkbubblesToPop(b, popList);
+			}
+		}
+		return popList;
 	}
 	
 	/**
@@ -248,22 +320,54 @@ public class ArenaModel {
 	 * @param lastBubble	checks the neighbors of this bubble.
 	 * 
 	 */
-	private void checkBubblesToDrop(Vertex<BubbleModel,Integer> lastBubble, LinkedList<Vertex<BubbleModel,Integer>> dropList) {
-		Vertex<BubbleModel,Integer>[] neightbors = lastBubble.getNeighbors();
+	private LinkedList<BubbleModel> checkBubblesToDrop(BubbleModel lastBubble, LinkedList<BubbleModel> dropList, LinkedList<BubbleModel> ignoreList) {
+		BubbleModel[] neightbors = new BubbleModel[6];
+		int OFFSET = DIAMETER / 2; 				// Temporarily  
+		int row = lastBubble.getY() / DIAMETER;
+		int column = 0;
+		boolean empty = true;
 		
-		if(neightbors.length == 0) {
-			return;
+		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
+			column = lastBubble.getX()/ DIAMETER;
+		} else {
+			if(lastBubble.getX() >= OFFSET) {
+				column = (lastBubble.getX() - OFFSET) / DIAMETER;
+			} 
 		}
+		//limit
+		neightbors[0] = bubble2DArray.get(row-1)[column];
+		neightbors[1] = bubble2DArray.get(row-1)[column+1];
+		neightbors[2] = bubble2DArray.get(row)[column-1];
+		neightbors[3] = bubble2DArray.get(row)[column+1];
+		neightbors[4] = bubble2DArray.get(row+1)[column];
+		neightbors[5] = bubble2DArray.get(row+1)[column+1];
 		
-		for(int i = 0; i < neightbors.length; i++) {
-			Vertex<BubbleModel,Integer> bubble_vtx = neightbors[i];
-			
-			if(bubble_vtx.getdata().getY() < lastBubble.getdata().getY()) {
-				dropList.add(lastBubble);
-				checkbubblesToDrop(bubble_vtx);
+		for(BubbleModel b: neightbors) {
+			if(b != null) {
+				empty = false;
+				break;
 			}
 		}
-		return;
+	
+		if(empty) {
+			if(dropBubble.getY() == OFFSET) {
+				return null;
+			} else {
+				return dropList;
+			}
+		}
+
+		for(BubbleModel b: neighbors) {
+			if(!dropList.contains(b)) {
+				dropList = checkbubblesToDrop(b, dropList);
+			}
+		}
+		
+		if(dropList != null) {
+			dropList.add(lastBubble);
+		}
+		
+		return dropList;
 	}
 	
 }
