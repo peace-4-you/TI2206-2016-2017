@@ -35,6 +35,7 @@ public class Cannon {
 	private Bubble currBubble;
 	private Bubble nextBubble;
 	private Game game;
+	private BubbleGenerator bubblegen;
 
 	public int TIME_SHOT_FIRED;
 
@@ -44,16 +45,17 @@ public class Cannon {
 
 	public Cannon(Game game) {
 		this.X = 320;
-		this.Y = 450;
-		this.Xlaunch = 280;
-		this.Ylaunch = 465;
-		this.Xload = 320;
-		this.Yload = 450;
-		this.SIZE = 40;
+		this.Y = 430;
+		this.Xlaunch = (int) (270-Bubble.DIAMETER/2);
+		this.Ylaunch = (int) (455-Bubble.DIAMETER/2);
+		this.Xload =  (int) (320-Bubble.DIAMETER/2);
+		this.Yload = (int) (430-Bubble.DIAMETER/2);
+		this.SIZE = 80;
 		this.ANGLE = 0;
 		this.cannonColour = Color.red;
 		this.game = game;
 		this.ANGLE = 0;
+		this.bubblegen = game.getBubbleGen();
 		this.nextBubble = getNextBubble();
 		this.loadNextBubble();
 		this.loadNextBubble();
@@ -76,8 +78,7 @@ public class Cannon {
 	 */
 
 	private Bubble getNextBubble() {
-		BubbleGenerator nextBubbleGen = new BubbleGenerator();
-		Bubble nextBubble = nextBubbleGen.spawn(this.Xlaunch, this.Ylaunch, 1);
+		Bubble nextBubble = this.bubblegen.spawn((double) this.Xlaunch, (double) this.Ylaunch,true);
 		return nextBubble;
 	}
 

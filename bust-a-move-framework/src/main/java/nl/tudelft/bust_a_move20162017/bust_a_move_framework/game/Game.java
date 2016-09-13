@@ -10,6 +10,7 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.game;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon.Cannon;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleGenerator;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.player.Player;
 
@@ -34,7 +35,6 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class Game extends BasicGameState {
 
 	private int LEVEL;
-	private int DIFFICULTY;
 	private int TIME_PASSED_KEY_RIGHT;
 	private int TIME_PASSED_KEY_LEFT;
 	private static final int TIME_TOO_SHOOT = 5000;
@@ -43,6 +43,7 @@ public class Game extends BasicGameState {
 	public ArrayList<Bubble> bubbleslist;
 	private Arena arena;
 	private Player player;
+	private BubbleGenerator bubblegen;
 
 	private StateBasedGame sbg;
 
@@ -54,7 +55,6 @@ public class Game extends BasicGameState {
 		this.bubbleslist = new ArrayList<Bubble>();
 		this.cannon = new Cannon(this);
 		this.arena = new Arena();
-
 	}
 
 	/**
@@ -101,8 +101,8 @@ public class Game extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 		this.sbg = sbg;
 		this.LEVEL = 1;
-		this.DIFFICULTY = 1;
-		this.player = new Player();		
+		this.player = new Player("Player1");
+		this.bubblegen = new BubbleGenerator(arena);
 		this.startGame();
 	}
 
@@ -141,16 +141,28 @@ public class Game extends BasicGameState {
 	}
 
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.setColor(Color.green);
-		g.fillRect(0, 450, 640, 480);
+		g.setColor(Color.gray);
+		g.fillRect(0, 430, 640, 480);
+		g.setColor(Color.white);
+		g.drawString("Level:" + this.LEVEL, 10, 130);
 		cannon.draw(g);
+		player.draw(g);
 		for (Bubble bubble : this.bubbleslist) {
 			bubble.draw(g);
 		}
 
 	}
 
+	public BubbleGenerator Generator() {
+		BubbleGenerator nextBubbleGen = new BubbleGenerator(arena);
+		return nextBubbleGen;
+	}
+
 	public int getID() {
 		return 3;
+	}
+
+	public BubbleGenerator getBubbleGen() {
+		return this.bubblegen;
 	}
 }

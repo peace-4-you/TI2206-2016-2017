@@ -22,8 +22,8 @@ import org.newdawn.slick.Graphics;
  *
  */
 public class Bubble {
-  public static final double DIAMETER = 40;
-  public static final double SPEED = 1;
+  public static final double DIAMETER = 30;
+  public static final double SPEED = 3;
   private static final Color RED_COLOR = Color.red;
   private static final Color BLUE_COLOR = Color.blue;
   private static final Color YELLOW_COLOR = Color.yellow;
@@ -91,15 +91,15 @@ public class Bubble {
    */
   public void move() {
     switch(this.state) {
-      case State.STILL:
+      case STILL:
         break;
-      case State.FIRING:
+      case FIRING:
         this.setX(this.getX() + this.getXSpeed());
         this.setY(this.getY() + this.getYSpeed());
         break;
-      case State.POPPING:
+      case POPPING:
         break;
-      case State.DROPPING:
+      case DROPPING:
         this.setX(this.getX() + this.getXSpeed());
         this.setY(this.getY() + this.getYSpeed());
         break;
@@ -223,5 +223,13 @@ public class Bubble {
    */
   public void setState(State state) {
     this.state = state;
+  }
+  
+  
+  /**
+   * sets angle
+   */
+  public void setAngle(int angle) {
+    this.angle = angle;
   }
 }
