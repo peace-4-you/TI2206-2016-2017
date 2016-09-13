@@ -22,6 +22,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.*;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble.ColorChoice;
 
 /**
  * The arena class maintains a LinkedList of ArrayList data structure to store the bubble objects. 
@@ -180,14 +181,14 @@ public class Arena {
 	 * @param ypos
 	 * @return
 	 */
-	public int getColumn(int xpos, int ypos) {
+	public int getColumn(double xpos, double ypos) {
 		int row = 0;
 		int column = 0;
 		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-			column = xpos/ DIAMETER;
+			column = (int)Math.floor(xpos/ DIAMETER);
 		} else {
 			if(xpos >= OFFSET) {
-				column = (xpos - OFFSET) / DIAMETER;
+				column = (int)Math.floor((xpos - OFFSET) / DIAMETER);
 			} 
 		}
 		return column;
@@ -198,8 +199,8 @@ public class Arena {
 	 * @param ypos
 	 * @return row number
 	 */
-	public int getRow(int ypos) {
-		return ypos / DIAMETER;
+	public int getRow(double ypos) {
+		return (int)Math.floor(ypos / DIAMETER);
 	}
 	
 	/**
@@ -269,8 +270,8 @@ public class Arena {
 			Bubble bubbleToDrop = dropList.pop();
 			bubbleToDrop.drop();
 
-			row = dropBubble.getY() / DIAMETER;
-			column = getColumn(dropBubble.getX(), dropBubble.getY());
+			row = getRow(bubbleToDrop.getY());
+			column = getColumn(bubbleToDrop.getX(), bubbleToDrop.getY());
 			bubble2DArray.get(row)[column] = null;
 			
 			/* Remove row if empty */
@@ -322,6 +323,7 @@ public class Arena {
 			bubbleRow[i] =  new Bubble(bubbleX, bubbleY, ColorChoice.values()[colorInt]);
 		}
 		
+		// Move all the other bubbles down by diameter
 		for(int i = 0; i < bubble2DArray.size(); i++){
 			Bubble[] array_t = bubble2DArray.get(i);
 			for(int j = 0; i < array_t.length; j++){

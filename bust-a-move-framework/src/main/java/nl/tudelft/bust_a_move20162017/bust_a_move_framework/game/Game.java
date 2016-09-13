@@ -54,7 +54,7 @@ public class Game extends BasicGameState {
 	private void startGame() {
 		this.bubbleslist = new ArrayList<Bubble>();
 		this.cannon = new Cannon(this);
-		this.arena = new Arena();
+		this.arena = new Arena(0, 0, 100, 100);
 	}
 
 	/**
