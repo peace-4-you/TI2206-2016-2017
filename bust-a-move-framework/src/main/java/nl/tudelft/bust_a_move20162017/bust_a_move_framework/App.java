@@ -7,15 +7,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-/**
- * Hello world!
- *
- */
 public class App extends StateBasedGame {
 
 	public App(String title) {
-		super(title);
-		// TODO Auto-generated constructor stub
+		super(title);		
 	}
 
 	public static void main(String[] args) throws SlickException {
@@ -24,14 +19,10 @@ public class App extends StateBasedGame {
 		app.setAlwaysRender(true);
 		app.setTargetFrameRate(60);
 		app.start();
-		System.out.println("Bust-A-Move!");
 	}
 
-	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
-		addState(new Game());
-		// TODO Auto-generated method stub
-		
+		addState(new Game());		
 	}
 
 

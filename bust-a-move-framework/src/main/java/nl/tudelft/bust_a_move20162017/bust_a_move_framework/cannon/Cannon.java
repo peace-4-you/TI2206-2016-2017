@@ -43,7 +43,7 @@ public class Cannon {
 		this.Y = 450;
 		this.SIZE = 40;
 		this.ANGLE = 0;
-		this.cannonColour = new Color(Color.red);
+		this.cannonColour = Color.red;
 		this.game = game;
 		this.ANGLE = 0;
 		this.nextBubble = getNextBubble();
