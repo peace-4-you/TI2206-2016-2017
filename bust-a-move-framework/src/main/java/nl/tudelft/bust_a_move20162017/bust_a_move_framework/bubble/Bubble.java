@@ -3,9 +3,9 @@
  *
  * Class: Bubble
  *
- * Version: 0.0.1
+ * Version: 0.0.2
  *
- * Date: September 7th, 2016
+ * Date: September 13th, 2016
  *
  */
 
@@ -23,7 +23,7 @@ import org.newdawn.slick.Graphics;
  */
 public class Bubble {
   public static final double DIAMETER = 40;
-  public static final double SPEED = 5;
+  public static final double SPEED = 1;
   private static final Color RED_COLOR = Color.red;
   private static final Color BLUE_COLOR = Color.blue;
   private static final Color YELLOW_COLOR = Color.yellow;
@@ -156,7 +156,6 @@ public class Bubble {
    */
   public void setX(double x) {
     this.x = x;
-    this.updateObservers();
   }
 
   /**
@@ -172,7 +171,6 @@ public class Bubble {
    */
   public void setY(double y) {
     this.y = y;
-    this.updateObservers();
   }
 
   /**
@@ -194,7 +192,7 @@ public class Bubble {
    * returns ySpeed value
    */
   public double getYSpeed() {
-    return this.xSpeed;
+    return this.ySpeed;
   }
   /**
    * sets ySpeed value
