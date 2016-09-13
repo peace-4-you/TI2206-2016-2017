@@ -10,7 +10,7 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.game;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon.Cannon;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleGenerator;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleFactory;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.player.Player;
 
@@ -43,7 +43,7 @@ public class Game extends BasicGameState {
 	public ArrayList<Bubble> bubbleslist;
 	private Arena arena;
 	private Player player;
-	private BubbleGenerator bubblegen;
+	private BubbleFactory bubblegen;
 
 	private StateBasedGame sbg;
 
@@ -102,7 +102,7 @@ public class Game extends BasicGameState {
 		this.sbg = sbg;
 		this.LEVEL = 1;
 		this.player = new Player("Player1");
-		this.bubblegen = new BubbleGenerator(arena);
+		this.bubblegen = new BubbleFactory(arena);
 		this.startGame();
 	}
 
@@ -158,8 +158,8 @@ public class Game extends BasicGameState {
 
 	}
 
-	public BubbleGenerator Generator() {
-		BubbleGenerator nextBubbleGen = new BubbleGenerator(arena);
+	public BubbleFactory Generator() {
+		BubbleFactory nextBubbleGen = new BubbleFactory(arena);
 		return nextBubbleGen;
 	}
 
@@ -167,7 +167,7 @@ public class Game extends BasicGameState {
 		return 3;
 	}
 
-	public BubbleGenerator getBubbleGen() {
+	public BubbleFactory getBubbleGen() {
 		return this.bubblegen;
 	}
 }

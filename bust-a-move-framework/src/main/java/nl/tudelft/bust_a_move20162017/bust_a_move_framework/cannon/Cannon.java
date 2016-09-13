@@ -9,7 +9,7 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleGenerator;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleFactory;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -35,7 +35,7 @@ public class Cannon {
 	private Bubble currBubble;
 	private Bubble nextBubble;
 	private Game game;
-	private BubbleGenerator bubblegen;
+	private BubbleFactory bubblegen;
 
 	public int TIME_SHOT_FIRED;
 	public int TIMES_SHOT = 0;
@@ -79,7 +79,7 @@ public class Cannon {
 	 */
 
 	private Bubble getNextBubble() {
-		Bubble nextBubble = this.bubblegen.spawn((double) this.Xlaunch, (double) this.Ylaunch,true);
+		Bubble nextBubble = this.bubblegen.create((double) this.Xlaunch, (double) this.Ylaunch,true);
 		return nextBubble;
 	}
 
@@ -116,9 +116,9 @@ public class Cannon {
 
 	/**
 	 * draws the Cannon
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 */
 
 	public void draw(Graphics g) {

@@ -14,6 +14,7 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Circle;
 
 /**
  * The Bubble class represents a single bubble entity
@@ -36,6 +37,7 @@ public class Bubble {
   private ColorChoice color;
   private Color drawColor;
   private State state;
+  private Circle boundingBox;
 
   public enum State {
     STILL, FIRING, POPPING, DROPPING
@@ -59,6 +61,7 @@ public class Bubble {
     this.angle = 0;
     this.color = color;
     this.state = State.STILL;
+    this.boundingBox = new Circle((float) x, (float) y, (float) Bubble.DIAMETER);
 
     switch(color) {
       case RED:
