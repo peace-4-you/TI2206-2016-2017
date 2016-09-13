@@ -289,6 +289,29 @@ public class Arena {
 	}
 	
 	/**
+	 * Stores a bubble in the 2D array. This will overwrite the previous bubble at the location.
+	 * @param bubble	Bubble to be stored
+	 */
+	public void addBubble(Bubble bubble) {
+		int row = 0;
+		int column = 0;
+		
+		/* Check and add if a new row is needed */
+		if(bubble2DArray.size() != (row+1)) {
+			if(bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES ) {
+				bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
+			} else {
+				bubble2DArray.add(new Bubble[WIDTH_BUBBLES-1]);
+			}
+		}
+		
+		row = getRow(bubble.getY());
+		column = getColumn(bubble.getX(), bubble.getY());
+		
+		bubble2DArray.get(row)[column] = bubble;
+	}
+	
+	/**
 	 * Adds a new row of bubbles after the cannon shots 10 times. The new
 	 * row is added to the top of the Arena and saved in the graph.
 	 */
