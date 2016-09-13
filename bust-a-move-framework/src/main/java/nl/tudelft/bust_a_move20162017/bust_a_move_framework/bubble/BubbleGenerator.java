@@ -11,7 +11,8 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleChoice;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
+
 /**
  * The BubbleGenerator class is an interface to create Bubble instances
  *
@@ -49,7 +50,7 @@ public class BubbleGenerator {
    * @param forCannon  boolean value true if Bubble is for cannon, else false
    */
   public Bubble spawn(double x, double y, boolean forCannon) {
-    Bubble.ColorChoice color;
+    Bubble.ColorChoice color = null;
 
     if (forCannon) {
       // TODO: determine colors from arena
