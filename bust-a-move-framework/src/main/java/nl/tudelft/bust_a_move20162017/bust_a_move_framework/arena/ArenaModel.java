@@ -29,7 +29,7 @@ public class ArenaModel {
 	private int yPos;
 	private int height;
 	private int width;
-	private LinkedList<BubbleModel[]> bubble2DArray; 
+	private LinkedList<Bubble[]> bubble2DArray; 
 	
 	/* Max amount of bubbles that fit in the horizontal axis */
 	private final int WIDTH_BUBBLES = 8;		
@@ -58,7 +58,7 @@ public class ArenaModel {
 		yPos = yVal;
 		height = height_t;
 		width = width_t;
-		bubble2DArray = new LinkedList<BubbleModel[]>();
+		bubble2DArray = new LinkedList<Bubble[]>();
 		bubbleCount = 0;
 		
 		//Level 1
@@ -118,7 +118,7 @@ public class ArenaModel {
 	 * 
 	 * @return bubble2DArray
 	 */
-	public LinkedList<BubbleModel[]> get_BubbleArray() {
+	public LinkedList<Bubble[]> get_BubbleArray() {
 		
 		return bubble2DArray;
 	}
@@ -130,7 +130,7 @@ public class ArenaModel {
 	 * @param shotBubble The bubble shot by the cannon
 	 * 
 	 */
-	public void landBubble(BubbleModel shotBubble) {
+	public void landBubble(Bubble shotBubble) {
 		
 		int OFFSET = DIAMETER / 2; 				// Temporarily  
 		int row = shotBubble.getY() / DIAMETER;
@@ -138,9 +138,9 @@ public class ArenaModel {
 		
 		if(bubble2DArray.size() != (row+1)) {
 			if(Bubble2DArray.peekLast == null || Bubble2DArray.peekLast.length != WIDTH_BUBBLES ) {
-				bubble2DArray.add(new BubbleModel[WIDTH_BUBBLES]);
+				bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
 			} else {
-				bubble2DArray.add(new BubbleModel[WIDTH_BUBBLES-1]);
+				bubble2DArray.add(new Bubble[WIDTH_BUBBLES-1]);
 			}
 		}
 		
@@ -169,8 +169,8 @@ public class ArenaModel {
 	 * @param popBubble The bubble to be popped
 	 * 
 	 */
-	private void popBubbles(BubbleModel popBubble) {
-		LinkedList<BubbleModel> popList = new LinkedList<BubbleModel>();
+	private void popBubbles(Bubble popBubble) {
+		LinkedList<Bubble> popList = new LinkedList<Bubble>();
 		int OFFSET = DIAMETER / 2; 				// Temporarily  
 		int row = popBubble.getY() / DIAMETER;
 		int column = 0;
@@ -180,7 +180,7 @@ public class ArenaModel {
 		
 		if(popList.size() >= 3) {
 			for(int i = 0; i < popList.size(); i++) {
-				BubbleModel bubbleToPop = popList.pop();
+				Bubble bubbleToPop = popList.pop();
 				dropBubbles(bubbleToPop);
 				bubbleToPop.pop();
 				
@@ -193,7 +193,7 @@ public class ArenaModel {
 				}
 				bubble2DArray.get(row)[column] = null;
 				
-				for(BubbleModel b: bubble2DArray.get(row)) {
+				for(Bubble b: bubble2DArray.get(row)) {
 					if (b != null) {
 						empty = false;
 						break;
@@ -214,8 +214,8 @@ public class ArenaModel {
 	 * @param dropBubble The bubble to be dropped
 	 * 
 	 */
-	private void dropBubbles(BubbleModel dropBubble) {
-		LinkedList<BubbleModel> dropList = new LinkedList<BubbleModel>();
+	private void dropBubbles(Bubble dropBubble) {
+		LinkedList<Bubble> dropList = new LinkedList<Bubble>();
 		int OFFSET = DIAMETER / 2; 				// Temporarily  
 		int row = dropBubble.getY() / DIAMETER;
 		int column = 0;
@@ -228,7 +228,7 @@ public class ArenaModel {
 		}
 		
 		for(int i = 0; i < dropList.size(); i++) {
-			BubbleModel bubbleToDrop = dropList.pop();
+			Bubble bubbleToDrop = dropList.pop();
 			bubbleToDrop.drop();
 
 			if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
@@ -240,7 +240,7 @@ public class ArenaModel {
 			}
 			bubble2DArray.get(row)[column] = null;
 			
-			for(BubbleModel b: bubble2DArray.get(row)) {
+			for(Bubble b: bubble2DArray.get(row)) {
 				if (b != null) {
 					empty = false;
 					break;
@@ -259,7 +259,7 @@ public class ArenaModel {
 	 */
 	private void addBubbleRow() {
 		BubbleGenerator bubbleGen = new BubbleGenerator(this);
-		for(int i = 0; i < width_hex; i++) {
+		for(int i = 0; i < WIDTH_BUBBLES; i++) {
 			/* TODO: Add new Bubble objects to top */
 		}
 	}
@@ -270,8 +270,8 @@ public class ArenaModel {
 	 * @param lastBubble	checks the neighbors of this bubble.
 	 * 
 	 */
-	private LinkedList<BubbleModel> checkBubblesToPop(BubbleModel lastBubble, LinkedList<BubbleModel> popList) {
-		BubbleModel[] neightbors = new BubbleModel[6];
+	private LinkedList<Bubble> checkBubblesToPop(Bubble lastBubble, LinkedList<Bubble> popList) {
+		Bubble[] neightbors = new Bubble[6];
 		int OFFSET = DIAMETER / 2; 				// Temporarily  
 		int row = lastBubble.getY() / DIAMETER;
 		int column = 0;
@@ -294,7 +294,7 @@ public class ArenaModel {
 		
 		popList.add(lastBubble);
 		
-		for(BubbleModel b: neightbors) {
+		for(Bubble b: neightbors) {
 			if(b != null) {
 				empty = false;
 				break;
@@ -305,7 +305,7 @@ public class ArenaModel {
 			return popList;
 		}
 		
-		for(BubbleModel b: neightbors) {
+		for(Bubble b: neightbors) {
 			if(b.getColor() == lastBubble.getColor() 
 			   && !popList.contains(b)) {
 				popList = checkbubblesToPop(b, popList);
@@ -320,8 +320,8 @@ public class ArenaModel {
 	 * @param lastBubble	checks the neighbors of this bubble.
 	 * 
 	 */
-	private LinkedList<BubbleModel> checkBubblesToDrop(BubbleModel lastBubble, LinkedList<BubbleModel> dropList, LinkedList<BubbleModel> ignoreList) {
-		BubbleModel[] neightbors = new BubbleModel[6];
+	private LinkedList<Bubble> checkBubblesToDrop(Bubble lastBubble, LinkedList<Bubble> dropList) {
+		Bubble[] neightbors = new Bubble[6];
 		int OFFSET = DIAMETER / 2; 				// Temporarily  
 		int row = lastBubble.getY() / DIAMETER;
 		int column = 0;
@@ -342,7 +342,7 @@ public class ArenaModel {
 		neightbors[4] = bubble2DArray.get(row+1)[column];
 		neightbors[5] = bubble2DArray.get(row+1)[column+1];
 		
-		for(BubbleModel b: neightbors) {
+		for(Bubble b: neightbors) {
 			if(b != null) {
 				empty = false;
 				break;
@@ -357,7 +357,7 @@ public class ArenaModel {
 			}
 		}
 
-		for(BubbleModel b: neighbors) {
+		for(Bubble b: neighbors) {
 			if(!dropList.contains(b)) {
 				dropList = checkbubblesToDrop(b, dropList);
 			}
