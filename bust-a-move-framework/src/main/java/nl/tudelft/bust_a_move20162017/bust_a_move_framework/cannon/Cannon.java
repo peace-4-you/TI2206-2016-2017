@@ -24,6 +24,10 @@ public class Cannon {
 
 	private int X;
 	private int Y;
+	private int Xlaunch;
+	private int Ylaunch;
+	private int Xload;
+	private int Yload;
 	private int SIZE;
 	private Color cannonColour;
 
@@ -41,6 +45,10 @@ public class Cannon {
 	public Cannon(Game game) {
 		this.X = 320;
 		this.Y = 450;
+		this.Xlaunch = 280;
+		this.Ylaunch = 465;
+		this.Xload = 320;
+		this.Yload = 450;
 		this.SIZE = 40;
 		this.ANGLE = 0;
 		this.cannonColour = Color.red;
@@ -48,7 +56,7 @@ public class Cannon {
 		this.ANGLE = 0;
 		this.nextBubble = getNextBubble();
 		this.loadNextBubble();
-
+		this.loadNextBubble();
 	}
 
 	/**
@@ -58,6 +66,8 @@ public class Cannon {
 	private void loadNextBubble() {
 		this.currBubble = this.nextBubble;
 		this.nextBubble = this.getNextBubble();
+		this.currBubble.setX(this.Xload);
+		this.currBubble.setY(this.Yload);
 		this.game.bubbleslist.add(this.nextBubble);
 	}
 
@@ -67,7 +77,7 @@ public class Cannon {
 
 	private Bubble getNextBubble() {
 		BubbleGenerator nextBubbleGen = new BubbleGenerator();
-		Bubble nextBubble = nextBubbleGen.spawn(320, 450, 1);
+		Bubble nextBubble = nextBubbleGen.spawn(this.Xlaunch, this.Ylaunch, 1);
 		return nextBubble;
 	}
 
@@ -77,7 +87,7 @@ public class Cannon {
 
 	public void fire() {
 		this.currBubble.fire(this.ANGLE);
-		this.loadNextBubble();		
+		this.loadNextBubble();
 		this.TIME_SHOT_FIRED = 0;
 	}
 
@@ -113,13 +123,12 @@ public class Cannon {
 		// TODO Make a nicer cannon
 		g.drawLine(this.X, this.Y, (int) (this.X + Math.cos(Math.toRadians(this.ANGLE + 90)) * this.SIZE),
 				(int) (this.Y - Math.sin(Math.toRadians(this.ANGLE + 90)) * this.SIZE));
-		g.fillOval(this.X - 10, this.Y - 10, 20, 20);
+		/*g.fillOval(this.X - 10, this.Y - 10, 20, 20);
 		// g.setColor(nextBubble.drawColor);
 		g.setColor(Color.blue);
 		g.fillOval(this.X - 10, this.Y - 10, (int) Bubble.DIAMETER, (int) Bubble.DIAMETER);
 		// g.setColor(currBubble.drawColor);
 		g.setColor(Color.yellow);
-		g.fillOval(this.X - 40, this.Y + 5, (int) Bubble.DIAMETER, (int) Bubble.DIAMETER);
+		g.fillOval(this.X - 40, this.Y + 5, (int) Bubble.DIAMETER, (int) Bubble.DIAMETER);*/
 	}
-
 }
