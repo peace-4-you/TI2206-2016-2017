@@ -29,7 +29,7 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.*;
  * @author Winer Bao
  *
  */
-public class ArenaModel {
+public class Arena {
 	
 	private int xPos;
 	private int yPos;
@@ -48,6 +48,7 @@ public class ArenaModel {
 	
 	/* Temporarily Bubble diameter variable */
 	private final int DIAMETER = 40; 
+	private final int OFFSET = DIAMETER / 2;
 	
 	/**
 	 * Creates Arena for bubbles storage and render variables
@@ -58,8 +59,7 @@ public class ArenaModel {
 	 * @param width_t	width of the background
 	 * 
 	 */
-	public ArenaModel(int xVal, int yVal, int height_t, int width_t) {
-		
+	public Arena(int xVal, int yVal, int height_t, int width_t) {
 		xPos = xVal;
 		yPos = yVal;
 		height = height_t;
@@ -81,7 +81,6 @@ public class ArenaModel {
 	 * 
 	 */
 	public void set_xPos(int xVal) {
-		
 		xPos = xVal;
 	}
 	
@@ -92,7 +91,6 @@ public class ArenaModel {
 	 * 
 	 */
 	public int get_xPos() {
-		
 		return xPos;
 	}
 	
@@ -104,7 +102,6 @@ public class ArenaModel {
 	 * 
 	 */
 	public void set_yPos(int yVal) {
-		
 		yPos = yVal;
 	}
 	
@@ -115,7 +112,6 @@ public class ArenaModel {
 	 * 
 	 */
 	public int get_yPos() {
-		
 		return yPos;
 	}
 	
@@ -124,8 +120,15 @@ public class ArenaModel {
 	 * @return width
 	 */
 	public int getWidth() {
-		
 		return width;
+	}
+	
+	/**
+	 * Returns the height of the Arena
+	 * @return height
+	 */
+	public int getHeight() {
+		return height;
 	}
 	
 	/**
@@ -146,9 +149,10 @@ public class ArenaModel {
 	 * 
 	 */
 	public void landBubble(Bubble shotBubble) {
-		int row = getRow(shotBubble.getY());
+		int row = 0;
 		int column = 0;
 		
+		/* Check and add if a new row is needed */
 		if(bubble2DArray.size() != (row+1)) {
 			if(bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES ) {
 				bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
@@ -157,6 +161,7 @@ public class ArenaModel {
 			}
 		}
 		
+		row = getRow(shotBubble.getY());
 		column = getColumn(shotBubble.getX(), shotBubble.getY());
 		
 		bubble2DArray.get(row)[column] = shotBubble;
@@ -176,8 +181,7 @@ public class ArenaModel {
 	 * @return
 	 */
 	public int getColumn(int xpos, int ypos) {
-		int OFFSET = DIAMETER / 2;
-		int row = ypos / DIAMETER;
+		int row = 0;
 		int column = 0;
 		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
 			column = xpos/ DIAMETER;
@@ -210,20 +214,22 @@ public class ArenaModel {
 		
 		popList = checkBubblesToPop(popBubble, popList);
 		
+		/* Check if 3 or more bubbles are connected */
 		if(popList.size() >= 3) {
-			for(int i = 0; i < popList.size(); i++) {
-				int OFFSET = DIAMETER / 2; 				// Temporarily  
+			for(int i = 0; i < popList.size(); i++) { 
 				int row = 0; 
 				int column = 0;
 				boolean empty = true;
 				Bubble bubbleToPop = popList.pop();
-				dropBubbles(bubbleToPop);
+				
+				dropBubbles(popList);
 				bubbleToPop.pop();
 				
 				row = getRow(popBubble.getY());
 				column = getColumn(popBubble.getX(), popBubble.getY());
 				bubble2DArray.get(row)[column] = null;
 				
+				/* Remove row if empty */
 				for(Bubble b: bubble2DArray.get(row)) {
 					if (b != null) {
 						empty = false;
@@ -242,17 +248,18 @@ public class ArenaModel {
 	 * Checks if bubbles needs to be dropped. If so, it signal the bubble object to drop 
 	 * and remove it from the graph.
 	 * 
-	 * @param dropBubble The bubble to be dropped
+	 * @param ignoreList Stores the bubbles that is about to pop
 	 * 
 	 */
-	private void dropBubbles(Bubble dropBubble) {
-		LinkedList<Bubble> dropList = new LinkedList<Bubble>();
-		int OFFSET = DIAMETER / 2; 				// Temporarily  
-		int row = dropBubble.getY() / DIAMETER;
+	private void dropBubbles(LinkedList<Bubble> ignoreList) {
+		LinkedList<Bubble> dropList = new LinkedList<Bubble>(); 
+		int row = 0;
 		int column = 0;
 		boolean empty = true;
 		
-		dropList = checkBubblesToDrop(dropBubble, dropList);
+		for(int i = 0; i < ignoreList.size(); i++) {
+			dropList = checkBubblesToDrop(ignoreList.get(i), dropList, ignoreList, ignoreList);
+		}
 		
 		if(dropList == null) {
 			return;
@@ -262,10 +269,11 @@ public class ArenaModel {
 			Bubble bubbleToDrop = dropList.pop();
 			bubbleToDrop.drop();
 
-
+			row = dropBubble.getY() / DIAMETER;
 			column = getColumn(dropBubble.getX(), dropBubble.getY());
 			bubble2DArray.get(row)[column] = null;
 			
+			/* Remove row if empty */
 			for(Bubble b: bubble2DArray.get(row)) {
 				if (b != null) {
 					empty = false;
@@ -289,16 +297,15 @@ public class ArenaModel {
 			// Lose the game
 			
 		}
-		// TODO: Use the width of the first row and check if it is a wide row
-		// or a smaller row, like hexagonal grid.
+		
 		Bubble[] bubbleRow;
-		if(get_BubbleArray().getFirst().length == WIDTH_BUBBLES)
-			bubbleRow = new Bubble[getWidth() - 1];
-		else
-			bubbleRow = new Bubble[getWidth()];
+		if(get_BubbleArray().getFirst().length == WIDTH_BUBBLES) {
+			bubbleRow = new Bubble[WIDTH_BUBBLES - 1];
+		}
+		else {
+			bubbleRow = new Bubble[WIDTH_BUBBLES];
+		}
 			
-		
-		
 		Random rand = new Random();
 		// TODO: Store the value of a Random() class somewhere instead of making
 		// a new instance every time.
@@ -307,18 +314,23 @@ public class ArenaModel {
 		// TODO: should get a list of currently available colors,
 		// therefore we should make a method that returns all colors on the map.
 		
-		for(int i = 0; i < getWidth(); i++) {
+		for(int i = 0; i < bubbleRow.length; i++) {
 			// 
 			int bubbleX = DIAMETER * i;
 			int bubbleY = 0;
 			int colorInt = rand.nextInt(ColorChoice.values().length);
-			Bubble b = new Bubble(bubbleX, bubbleY, ColorChoice.values()[colorInt]);
-			
+			bubbleRow[i] =  new Bubble(bubbleX, bubbleY, ColorChoice.values()[colorInt]);
 		}
 		
-		// TODO: should we push the y coordinate of all other bubbles down by DIAMETER?
+		for(int i = 0; i < bubble2DArray.size(); i++){
+			Bubble[] array_t = bubble2DArray.get(i);
+			for(int j = 0; i < array_t.length; j++){
+				double currentY = array_t[j].getY();
+				array_t[j].setY(currentY + (double)DIAMETER);
+			}
+		}
 		
-		get_BubbleArray().add(bubbleRow);
+		bubble2DArray.add(bubbleRow);
 	}
 	
 	/**
@@ -327,7 +339,7 @@ public class ArenaModel {
 	 * 
 	 * @return List<ColorChoice>
 	 */
-	public List<ColorChoice> getColorsOnArena() {
+	public LinkedList<ColorChoice> getColorsOnArena() {
 		// TODO: maybe optimize this and save the result of the
 		// list of colors somewhere, and update whenever a bubble pops
 		LinkedList<ColorChoice> colorList = new LinkedList<ColorChoice>();
@@ -343,35 +355,18 @@ public class ArenaModel {
 	
 	/**
 	 * Checks which bubble needs to be popped using recursive calls.
-	 * 
 	 * @param lastBubble	checks the neighbors of this bubble.
-	 * 
 	 */
 	private LinkedList<Bubble> checkBubblesToPop(Bubble lastBubble, LinkedList<Bubble> popList) {
-		Bubble[] neightbors = new Bubble[6];
-		int OFFSET = DIAMETER / 2; 				// Temporarily  
-		int row = lastBubble.getY() / DIAMETER;
-		int column = 0;
+		Bubble[] neighbors;
+		int row = getRow(lastBubble.getY());
+		int column = getColumn(lastBubble.getX(), lastBubble.getY());
 		boolean empty = true;
-		
-		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-			column = lastBubble.getX()/ DIAMETER;
-		} else {
-			if(lastBubble.getX() >= OFFSET) {
-				column = (lastBubble.getX() - OFFSET) / DIAMETER;
-			} 
-		}
-		
-		neightbors[0] = bubble2DArray.get(row-1)[column];
-		neightbors[1] = bubble2DArray.get(row-1)[column+1];
-		neightbors[2] = bubble2DArray.get(row)[column-1];
-		neightbors[3] = bubble2DArray.get(row)[column+1];
-		neightbors[4] = bubble2DArray.get(row+1)[column];
-		neightbors[5] = bubble2DArray.get(row+1)[column+1];
-		
+
+		neighbors = getNeighbors(row, column);
 		popList.add(lastBubble);
 		
-		for(Bubble b: neightbors) {
+		for(Bubble b: neighbors) {
 			if(b != null) {
 				empty = false;
 				break;
@@ -382,10 +377,10 @@ public class ArenaModel {
 			return popList;
 		}
 		
-		for(Bubble b: neightbors) {
+		for(Bubble b: neighbors) {
 			if(b.getColor() == lastBubble.getColor() 
 			   && !popList.contains(b)) {
-				popList = checkbubblesToPop(b, popList);
+				popList = checkBubblesToPop(b, popList);
 			}
 		}
 		return popList;
@@ -397,54 +392,67 @@ public class ArenaModel {
 	 * @param lastBubble	checks the neighbors of this bubble.
 	 * 
 	 */
-	private LinkedList<Bubble> checkBubblesToDrop(Bubble lastBubble, LinkedList<Bubble> dropList) {
-		Bubble[] neightbors = new Bubble[6];
-		int OFFSET = DIAMETER / 2; 				// Temporarily  
-		int row = lastBubble.getY() / DIAMETER;
-		int column = 0;
+	private LinkedList<Bubble> checkBubblesToDrop(Bubble lastBubble, LinkedList<Bubble> dropList, LinkedList<Bubble> ignoreList, LinkedList<Bubble> visitedList) {
+		Bubble[] neighbors;
+		int row = getRow(lastBubble.getY());
+		int column = getColumn(lastBubble.getX(), lastBubble.getY());
 		boolean empty = true;
 		
-		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-			column = lastBubble.getX()/ DIAMETER;
-		} else {
-			if(lastBubble.getX() >= OFFSET) {
-				column = (lastBubble.getX() - OFFSET) / DIAMETER;
-			} 
-		}
-		//limit
-		neightbors[0] = bubble2DArray.get(row-1)[column];
-		neightbors[1] = bubble2DArray.get(row-1)[column+1];
-		neightbors[2] = bubble2DArray.get(row)[column-1];
-		neightbors[3] = bubble2DArray.get(row)[column+1];
-		neightbors[4] = bubble2DArray.get(row+1)[column];
-		neightbors[5] = bubble2DArray.get(row+1)[column+1];
+		neighbors = getNeighbors(row, column);
 		
-		for(Bubble b: neightbors) {
-			if(b != null) {
+		for(Bubble b: neighbors) {
+			if(b != null && !visitedList.contains(b)) {
 				empty = false;
 				break;
 			}
 		}
 	
 		if(empty) {
-			if(lastBubble.getY() == OFFSET) {
-				return null;
-			} else {
-				return dropList;
+			if(lastBubble.getY() != 0) {
+				if(!visitedList.contains(lastBubble)) {
+					dropList.add(lastBubble);
+				}	
 			}
+			return dropList;
+		}
+		
+		if(!visitedList.contains(lastBubble)) {
+			visitedList.add(lastBubble);
 		}
 
 		for(Bubble b: neighbors) {
-			if(!dropList.contains(b)) {
-				dropList = checkbubblesToDrop(b, dropList);
+			if(!dropList.contains(b) || !visitedList.contains(b)) {
+				dropList = checkBubblesToDrop(b, dropList, ignoreList, visitedList);
 			}
 		}
 		
-		if(dropList != null) {
-			dropList.add(lastBubble);
+		for(Bubble b: neighbors) {
+			if(dropList.contains(b) && !ignoreList.contains(lastBubble)) {
+				dropList.add(lastBubble);
+				break;
+			}
 		}
 		
 		return dropList;
+	}
+	
+	/**
+	 * Retrieves the neighbors of the Bubble 
+	 * @param row		row-th entry of the linkedlist
+	 * @param column	column-th entry of the array
+	 * @return			array with the neighbor bubbles. If a neighbor does not exist, a null pointer is stored.
+	 */
+	private Bubble[] getNeighbors(int row, int column) {
+		Bubble[] neighbors = new Bubble[6];
+		
+		neighbors[0] = (row != 0) ? (bubble2DArray.get(row-1)[column]) : null;
+		neighbors[1] = (row != 0 || column != HEIGHT_BUBBLES) ? (bubble2DArray.get(row-1)[column+1]) : null;
+		neighbors[2] = (column != 0) ? (bubble2DArray.get(row)[column-1]) : null;
+		neighbors[3] = (column != HEIGHT_BUBBLES) ? (bubble2DArray.get(row)[column+1]) : null;
+		neighbors[4] = (row != WIDTH_BUBBLES) ? (bubble2DArray.get(row+1)[column]) : null;
+		neighbors[5] = (row != WIDTH_BUBBLES || column != HEIGHT_BUBBLES) ? (bubble2DArray.get(row+1)[column+1]) : null;
+		
+		return neighbors;
 	}
 	
 }
