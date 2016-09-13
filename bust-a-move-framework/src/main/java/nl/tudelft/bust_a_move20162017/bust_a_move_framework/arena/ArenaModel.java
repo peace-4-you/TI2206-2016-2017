@@ -186,19 +186,20 @@ public class ArenaModel {
 	 */
 	private void popBubbles(Bubble popBubble) {
 		LinkedList<Bubble> popList = new LinkedList<Bubble>();
-		int OFFSET = DIAMETER / 2; 				// Temporarily  
-		int row = popBubble.getY() / DIAMETER;
-		int column = 0;
-		boolean empty = true;
 		
 		popList = checkBubblesToPop(popBubble, popList);
 		
 		if(popList.size() >= 3) {
 			for(int i = 0; i < popList.size(); i++) {
+				int OFFSET = DIAMETER / 2; 				// Temporarily  
+				int row = 0; 
+				int column = 0;
+				boolean empty = true;
 				Bubble bubbleToPop = popList.pop();
 				dropBubbles(bubbleToPop);
 				bubbleToPop.pop();
 				
+				row = popBubble.getY() / DIAMETER;
 				if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
 					column = popBubble.getX()/ DIAMETER;
 				} else {
@@ -276,10 +277,17 @@ public class ArenaModel {
 
 		if(get_BubbleArray().size() >= HEIGHT_BUBBLES) {
 			// Lose the game
+			
 		}
 		// TODO: Use the width of the first row and check if it is a wide row
 		// or a smaller row, like hexagonal grid.
-		Bubble[] bubbleRow = new Bubble[getWidth()];
+		Bubble[] bubbleRow;
+		if(get_BubbleArray().getFirst().length == WIDTH_BUBBLES)
+			bubbleRow = new Bubble[getWidth() - 1];
+		else
+			bubbleRow = new Bubble[getWidth()];
+			
+		
 		
 		Random rand = new Random();
 		// TODO: Store the value of a Random() class somewhere instead of making
@@ -301,6 +309,26 @@ public class ArenaModel {
 		// TODO: should we push the y coordinate of all other bubbles down by DIAMETER?
 		
 		get_BubbleArray().add(bubbleRow);
+	}
+	
+	/**
+	 * A function that returns a list of all the colors of bubbles
+	 * still on the playing field.
+	 * 
+	 * @return List<ColorChoice>
+	 */
+	public List<ColorChoice> getColorsOnArena() {
+		// TODO: maybe optimize this and save the result of the
+		// list of colors somewhere, and update whenever a bubble pops
+		LinkedList<ColorChoice> colorList = new LinkedList<ColorChoice>();
+		for(Bubble[] row : bubble2DArray) {
+			for(Bubble bub : row) {
+				if(!colorList.contains(bub.getColor())) {
+					colorList.add(bub.getColor());
+				}
+			}
+		}
+		return colorList;
 	}
 	
 	/**
