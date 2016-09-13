@@ -13,7 +13,13 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.*;
 
@@ -111,6 +117,15 @@ public class ArenaModel {
 	public int get_yPos() {
 		
 		return yPos;
+	}
+	
+	/**
+	 * Returns the width
+	 * @return width
+	 */
+	public int getWidth() {
+		
+		return width;
 	}
 	
 	/**
@@ -258,10 +273,34 @@ public class ArenaModel {
 	 * row is added to the top of the Arena and saved in the graph.
 	 */
 	private void addBubbleRow() {
-		BubbleGenerator bubbleGen = new BubbleGenerator(this);
-		for(int i = 0; i < WIDTH_BUBBLES; i++) {
-			/* TODO: Add new Bubble objects to top */
+
+		if(get_BubbleArray().size() >= HEIGHT_BUBBLES) {
+			// Lose the game
 		}
+		// TODO: Use the width of the first row and check if it is a wide row
+		// or a smaller row, like hexagonal grid.
+		Bubble[] bubbleRow = new Bubble[getWidth()];
+		
+		Random rand = new Random();
+		// TODO: Store the value of a Random() class somewhere instead of making
+		// a new instance every time.
+		
+		ColorChoice[] colors = ColorChoice.values();
+		// TODO: should get a list of currently available colors,
+		// therefore we should make a method that returns all colors on the map.
+		
+		for(int i = 0; i < getWidth(); i++) {
+			// 
+			int bubbleX = DIAMETER * i;
+			int bubbleY = 0;
+			int colorInt = rand.nextInt(ColorChoice.values().length);
+			Bubble b = new Bubble(bubbleX, bubbleY, ColorChoice.values()[colorInt]);
+			
+		}
+		
+		// TODO: should we push the y coordinate of all other bubbles down by DIAMETER?
+		
+		get_BubbleArray().add(bubbleRow);
 	}
 	
 	/**
