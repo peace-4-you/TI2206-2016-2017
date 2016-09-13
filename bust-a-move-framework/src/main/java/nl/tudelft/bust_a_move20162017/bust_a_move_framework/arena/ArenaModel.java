@@ -146,26 +146,18 @@ public class ArenaModel {
 	 * 
 	 */
 	public void landBubble(Bubble shotBubble) {
-		
-		int OFFSET = DIAMETER / 2; 				// Temporarily  
-		int row = shotBubble.getY() / DIAMETER;
+		int row = getRow(shotBubble.getY());
 		int column = 0;
 		
 		if(bubble2DArray.size() != (row+1)) {
-			if(Bubble2DArray.peekLast == null || Bubble2DArray.peekLast.length != WIDTH_BUBBLES ) {
+			if(bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES ) {
 				bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
 			} else {
 				bubble2DArray.add(new Bubble[WIDTH_BUBBLES-1]);
 			}
 		}
 		
-		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-			column = shotBubble.getX()/ DIAMETER;
-		} else {
-			if(shotBubble.getX() >= OFFSET) {
-				column = (shotBubble.getX() - OFFSET) / DIAMETER;
-			} 
-		}
+		column = getColumn(shotBubble.getX(), shotBubble.getY());
 		
 		bubble2DArray.get(row)[column] = shotBubble;
 		popBubbles(shotBubble);
@@ -175,6 +167,35 @@ public class ArenaModel {
 			bubbleCount = 1;
 			addBubbleRow();
 		}
+	}
+	
+	/**
+	 * Gets the column 
+	 * @param xpos
+	 * @param ypos
+	 * @return
+	 */
+	public int getColumn(int xpos, int ypos) {
+		int OFFSET = DIAMETER / 2;
+		int row = ypos / DIAMETER;
+		int column = 0;
+		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
+			column = xpos/ DIAMETER;
+		} else {
+			if(xpos >= OFFSET) {
+				column = (xpos - OFFSET) / DIAMETER;
+			} 
+		}
+		return column;
+	}
+	
+	/**
+	 * A function that calculates the row with a given y position.
+	 * @param ypos
+	 * @return row number
+	 */
+	public int getRow(int ypos) {
+		return ypos / DIAMETER;
 	}
 	
 	/**
@@ -199,14 +220,8 @@ public class ArenaModel {
 				dropBubbles(bubbleToPop);
 				bubbleToPop.pop();
 				
-				row = popBubble.getY() / DIAMETER;
-				if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-					column = popBubble.getX()/ DIAMETER;
-				} else {
-					if(popBubble.getX() >= OFFSET) {
-						column = (popBubble.getX() - OFFSET) / DIAMETER;
-					} 
-				}
+				row = getRow(popBubble.getY());
+				column = getColumn(popBubble.getX(), popBubble.getY());
 				bubble2DArray.get(row)[column] = null;
 				
 				for(Bubble b: bubble2DArray.get(row)) {
@@ -247,13 +262,8 @@ public class ArenaModel {
 			Bubble bubbleToDrop = dropList.pop();
 			bubbleToDrop.drop();
 
-			if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-				column = dropBubble.getX()/ DIAMETER;
-			} else {
-				if(dropBubble.getX() >= OFFSET) {
-					column = (dropBubble.getX() - OFFSET) / DIAMETER;
-				} 
-			}
+
+			column = getColumn(dropBubble.getX(), dropBubble.getY());
 			bubble2DArray.get(row)[column] = null;
 			
 			for(Bubble b: bubble2DArray.get(row)) {
