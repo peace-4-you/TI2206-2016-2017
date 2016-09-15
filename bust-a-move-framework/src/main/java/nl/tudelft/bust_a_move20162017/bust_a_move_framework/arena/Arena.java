@@ -252,8 +252,8 @@ public class Arena {
 				// dropBubbles(popList);
 				bubbleToPop.pop();
 
-				row = getRow(popBubble.getY());
-				column = getColumn(popBubble.getX(), popBubble.getY());
+				row = getRow(bubbleToPop.getY());
+				column = getColumn(bubbleToPop.getX(), bubbleToPop.getY());
 				bubble2DArray.get(row)[column] = null;
 
 				/* Remove row if empty */
