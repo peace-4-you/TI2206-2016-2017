@@ -135,6 +135,10 @@ public class Game extends BasicGameState {
 			cannon.fire();
 			cannon.TIME_SHOT_FIRED = 0;
 		}
+		if(cannon.TIMES_SHOT == 10) {
+			cannon.TIMES_SHOT = 0;
+			arena.addBubbleRow();
+		}
 		for (Bubble bubble : this.bubbleslist) {
 			bubble.move();
 		}
@@ -147,6 +151,7 @@ public class Game extends BasicGameState {
 		g.drawString("Level:" + this.LEVEL, 10, 130);
 		cannon.draw(g);
 		player.draw(g);
+		arena.draw(g);
 		for (Bubble bubble : this.bubbleslist) {
 			bubble.draw(g);
 		}

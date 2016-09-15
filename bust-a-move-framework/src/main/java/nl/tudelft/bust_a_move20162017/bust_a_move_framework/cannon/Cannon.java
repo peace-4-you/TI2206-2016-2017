@@ -38,6 +38,7 @@ public class Cannon {
 	private BubbleGenerator bubblegen;
 
 	public int TIME_SHOT_FIRED;
+	public int TIMES_SHOT = 0;
 
 	/**
 	 * Creates Cannon instance
@@ -90,6 +91,7 @@ public class Cannon {
 		this.currBubble.fire(this.ANGLE);
 		this.loadNextBubble();
 		this.TIME_SHOT_FIRED = 0;
+		this.TIMES_SHOT += 1;
 	}
 
 	/**

@@ -315,18 +315,20 @@ public class Arena {
 	 * Adds a new row of bubbles after the cannon shots 10 times. The new
 	 * row is added to the top of the Arena and saved in the graph.
 	 */
-	private void addBubbleRow() {
+	public void addBubbleRow() {
 
 		if(get_BubbleArray().size() >= HEIGHT_BUBBLES) {
 			// Lose the game
 			
 		}
-		
+		int offset = 0;
 		Bubble[] bubbleRow;
-		if(get_BubbleArray().getFirst().length == WIDTH_BUBBLES) {
+		if(get_BubbleArray().size() > 0 && get_BubbleArray().getFirst().length == WIDTH_BUBBLES) {
+			offset = DIAMETER / 2;
 			bubbleRow = new Bubble[WIDTH_BUBBLES - 1];
 		}
 		else {
+
 			bubbleRow = new Bubble[WIDTH_BUBBLES];
 		}
 			
@@ -340,22 +342,22 @@ public class Arena {
 		
 		for(int i = 0; i < bubbleRow.length; i++) {
 			// 
-			int bubbleX = DIAMETER * i;
+			int bubbleX = (DIAMETER * i) + offset;
 			int bubbleY = 0;
 			int colorInt = rand.nextInt(ColorChoice.values().length);
 			bubbleRow[i] =  new Bubble(bubbleX, bubbleY, ColorChoice.values()[colorInt]);
 		}
 		
 		// Move all the other bubbles down by diameter
-		for(int i = 0; i < bubble2DArray.size(); i++){
-			Bubble[] array_t = bubble2DArray.get(i);
-			for(int j = 0; i < array_t.length; j++){
-				double currentY = array_t[j].getY();
-				array_t[j].setY(currentY + (double)DIAMETER);
+		for(Bubble[] row : bubble2DArray) {
+			for(int i = 0; i < row.length; i++){
+				if(row[i] == null) continue;
+				double currentY = row[i].getY();
+				row[i].setY(currentY + (double)DIAMETER);
 			}
 		}
 		
-		bubble2DArray.add(bubbleRow);
+		bubble2DArray.addFirst(bubbleRow);
 	}
 	
 	/**
@@ -478,6 +480,14 @@ public class Arena {
 		neighbors[5] = (row != WIDTH_BUBBLES || column != HEIGHT_BUBBLES) ? (bubble2DArray.get(row+1)[column+1]) : null;
 		
 		return neighbors;
+	}
+	
+	public void draw(Graphics g) {
+		for(Bubble[] row : bubble2DArray) {
+			for(Bubble b : row) {
+				b.draw(g);
+			}
+		}
 	}
 	
 }
