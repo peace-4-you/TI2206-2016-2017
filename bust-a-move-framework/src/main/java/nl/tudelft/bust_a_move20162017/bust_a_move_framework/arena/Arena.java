@@ -367,8 +367,8 @@ public class Arena {
 		
 		for(int i = 0; i < bubbleRow.length; i++) {
 			// 
-			int bubbleX = (DIAMETER * i) + offset;
-			int bubbleY = 0;
+			int bubbleX = (DIAMETER * i) + offset + xPos;
+			int bubbleY = 0 + yPos;
 			int colorInt = rand.nextInt(ColorChoice.values().length);
 			bubbleRow[i] =  new Bubble(bubbleX, bubbleY, ColorChoice.values()[colorInt]);
 		}
