@@ -38,7 +38,9 @@ public class Game extends BasicGameState {
 	private int LEVEL;
 	private int TIME_PASSED_KEY_RIGHT;
 	private int TIME_PASSED_KEY_LEFT;
-	private static final int TIME_TOO_SHOOT = 5000;
+	private static final int TIME_TOO_SHOOT = 10000;
+	
+	private static final int TIME_DISPLAY_FIRE_WARNING = 3000;
 
 	public Cannon cannon;
 	public ArrayList<Bubble> bubbleslist;
@@ -139,9 +141,15 @@ public class Game extends BasicGameState {
 		if (container.getInput().isKeyPressed(Input.KEY_UP)) {
 			cannon.fire();
 		}
+		
+		if(cannon.TIME_SHOT_FIRED > TIME_TOO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
+			cannon.display_warning = true;
+		}
+		
 		if (cannon.TIME_SHOT_FIRED > TIME_TOO_SHOOT) {
 			cannon.fire();
 			cannon.TIME_SHOT_FIRED = 0;
+			cannon.display_warning = false;
 		}
 		if(cannon.TIMES_SHOT == 10) {
 			cannon.TIMES_SHOT = 0;
