@@ -182,13 +182,13 @@ public class Arena {
 	 * @return
 	 */
 	public int getColumn(double xpos, double ypos) {
-		int row = 0;
+		int row = getRow(ypos);
 		int column = 0;
 		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-			column = (int)Math.floor(xpos/ DIAMETER);
+			column = (int)Math.floor((xpos -xPos) / DIAMETER);
 		} else {
-			if(xpos >= OFFSET) {
-				column = (int)Math.floor((xpos - OFFSET) / DIAMETER);
+			if((xpos - xPos) >= OFFSET) {
+				column = (int)Math.floor(((xpos - xPos) - OFFSET) / DIAMETER);
 			} 
 		}
 		return column;
@@ -200,7 +200,7 @@ public class Arena {
 	 * @return row number
 	 */
 	public int getRow(double ypos) {
-		return (int)Math.floor(ypos / DIAMETER);
+		return (int)Math.floor((ypos - yPos) / DIAMETER);
 	}
 	
 	/**
