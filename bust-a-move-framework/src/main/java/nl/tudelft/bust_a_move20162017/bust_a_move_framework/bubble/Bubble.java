@@ -22,7 +22,7 @@ import org.newdawn.slick.Graphics;
  *
  */
 public class Bubble {
-  public static final double DIAMETER = 40;
+  public static final double DIAMETER = 35;
   public static final double SPEED = 3;
   private static final Color RED_COLOR = Color.red;
   private static final Color BLUE_COLOR = Color.blue;
