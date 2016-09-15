@@ -76,7 +76,7 @@ public class Bubble {
     }
   }
 
-  /**
+/**
    * draws the Bubble
    *
    * @param g  Java Graphics instance

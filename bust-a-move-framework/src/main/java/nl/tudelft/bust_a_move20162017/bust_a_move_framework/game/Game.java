@@ -10,6 +10,7 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.game;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon.Cannon;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble.ColorChoice;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleGenerator;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.player.Player;
@@ -46,6 +47,8 @@ public class Game extends BasicGameState {
 	private BubbleGenerator bubblegen;
 
 	private StateBasedGame sbg;
+	
+	Bubble x;
 
 	/**
 	 * Starts game, creates new arena and cannon instance
@@ -53,8 +56,13 @@ public class Game extends BasicGameState {
 
 	private void startGame() {
 		this.bubbleslist = new ArrayList<Bubble>();
+		this.arena = new Arena(165, 0, 531,310);
 		this.cannon = new Cannon(this);
-		this.arena = new Arena(0, 0, 100, 100);
+
+		//x = new Bubble(100,300,ColorChoice.RED);
+		//arena.landBubble(x);
+				
+	
 	}
 
 	/**
@@ -142,11 +150,17 @@ public class Game extends BasicGameState {
 		for (Bubble bubble : this.bubbleslist) {
 			bubble.move();
 		}
+		if (arena.isArenaFull()){
+			this.failedGame();
+		}
+		if (arena.isArenaEmtpy()){
+			this.wonGame();
+		}
 	}
 
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
 		g.setColor(Color.gray);
-		g.fillRect(0, 430, 640, 480);
+		g.fillRect(0, 530, 640, 580);
 		g.setColor(Color.white);
 		g.drawString("Level:" + this.LEVEL, 10, 130);
 		cannon.draw(g);
@@ -155,6 +169,7 @@ public class Game extends BasicGameState {
 		for (Bubble bubble : this.bubbleslist) {
 			bubble.draw(g);
 		}
+		//x.draw(g);
 
 	}
 
@@ -169,5 +184,9 @@ public class Game extends BasicGameState {
 
 	public BubbleGenerator getBubbleGen() {
 		return this.bubblegen;
+	}
+	
+	public Arena getArena() {
+		return this.arena;
 	}
 }

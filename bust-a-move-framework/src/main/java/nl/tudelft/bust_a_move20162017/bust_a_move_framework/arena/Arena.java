@@ -513,6 +513,8 @@ public class Arena {
 				b.draw(g);
 			}
 		}
+		g.setColor(Color.white);
+		g.drawRect((float) xPos,(float) yPos,(float) width,(float)height);
 	}
 	
 }
