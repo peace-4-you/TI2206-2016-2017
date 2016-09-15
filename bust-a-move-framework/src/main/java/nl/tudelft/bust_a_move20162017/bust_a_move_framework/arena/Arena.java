@@ -514,7 +514,8 @@ public class Arena {
 			}
 		}
 		g.setColor(Color.white);
-		g.drawRect((float) xPos,(float) yPos,(float) width,(float)height);
+		g.drawRect((float) xPos,(float) yPos ,(float) width,(float)height);
+		g.drawLine((float) xPos, (float) HEIGHT_BUBBLES * DIAMETER, (float) xPos+ width, (float) HEIGHT_BUBBLES * DIAMETER);
 	}
 	
 }
