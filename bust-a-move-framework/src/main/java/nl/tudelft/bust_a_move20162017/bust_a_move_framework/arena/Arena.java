@@ -48,7 +48,7 @@ public class Arena {
 	private int bubbleCount;
 	
 	/* Temporarily Bubble diameter variable */
-	private final int DIAMETER = 40; 
+	private final int DIAMETER = 35; 
 	private final int OFFSET = DIAMETER / 2;
 	
 	/**
@@ -378,7 +378,7 @@ public class Arena {
 			for(int i = 0; i < row.length; i++){
 				if(row[i] == null) continue;
 				double currentY = row[i].getY();
-				row[i].setY(currentY + (double)DIAMETER);
+				row[i].setY(currentY + (((double)DIAMETER * Math.tan(60)) + OFFSET + 2));
 			}
 		}
 		
