@@ -129,8 +129,18 @@ public class Bubble {
     this.setYSpeed(0);
 
     System.out.println("adjusting bubble land position - X: " + x + ", Y: " + y);
+    System.out.println("PREVIOUS X: " + this.getX() + ", Y: " + this.getY());
     this.setX(x);
     this.setY(y);
+  }
+
+  /**
+   * wall collision detection, inverts ball's xSpeed
+   */
+  public void hitWall() {
+    if (this.getState() == State.FIRING) {
+      this.setXSpeed(-this.getXSpeed());
+    }
   }
 
   /**

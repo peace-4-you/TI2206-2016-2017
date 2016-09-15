@@ -157,10 +157,14 @@ public class Game extends BasicGameState {
 		for (Bubble b1 : bubbleslist) {
 			b1.move();
 			if (b1.getState() == Bubble.State.FIRING) {
+				if (b1.getX() <= arena.get_xPos() || b1.getX()+Bubble.DIAMETER >= arena.get_xPos()+arena.getWidth()) {
+					b1.hitWall();
+				}
+				// collision with landed bubbles
 				for (int i = 0; i < arenaBubbles.size(); i++) {
 					for (int j = 0; j < arenaBubbles.get(i).length; j++) {
 						Bubble b2 = arenaBubbles.get(i)[j];
-						if (b2 != null) {
+						if (b2 != null && b1 != b2) {
 							if (b2.getState() == Bubble.State.LANDED) {
 								if (b1.getBoundingBox().intersects(b2.getBoundingBox())) {
 									System.out.println("Collision! " + b1.getColor() + " with " + b2.getColor());
@@ -170,11 +174,12 @@ public class Game extends BasicGameState {
 						}
 					}
 				}
+				// end collision with landed bubbles
 			}
 
 		}
 		if (arena.isArenaFull()){
-			this.failedGame();
+			// this.failedGame();
 		}
 		if (arena.isArenaEmpty()){
 			this.wonGame();
@@ -196,7 +201,9 @@ public class Game extends BasicGameState {
 		arena.draw(g);
 		pause.draw(g);
 		for (Bubble bubble : this.bubbleslist) {
-			bubble.draw(g);
+			if (bubble.getState() != Bubble.State.LANDED) {
+				bubble.draw(g);
+			}
 		}
 	}
 

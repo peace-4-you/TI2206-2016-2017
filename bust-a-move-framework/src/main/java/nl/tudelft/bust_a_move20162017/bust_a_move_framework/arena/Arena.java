@@ -162,18 +162,19 @@ public class Arena {
 			}
 		}
 
+		// TODO: fix +10
 		row = getRow(shotBubble.getY());
 		column = getColumn(shotBubble.getX(), shotBubble.getY());
 
 		bubble2DArray.get(row)[column] = shotBubble;
+		shotBubble.land((double) this.xPos+(column*DIAMETER)+(this.bubble2DArray.get(row).length == WIDTH_BUBBLES ? 0 : DIAMETER/2), (double) this.yPos+(row*(DIAMETER*Math.tan(60)+OFFSET+2)));
 
-		shotBubble.land((double) this.xPos+(column*DIAMETER)+((row%2)*DIAMETER/2), (double) this.yPos+(row*DIAMETER)-OFFSET);
 		// popBubbles(shotBubble);
 
 		bubbleCount++;
 		if(bubbleCount > 10) {
 			bubbleCount = 1;
-			addBubbleRow();
+			// addBubbleRow();
 		}
 	}
 
@@ -187,13 +188,13 @@ public class Arena {
 		int row = getRow(ypos);
 		int column = 0;
 		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-			column = (int)Math.floor((xpos -xPos) / DIAMETER);
+			column = (int)Math.round((xpos -xPos) / DIAMETER);
 		} else {
 			if((xpos - xPos) >= OFFSET) {
-				column = (int)Math.floor(((xpos - xPos) - OFFSET) / DIAMETER);
+				column = (int)Math.round(((xpos - xPos) - OFFSET) / DIAMETER);
 			}
 		}
-		return column;
+		return Math.min(column, WIDTH_BUBBLES-1);
 	}
 
 	/**
@@ -202,7 +203,7 @@ public class Arena {
 	 * @return row number
 	 */
 	public int getRow(double ypos) {
-		return (int)Math.floor((ypos - yPos) / DIAMETER);
+		return (int) Math.round((ypos - yPos) / (DIAMETER*Math.tan(60)+OFFSET+2));
 	}
 
 	/**
