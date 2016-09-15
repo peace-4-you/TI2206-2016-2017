@@ -9,8 +9,9 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.game;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon.Cannon;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.Button;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameState;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble.ColorChoice;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleGenerator;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.player.Player;
@@ -47,10 +48,9 @@ public class Game extends BasicGameState {
 	private Arena arena;
 	private Player player;
 	private BubbleGenerator bubblegen;
-
+	private Button pause;
 	private StateBasedGame sbg;
-	
-	Bubble x;
+
 
 	/**
 	 * Starts game, creates new arena and cannon instance
@@ -58,13 +58,8 @@ public class Game extends BasicGameState {
 
 	private void startGame() {
 		this.bubbleslist = new ArrayList<Bubble>();
-		this.arena = new Arena(165, 0, 531, 280);
-		this.cannon = new Cannon(this);
-
-		//x = new Bubble(100,300,ColorChoice.RED);
-		//arena.landBubble(x);
-				
-	
+		this.arena = new Arena(180, 0, 531, 280);
+		this.cannon = new Cannon(this);				
 	}
 
 	/**
@@ -72,7 +67,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void wonGame() {
-		sbg.enterState(5, new FadeOutTransition(), new FadeInTransition());
+		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
 	/**
@@ -80,7 +75,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void failedGame() {
-		sbg.enterState(6, new FadeOutTransition(), new FadeInTransition());
+		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
 	/**
@@ -88,7 +83,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void pauseGame() {
-		sbg.enterState(4, new FadeOutTransition(), new FadeInTransition());
+		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
 	/**
@@ -110,6 +105,7 @@ public class Game extends BasicGameState {
 
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 		this.sbg = sbg;
+		this.pause = new Button("Pause", 507,50, 100, 30);
 		this.LEVEL = 1;
 		this.player = new Player("Player1");
 		this.bubblegen = new BubbleGenerator(arena);
@@ -164,6 +160,11 @@ public class Game extends BasicGameState {
 		if (arena.isArenaEmtpy()){
 			this.wonGame();
 		}
+        if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            if (pause.isInBounds(container.getInput())) {
+            	this.pauseGame();              
+            }
+        }
 	}
 
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -174,11 +175,10 @@ public class Game extends BasicGameState {
 		cannon.draw(g);
 		player.draw(g);
 		arena.draw(g);
+		pause.draw(g);
 		for (Bubble bubble : this.bubbleslist) {
 			bubble.draw(g);
 		}
-		//x.draw(g);
-
 	}
 
 	public BubbleGenerator Generator() {
