@@ -23,7 +23,7 @@ import org.newdawn.slick.geom.Circle;
  *
  */
 public class Bubble {
-  public static final double DIAMETER = 30;
+  public static final double DIAMETER = 35;
   public static final double SPEED = 3;
   private static final Color RED_COLOR = Color.red;
   private static final Color BLUE_COLOR = Color.blue;
@@ -79,7 +79,7 @@ public class Bubble {
     }
   }
 
-  /**
+/**
    * draws the Bubble
    *
    * @param g  Java Graphics instance

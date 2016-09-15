@@ -48,7 +48,7 @@ public class Arena {
 	private int bubbleCount;
 	
 	/* Temporarily Bubble diameter variable */
-	private final int DIAMETER = 40; 
+	private final int DIAMETER = 35; 
 	private final int OFFSET = DIAMETER / 2;
 	
 	/**
@@ -182,13 +182,13 @@ public class Arena {
 	 * @return
 	 */
 	public int getColumn(double xpos, double ypos) {
-		int row = 0;
+		int row = getRow(ypos);
 		int column = 0;
 		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-			column = (int)Math.floor(xpos/ DIAMETER);
+			column = (int)Math.floor((xpos -xPos) / DIAMETER);
 		} else {
-			if(xpos >= OFFSET) {
-				column = (int)Math.floor((xpos - OFFSET) / DIAMETER);
+			if((xpos - xPos) >= OFFSET) {
+				column = (int)Math.floor(((xpos - xPos) - OFFSET) / DIAMETER);
 			} 
 		}
 		return column;
@@ -200,7 +200,32 @@ public class Arena {
 	 * @return row number
 	 */
 	public int getRow(double ypos) {
-		return (int)Math.floor(ypos / DIAMETER);
+		return (int)Math.floor((ypos - yPos) / DIAMETER);
+	}
+	
+	/**
+	 * Checks if the 2D array is empty. The player wins the level when the arena is empty.
+	 * @return True when the array is empty. False when the array is not empty. 
+	 * 
+	 */
+	public boolean isArenaEmtpy() {
+		if (bubble2DArray.size() <= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Checks if the 2D array is full. The player losses when the arena is full.
+	 * @return True when the array is full. False when the array is not full.
+	 */
+	public boolean isArenaFull() {
+		if (bubble2DArray.size() > 12) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -342,8 +367,8 @@ public class Arena {
 		
 		for(int i = 0; i < bubbleRow.length; i++) {
 			// 
-			int bubbleX = (DIAMETER * i) + offset;
-			int bubbleY = 0;
+			int bubbleX = (DIAMETER * i) + offset + xPos;
+			int bubbleY = 0 + yPos;
 			int colorInt = rand.nextInt(ColorChoice.values().length);
 			bubbleRow[i] =  new Bubble(bubbleX, bubbleY, ColorChoice.values()[colorInt]);
 		}
@@ -353,7 +378,7 @@ public class Arena {
 			for(int i = 0; i < row.length; i++){
 				if(row[i] == null) continue;
 				double currentY = row[i].getY();
-				row[i].setY(currentY + (double)DIAMETER);
+				row[i].setY(currentY + (((double)DIAMETER * Math.tan(60)) + OFFSET + 2));
 			}
 		}
 		
@@ -488,6 +513,9 @@ public class Arena {
 				b.draw(g);
 			}
 		}
+		g.setColor(Color.white);
+		g.drawRect((float) xPos,(float) yPos ,(float) width,(float)height);
+		g.drawLine((float) xPos, (float) HEIGHT_BUBBLES * DIAMETER, (float) xPos+ width, (float) HEIGHT_BUBBLES * DIAMETER);
 	}
 	
 }

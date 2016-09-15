@@ -40,17 +40,19 @@ public class Cannon {
 	public int TIME_SHOT_FIRED;
 	public int TIMES_SHOT = 0;
 
+	public boolean display_warning;
+	
 	/**
 	 * Creates Cannon instance
 	 */
 
 	public Cannon(Game game) {
 		this.X = 320;
-		this.Y = 430;
+		this.Y = 530;
 		this.Xlaunch = (int) (270-Bubble.DIAMETER/2);
-		this.Ylaunch = (int) (455-Bubble.DIAMETER/2);
+		this.Ylaunch = (int) (555-Bubble.DIAMETER/2);
 		this.Xload =  (int) (320-Bubble.DIAMETER/2);
-		this.Yload = (int) (430-Bubble.DIAMETER/2);
+		this.Yload = (int) (530-Bubble.DIAMETER/2);
 		this.SIZE = 80;
 		this.ANGLE = 0;
 		this.cannonColour = Color.red;
@@ -126,5 +128,8 @@ public class Cannon {
 		// TODO Make a nicer cannon
 		g.drawLine(this.X, this.Y, (int) (this.X + Math.cos(Math.toRadians(this.ANGLE + 90)) * this.SIZE),
 				(int) (this.Y - Math.sin(Math.toRadians(this.ANGLE + 90)) * this.SIZE));
+		if(display_warning) {
+			g.drawString("Hurry up!", 225, 500);
+		}
 	}
 }

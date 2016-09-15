@@ -9,6 +9,8 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.game;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon.Cannon;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.Button;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameState;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleFactory;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
@@ -37,15 +39,18 @@ public class Game extends BasicGameState {
 	private int LEVEL;
 	private int TIME_PASSED_KEY_RIGHT;
 	private int TIME_PASSED_KEY_LEFT;
-	private static final int TIME_TOO_SHOOT = 5000;
+	private static final int TIME_TOO_SHOOT = 10000;
+
+	private static final int TIME_DISPLAY_FIRE_WARNING = 3000;
 
 	public Cannon cannon;
 	public ArrayList<Bubble> bubbleslist;
 	private Arena arena;
 	private Player player;
 	private BubbleFactory bubblegen;
-
+	private Button pause;
 	private StateBasedGame sbg;
+
 
 	/**
 	 * Starts game, creates new arena and cannon instance
@@ -53,8 +58,8 @@ public class Game extends BasicGameState {
 
 	private void startGame() {
 		this.bubbleslist = new ArrayList<Bubble>();
+		this.arena = new Arena(180, 0, 531, 280);
 		this.cannon = new Cannon(this);
-		this.arena = new Arena(0, 0, 100, 100);
 	}
 
 	/**
@@ -62,7 +67,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void wonGame() {
-		sbg.enterState(5, new FadeOutTransition(), new FadeInTransition());
+		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
 	/**
@@ -70,7 +75,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void failedGame() {
-		sbg.enterState(6, new FadeOutTransition(), new FadeInTransition());
+		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
 	/**
@@ -78,7 +83,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void pauseGame() {
-		sbg.enterState(4, new FadeOutTransition(), new FadeInTransition());
+		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
 	/**
@@ -100,6 +105,7 @@ public class Game extends BasicGameState {
 
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 		this.sbg = sbg;
+		this.pause = new Button("Pause", 507,50, 100, 30);
 		this.LEVEL = 1;
 		this.player = new Player("Player1");
 		this.bubblegen = new BubbleFactory(arena);
@@ -131,9 +137,15 @@ public class Game extends BasicGameState {
 		if (container.getInput().isKeyPressed(Input.KEY_UP)) {
 			cannon.fire();
 		}
+
+		if(cannon.TIME_SHOT_FIRED > TIME_TOO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
+			cannon.display_warning = true;
+		}
+
 		if (cannon.TIME_SHOT_FIRED > TIME_TOO_SHOOT) {
 			cannon.fire();
 			cannon.TIME_SHOT_FIRED = 0;
+			cannon.display_warning = false;
 		}
 		if(cannon.TIMES_SHOT == 10) {
 			cannon.TIMES_SHOT = 0;
@@ -142,20 +154,31 @@ public class Game extends BasicGameState {
 		for (Bubble bubble : this.bubbleslist) {
 			bubble.move();
 		}
+		if (arena.isArenaFull()){
+			this.failedGame();
+		}
+		if (arena.isArenaEmtpy()){
+			this.wonGame();
+		}
+        if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            if (pause.isInBounds(container.getInput())) {
+            	this.pauseGame();
+            }
+        }
 	}
 
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
 		g.setColor(Color.gray);
-		g.fillRect(0, 430, 640, 480);
+		g.fillRect(0, 530, 640, 580);
 		g.setColor(Color.white);
 		g.drawString("Level:" + this.LEVEL, 10, 130);
 		cannon.draw(g);
 		player.draw(g);
 		arena.draw(g);
+		pause.draw(g);
 		for (Bubble bubble : this.bubbleslist) {
 			bubble.draw(g);
 		}
-
 	}
 
 	public BubbleFactory Generator() {
@@ -169,5 +192,9 @@ public class Game extends BasicGameState {
 
 	public BubbleFactory getBubbleGen() {
 		return this.bubblegen;
+	}
+
+	public Arena getArena() {
+		return this.arena;
 	}
 }
