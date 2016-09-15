@@ -41,7 +41,7 @@ public class Cannon {
 	public int TIMES_SHOT = 0;
 
 	public boolean display_warning;
-	
+
 	/**
 	 * Creates Cannon instance
 	 */
@@ -81,7 +81,7 @@ public class Cannon {
 	 */
 
 	private Bubble getNextBubble() {
-		Bubble nextBubble = this.bubblegen.create((double) this.Xlaunch, (double) this.Ylaunch,true);
+		Bubble nextBubble = this.bubblegen.create((double) this.Xlaunch, (double) this.Ylaunch, true);
 		return nextBubble;
 	}
 

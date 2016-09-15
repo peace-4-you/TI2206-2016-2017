@@ -17,6 +17,7 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.player.Player;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -39,7 +40,7 @@ public class Game extends BasicGameState {
 	private int LEVEL;
 	private int TIME_PASSED_KEY_RIGHT;
 	private int TIME_PASSED_KEY_LEFT;
-	private static final int TIME_TOO_SHOOT = 10000;
+	private static final int TIME_TO_SHOOT = 10000;
 
 	private static final int TIME_DISPLAY_FIRE_WARNING = 3000;
 
@@ -59,6 +60,7 @@ public class Game extends BasicGameState {
 	private void startGame() {
 		this.bubbleslist = new ArrayList<Bubble>();
 		this.arena = new Arena(180, 0, 531, 280);
+		this.bubblegen = new BubbleFactory(this.arena);
 		this.cannon = new Cannon(this);
 	}
 
@@ -108,7 +110,6 @@ public class Game extends BasicGameState {
 		this.pause = new Button("Pause", 507,50, 100, 30);
 		this.LEVEL = 1;
 		this.player = new Player("Player1");
-		this.bubblegen = new BubbleFactory(arena);
 		this.startGame();
 	}
 
@@ -138,11 +139,11 @@ public class Game extends BasicGameState {
 			cannon.fire();
 		}
 
-		if(cannon.TIME_SHOT_FIRED > TIME_TOO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
+		if(cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
 			cannon.display_warning = true;
 		}
 
-		if (cannon.TIME_SHOT_FIRED > TIME_TOO_SHOOT) {
+		if (cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
 			cannon.fire();
 			cannon.TIME_SHOT_FIRED = 0;
 			cannon.display_warning = false;
@@ -151,13 +152,31 @@ public class Game extends BasicGameState {
 			cannon.TIMES_SHOT = 0;
 			arena.addBubbleRow();
 		}
-		for (Bubble bubble : this.bubbleslist) {
-			bubble.move();
+
+		LinkedList<Bubble[]> arenaBubbles = this.arena.get_BubbleArray();
+		for (Bubble b1 : bubbleslist) {
+			b1.move();
+			if (b1.getState() == Bubble.State.FIRING) {
+				for (int i = 0; i < arenaBubbles.size(); i++) {
+					for (int j = 0; j < arenaBubbles.get(i).length; j++) {
+						Bubble b2 = arenaBubbles.get(i)[j];
+						if (b2 != null) {
+							if (b2.getState() == Bubble.State.LANDED) {
+								if (b1.getBoundingBox().intersects(b2.getBoundingBox())) {
+									System.out.println("Collision! " + b1.getColor() + " with " + b2.getColor());
+									arena.landBubble(b1);
+								}
+							}
+						}
+					}
+				}
+			}
+
 		}
 		if (arena.isArenaFull()){
 			this.failedGame();
 		}
-		if (arena.isArenaEmtpy()){
+		if (arena.isArenaEmpty()){
 			this.wonGame();
 		}
         if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {

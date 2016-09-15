@@ -40,7 +40,7 @@ public class BubbleFactory {
    * @param color  ColorChoice enum value for bubble's color
    */
   public Bubble create(double x, double y, Bubble.ColorChoice color) {
-    return new Bubble(x, y, color);
+    return new Bubble(x, y, color, false);
   }
   /**
    * @return Bubble instance of random color
@@ -53,27 +53,15 @@ public class BubbleFactory {
     Bubble.ColorChoice color = null;
 
     if (forCannon) {
-      // uncomment when ready arena is ready
-      // LinkedList<Bubble.ColorChoice> colors = arena.getColorsOnArena();
-      // double interval = 1/colors.size();
-      // double r = Math.random();
-      //
-      // for (int i = 1; i < colors.size(); i++) {
-      //   if (r < i*interval) {
-      //     color = colors.at(i-1);
-      //     break;
-      //   }
-      // }
-
+      LinkedList<Bubble.ColorChoice> colors = arena.getColorsOnArena();
+      double interval = 1.0/(double)colors.size();
       double r = Math.random();
-      if (r < 0.25) {
-        color = Bubble.ColorChoice.RED;
-      } else if (r < 0.5) {
-        color = Bubble.ColorChoice.BLUE;
-      } else if (r < 0.75) {
-        color = Bubble.ColorChoice.YELLOW;
-      } else if (r < 1) {
-        color = Bubble.ColorChoice.GREEN;
+
+      for (int i = 1; i <= colors.size(); i++) {
+        if (r < i*interval) {
+          color = colors.get(i-1);
+          break;
+        }
       }
     } else {
       double r = Math.random();
@@ -88,7 +76,7 @@ public class BubbleFactory {
       }
     }
 
-    return new Bubble(x, y, color);
+    return new Bubble(x, y, color, forCannon);
   }
 
 }
