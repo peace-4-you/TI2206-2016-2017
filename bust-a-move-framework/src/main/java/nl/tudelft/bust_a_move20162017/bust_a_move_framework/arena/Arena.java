@@ -171,7 +171,7 @@ public class Arena {
 
 		bubbleCount++;
 		if(bubbleCount > 10) {
-			bubbleCount = 1;
+			bubbleCount = 0;
 			addBubbleRow();
 		}
 	}
@@ -519,6 +519,7 @@ public class Arena {
 		}
 		g.setColor(Color.white);
 		g.drawRect((float) xPos,(float) yPos ,(float) width,(float)height);
-		g.drawLine((float) xPos, (float) HEIGHT_BUBBLES * DIAMETER, (float) xPos+ width, (float) HEIGHT_BUBBLES * DIAMETER);
+		float yPosLine = (float)(HEIGHT_BUBBLES * ((DIAMETER * Math.tan(60)) + OFFSET + 2) + yPos + 5);
+		g.drawLine((float) xPos, yPosLine, (float) xPos+ width, yPosLine);
 	}
 }
