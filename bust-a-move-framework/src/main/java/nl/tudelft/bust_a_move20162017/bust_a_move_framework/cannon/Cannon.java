@@ -40,6 +40,8 @@ public class Cannon {
 	public int TIME_SHOT_FIRED;
 	public int TIMES_SHOT = 0;
 
+	public boolean display_warning;
+	
 	/**
 	 * Creates Cannon instance
 	 */
@@ -126,5 +128,8 @@ public class Cannon {
 		// TODO Make a nicer cannon
 		g.drawLine(this.X, this.Y, (int) (this.X + Math.cos(Math.toRadians(this.ANGLE + 90)) * this.SIZE),
 				(int) (this.Y - Math.sin(Math.toRadians(this.ANGLE + 90)) * this.SIZE));
+		if(display_warning) {
+			g.drawString("Hurry up!", 225, 500);
+		}
 	}
 }
