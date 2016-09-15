@@ -378,7 +378,7 @@ public class Arena {
 			for(int i = 0; i < row.length; i++){
 				if(row[i] == null) continue;
 				double currentY = row[i].getY();
-				row[i].setY(currentY + (double)DIAMETER);
+				row[i].setY(currentY + (((double)DIAMETER * Math.tan(60)) + OFFSET));
 			}
 		}
 		
