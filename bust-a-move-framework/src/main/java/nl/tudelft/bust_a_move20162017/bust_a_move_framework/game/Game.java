@@ -179,7 +179,7 @@ public class Game extends BasicGameState {
 
 		}
 		if (arena.isArenaFull()){
-			// this.failedGame();
+			this.failedGame();
 		}
 		if (arena.isArenaEmpty()){
 			this.wonGame();

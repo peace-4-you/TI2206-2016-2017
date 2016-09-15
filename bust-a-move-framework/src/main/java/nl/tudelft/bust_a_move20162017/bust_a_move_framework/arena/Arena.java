@@ -150,11 +150,11 @@ public class Arena {
 	 *
 	 */
 	public void landBubble(Bubble shotBubble) {
-		int row = 0;
+		int row = getRow(shotBubble.getY());
 		int column = 0;
 
 		/* Check and add if a new row is needed */
-		if(bubble2DArray.size() != (row+1)) {
+		if(bubble2DArray.size() <= (row+1)) {
 			if(bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES ) {
 				bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
 			} else {
@@ -162,8 +162,6 @@ public class Arena {
 			}
 		}
 
-		// TODO: fix +10
-		row = getRow(shotBubble.getY());
 		column = getColumn(shotBubble.getX(), shotBubble.getY());
 
 		bubble2DArray.get(row)[column] = shotBubble;
@@ -174,7 +172,7 @@ public class Arena {
 		bubbleCount++;
 		if(bubbleCount > 10) {
 			bubbleCount = 1;
-			// addBubbleRow();
+			addBubbleRow();
 		}
 	}
 
@@ -321,11 +319,11 @@ public class Arena {
 	 * @param bubble	Bubble to be stored
 	 */
 	public void addBubble(Bubble bubble) {
-		int row = 0;
+		int row = getRow(bubble.getY());
 		int column = 0;
 
 		/* Check and add if a new row is needed */
-		if(bubble2DArray.size() != (row+1)) {
+		if(bubble2DArray.size() <= (row+1)) {
 			if(bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES ) {
 				bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
 			} else {
@@ -333,7 +331,6 @@ public class Arena {
 			}
 		}
 
-		row = getRow(bubble.getY());
 		column = getColumn(bubble.getX(), bubble.getY());
 
 		bubble2DArray.get(row)[column] = bubble;
