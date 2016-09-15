@@ -204,6 +204,31 @@ public class Arena {
 	}
 	
 	/**
+	 * Checks if the 2D array is empty. The player wins the level when the arena is empty.
+	 * @return True when the array is empty. False when the array is not empty. 
+	 * 
+	 */
+	public boolean isArenaEmtpy() {
+		if (bubble2DArray.size() <= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Checks if the 2D array is full. The player losses when the arena is full.
+	 * @return True when the array is full. False when the array is not full.
+	 */
+	public boolean isArenaFull() {
+		if (bubble2DArray.size() > 12) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	 * Checks for 3 (or more) connected bubbles. If so, it signals the bubble objects to 
 	 * pop and removes it from the graph. It also calls the drop bubbles method. 
 	 * 
