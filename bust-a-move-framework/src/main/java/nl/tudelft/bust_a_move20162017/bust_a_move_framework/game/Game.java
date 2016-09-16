@@ -144,7 +144,7 @@ public class Game extends BasicGameState {
 		}
 
 		if (cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
-			cannon.fire();
+			//cannon.fire();
 			cannon.TIME_SHOT_FIRED = 0;
 			cannon.display_warning = false;
 		}
