@@ -245,13 +245,13 @@ public class Arena {
 
 		/* Check if 3 or more bubbles are connected */
 		if(popList.size() >= 3) {
-			for(int i = 0; i < popList.size(); i++) {
+			while(popList.size() != 0) {
 				int row = 0;
 				int column = 0;
 				boolean empty = true;
 				Bubble bubbleToPop = popList.pop();
-
-				// dropBubbles(popList);
+	
+				//dropBubbles(popList);
 				//bubbleToPop.pop();
 
 				row = getRow(bubbleToPop.getY());
@@ -510,11 +510,11 @@ public class Arena {
 		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
 			COLUMN_HIGHLIMIT_EXCEED = (column >= WIDTH_BUBBLES - 1);
 			
-			neighbors[0] = (ROW_LOWLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED)	? null : (bubble2DArray.get(row-1)[column-1]);
+			neighbors[0] = (ROW_LOWLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED)		? null : (bubble2DArray.get(row-1)[column-1]);
 			neighbors[1] = (ROW_LOWLIMIT_EXCEED || column == (WIDTH_BUBBLES-1))	? null : (bubble2DArray.get(row-1)[column]);
-			neighbors[2] = (COLUMN_LOWLIMIT_EXCEED) 						? null : (bubble2DArray.get(row)[column-1]);
-			neighbors[3] = (COLUMN_HIGHLIMIT_EXCEED) 						? null : (bubble2DArray.get(row)[column+1]);
-			neighbors[4] = (ROW_HIGHLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED) ? null : (bubble2DArray.get(row+1)[column-1]);
+			neighbors[2] = (COLUMN_LOWLIMIT_EXCEED) 							? null : (bubble2DArray.get(row)[column-1]);
+			neighbors[3] = (COLUMN_HIGHLIMIT_EXCEED) 							? null : (bubble2DArray.get(row)[column+1]);
+			neighbors[4] = (ROW_HIGHLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED) 	? null : (bubble2DArray.get(row+1)[column-1]);
 			neighbors[5] = (ROW_HIGHLIMIT_EXCEED ||column == (WIDTH_BUBBLES-1)) ? null : (bubble2DArray.get(row+1)[column]);
 
 		} else {
@@ -528,7 +528,7 @@ public class Arena {
 			neighbors[5] = (ROW_HIGHLIMIT_EXCEED)	? null : (bubble2DArray.get(row+1)[column+1]);
 
 		}
-
+		
 		return neighbors;
 	}
 
