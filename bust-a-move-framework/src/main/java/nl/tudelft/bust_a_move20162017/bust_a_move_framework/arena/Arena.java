@@ -163,7 +163,6 @@ public class Arena {
 		}
 
 		column = getColumn(shotBubble.getX(), shotBubble.getY());
-
 		bubble2DArray.get(row)[column] = shotBubble;
 		shotBubble.land((double) this.xPos+(column*DIAMETER)+(this.bubble2DArray.get(row).length == WIDTH_BUBBLES ? 0 : DIAMETER/2), (double) this.yPos+(row*(DIAMETER*Math.tan(60)+OFFSET+2)));
 
@@ -187,12 +186,15 @@ public class Arena {
 		int column = 0;
 		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
 			column = (int)Math.round((xpos -xPos) / DIAMETER);
+			return Math.min(column, WIDTH_BUBBLES-1);
 		} else {
 			if((xpos - xPos) >= OFFSET) {
 				column = (int)Math.round(((xpos - xPos) - OFFSET) / DIAMETER);
 			}
+			return Math.min(column, (WIDTH_BUBBLES-1)-1);
 		}
-		return Math.min(column, WIDTH_BUBBLES-1);
+		
+		
 	}
 
 	/**
@@ -236,21 +238,21 @@ public class Arena {
 	 * @param popBubble The bubble to be popped
 	 *
 	 */
-	private void popBubbles(Bubble popBubble) {
+	public void popBubbles(Bubble popBubble) {
 		LinkedList<Bubble> popList = new LinkedList<Bubble>();
 
 		popList = checkBubblesToPop(popBubble, popList);
 
 		/* Check if 3 or more bubbles are connected */
 		if(popList.size() >= 3) {
-			for(int i = 0; i < popList.size(); i++) {
+			while(popList.size() != 0) {
 				int row = 0;
 				int column = 0;
 				boolean empty = true;
 				Bubble bubbleToPop = popList.pop();
-
-				// dropBubbles(popList);
-				bubbleToPop.pop();
+	
+				//dropBubbles(popList);
+				//bubbleToPop.pop();
 
 				row = getRow(bubbleToPop.getY());
 				column = getColumn(bubbleToPop.getX(), bubbleToPop.getY());
@@ -278,7 +280,7 @@ public class Arena {
 	 * @param ignoreList Stores the bubbles that is about to pop
 	 *
 	 */
-	private void dropBubbles(LinkedList<Bubble> ignoreList) {
+	public void dropBubbles(LinkedList<Bubble> ignoreList) {
 		LinkedList<Bubble> dropList = new LinkedList<Bubble>();
 		int row = 0;
 		int column = 0;
@@ -499,13 +501,34 @@ public class Arena {
 	private Bubble[] getNeighbors(int row, int column) {
 		Bubble[] neighbors = new Bubble[6];
 
-		neighbors[0] = (row != 0) ? (bubble2DArray.get(row-1)[column]) : null;
-		neighbors[1] = (row != 0 && column != HEIGHT_BUBBLES) ? (bubble2DArray.get(row-1)[column+1]) : null;
-		neighbors[2] = (column != 0) ? (bubble2DArray.get(row)[column-1]) : null;
-		neighbors[3] = (column != HEIGHT_BUBBLES) ? (bubble2DArray.get(row)[column+1]) : null;
-		neighbors[4] = (row != WIDTH_BUBBLES) ? (bubble2DArray.get(row+1)[column]) : null;
-		neighbors[5] = (row != WIDTH_BUBBLES && column != HEIGHT_BUBBLES) ? (bubble2DArray.get(row+1)[column+1]) : null;
+		boolean ROW_LOWLIMIT_EXCEED = (row <= 0);
+		boolean ROW_HIGHLIMIT_EXCEED = (row >= (bubble2DArray.size() - 1));
+		boolean COLUMN_LOWLIMIT_EXCEED = (column <= 0);
+		boolean COLUMN_HIGHLIMIT_EXCEED;
 
+		
+		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
+			COLUMN_HIGHLIMIT_EXCEED = (column >= WIDTH_BUBBLES - 1);
+			
+			neighbors[0] = (ROW_LOWLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED)		? null : (bubble2DArray.get(row-1)[column-1]);
+			neighbors[1] = (ROW_LOWLIMIT_EXCEED || column == (WIDTH_BUBBLES-1))	? null : (bubble2DArray.get(row-1)[column]);
+			neighbors[2] = (COLUMN_LOWLIMIT_EXCEED) 							? null : (bubble2DArray.get(row)[column-1]);
+			neighbors[3] = (COLUMN_HIGHLIMIT_EXCEED) 							? null : (bubble2DArray.get(row)[column+1]);
+			neighbors[4] = (ROW_HIGHLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED) 	? null : (bubble2DArray.get(row+1)[column-1]);
+			neighbors[5] = (ROW_HIGHLIMIT_EXCEED ||column == (WIDTH_BUBBLES-1)) ? null : (bubble2DArray.get(row+1)[column]);
+
+		} else {
+			COLUMN_HIGHLIMIT_EXCEED = (column >= (WIDTH_BUBBLES-1) - 1);
+			
+			neighbors[0] = (ROW_LOWLIMIT_EXCEED)	? null : (bubble2DArray.get(row-1)[column]);
+			neighbors[1] = (ROW_LOWLIMIT_EXCEED)	? null : (bubble2DArray.get(row-1)[column+1]);
+			neighbors[2] = (COLUMN_LOWLIMIT_EXCEED) ? null : (bubble2DArray.get(row)[column-1]);
+			neighbors[3] = (COLUMN_HIGHLIMIT_EXCEED)? null : (bubble2DArray.get(row)[column+1]);
+			neighbors[4] = (ROW_HIGHLIMIT_EXCEED) 	? null : (bubble2DArray.get(row+1)[column]);
+			neighbors[5] = (ROW_HIGHLIMIT_EXCEED)	? null : (bubble2DArray.get(row+1)[column+1]);
+
+		}
+		
 		return neighbors;
 	}
 

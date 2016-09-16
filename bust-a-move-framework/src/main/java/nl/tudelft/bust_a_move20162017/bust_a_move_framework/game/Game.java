@@ -144,7 +144,7 @@ public class Game extends BasicGameState {
 		}
 
 		if (cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
-			cannon.fire();
+			//cannon.fire();
 			cannon.TIME_SHOT_FIRED = 0;
 			cannon.display_warning = false;
 		}
@@ -166,6 +166,7 @@ public class Game extends BasicGameState {
 								if (b1.getBoundingBox().intersects(b2.getBoundingBox())) {
 									System.out.println("Collision! " + b1.getColor() + " with " + b2.getColor());
 									arena.landBubble(b1);
+									arena.popBubbles(b1);
 									break collisionLoop;
 								}
 							}
