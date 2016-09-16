@@ -69,8 +69,8 @@ public class Arena {
 		bubbleCount = 0;
 
 		//Level 1
-		for(int i = 0; i < 5; i++) {
-			addBubbleRow();
+		for(int i = 0; i < 1; i++) {
+			addBubbleRow(true);
 		}
 	}
 
@@ -184,17 +184,20 @@ public class Arena {
 	public int getColumn(double xpos, double ypos) {
 		int row = getRow(ypos);
 		int column = 0;
-		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-			column = (int)Math.round((xpos -xPos) / DIAMETER);
-			return Math.min(column, WIDTH_BUBBLES-1);
-		} else {
-			if((xpos - xPos) >= OFFSET) {
-				column = (int)Math.round(((xpos - xPos) - OFFSET) / DIAMETER);
+		if(bubble2DArray.size() > row) {
+			if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
+				column = (int)Math.round((xpos -xPos) / DIAMETER);
+				return Math.min(column, WIDTH_BUBBLES-1);
+			} else {
+				if((xpos - xPos) >= OFFSET) {
+					column = (int)Math.round(((xpos - xPos) - OFFSET) / DIAMETER);
+				}
+				return Math.min(column, (WIDTH_BUBBLES-1)-1);
 			}
-			return Math.min(column, (WIDTH_BUBBLES-1)-1);
+		} else {
+			System.out.println("Trying to access a row that is not there");
 		}
-		
-		
+		return 0;
 	}
 
 	/**
@@ -253,67 +256,11 @@ public class Arena {
 	
 				//dropBubbles(popList);
 				//bubbleToPop.pop();
-
-				row = getRow(bubbleToPop.getY());
-				column = getColumn(bubbleToPop.getX(), bubbleToPop.getY());
-				bubble2DArray.get(row)[column] = null;
-
-				/* Remove row if empty */
-				for(Bubble b: bubble2DArray.get(row)) {
-					if (b != null) {
-						empty = false;
-						break;
-					}
-				}
-
-				if(empty) {
-					bubble2DArray.remove(row);
-				}
+				removeBubble(bubbleToPop);
 			}
+			checkBubblesToDrop();
 		}
-	}
-
-	/**
-	 * Checks if bubbles needs to be dropped. If so, it signal the bubble object to drop
-	 * and remove it from the graph.
-	 *
-	 * @param ignoreList Stores the bubbles that is about to pop
-	 *
-	 */
-	public void dropBubbles(LinkedList<Bubble> ignoreList) {
-		LinkedList<Bubble> dropList = new LinkedList<Bubble>();
-		int row = 0;
-		int column = 0;
-		boolean empty = true;
-
-		for(int i = 0; i < ignoreList.size(); i++) {
-			dropList = checkBubblesToDrop(ignoreList.get(i), dropList, ignoreList, ignoreList);
-		}
-
-		if(dropList == null) {
-			return;
-		}
-
-		for(int i = 0; i < dropList.size(); i++) {
-			Bubble bubbleToDrop = dropList.pop();
-			bubbleToDrop.drop();
-
-			row = getRow(bubbleToDrop.getY());
-			column = getColumn(bubbleToDrop.getX(), bubbleToDrop.getY());
-			bubble2DArray.get(row)[column] = null;
-
-			/* Remove row if empty */
-			for(Bubble b: bubble2DArray.get(row)) {
-				if (b != null) {
-					empty = false;
-					break;
-				}
-			}
-
-			if(empty) {
-				bubble2DArray.remove(row);
-			}
-		}
+		
 	}
 
 	/**
@@ -338,11 +285,22 @@ public class Arena {
 		bubble2DArray.get(row)[column] = bubble;
 	}
 
+	
+	/**
+	 * Adds a new row of bubbles to the arena
+	 * 
+	 */
+	public void addBubbleRow() {
+		addBubbleRow(false);
+	}
+	
 	/**
 	 * Adds a new row of bubbles after the cannon shots 10 times. The new
 	 * row is added to the top of the Arena and saved in the graph.
+	 * 
+	 * @param useAllColors
 	 */
-	public void addBubbleRow() {
+	public void addBubbleRow(boolean useAllColors) {
 
 		if(get_BubbleArray().size() >= HEIGHT_BUBBLES) {
 			// Lose the game
@@ -363,7 +321,14 @@ public class Arena {
 		// TODO: Store the value of a Random() class somewhere instead of making
 		// a new instance every time.
 
-		ColorChoice[] colors = ColorChoice.values();
+		LinkedList<ColorChoice> colors;
+		if(!useAllColors) colors = getColorsOnArena();
+		else {
+			colors = new LinkedList<ColorChoice>();
+			for(ColorChoice c : ColorChoice.values()) {
+				colors.add(c);
+			}
+		}
 		// TODO: should get a list of currently available colors,
 		// therefore we should make a method that returns all colors on the map.
 
@@ -371,8 +336,8 @@ public class Arena {
 			//
 			int bubbleX = (DIAMETER * i) + offset + xPos;
 			int bubbleY = 0 + yPos;
-			int colorInt = rand.nextInt(ColorChoice.values().length);
-			bubbleRow[i] =  new Bubble(bubbleX, bubbleY, ColorChoice.values()[colorInt], false);
+			int colorInt = rand.nextInt(colors.size());
+			bubbleRow[i] =  new Bubble(bubbleX, bubbleY, colors.get(colorInt), false);
 		}
 
 		// Move all the other bubbles down by diameter
@@ -387,6 +352,25 @@ public class Arena {
 		bubble2DArray.addFirst(bubbleRow);
 	}
 
+	
+	/**
+	 * Removes a bubble
+	 * @param bubble
+	 */
+	public void removeBubble(Bubble bubble) {
+		
+		for(Bubble[] row : bubble2DArray) {
+			
+			for(int i = 0; i < row.length; i++) {
+				if(row[i] == bubble) {
+					row[i] = null;
+					return;
+				}
+			}
+		}
+		
+	}
+	
 	/**
 	 * A function that returns a list of all the colors of bubbles
 	 * still on the playing field.
@@ -448,48 +432,61 @@ public class Arena {
 	 * @param lastBubble	checks the neighbors of this bubble.
 	 *
 	 */
-	private LinkedList<Bubble> checkBubblesToDrop(Bubble lastBubble, LinkedList<Bubble> dropList, LinkedList<Bubble> ignoreList, LinkedList<Bubble> visitedList) {
-		Bubble[] neighbors;
-		int row = getRow(lastBubble.getY());
-		int column = getColumn(lastBubble.getX(), lastBubble.getY());
-		boolean empty = true;
-
-		neighbors = getNeighbors(row, column);
-
-		for(Bubble b: neighbors) {
-			if(b != null && !visitedList.contains(b)) {
-				empty = false;
-				break;
+	public LinkedList<Bubble> checkBubblesToDrop() {
+		System.out.println("Checking for bubbles to drop");
+		LinkedList<Bubble> visited = new LinkedList<Bubble>();
+		
+		if(bubble2DArray.get(0) != null) {
+			for(Bubble b : bubble2DArray.get(0)) {
+				visited.add(b);
 			}
 		}
-
-		if(empty) {
-			if(lastBubble.getY() != 0) {
-				if(!visitedList.contains(lastBubble)) {
-					dropList.add(lastBubble);
+		
+		// now do recursive call
+		LinkedList<Bubble> newVisited = checkBubblesToDrop(visited);
+		
+		// loop over each bubble to see if newVisited contains it
+		// if it does not, remove the bubble
+		for(int i = 0; i < bubble2DArray.size(); i++) {
+			Bubble[] row = bubble2DArray.get(i);
+			for(Bubble bubble : row) {
+				if(!newVisited.contains(bubble)) {
+					removeBubble(bubble);
 				}
 			}
-			return dropList;
 		}
-
-		if(!visitedList.contains(lastBubble)) {
-			visitedList.add(lastBubble);
-		}
-
-		for(Bubble b: neighbors) {
-			if(b != null && (!dropList.contains(b) || !visitedList.contains(b))) {
-				dropList = checkBubblesToDrop(b, dropList, ignoreList, visitedList);
+		
+		return visited;
+		//return null;
+	}
+	
+	/**
+	 * Checks for bubbles to drop using a recursive algorithm
+	 * @param visited
+	 * @return
+	 */
+	private LinkedList<Bubble> checkBubblesToDrop(LinkedList<Bubble> visited) {
+		boolean addedSomething = false;
+		for(int i = 0; i < visited.size(); i++) {
+			Bubble b = visited.get(i);
+			if(b==null) continue;
+			Bubble[] neighbours = getNeighbors(getRow(b.getY()), getColumn(b.getX(), b.getY()));
+			for(Bubble nb : neighbours) {
+				if(!visited.contains(nb)) {
+					visited.addLast(nb);
+					addedSomething = true;
+				}
 			}
 		}
-
-		for(Bubble b: neighbors) {
-			if(dropList.contains(b) && !ignoreList.contains(lastBubble)) {
-				dropList.add(lastBubble);
-				break;
-			}
-		}
-
-		return dropList;
+		
+		if(!addedSomething) return visited;
+		
+		// else do a recursive call with the new list
+		visited = checkBubblesToDrop(visited);
+		
+		return visited;
+		
+		
 	}
 
 	/**
