@@ -222,7 +222,7 @@ public class Arena {
 	 * @return True when the array is full. False when the array is not full.
 	 */
 	public boolean isArenaFull() {
-		if (bubble2DArray.size() > 12) {
+		if (bubble2DArray.size() >= 12) {
 			return true;
 		} else {
 			return false;
