@@ -499,18 +499,34 @@ public class Arena {
 	private Bubble[] getNeighbors(int row, int column) {
 		Bubble[] neighbors = new Bubble[6];
 		System.out.println("row param: " + row);
+		System.out.println("column param: " + column);
 		System.out.println("array rows: " + bubble2DArray.size());
 
 		boolean ROW_LOWLIMIT_EXCEED = (row <= 0);
-		boolean ROW_HIGHLIMIT_EXCEED = (row >= bubble2DArray.size());
+		boolean ROW_HIGHLIMIT_EXCEED = (row >= (bubble2DArray.size() - 1));
 		boolean COLUMN_LOWLIMIT_EXCEED = (column <= 0);
-		boolean COLUMN_HIGHLIMIT_EXCEED = (column >= bubble2DArray.get(row).length);
-				
+		boolean COLUMN_HIGHLIMIT_EXCEED = (column >= bubble2DArray.get(row).length - 1);
+		boolean COLUMNUP_HIGHLIMIT_EXCEED;
+		boolean COLUMNDOWN_HIGHLIMIT_EXCEED;
+		
+		if(!ROW_LOWLIMIT_EXCEED) {
+			COLUMNUP_HIGHLIMIT_EXCEED = (column >= bubble2DArray.get(row-1).length - 1);
+		} else {
+			COLUMNUP_HIGHLIMIT_EXCEED = true;
+		}
+		
+		if(!ROW_HIGHLIMIT_EXCEED) {
+			COLUMNDOWN_HIGHLIMIT_EXCEED = (column >= bubble2DArray.get(row+1).length - 1);
+		} else {
+			COLUMNDOWN_HIGHLIMIT_EXCEED = true;
+		}
+		
 		neighbors[0] = (ROW_LOWLIMIT_EXCEED) 								? null : (bubble2DArray.get(row-1)[column]);
-		neighbors[1] = (ROW_LOWLIMIT_EXCEED || COLUMN_HIGHLIMIT_EXCEED) 	? null : (bubble2DArray.get(row-1)[column+1]);
-		neighbors[2] = (COLUMN_HIGHLIMIT_EXCEED) 							? null : (bubble2DArray.get(row)[column+1]);
+		neighbors[1] = (ROW_LOWLIMIT_EXCEED || COLUMNDOWN_HIGHLIMIT_EXCEED) ? null : (bubble2DArray.get(row-1)[column+1]);
+		neighbors[2] = (COLUMN_LOWLIMIT_EXCEED) 							? null : (bubble2DArray.get(row)[column-1]);
+		neighbors[3] = (COLUMN_HIGHLIMIT_EXCEED) 							? null : (bubble2DArray.get(row)[column+1]);
 		neighbors[4] = (ROW_HIGHLIMIT_EXCEED) 								? null : (bubble2DArray.get(row+1)[column]);
-		neighbors[5] = (ROW_HIGHLIMIT_EXCEED || COLUMN_HIGHLIMIT_EXCEED) 	? null : (bubble2DArray.get(row+1)[column+1]);
+		neighbors[5] = (ROW_HIGHLIMIT_EXCEED || COLUMNUP_HIGHLIMIT_EXCEED) 	? null : (bubble2DArray.get(row+1)[column+1]);
 
 		return neighbors;
 	}
