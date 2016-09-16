@@ -154,7 +154,7 @@ public class Arena {
 		int column = 0;
 
 		/* Check and add if a new row is needed */
-		if(bubble2DArray.size() < (row+1)) {
+		if(bubble2DArray.size() <= row) {
 			if(bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES ) {
 				bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
 			} else {
@@ -323,7 +323,7 @@ public class Arena {
 		int column = 0;
 
 		/* Check and add if a new row is needed */
-		if(bubble2DArray.size() < (row+1)) {
+		if(bubble2DArray.size() <= row) {
 			if(bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES ) {
 				bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
 			} else {
