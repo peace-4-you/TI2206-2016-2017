@@ -135,6 +135,9 @@ public class Game extends BasicGameState {
 		} else {
 			this.TIME_PASSED_KEY_LEFT = 0;
 		}
+		if(container.getInput().isKeyPressed(Input.KEY_1)) {
+			arena.checkBubblesToDrop();
+		}
 		if (container.getInput().isKeyPressed(Input.KEY_UP)) {
 			cannon.fire();
 		}
@@ -155,6 +158,10 @@ public class Game extends BasicGameState {
 			if (b1.getState() == Bubble.State.FIRING) {
 				if (b1.getX() <= arena.get_xPos() || b1.getX()+Bubble.DIAMETER >= arena.get_xPos()+arena.getWidth()) {
 					b1.hitWall();
+				}
+				if(b1.getY() <= 0) {
+					arena.landBubble(b1);
+					arena.popBubbles(b1);
 				}
 				// collision with landed bubbles
 				collisionLoop:
