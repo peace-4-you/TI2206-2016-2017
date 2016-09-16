@@ -48,7 +48,7 @@ public class Cannon {
 	public Cannon(Game game) {
 		this.X = 320;
 		this.Y = 530;
-		this.Xlaunch = (int) (270-Bubble.DIAMETER/2);
+		this.Xlaunch = (int) (375-Bubble.DIAMETER/2);
 		this.Ylaunch = (int) (555-Bubble.DIAMETER/2);
 		this.Xload =  (int) (320-Bubble.DIAMETER/2);
 		this.Yload = (int) (530-Bubble.DIAMETER/2);
