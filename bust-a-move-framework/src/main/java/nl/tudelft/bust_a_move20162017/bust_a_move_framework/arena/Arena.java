@@ -69,7 +69,7 @@ public class Arena {
 		bubbleCount = 0;
 
 		//Level 1
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 1; i++) {
 			addBubbleRow(true);
 		}
 	}
@@ -360,13 +360,27 @@ public class Arena {
 	public void removeBubble(Bubble bubble) {
 
 		for(Bubble[] row : bubble2DArray) {
-
+			boolean finished = false;
+			if(finished) break;
 			for(int i = 0; i < row.length; i++) {
 				if(row[i] == bubble) {
 					row[i] = null;
-					return;
+					finished = true;
 				}
 			}
+		}
+		LinkedList<Bubble[]> rowsToRemove = new LinkedList<Bubble[]>();
+		// remove empty rows
+		for(Bubble[] row : bubble2DArray) {
+			boolean empty = true;
+			for(Bubble b : row) {
+				if(b != null) empty = false;
+			}
+			if(empty) rowsToRemove.add(row);
+		}
+		
+		for(Bubble[] row : rowsToRemove) {
+			bubble2DArray.remove(row);
 		}
 
 	}
@@ -436,7 +450,8 @@ public class Arena {
 		System.out.println("Checking for bubbles to drop");
 		LinkedList<Bubble> visited = new LinkedList<Bubble>();
 
-		if(bubble2DArray.get(0) != null) {
+		
+		if(!bubble2DArray.isEmpty() && bubble2DArray.get(0) != null) {
 			for(Bubble b : bubble2DArray.get(0)) {
 				visited.add(b);
 			}
