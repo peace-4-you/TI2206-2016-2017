@@ -163,7 +163,6 @@ public class Arena {
 		}
 
 		column = getColumn(shotBubble.getX(), shotBubble.getY());
-
 		bubble2DArray.get(row)[column] = shotBubble;
 		shotBubble.land((double) this.xPos+(column*DIAMETER)+(this.bubble2DArray.get(row).length == WIDTH_BUBBLES ? 0 : DIAMETER/2), (double) this.yPos+(row*(DIAMETER*Math.tan(60)+OFFSET+2)));
 
@@ -187,12 +186,15 @@ public class Arena {
 		int column = 0;
 		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
 			column = (int)Math.round((xpos -xPos) / DIAMETER);
+			return Math.min(column, WIDTH_BUBBLES-1);
 		} else {
 			if((xpos - xPos) >= OFFSET) {
 				column = (int)Math.round(((xpos - xPos) - OFFSET) / DIAMETER);
 			}
+			return Math.min(column, (WIDTH_BUBBLES-1)-1);
 		}
-		return Math.min(column, WIDTH_BUBBLES-1);
+		
+		
 	}
 
 	/**
@@ -251,7 +253,6 @@ public class Arena {
 
 				// dropBubbles(popList);
 				//bubbleToPop.pop();
-				System.out.println("Popping bubbles");
 
 				row = getRow(bubbleToPop.getY());
 				column = getColumn(bubbleToPop.getX(), bubbleToPop.getY());
@@ -427,7 +428,6 @@ public class Arena {
 		}
 
 		if(empty) {
-			System.out.println("No neighbors");
 			return popList;
 		}
 
@@ -500,9 +500,6 @@ public class Arena {
 	 */
 	private Bubble[] getNeighbors(int row, int column) {
 		Bubble[] neighbors = new Bubble[6];
-		System.out.println("row param: " + row);
-		System.out.println("column param: " + column);
-		System.out.println("array rows: " + bubble2DArray.size());
 
 		boolean ROW_LOWLIMIT_EXCEED = (row <= 0);
 		boolean ROW_HIGHLIMIT_EXCEED = (row >= (bubble2DArray.size() - 1));
@@ -512,18 +509,16 @@ public class Arena {
 		
 		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
 			COLUMN_HIGHLIMIT_EXCEED = (column >= WIDTH_BUBBLES - 1);
-			System.out.println("array lenght: " + bubble2DArray.get(row).length);
 			
 			neighbors[0] = (ROW_LOWLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED)	? null : (bubble2DArray.get(row-1)[column-1]);
-			neighbors[1] = (ROW_LOWLIMIT_EXCEED || column == WIDTH_BUBBLES)	? null : (bubble2DArray.get(row-1)[column]);
+			neighbors[1] = (ROW_LOWLIMIT_EXCEED || column == (WIDTH_BUBBLES-1))	? null : (bubble2DArray.get(row-1)[column]);
 			neighbors[2] = (COLUMN_LOWLIMIT_EXCEED) 						? null : (bubble2DArray.get(row)[column-1]);
 			neighbors[3] = (COLUMN_HIGHLIMIT_EXCEED) 						? null : (bubble2DArray.get(row)[column+1]);
 			neighbors[4] = (ROW_HIGHLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED) ? null : (bubble2DArray.get(row+1)[column-1]);
-			neighbors[5] = (ROW_HIGHLIMIT_EXCEED ||column == WIDTH_BUBBLES) ? null : (bubble2DArray.get(row+1)[column]);
+			neighbors[5] = (ROW_HIGHLIMIT_EXCEED ||column == (WIDTH_BUBBLES-1)) ? null : (bubble2DArray.get(row+1)[column]);
 
 		} else {
 			COLUMN_HIGHLIMIT_EXCEED = (column >= (WIDTH_BUBBLES-1) - 1);
-			System.out.println("array lenght: " + bubble2DArray.get(row).length);
 			
 			neighbors[0] = (ROW_LOWLIMIT_EXCEED)	? null : (bubble2DArray.get(row-1)[column]);
 			neighbors[1] = (ROW_LOWLIMIT_EXCEED)	? null : (bubble2DArray.get(row-1)[column+1]);
