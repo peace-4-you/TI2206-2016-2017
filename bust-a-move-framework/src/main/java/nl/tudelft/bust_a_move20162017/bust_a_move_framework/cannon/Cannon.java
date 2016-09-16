@@ -38,7 +38,6 @@ public class Cannon {
 	private BubbleFactory bubblegen;
 
 	public int TIME_SHOT_FIRED;
-	public int TIMES_SHOT = 0;
 
 	public boolean display_warning;
 
@@ -93,7 +92,6 @@ public class Cannon {
 		this.currBubble.fire(this.ANGLE);
 		this.loadNextBubble();
 		this.TIME_SHOT_FIRED = 0;
-		this.TIMES_SHOT += 1;
 	}
 
 	/**

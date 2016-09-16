@@ -148,10 +148,6 @@ public class Game extends BasicGameState {
 			cannon.TIME_SHOT_FIRED = 0;
 			cannon.display_warning = false;
 		}
-		if(cannon.TIMES_SHOT == 10) {
-			cannon.TIMES_SHOT = 0;
-			arena.addBubbleRow();
-		}
 
 		LinkedList<Bubble[]> arenaBubbles = this.arena.get_BubbleArray();
 		for (Bubble b1 : bubbleslist) {
@@ -161,6 +157,7 @@ public class Game extends BasicGameState {
 					b1.hitWall();
 				}
 				// collision with landed bubbles
+				collisionLoop:
 				for (int i = 0; i < arenaBubbles.size(); i++) {
 					for (int j = 0; j < arenaBubbles.get(i).length; j++) {
 						Bubble b2 = arenaBubbles.get(i)[j];
@@ -169,6 +166,7 @@ public class Game extends BasicGameState {
 								if (b1.getBoundingBox().intersects(b2.getBoundingBox())) {
 									System.out.println("Collision! " + b1.getColor() + " with " + b2.getColor());
 									arena.landBubble(b1);
+									break collisionLoop;
 								}
 							}
 						}
