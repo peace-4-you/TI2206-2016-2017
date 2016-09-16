@@ -40,9 +40,9 @@ public class Game extends BasicGameState {
 	private int LEVEL;
 	private int TIME_PASSED_KEY_RIGHT;
 	private int TIME_PASSED_KEY_LEFT;
-	private static final int TIME_TO_SHOOT = 10000;
+	private static final int TIME_TO_SHOOT = 5000;
 
-	private static final int TIME_DISPLAY_FIRE_WARNING = 3000;
+	private static final int TIME_DISPLAY_FIRE_WARNING = 1500;
 
 	public Cannon cannon;
 	public ArrayList<Bubble> bubbleslist;
