@@ -9,7 +9,7 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleGenerator;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleFactory;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -35,13 +35,12 @@ public class Cannon {
 	private Bubble currBubble;
 	private Bubble nextBubble;
 	private Game game;
-	private BubbleGenerator bubblegen;
+	private BubbleFactory bubblegen;
 
 	public int TIME_SHOT_FIRED;
-	public int TIMES_SHOT = 0;
 
 	public boolean display_warning;
-	
+
 	/**
 	 * Creates Cannon instance
 	 */
@@ -49,7 +48,7 @@ public class Cannon {
 	public Cannon(Game game) {
 		this.X = 320;
 		this.Y = 530;
-		this.Xlaunch = (int) (270-Bubble.DIAMETER/2);
+		this.Xlaunch = (int) (375-Bubble.DIAMETER/2);
 		this.Ylaunch = (int) (555-Bubble.DIAMETER/2);
 		this.Xload =  (int) (320-Bubble.DIAMETER/2);
 		this.Yload = (int) (530-Bubble.DIAMETER/2);
@@ -81,7 +80,7 @@ public class Cannon {
 	 */
 
 	private Bubble getNextBubble() {
-		Bubble nextBubble = this.bubblegen.spawn((double) this.Xlaunch, (double) this.Ylaunch,true);
+		Bubble nextBubble = this.bubblegen.create((double) this.Xlaunch, (double) this.Ylaunch, true);
 		return nextBubble;
 	}
 
@@ -93,7 +92,6 @@ public class Cannon {
 		this.currBubble.fire(this.ANGLE);
 		this.loadNextBubble();
 		this.TIME_SHOT_FIRED = 0;
-		this.TIMES_SHOT += 1;
 	}
 
 	/**
@@ -118,9 +116,9 @@ public class Cannon {
 
 	/**
 	 * draws the Cannon
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 */
 
 	public void draw(Graphics g) {
