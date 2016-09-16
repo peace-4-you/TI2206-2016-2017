@@ -88,8 +88,6 @@ public class Bubble {
   public void draw(Graphics g) {
     g.setColor(this.drawColor);
     g.fillOval((int) this.x, (int) this.y, (int) Bubble.DIAMETER, (int) Bubble.DIAMETER);
-    g.setColor(Color.white);
-    g.drawOval((int) this.boundingBox.getX(), (int) this.boundingBox.getY(), (int) Bubble.DIAMETER, (int) Bubble.DIAMETER);
   }
 
   /**

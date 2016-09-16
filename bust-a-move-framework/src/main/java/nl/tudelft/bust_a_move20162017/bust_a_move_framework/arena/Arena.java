@@ -69,7 +69,7 @@ public class Arena {
 		bubbleCount = 0;
 
 		//Level 1
-		for(int i = 0; i < 1; i++) {
+		for(int i = 0; i < 5; i++) {
 			addBubbleRow(true);
 		}
 	}
@@ -253,14 +253,14 @@ public class Arena {
 				int column = 0;
 				boolean empty = true;
 				Bubble bubbleToPop = popList.pop();
-	
+
 				//dropBubbles(popList);
 				//bubbleToPop.pop();
 				removeBubble(bubbleToPop);
 			}
 			checkBubblesToDrop();
 		}
-		
+
 	}
 
 	/**
@@ -285,19 +285,19 @@ public class Arena {
 		bubble2DArray.get(row)[column] = bubble;
 	}
 
-	
+
 	/**
 	 * Adds a new row of bubbles to the arena
-	 * 
+	 *
 	 */
 	public void addBubbleRow() {
 		addBubbleRow(false);
 	}
-	
+
 	/**
 	 * Adds a new row of bubbles after the cannon shots 10 times. The new
 	 * row is added to the top of the Arena and saved in the graph.
-	 * 
+	 *
 	 * @param useAllColors
 	 */
 	public void addBubbleRow(boolean useAllColors) {
@@ -352,15 +352,15 @@ public class Arena {
 		bubble2DArray.addFirst(bubbleRow);
 	}
 
-	
+
 	/**
 	 * Removes a bubble
 	 * @param bubble
 	 */
 	public void removeBubble(Bubble bubble) {
-		
+
 		for(Bubble[] row : bubble2DArray) {
-			
+
 			for(int i = 0; i < row.length; i++) {
 				if(row[i] == bubble) {
 					row[i] = null;
@@ -368,9 +368,9 @@ public class Arena {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * A function that returns a list of all the colors of bubbles
 	 * still on the playing field.
@@ -435,16 +435,16 @@ public class Arena {
 	public LinkedList<Bubble> checkBubblesToDrop() {
 		System.out.println("Checking for bubbles to drop");
 		LinkedList<Bubble> visited = new LinkedList<Bubble>();
-		
+
 		if(bubble2DArray.get(0) != null) {
 			for(Bubble b : bubble2DArray.get(0)) {
 				visited.add(b);
 			}
 		}
-		
+
 		// now do recursive call
 		LinkedList<Bubble> newVisited = checkBubblesToDrop(visited);
-		
+
 		// loop over each bubble to see if newVisited contains it
 		// if it does not, remove the bubble
 		for(int i = 0; i < bubble2DArray.size(); i++) {
@@ -455,11 +455,11 @@ public class Arena {
 				}
 			}
 		}
-		
+
 		return visited;
 		//return null;
 	}
-	
+
 	/**
 	 * Checks for bubbles to drop using a recursive algorithm
 	 * @param visited
@@ -478,15 +478,15 @@ public class Arena {
 				}
 			}
 		}
-		
+
 		if(!addedSomething) return visited;
-		
+
 		// else do a recursive call with the new list
 		visited = checkBubblesToDrop(visited);
-		
+
 		return visited;
-		
-		
+
+
 	}
 
 	/**
@@ -503,10 +503,10 @@ public class Arena {
 		boolean COLUMN_LOWLIMIT_EXCEED = (column <= 0);
 		boolean COLUMN_HIGHLIMIT_EXCEED;
 
-		
+
 		if(bubble2DArray.get(row).length == WIDTH_BUBBLES) {
 			COLUMN_HIGHLIMIT_EXCEED = (column >= WIDTH_BUBBLES - 1);
-			
+
 			neighbors[0] = (ROW_LOWLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED)		? null : (bubble2DArray.get(row-1)[column-1]);
 			neighbors[1] = (ROW_LOWLIMIT_EXCEED || column == (WIDTH_BUBBLES-1))	? null : (bubble2DArray.get(row-1)[column]);
 			neighbors[2] = (COLUMN_LOWLIMIT_EXCEED) 							? null : (bubble2DArray.get(row)[column-1]);
@@ -516,7 +516,7 @@ public class Arena {
 
 		} else {
 			COLUMN_HIGHLIMIT_EXCEED = (column >= (WIDTH_BUBBLES-1) - 1);
-			
+
 			neighbors[0] = (ROW_LOWLIMIT_EXCEED)	? null : (bubble2DArray.get(row-1)[column]);
 			neighbors[1] = (ROW_LOWLIMIT_EXCEED)	? null : (bubble2DArray.get(row-1)[column+1]);
 			neighbors[2] = (COLUMN_LOWLIMIT_EXCEED) ? null : (bubble2DArray.get(row)[column-1]);
@@ -525,7 +525,7 @@ public class Arena {
 			neighbors[5] = (ROW_HIGHLIMIT_EXCEED)	? null : (bubble2DArray.get(row+1)[column+1]);
 
 		}
-		
+
 		return neighbors;
 	}
 
