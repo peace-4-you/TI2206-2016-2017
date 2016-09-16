@@ -166,6 +166,7 @@ public class Game extends BasicGameState {
 								if (b1.getBoundingBox().intersects(b2.getBoundingBox())) {
 									System.out.println("Collision! " + b1.getColor() + " with " + b2.getColor());
 									arena.landBubble(b1);
+									arena.popBubbles(b1);
 									break collisionLoop;
 								}
 							}
