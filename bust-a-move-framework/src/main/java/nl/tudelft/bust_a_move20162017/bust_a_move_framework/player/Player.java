@@ -11,10 +11,12 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.player;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+
 /**
  * The Player class represents a player entity.
  *
- * @author Calvin Nhieu
+ * @author Calvin Nhieu, Maurice Willemsen
  */
 public class Player {
 	private String name;
@@ -22,7 +24,8 @@ public class Player {
 	public Score score;
 
 	public Player(String name) {
-		this.name = name;
+		App.game.log.log("Player initialiased");
+		this.setName(name);
 		this.score = new Score();
 		this.combo = 1;
 	}
@@ -42,9 +45,9 @@ public class Player {
 	 *
 	 */
 	public void setName(String name) {
+		App.game.log.log("Name " + this.name + " changed to " + name);
 		this.name = name;
 	}
-
 
 	/**
 	 * @return int combo
@@ -61,6 +64,7 @@ public class Player {
 	 *
 	 */
 	public void setCombo(int combo) {
+		App.game.log.log("Combo set to " + combo);
 		this.combo = combo;
 	}
 
@@ -68,7 +72,8 @@ public class Player {
 	 * Sets the player's members to default values
 	 */
 	public void reset() {
-		this.score = new Score();
+		App.game.log.log("Player Reset");
+		this.score.reset();
 		this.combo = 1;
 	}
 

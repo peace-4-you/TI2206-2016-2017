@@ -2,6 +2,8 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.*;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.log.Log;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -30,8 +32,9 @@ public class App extends StateBasedGame {
 		app.start();		
 	}
 
-	public void initStatesList(GameContainer arg0) throws SlickException {
+	public void initStatesList(GameContainer arg0) throws SlickException {	
 		game = new Game();
+		game.initialisePlayer();
         addState(new StartScreen());
         addState(new MainMenu());
         addState(game);
