@@ -10,6 +10,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+
 /**
  * Created by Jason Xie on 15/09/2016.
  */
@@ -27,10 +29,12 @@ public class PausedScreen extends BasicGameState {
     }
 
     public void render(GameContainer game, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-    	String text = "Player: ";
+    	String text = "Plafgyer: ";
+    	text += App.game.player.getName();
+    	System.out.println(App.game.player.getName());
     	float textwidth = resume.font.getWidth(text);    	
     	resume.font.drawString(320 - textwidth / 2, 50,text, Color.white);
-    	text = "Score: ";
+    	text = "Score: " + App.game.player.score.getScore();
     	textwidth = resume.font.getWidth(text);    	
     	resume.font.drawString(320 - textwidth / 2, 80,text, Color.white);
         resume.draw(graphics);

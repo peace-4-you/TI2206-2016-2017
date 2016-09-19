@@ -16,6 +16,8 @@ public class App extends StateBasedGame {
     private static final int WIN_SCREEN = 5;
     private static final int DEFEAT_SCREEN = 6;
     
+    public static Game game;
+    
 	public App(String title) {
 		super(title);		
 	}
@@ -25,13 +27,14 @@ public class App extends StateBasedGame {
 		app.setDisplayMode(640, 580, false);
 		app.setAlwaysRender(true);
 		app.setTargetFrameRate(120);
-		app.start();
+		app.start();		
 	}
 
 	public void initStatesList(GameContainer arg0) throws SlickException {
+		game = new Game();
         addState(new StartScreen());
         addState(new MainMenu());
-        addState(new Game());
+        addState(game);
         addState(new PausedScreen());
         addState(new VictoryScreen());
         addState(new DefeatScreen());	

@@ -47,7 +47,7 @@ public class Game extends BasicGameState {
 	public Cannon cannon;
 	public ArrayList<Bubble> bubbleslist;
 	private Arena arena;
-	private Player player;
+	public Player player;
 	private BubbleFactory bubblegen;
 	private Button pause;
 	private StateBasedGame sbg;
