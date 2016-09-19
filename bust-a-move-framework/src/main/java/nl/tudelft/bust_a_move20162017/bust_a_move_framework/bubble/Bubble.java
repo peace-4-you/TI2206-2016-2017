@@ -14,6 +14,7 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Circle;
 
 /**
  * The Bubble class represents a single bubble entity
@@ -36,9 +37,10 @@ public class Bubble {
   private ColorChoice color;
   private Color drawColor;
   private State state;
+  private Circle boundingBox;
 
   public enum State {
-    STILL, FIRING, POPPING, DROPPING
+    NEW, LANDED, FIRING, POPPING, DROPPING
   }
   public enum ColorChoice {
     RED, BLUE, YELLOW, GREEN
@@ -50,15 +52,17 @@ public class Bubble {
    * @param x  double value for starting x position
    * @param y  double value for starting y position
    * @param color  ColorChoice enum value for bubble's color
+   * @param forCannon  boolean describing if Bubble is for Cannon or not (map otherwise)
    */
-  public Bubble(double x, double y, ColorChoice color) {
+  public Bubble(double x, double y, ColorChoice color, boolean forCannon) {
     this.x = x;
     this.y = y;
     this.xSpeed = 0;
     this.ySpeed = 0;
     this.angle = 0;
     this.color = color;
-    this.state = State.STILL;
+    this.state = forCannon ? State.NEW : State.LANDED;
+    this.boundingBox = new Circle((float) (x+Bubble.DIAMETER/2), (float) (y+Bubble.DIAMETER/2), (float) Bubble.DIAMETER/2);
 
     switch(color) {
       case RED:
@@ -90,29 +94,51 @@ public class Bubble {
    * updates the Bubble's position per game tick
    */
   public void move() {
+    double nextX = this.getX() + this.getXSpeed();
+    double nextY = this.getY() + this.getYSpeed();
+
     switch(this.state) {
-      case STILL:
+      case NEW:
+        break;
+      case LANDED:
         break;
       case FIRING:
-        this.setX(this.getX() + this.getXSpeed());
-        this.setY(this.getY() + this.getYSpeed());
+        this.setX(nextX);
+        this.setY(nextY);
         break;
       case POPPING:
         break;
       case DROPPING:
-        this.setX(this.getX() + this.getXSpeed());
-        this.setY(this.getY() + this.getYSpeed());
+        this.setX(nextX);
+        this.setY(nextY);
         break;
     }
   }
 
   /**
-   * stops the Bubble
+   * stops the Bubble, adjusts bubble's position
+   *
+   * @param landed at adjusted x position
+   * @param landed at adjusted y position
    */
-  public void still() {
-    this.setState(State.STILL);
+  public void land(double x, double y) {
+    this.setState(State.LANDED);
     this.setXSpeed(0);
     this.setYSpeed(0);
+
+    System.out.println("adjusting bubble land position - X: " + x + ", Y: " + y);
+    System.out.println("PREVIOUS X: " + this.getX() + ", Y: " + this.getY());
+    this.setX(x);
+    this.setY(y);
+  }
+
+  /**
+   * wall collision detection, inverts ball's xSpeed
+   */
+  public void hitWall() {
+    if (this.getState() == State.FIRING) {
+      this.setXSpeed(-this.getXSpeed());
+    }
   }
 
   /**
@@ -156,6 +182,7 @@ public class Bubble {
    */
   public void setX(double x) {
     this.x = x;
+    this.boundingBox.setX((float) x);
   }
 
   /**
@@ -171,6 +198,7 @@ public class Bubble {
    */
   public void setY(double y) {
     this.y = y;
+    this.boundingBox.setY((float) y);
   }
 
   /**
@@ -224,12 +252,18 @@ public class Bubble {
   public void setState(State state) {
     this.state = state;
   }
-  
-  
+
   /**
    * sets angle
    */
   public void setAngle(int angle) {
     this.angle = angle;
+  }
+
+  /**
+   * returns boundingBox
+   */
+  public Circle getBoundingBox() {
+    return this.boundingBox;
   }
 }
