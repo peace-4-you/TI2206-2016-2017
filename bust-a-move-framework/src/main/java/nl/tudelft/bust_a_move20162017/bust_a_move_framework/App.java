@@ -2,7 +2,6 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.*;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.log.Log;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
