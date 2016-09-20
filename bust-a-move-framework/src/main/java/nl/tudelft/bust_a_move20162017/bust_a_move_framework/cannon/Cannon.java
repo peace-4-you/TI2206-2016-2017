@@ -92,6 +92,7 @@ public class Cannon {
 		this.currBubble.fire(this.ANGLE);
 		this.loadNextBubble();
 		this.TIME_SHOT_FIRED = 0;
+		this.display_warning = false;
 	}
 
 	/**
