@@ -1,9 +1,17 @@
+/*
+ * File: Button.java
+ * Class: Button
+ *
+ * Version: 0.0.3
+ */
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate;
 
 
-import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.GameContainer;
 
 import java.awt.Font;
 
@@ -12,11 +20,15 @@ import java.awt.Font;
  */
 public class Button {
 
-    private String text;
-    private float x;
-    private float y;
-    private float width;
-    private float height;
+    /**
+     * Values of the button.
+     */
+    private String bText;
+    private float xPos;
+    private float yPos;
+    private float bWidth;
+    private float bHeight;
+    //TODO: Find a nice font.
     public TrueTypeFont font = new TrueTypeFont(new Font("Verdana", Font.BOLD, 20), true);
 
 
@@ -34,28 +46,28 @@ public class Button {
         assert width > 0;
         assert height > 0;
 
-        this.text = text;
-        this.x = 0;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        bText = text;
+        xPos = 0;
+        yPos = y;
+        bWidth = width;
+        bHeight = height;
     }
 
 
     /**
      * Constructor with parameter for x coordinate.
      *
-     * @param text
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * @param text   text that will be displayed on the button
+     * @param x      x coordinates of the button
+     * @param y      y coordinate of the button(upper bound)
+     * @param width  width of the button
+     * @param height height of the button
      */
     public Button(String text, float x, float y, float width, float height) {
         this(text, y, width, height);
         assert x >= 0;
-        this.x = x;
-        
+        xPos = x;
+
     }
 
 
@@ -65,13 +77,13 @@ public class Button {
      * @param g Graphics object to draw on/in
      */
     public void draw(Graphics g) {
-    	g.setColor(Color.white);
-        g.drawRect(x, y, width, height);
-        float textwidth = font.getWidth(text);
-        float textheight = font.getHeight(text);
-        float centerx = x + width / 2;
-        float centery = y + height / 2;
-        font.drawString(centerx - textwidth / 2, centery - textheight / 2, text, Color.white);
+        g.setColor(Color.white);
+        g.drawRect(xPos, yPos, bWidth, bHeight);
+        float textwidth = font.getWidth(bText);
+        float textheight = font.getHeight(bText);
+        float centerx = xPos + bWidth / 2;
+        float centery = yPos + bHeight / 2;
+        font.drawString(centerx - textwidth / 2, centery - textheight / 2, bText, Color.white);
     }
 
     /**
@@ -80,22 +92,22 @@ public class Button {
      * @param mouse
      * @return
      */
-    public boolean isInBounds(Input mouse) {
+    public final boolean isInBounds(Input mouse) {
         float xpos = mouse.getMouseX();
         float ypos = mouse.getMouseY();
-        if (xpos >= x && xpos <= x + width &&
-                ypos >= y && ypos <= y + height) {
+        if (xpos >= xPos && xpos <= xPos + bWidth
+                && ypos >= yPos && ypos <= yPos + bHeight) {
             return true;
         }
         return false;
     }
 
     /**
-     * Center the button on the x-axis(so center it vertically) for the lazy people.
+     * Center the button on the xPos-axis(so center it vertically) for the lazy people.
      *
      * @param game
      */
     public void centerButton(GameContainer game) {
-        x = (game.getWidth() - width) / 2;
+        xPos = (game.getWidth() - bWidth) / 2;
     }
 }
