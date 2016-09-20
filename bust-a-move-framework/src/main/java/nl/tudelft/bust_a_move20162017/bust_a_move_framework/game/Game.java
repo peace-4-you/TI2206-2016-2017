@@ -141,6 +141,12 @@ public class Game extends BasicGameState {
 		} else {
 			this.TIME_PASSED_KEY_RIGHT = 0;
 		}
+		if (container.getInput().isKeyPressed(Input.KEY_RIGHT)){
+			log.log("Cannon moving to the right");
+		}
+		if (container.getInput().isKeyPressed(Input.KEY_LEFT)){
+			log.log("Cannon moving to the left");
+		}
 		if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
 			this.TIME_PASSED_KEY_LEFT += delta;
 			if (this.TIME_PASSED_KEY_LEFT > 10) {

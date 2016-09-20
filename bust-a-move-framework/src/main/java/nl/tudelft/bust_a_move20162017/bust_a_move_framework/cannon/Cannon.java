@@ -102,7 +102,6 @@ public class Cannon {
 	 */
 
 	public void stepUp() {
-		game.log.log("Cannon moved to the left");
 		if (this.ANGLE <= 60) {
 			this.ANGLE += 1;
 		}
@@ -113,7 +112,6 @@ public class Cannon {
 	 */
 
 	public void stepDown() {
-		game.log.log("Cannon moved to the right");
 		if (this.ANGLE >= -60) {
 			this.ANGLE -= 1;
 		}
