@@ -10,6 +10,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+
 /**
  * Created by Jason Xie on 15/09/2016.
  */
@@ -24,19 +26,25 @@ public class VictoryScreen extends BasicGameState {
 	}
 
 	public void init(GameContainer game, StateBasedGame stateBasedGame) throws SlickException {
-		main = new Button("Main Menu", 140, 150, 30);
+
+		main = new Button("Main Menu", 170, 150, 30);
 		main.centerButton(game);
-		restart = new Button("Restart", 190, 100, 30);
+		restart = new Button("Restart", 220, 100, 30);
 		restart.centerButton(game);
 	}
 
 	public void render(GameContainer game, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		String text = "Player: ";
-		float textwidth = main.font.getWidth(text);
-		main.font.drawString(320 - textwidth / 2, 50, text, Color.white);
-		text = "Score: ";
-		textwidth = main.font.getWidth(text);
-		main.font.drawString(320 - textwidth / 2, 80, text, Color.white);
+		String text = "You Won.";
+		float textwidth = restart.font.getWidth(text);
+		restart.font.drawString(320 - textwidth / 2, 30, text, Color.white);
+		
+		text = "Player: " + App.game.player.getName();
+		textwidth = restart.font.getWidth(text);
+		restart.font.drawString(320 - textwidth / 2, 90, text, Color.white);
+		
+		text = "Score: " + App.game.player.score.getScore();
+		textwidth = restart.font.getWidth(text);
+		restart.font.drawString(320 - textwidth / 2, 120, text, Color.white);
 		main.draw(graphics);
 		restart.draw(graphics);
 	}
@@ -45,6 +53,7 @@ public class VictoryScreen extends BasicGameState {
 		Input input = game.getInput();
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if (main.isInBounds(input)) {
+				stateBasedGame.getState(GameState.GAME_ACTIVE).init(game, stateBasedGame);
 				stateBasedGame.enterState(GameState.MAIN_MENU, new FadeOutTransition(), new FadeInTransition());
 			}
 			if (restart.isInBounds(input)) {

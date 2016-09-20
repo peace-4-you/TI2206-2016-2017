@@ -16,6 +16,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+
 /**
  * The Bubble class represents a single bubble entity
  *
@@ -125,9 +127,8 @@ public class Bubble {
     this.setState(State.LANDED);
     this.setXSpeed(0);
     this.setYSpeed(0);
-
-    System.out.println("adjusting bubble land position - X: " + x + ", Y: " + y);
-    System.out.println("PREVIOUS X: " + this.getX() + ", Y: " + this.getY());
+    
+    App.game.log.log("Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
     this.setX(x);
     this.setY(y);
   }

@@ -11,6 +11,7 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.game;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon.Cannon;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.Button;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameState;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.log.Log;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleFactory;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
@@ -41,27 +42,37 @@ public class Game extends BasicGameState {
 	private int TIME_PASSED_KEY_RIGHT;
 	private int TIME_PASSED_KEY_LEFT;
 	private static final int TIME_TO_SHOOT = 5000;
-
 	private static final int TIME_DISPLAY_FIRE_WARNING = 1500;
 
 	public Cannon cannon;
-	public ArrayList<Bubble> bubbleslist;
+	public ArrayList<Bubble> bubbleslist;	
+	public Player player;
+	public Log log;
 	private Arena arena;
-	private Player player;
 	private BubbleFactory bubblegen;
 	private Button pause;
 	private StateBasedGame sbg;
 
+	public Game(){
+		this.log = new Log();
+		log.log("Game initialised");		
+	}
+	
+	public void initialisePlayer(){
+		this.player = new Player("Player1");
+	}
 
 	/**
-	 * Starts game, creates new arena and cannon instance
+	 * Starts game, creates new arena, cannon, BubbleFactory instance, and a bubblelist array
 	 */
 
 	private void startGame() {
+		log.log("Game Started");
 		this.bubbleslist = new ArrayList<Bubble>();
 		this.arena = new Arena(180, 0, 531, 280);
 		this.bubblegen = new BubbleFactory(this.arena);
 		this.cannon = new Cannon(this);
+
 	}
 
 	/**
@@ -69,6 +80,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void wonGame() {
+		log.log("Game Won");
 		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -77,6 +89,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void failedGame() {
+		log.log("Game Failed");
 		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -85,6 +98,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void pauseGame() {
+		log.log("Game Paused");
 		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -92,7 +106,7 @@ public class Game extends BasicGameState {
 	 * Asks for new level and new start of game.
 	 */
 
-	private void startNewLevel() {
+	private void startNewLevel() {		
 		this.levelUp();
 		this.startGame();
 	}
@@ -102,14 +116,15 @@ public class Game extends BasicGameState {
 	 */
 
 	private void levelUp() {
+		log.log("Game Levels Up");
 		this.LEVEL++;
 	}
 
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 		this.sbg = sbg;
-		this.pause = new Button("Pause", 507,50, 100, 30);
 		this.LEVEL = 1;
-		this.player = new Player("Player1");
+		this.pause = new Button("Pause", 507,50, 100, 30);		
+		this.player.reset();
 		this.startGame();
 	}
 
@@ -125,6 +140,12 @@ public class Game extends BasicGameState {
 			}
 		} else {
 			this.TIME_PASSED_KEY_RIGHT = 0;
+		}
+		if (container.getInput().isKeyPressed(Input.KEY_RIGHT)){
+			log.log("Cannon moving to the right");
+		}
+		if (container.getInput().isKeyPressed(Input.KEY_LEFT)){
+			log.log("Cannon moving to the left");
 		}
 		if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
 			this.TIME_PASSED_KEY_LEFT += delta;
@@ -147,6 +168,7 @@ public class Game extends BasicGameState {
 		}
 
 		if (cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
+			log.log("Time elapsed, shooting automatically");
 			cannon.fire();
 			cannon.TIME_SHOT_FIRED = 0;
 			cannon.display_warning = false;
@@ -171,7 +193,7 @@ public class Game extends BasicGameState {
 						if (b2 != null && b1 != b2) {
 							if (b2.getState() == Bubble.State.LANDED) {
 								if (b1.getBoundingBox().intersects(b2.getBoundingBox())) {
-									System.out.println("Collision! " + b1.getColor() + " with " + b2.getColor());
+									log.log("Fired Bubble collision! " + b1.getColor() + " with " + b2.getColor());
 									arena.landBubble(b1);
 									arena.popBubbles(b1);
 									break collisionLoop;
