@@ -21,6 +21,7 @@ import java.util.Random;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.*;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble.ColorChoice;
 
@@ -60,7 +61,7 @@ public class Arena {
 	 * @param width_t	width of the background
 	 *
 	 */
-	public Arena(int xVal, int yVal, int height_t, int width_t) {
+	public Arena(int xVal, int yVal, int height_t, int width_t) {		
 		xPos = xVal;
 		yPos = yVal;
 		height = height_t;
@@ -68,6 +69,7 @@ public class Arena {
 		bubble2DArray = new LinkedList<Bubble[]>();
 		bubbleCount = 0;
 
+		App.game.log.log("Arena initialised");
 		//Level 1
 		for(int i = 0; i < 5; i++) {
 			addBubbleRow(true);
@@ -248,6 +250,7 @@ public class Arena {
 
 		/* Check if 3 or more bubbles are connected */
 		if(popList.size() >= 3) {
+			App.game.player.score.scoreBubblesPopped((int)popList.size());
 			while(popList.size() != 0) {
 				int row = 0;
 				int column = 0;
@@ -301,6 +304,8 @@ public class Arena {
 	 * @param useAllColors
 	 */
 	public void addBubbleRow(boolean useAllColors) {
+		
+		App.game.log.log("Adding a row of bubbles to the arena");
 
 		if(get_BubbleArray().size() >= HEIGHT_BUBBLES) {
 			// Lose the game
@@ -447,8 +452,9 @@ public class Arena {
 	 *
 	 */
 	public LinkedList<Bubble> checkBubblesToDrop() {
-		System.out.println("Checking for bubbles to drop");
+		int dropped_bubbles = 0;		
 		LinkedList<Bubble> visited = new LinkedList<Bubble>();
+		App.game.log.log("Checking for bubbles to drop");
 
 		
 		if(!bubble2DArray.isEmpty() && bubble2DArray.get(0) != null) {
@@ -467,8 +473,12 @@ public class Arena {
 			for(Bubble bubble : row) {
 				if(!newVisited.contains(bubble)) {
 					removeBubble(bubble);
+					dropped_bubbles++;
 				}
 			}
+		}
+		if (dropped_bubbles>0){
+			App.game.player.score.scoreBubblesDropped(dropped_bubbles);
 		}
 
 		return visited;

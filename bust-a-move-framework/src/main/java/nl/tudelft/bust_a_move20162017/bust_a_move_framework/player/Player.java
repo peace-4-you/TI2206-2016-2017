@@ -11,19 +11,22 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.player;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+
 /**
  * The Player class represents a player entity.
  *
- * @author Calvin Nhieu
+ * @author Calvin Nhieu, Maurice Willemsen
  */
 public class Player {
 	private String name;
-	private int score;
 	private int combo;
+	public Score score;
 
 	public Player(String name) {
-		this.name = name;
-		this.score = 0;
+		App.game.log.log("Player initialiased");
+		this.setName(name);
+		this.score = new Score();
 		this.combo = 1;
 	}
 
@@ -42,25 +45,8 @@ public class Player {
 	 *
 	 */
 	public void setName(String name) {
+		App.game.log.log("Name " + this.name + " changed to " + name);
 		this.name = name;
-	}
-
-	/**
-	 * @return int score
-	 */
-	public int getScore() {
-		return this.score;
-	}
-
-	/**
-	 * sets the player's score
-	 *
-	 * @param name
-	 *            integer value to set score to
-	 *
-	 */
-	public void setScore(int score) {
-		this.score = score;
 	}
 
 	/**
@@ -78,6 +64,7 @@ public class Player {
 	 *
 	 */
 	public void setCombo(int combo) {
+		App.game.log.log("Combo set to " + combo);
 		this.combo = combo;
 	}
 
@@ -85,7 +72,8 @@ public class Player {
 	 * Sets the player's members to default values
 	 */
 	public void reset() {
-		this.score = 0;
+		App.game.log.log("Player Reset");
+		this.score.reset();
 		this.combo = 1;
 	}
 
@@ -96,7 +84,7 @@ public class Player {
 	public void draw(Graphics g) {
 		g.setColor(Color.white);
 		g.drawString("Name:" + this.name, 10, 40);
-		g.drawString("Score:" + this.score, 10, 70);
+		g.drawString("Score:" + this.score.getScore(), 10, 70);
 		g.drawString("Combo:" + this.combo, 10, 100);
 
 	}

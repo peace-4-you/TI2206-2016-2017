@@ -2,6 +2,8 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.*;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.log.Log;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -16,6 +18,8 @@ public class App extends StateBasedGame {
     private static final int WIN_SCREEN = 5;
     private static final int DEFEAT_SCREEN = 6;
     
+    public static Game game;
+    
 	public App(String title) {
 		super(title);		
 	}
@@ -25,13 +29,15 @@ public class App extends StateBasedGame {
 		app.setDisplayMode(640, 580, false);
 		app.setAlwaysRender(true);
 		app.setTargetFrameRate(120);
-		app.start();
+		app.start();		
 	}
 
-	public void initStatesList(GameContainer arg0) throws SlickException {
+	public void initStatesList(GameContainer arg0) throws SlickException {	
+		game = new Game();
+		game.initialisePlayer();
         addState(new StartScreen());
         addState(new MainMenu());
-        addState(new Game());
+        addState(game);
         addState(new PausedScreen());
         addState(new VictoryScreen());
         addState(new DefeatScreen());	

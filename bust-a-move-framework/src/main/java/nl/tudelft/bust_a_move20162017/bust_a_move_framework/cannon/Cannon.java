@@ -46,6 +46,7 @@ public class Cannon {
 	 */
 
 	public Cannon(Game game) {
+		game.log.log("Cannon initialised");
 		this.X = 320;
 		this.Y = 530;
 		this.Xlaunch = (int) (375-Bubble.DIAMETER/2);
@@ -80,6 +81,7 @@ public class Cannon {
 	 */
 
 	private Bubble getNextBubble() {
+		game.log.log("Next bubble loaded to cannon");
 		Bubble nextBubble = this.bubblegen.create((double) this.Xlaunch, (double) this.Ylaunch, true);
 		return nextBubble;
 	}
@@ -89,6 +91,7 @@ public class Cannon {
 	 */
 
 	public void fire() {
+		game.log.log("Cannon fired a bubble");
 		this.currBubble.fire(this.ANGLE);
 		this.loadNextBubble();
 		this.TIME_SHOT_FIRED = 0;
