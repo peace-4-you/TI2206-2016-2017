@@ -539,8 +539,8 @@ public class Arena {
             neighbors[5] = (row < height - 1 && column != 0) ? (bubble2DArray.get(row + 1)[column - 1]) : null;
         } else {
             neighbors[1] = (row != 0 && column < WIDTH_BUBBLES) ? (bubble2DArray.get(row - 1)[column]) : null;
-            neighbors[2] = (row != 0 && column < 7) ? (bubble2DArray.get(row - 1)[column + 1]) : null;
-            neighbors[4] = (row < height - 1 && column < 7) ? (bubble2DArray.get(row + 1)[column + 1]) : null;
+            neighbors[2] = (row != 0 && column < width - 1) ? (bubble2DArray.get(row - 1)[column + 1]) : null;
+            neighbors[4] = (row < height - 1 && column < width - 1) ? (bubble2DArray.get(row + 1)[column + 1]) : null;
             neighbors[5] = (row < height - 1) ? (bubble2DArray.get(row + 1)[column]) : null;
         }
         return neighbors;
