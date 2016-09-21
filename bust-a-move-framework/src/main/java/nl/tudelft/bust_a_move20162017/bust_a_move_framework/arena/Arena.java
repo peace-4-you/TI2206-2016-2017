@@ -543,6 +543,7 @@ public class Arena {
             neighbors[4] = (row < height - 1 && column < width - 1) ? (bubble2DArray.get(row + 1)[column + 1]) : null;
             neighbors[5] = (row < height - 1) ? (bubble2DArray.get(row + 1)[column]) : null;
         }
+		
         return neighbors;
     }
 
