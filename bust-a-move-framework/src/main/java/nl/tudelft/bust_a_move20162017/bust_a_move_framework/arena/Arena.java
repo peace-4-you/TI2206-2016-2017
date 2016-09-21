@@ -522,34 +522,28 @@ public class Arena {
     private Bubble[] getNeighbors(int row, int column) {
         Bubble[] neighbors = new Bubble[6];
 
-        boolean ROW_LOWLIMIT_EXCEED = (row <= 0);
-        boolean ROW_HIGHLIMIT_EXCEED = (row >= (bubble2DArray.size() - 1));
-        boolean COLUMN_LOWLIMIT_EXCEED = (column <= 0);
-        boolean COLUMN_HIGHLIMIT_EXCEED;
-
-
-        if (bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-            COLUMN_HIGHLIMIT_EXCEED = (column >= WIDTH_BUBBLES - 1);
-
-            neighbors[0] = (ROW_LOWLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED) ? null : (bubble2DArray.get(row - 1)[column - 1]);
-            neighbors[1] = (ROW_LOWLIMIT_EXCEED || column == (WIDTH_BUBBLES - 1)) ? null : (bubble2DArray.get(row - 1)[column]);
-            neighbors[2] = (COLUMN_LOWLIMIT_EXCEED) ? null : (bubble2DArray.get(row)[column - 1]);
-            neighbors[3] = (COLUMN_HIGHLIMIT_EXCEED) ? null : (bubble2DArray.get(row)[column + 1]);
-            neighbors[4] = (ROW_HIGHLIMIT_EXCEED || COLUMN_LOWLIMIT_EXCEED) ? null : (bubble2DArray.get(row + 1)[column - 1]);
-            neighbors[5] = (ROW_HIGHLIMIT_EXCEED || column == (WIDTH_BUBBLES - 1)) ? null : (bubble2DArray.get(row + 1)[column]);
-
-        } else {
-            COLUMN_HIGHLIMIT_EXCEED = (column >= (WIDTH_BUBBLES - 1) - 1);
-
-            neighbors[0] = (ROW_LOWLIMIT_EXCEED) ? null : (bubble2DArray.get(row - 1)[column]);
-            neighbors[1] = (ROW_LOWLIMIT_EXCEED) ? null : (bubble2DArray.get(row - 1)[column + 1]);
-            neighbors[2] = (COLUMN_LOWLIMIT_EXCEED) ? null : (bubble2DArray.get(row)[column - 1]);
-            neighbors[3] = (COLUMN_HIGHLIMIT_EXCEED) ? null : (bubble2DArray.get(row)[column + 1]);
-            neighbors[4] = (ROW_HIGHLIMIT_EXCEED) ? null : (bubble2DArray.get(row + 1)[column]);
-            neighbors[5] = (ROW_HIGHLIMIT_EXCEED) ? null : (bubble2DArray.get(row + 1)[column + 1]);
-
+        int height = bubble2DArray.size();
+        if (height <= row) {
+            return neighbors;
         }
+        int width = bubble2DArray.get(row).length;
 
+        neighbors[0] = (column != 0) ? (bubble2DArray.get(row)[column - 1]) : null;
+        neighbors[3] = (column < width - 1) ? (bubble2DArray.get(row)[column + 1]) : null;
+
+        //TODO: Make this pretty and get rid of magic numbers.
+        if (width == 8) {
+            neighbors[1] = (row != 0 && column != 0) ? (bubble2DArray.get(row - 1)[column - 1]) : null;
+            neighbors[2] = (row != 0 && column < width - 1) ? (bubble2DArray.get(row - 1)[column]) : null;
+            neighbors[4] = (row < height - 1 && column < width - 1) ? (bubble2DArray.get(row + 1)[column]) : null;
+            neighbors[5] = (row < height - 1 && column != 0) ? (bubble2DArray.get(row + 1)[column - 1]) : null;
+        } else {
+            neighbors[1] = (row != 0 && column < WIDTH_BUBBLES) ? (bubble2DArray.get(row - 1)[column]) : null;
+            neighbors[2] = (row != 0 && column < width - 1) ? (bubble2DArray.get(row - 1)[column + 1]) : null;
+            neighbors[4] = (row < height - 1 && column < width - 1) ? (bubble2DArray.get(row + 1)[column + 1]) : null;
+            neighbors[5] = (row < height - 1) ? (bubble2DArray.get(row + 1)[column]) : null;
+        }
+		
         return neighbors;
     }
 
