@@ -27,7 +27,7 @@ public class Score {
 	private int score;
 
 	public Score() {
-		App.game.log.log("Score initialised");
+		App.game.log.log(this,"Score initialised");
 		this.score = 0;
 	}
 
@@ -40,7 +40,7 @@ public class Score {
 	 */
 
 	public void setScore(int score) {
-		App.game.log.log("Score Set to " + score);
+		App.game.log.log(this,"Score Set to " + score);
 		this.score = score;
 	}
 
@@ -50,7 +50,7 @@ public class Score {
 	 */
 
 	public void reset() {
-		App.game.log.log("Score Reset");
+		App.game.log.log(this,"Score Reset");
 		this.score = 0;
 	}
 	
@@ -63,7 +63,7 @@ public class Score {
 	 */
 
 	public void addScore(int score) {
-		App.game.log.log("Score added with " + score);
+		App.game.log.log(this,"Score added with " + score);
 		this.score += score;
 	}
 
@@ -78,7 +78,7 @@ public class Score {
 	public void scoreBubblesPopped(int bubbles) {
 		if (bubbles > 0) {
 			int score = 10 * bubbles;
-			App.game.log.log(bubbles + " Bubbles Popped.  Score added with " + score);
+			App.game.log.log(this,bubbles + " Bubbles Popped.  Score added with " + score);
 			this.score += score;
 		}
 	}
@@ -94,7 +94,7 @@ public class Score {
 	public void scoreBubblesDropped(int bubbles) {
 		if (bubbles > 0) {
 			int score = (int) (20 * Math.pow(2, bubbles));
-			App.game.log.log(bubbles + " bBubbles Dropped. Score added with " + score);
+			App.game.log.log(this,bubbles + " bBubbles Dropped. Score added with " + score);
 			this.score += score;
 		}
 	}

@@ -30,7 +30,7 @@ public class Log {
 	public void log(String log){
 		d = new Date();
 		this.number++;
-		System.out.format("[Bust-A-Move; Log; %d] -> [%d:%d:%d] -> %s\n", this.number, d.getHours(), d.getMinutes(), d.getSeconds(), log);
+		System.out.format("[Bust-A-Move] -> [Log; %d] -> [%d:%d:%d] -> %s\n", this.number, d.getHours(), d.getMinutes(), d.getSeconds(), log);
 	}
 	
 	@SuppressWarnings("deprecation")

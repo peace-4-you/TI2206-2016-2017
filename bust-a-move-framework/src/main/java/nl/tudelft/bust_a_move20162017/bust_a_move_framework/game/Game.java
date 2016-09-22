@@ -152,7 +152,7 @@ public class Game extends BasicGameState {
 						if (b2 != null && b1 != b2) {
 							if (b2.getState() == Bubble.State.LANDED) {
 								if (b1.getBoundingBox().intersects(b2.getBoundingBox())) {
-									log.log("Fired Bubble collision! " + b1.getColor() + " with " + b2.getColor());
+									log.log(this,"Fired Bubble collision! " + b1.getColor() + " with " + b2.getColor());
 									arena.landBubble(b1);
 									arena.popBubbles(b1);
 									break collisionLoop;
