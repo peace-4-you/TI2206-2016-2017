@@ -5,3 +5,4 @@ before_script: cd bust-a-move-framework
 script: mvn test
 notifications:
 email: off
+slack: ti2206-2016:rG6E1aAD1qqA6x8o70heFHuM
