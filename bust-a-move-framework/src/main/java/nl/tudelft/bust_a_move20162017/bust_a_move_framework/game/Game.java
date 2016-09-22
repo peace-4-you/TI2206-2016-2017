@@ -39,10 +39,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class Game extends BasicGameState {
 
 	private int LEVEL;
-	private int TIME_PASSED_KEY_RIGHT;
-	private int TIME_PASSED_KEY_LEFT;
-	private static final int TIME_TO_SHOOT = 5000;
-	private static final int TIME_DISPLAY_FIRE_WARNING = 1500;
+
 
 	public Cannon cannon;
 	public ArrayList<Bubble> bubbleslist;	
@@ -130,48 +127,10 @@ public class Game extends BasicGameState {
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
 		this.sbg = sbg;
-		cannon.TIME_SHOT_FIRED += delta;
+		this.cannon.update(container, delta);
 
-		if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
-			this.TIME_PASSED_KEY_RIGHT += delta;
-			if (this.TIME_PASSED_KEY_RIGHT > 10) {
-				cannon.stepDown();
-				this.TIME_PASSED_KEY_RIGHT = 0;
-			}
-		} else {
-			this.TIME_PASSED_KEY_RIGHT = 0;
-		}
-		if (container.getInput().isKeyPressed(Input.KEY_RIGHT)){
-			log.log("Cannon moving to the right");
-		}
-		if (container.getInput().isKeyPressed(Input.KEY_LEFT)){
-			log.log("Cannon moving to the left");
-		}
-		if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
-			this.TIME_PASSED_KEY_LEFT += delta;
-			if (this.TIME_PASSED_KEY_LEFT > 10) {
-				cannon.stepUp();
-				this.TIME_PASSED_KEY_LEFT = 0;
-			}
-		} else {
-			this.TIME_PASSED_KEY_LEFT = 0;
-		}
 		if(container.getInput().isKeyPressed(Input.KEY_1)) {
 			arena.checkBubblesToDrop();
-		}
-		if (container.getInput().isKeyPressed(Input.KEY_UP)) {
-			cannon.fire();
-		}
-
-		if(cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
-			cannon.display_warning = true;
-		}
-
-		if (cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
-			log.log("Time elapsed, shooting automatically");
-			cannon.fire();
-			cannon.TIME_SHOT_FIRED = 0;
-			cannon.display_warning = false;
 		}
 
 		LinkedList<Bubble[]> arenaBubbles = this.arena.get_BubbleArray();
