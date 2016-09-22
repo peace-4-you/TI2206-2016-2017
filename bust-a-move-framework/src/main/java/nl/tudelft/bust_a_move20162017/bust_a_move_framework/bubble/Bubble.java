@@ -57,6 +57,7 @@ public class Bubble {
    * @param forCannon  boolean describing if Bubble is for Cannon or not (map otherwise)
    */
   public Bubble(double x, double y, ColorChoice color, boolean forCannon) {
+	App.game.log.log(this,"Bubble initialised");
     this.x = x;
     this.y = y;
     this.xSpeed = 0;
@@ -128,7 +129,7 @@ public class Bubble {
     this.setXSpeed(0);
     this.setYSpeed(0);
     
-    App.game.log.log("Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
+    App.game.log.log(this,"Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
     this.setX(x);
     this.setY(y);
   }

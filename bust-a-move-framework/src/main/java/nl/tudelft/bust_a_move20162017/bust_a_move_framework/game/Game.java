@@ -52,7 +52,7 @@ public class Game extends BasicGameState {
 
 	public Game(){
 		this.log = new Log();
-		log.log("Game initialised");		
+		log.log(this, "Game initialised");		
 	}
 	
 	public void initialisePlayer(){
@@ -64,7 +64,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void startGame() {
-		log.log("Game Started");
+		log.log(this, "Game Started");
 		this.bubbleslist = new ArrayList<Bubble>();
 		this.arena = new Arena(180, 0, 531, 280);
 		this.bubblegen = new BubbleFactory(this.arena);
@@ -77,7 +77,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void wonGame() {
-		log.log("Game Won");
+		log.log(this, "Game Won");
 		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -86,7 +86,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void failedGame() {
-		log.log("Game Failed");
+		log.log(this, "Game Failed");
 		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -95,7 +95,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void pauseGame() {
-		log.log("Game Paused");
+		log.log(this, "Game Paused");
 		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -113,7 +113,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void levelUp() {
-		log.log("Game Levels Up");
+		log.log(this, "Game Levels Up");
 		this.LEVEL++;
 	}
 

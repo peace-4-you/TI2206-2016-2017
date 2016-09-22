@@ -67,7 +67,7 @@ public class Arena {
         bubble2DArray = new LinkedList<Bubble[]>();
         bubbleCount = 0;
 
-        App.game.log.log("Arena initialised");
+        App.game.log.log(this,"Arena initialised");
         //Level 1
         for (int i = 0; i < 5; i++) {
             addBubbleRow(true);
@@ -302,7 +302,7 @@ public class Arena {
      */
     public void addBubbleRow(boolean useAllColors) {
 
-        App.game.log.log("Adding a row of bubbles to the arena");
+        App.game.log.log(this,"Adding a row of bubbles to the arena");
 
         if (get_BubbleArray().size() >= HEIGHT_BUBBLES) {
             // Lose the game
@@ -451,7 +451,7 @@ public class Arena {
     public LinkedList<Bubble> checkBubblesToDrop() {
         int dropped_bubbles = 0;
         LinkedList<Bubble> visited = new LinkedList<Bubble>();
-        App.game.log.log("Checking for bubbles to drop");
+        App.game.log.log(this,"Checking for bubbles to drop");
 
 
         if (!bubble2DArray.isEmpty() && bubble2DArray.get(0) != null) {

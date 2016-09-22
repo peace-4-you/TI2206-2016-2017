@@ -58,7 +58,7 @@ public class Cannon {
 	 */
 
 	public Cannon(Game game) {
-		game.log.log("Cannon initialised");
+		game.log.log(this, "Cannon initialised");
 		this.X = 320;
 		this.Y = 530;
 		this.Xlaunch = (int) (375-Bubble.DIAMETER/2);
@@ -93,7 +93,7 @@ public class Cannon {
 	 */
 
 	private Bubble getNextBubble() {
-		game.log.log("Next bubble loaded to cannon");
+		game.log.log(this,"Next bubble loaded to cannon");
 		Bubble nextBubble = this.bubblegen.create((double) this.Xlaunch, (double) this.Ylaunch, true);
 		return nextBubble;
 	}
@@ -103,7 +103,7 @@ public class Cannon {
 	 */
 
 	public void fire() {
-		game.log.log("Cannon fired a bubble");
+		game.log.log(this, "Cannon fired a bubble");
 		this.currBubble.fire(this.ANGLE);
 		this.loadNextBubble();
 		this.TIME_SHOT_FIRED = 0;
@@ -139,7 +139,7 @@ public class Cannon {
 
 		if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
 			if (container.getInput().isKeyPressed(Input.KEY_RIGHT)){
-				game.log.log("Cannon moving to the right");
+				game.log.log(this, "Cannon moving to the right");
 			}
 			this.TIME_PASSED_KEY_RIGHT += delta;
 			if (this.TIME_PASSED_KEY_RIGHT > 10) {
@@ -151,7 +151,7 @@ public class Cannon {
 		}
 		if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
 			if (container.getInput().isKeyPressed(Input.KEY_LEFT)){
-				game.log.log("Cannon moving to the left");
+				game.log.log(this, "Cannon moving to the left");
 			}
 			this.TIME_PASSED_KEY_LEFT += delta;
 			if (this.TIME_PASSED_KEY_LEFT > 10) {
@@ -170,7 +170,7 @@ public class Cannon {
 		}
 
 		if (this.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
-			game.log.log("Time elapsed, shooting automatically");
+			game.log.log(this, "Time elapsed, shooting automatically");
 			fire();
 			TIME_SHOT_FIRED = 0;
 			display_warning = false;
