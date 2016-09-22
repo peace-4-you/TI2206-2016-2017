@@ -1,0 +1,5 @@
+language: java
+jdk:
+- oraclejdk8
+before_script: cd bust-a-move-framework
+script: mvn test
