@@ -9,7 +9,6 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleFactory;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -35,7 +34,6 @@ public class Cannon {
 	private Bubble currBubble;
 	private Bubble nextBubble;
 	private Game game;
-	private BubbleFactory bubblegen;
 
 	public int TIME_SHOT_FIRED;
 
@@ -58,7 +56,6 @@ public class Cannon {
 		this.cannonColour = Color.red;
 		this.game = game;
 		this.ANGLE = 0;
-		this.bubblegen = game.getBubbleGen();
 		this.nextBubble = getNextBubble();
 		this.loadNextBubble();
 		this.loadNextBubble();
@@ -82,7 +79,7 @@ public class Cannon {
 
 	private Bubble getNextBubble() {
 		game.log.log("Next bubble loaded to cannon");
-		Bubble nextBubble = this.bubblegen.create((double) this.Xlaunch, (double) this.Ylaunch, true);
+		Bubble nextBubble = Bubble.randomColor((double) this.Xlaunch, (double) this.Ylaunch, game.arena.getColorsOnArena(), true);
 		return nextBubble;
 	}
 
