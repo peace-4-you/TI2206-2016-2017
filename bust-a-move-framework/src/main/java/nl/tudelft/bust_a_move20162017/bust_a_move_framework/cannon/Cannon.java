@@ -8,10 +8,19 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.Button;
+
+import java.util.LinkedList;
+
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * The Cannon class represents a cannon entity.
@@ -35,16 +44,19 @@ public class Cannon {
 	private Bubble nextBubble;
 	private Game game;
 
-	public int TIME_SHOT_FIRED;
-
-	public boolean display_warning;
+	private int TIME_SHOT_FIRED;
+	private int TIME_PASSED_KEY_RIGHT;
+	private int TIME_PASSED_KEY_LEFT;
+	private static final int TIME_TO_SHOOT = 5000;
+	private static final int TIME_DISPLAY_FIRE_WARNING = 1500;
+	private boolean display_warning;
 
 	/**
 	 * Creates Cannon instance
 	 */
 
 	public Cannon(Game game) {
-		game.log.log("Cannon initialised");
+		game.log.log(this, "Cannon initialised");
 		this.X = 320;
 		this.Y = 530;
 		this.Xlaunch = (int) (375-Bubble.DIAMETER/2);
@@ -78,8 +90,9 @@ public class Cannon {
 	 */
 
 	private Bubble getNextBubble() {
-		game.log.log("Next bubble loaded to cannon");
+		game.log.log(this,"Next bubble loaded to cannon");
 		Bubble nextBubble = Bubble.randomColor((double) this.Xlaunch, (double) this.Ylaunch, game.arena.getColorsOnArena(), true);
+		
 		return nextBubble;
 	}
 
@@ -88,7 +101,7 @@ public class Cannon {
 	 */
 
 	public void fire() {
-		game.log.log("Cannon fired a bubble");
+		game.log.log(this, "Cannon fired a bubble");
 		this.currBubble.fire(this.ANGLE);
 		this.loadNextBubble();
 		this.TIME_SHOT_FIRED = 0;
@@ -116,11 +129,51 @@ public class Cannon {
 	}
 
 	/**
-	 * draws the Cannon
-	 *
-	 *
-	 *
+	 * update the cannon the Cannon
 	 */
+	
+	public void update(GameContainer container, int delta) {
+		TIME_SHOT_FIRED += delta;
+
+		if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
+			if (container.getInput().isKeyPressed(Input.KEY_RIGHT)){
+				game.log.log(this, "Cannon moving to the right");
+			}
+			this.TIME_PASSED_KEY_RIGHT += delta;
+			if (this.TIME_PASSED_KEY_RIGHT > 10) {
+				stepDown();
+				this.TIME_PASSED_KEY_RIGHT = 0;
+			}
+		} else {
+			this.TIME_PASSED_KEY_RIGHT = 0;
+		}
+		if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
+			if (container.getInput().isKeyPressed(Input.KEY_LEFT)){
+				game.log.log(this, "Cannon moving to the left");
+			}
+			this.TIME_PASSED_KEY_LEFT += delta;
+			if (this.TIME_PASSED_KEY_LEFT > 10) {
+				stepUp();
+				this.TIME_PASSED_KEY_LEFT = 0;
+			}
+		} else {
+			this.TIME_PASSED_KEY_LEFT = 0;
+		}
+		if (container.getInput().isKeyPressed(Input.KEY_UP)) {
+			fire();
+		}
+
+		if(this.TIME_SHOT_FIRED > TIME_TO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
+			display_warning = true;
+		}
+
+		if (this.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
+			game.log.log(this, "Time elapsed, shooting automatically");
+			fire();
+			TIME_SHOT_FIRED = 0;
+			display_warning = false;
+		}
+	}
 
 	public void draw(Graphics g) {
 		g.setColor(this.cannonColour);

@@ -27,7 +27,7 @@ public class DefeatScreen extends BasicGameState {
     public void init(GameContainer game, StateBasedGame stateBasedGame) throws SlickException {
         restart = new Button("Restart", 170, 120, 30);
         restart.centerButton(game);
-        mainmenu = new Button("Go to Main Menu", 205, 120, 30);
+        mainmenu = new Button("Go to Main Menu", 205, 200, 30);
         mainmenu.centerButton(game);
     }
 
@@ -55,6 +55,7 @@ public class DefeatScreen extends BasicGameState {
                 stateBasedGame.enterState(GameState.GAME_ACTIVE, new FadeOutTransition(), new FadeInTransition());
             }
             if (mainmenu.isInBounds(input)) {
+            	stateBasedGame.getState(GameState.GAME_ACTIVE).init(game, stateBasedGame);
                 stateBasedGame.enterState(GameState.MAIN_MENU, new FadeOutTransition(), new FadeInTransition());
             }
         }

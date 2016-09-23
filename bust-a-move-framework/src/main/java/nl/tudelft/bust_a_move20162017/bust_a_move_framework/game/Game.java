@@ -38,10 +38,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class Game extends BasicGameState {
 
 	private int LEVEL;
-	private int TIME_PASSED_KEY_RIGHT;
-	private int TIME_PASSED_KEY_LEFT;
-	private static final int TIME_TO_SHOOT = 5000;
-	private static final int TIME_DISPLAY_FIRE_WARNING = 1500;
+
 
 	public Cannon cannon;
 	public ArrayList<Bubble> bubbleslist;	
@@ -53,7 +50,7 @@ public class Game extends BasicGameState {
 
 	public Game(){
 		this.log = new Log();
-		log.log("Game initialised");		
+		log.log(this, "Game initialised");		
 	}
 	
 	public void initialisePlayer(){
@@ -65,7 +62,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void startGame() {
-		log.log("Game Started");
+		log.log(this, "Game Started");
 		this.bubbleslist = new ArrayList<Bubble>();
 		this.arena = new Arena(180, 0, 531, 280);
 		this.cannon = new Cannon(this);
@@ -77,7 +74,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void wonGame() {
-		log.log("Game Won");
+		log.log(this, "Game Won");
 		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -86,7 +83,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void failedGame() {
-		log.log("Game Failed");
+		log.log(this, "Game Failed");
 		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -95,7 +92,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void pauseGame() {
-		log.log("Game Paused");
+		log.log(this, "Game Paused");
 		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -113,7 +110,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void levelUp() {
-		log.log("Game Levels Up");
+		log.log(this, "Game Levels Up");
 		this.LEVEL++;
 	}
 
@@ -127,48 +124,10 @@ public class Game extends BasicGameState {
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
 		this.sbg = sbg;
-		cannon.TIME_SHOT_FIRED += delta;
+		this.cannon.update(container, delta);
 
-		if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
-			this.TIME_PASSED_KEY_RIGHT += delta;
-			if (this.TIME_PASSED_KEY_RIGHT > 10) {
-				cannon.stepDown();
-				this.TIME_PASSED_KEY_RIGHT = 0;
-			}
-		} else {
-			this.TIME_PASSED_KEY_RIGHT = 0;
-		}
-		if (container.getInput().isKeyPressed(Input.KEY_RIGHT)){
-			log.log("Cannon moving to the right");
-		}
-		if (container.getInput().isKeyPressed(Input.KEY_LEFT)){
-			log.log("Cannon moving to the left");
-		}
-		if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
-			this.TIME_PASSED_KEY_LEFT += delta;
-			if (this.TIME_PASSED_KEY_LEFT > 10) {
-				cannon.stepUp();
-				this.TIME_PASSED_KEY_LEFT = 0;
-			}
-		} else {
-			this.TIME_PASSED_KEY_LEFT = 0;
-		}
 		if(container.getInput().isKeyPressed(Input.KEY_1)) {
 			arena.checkBubblesToDrop();
-		}
-		if (container.getInput().isKeyPressed(Input.KEY_UP)) {
-			cannon.fire();
-		}
-
-		if(cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
-			cannon.display_warning = true;
-		}
-
-		if (cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
-			log.log("Time elapsed, shooting automatically");
-			cannon.fire();
-			cannon.TIME_SHOT_FIRED = 0;
-			cannon.display_warning = false;
 		}
 
 		LinkedList<Bubble[]> arenaBubbles = this.arena.get_BubbleArray();
@@ -190,7 +149,7 @@ public class Game extends BasicGameState {
 						if (b2 != null && b1 != b2) {
 							if (b2.getState() == Bubble.State.LANDED) {
 								if (b1.getBoundingBox().intersects(b2.getBoundingBox())) {
-									log.log("Fired Bubble collision! " + b1.getColor() + " with " + b2.getColor());
+									log.log(this,"Fired Bubble collision! " + b1.getColor() + " with " + b2.getColor());
 									arena.landBubble(b1);
 									arena.popBubbles(b1);
 									break collisionLoop;
