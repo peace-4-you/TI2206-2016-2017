@@ -2,38 +2,66 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.*;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class App extends StateBasedGame {
-	
+
+
+    /**
+     * Int values for all gamestates.
+     */
     private static final int START_SCREEN = 1;
     private static final int MAIN_MENU = 2;
     private static final int GAME_ACTIVE = 3;
     private static final int PAUSE_SCREEN = 4;
     private static final int WIN_SCREEN = 5;
     private static final int DEFEAT_SCREEN = 6;
-    
-	public App(String title) {
-		super(title);		
-	}
 
-	public static void main(String[] args) throws SlickException {
-		AppGameContainer app = new AppGameContainer(new App("Bust-A-Move!!"));
-		app.setDisplayMode(640, 580, false);
-		app.setAlwaysRender(true);
-		app.setTargetFrameRate(120);
-		app.start();
-	}
+    /**
+     * Values for the size and fps of the game window.
+     */
+    private static final int GAME_WIDTH = 640;
+    private static final int GAME_HEIGHT = 580;
+    private static final int MAX_FPS = 120;
 
-	public void initStatesList(GameContainer arg0) throws SlickException {
+    public static Game game;
+
+    /**
+     * Constructor for the launcher of the game.
+     *
+     * @param title
+     */
+    public App(String title) {
+        super(title);
+    }
+
+
+    public static void main(String[] args) throws SlickException {
+        AppGameContainer app = new AppGameContainer(new App("Bust-A-Move!!"));
+        app.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
+        app.setAlwaysRender(true);
+        app.setTargetFrameRate(MAX_FPS);
+        app.start();
+    }
+
+    /**
+     * Initialize all the game states that are used in the game.
+     *
+     * @param container the gamecontainer
+     * @throws SlickException
+     */
+    public void initStatesList(GameContainer container) throws SlickException {
+        game = new Game();
+        game.initialisePlayer();
         addState(new StartScreen());
         addState(new MainMenu());
-        addState(new Game());
+        addState(game);
         addState(new PausedScreen());
         addState(new VictoryScreen());
-        addState(new DefeatScreen());	
-	}
+        addState(new DefeatScreen());
+    }
 }

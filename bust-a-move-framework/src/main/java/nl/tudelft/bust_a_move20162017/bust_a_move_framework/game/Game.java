@@ -11,8 +11,8 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.game;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon.Cannon;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.Button;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameState;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.log.Log;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleFactory;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.player.Player;
 
@@ -38,30 +38,35 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class Game extends BasicGameState {
 
 	private int LEVEL;
-	private int TIME_PASSED_KEY_RIGHT;
-	private int TIME_PASSED_KEY_LEFT;
-	private static final int TIME_TO_SHOOT = 5000;
 
-	private static final int TIME_DISPLAY_FIRE_WARNING = 1500;
 
 	public Cannon cannon;
-	public ArrayList<Bubble> bubbleslist;
-	private Arena arena;
-	private Player player;
-	private BubbleFactory bubblegen;
+	public ArrayList<Bubble> bubbleslist;	
+	public Player player;
+	public Log log;
+	public Arena arena;
 	private Button pause;
 	private StateBasedGame sbg;
 
+	public Game(){
+		this.log = new Log();
+		log.log(this, "Game initialised");		
+	}
+	
+	public void initialisePlayer(){
+		this.player = new Player("Player1");
+	}
 
 	/**
-	 * Starts game, creates new arena and cannon instance
+	 * Starts game, creates new arena, cannon, BubbleFactory instance, and a bubblelist array
 	 */
 
 	private void startGame() {
+		log.log(this, "Game Started");
 		this.bubbleslist = new ArrayList<Bubble>();
 		this.arena = new Arena(180, 0, 531, 280);
-		this.bubblegen = new BubbleFactory(this.arena);
 		this.cannon = new Cannon(this);
+
 	}
 
 	/**
@@ -69,6 +74,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void wonGame() {
+		log.log(this, "Game Won");
 		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -77,6 +83,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void failedGame() {
+		log.log(this, "Game Failed");
 		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -85,6 +92,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void pauseGame() {
+		log.log(this, "Game Paused");
 		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -92,7 +100,7 @@ public class Game extends BasicGameState {
 	 * Asks for new level and new start of game.
 	 */
 
-	private void startNewLevel() {
+	private void startNewLevel() {		
 		this.levelUp();
 		this.startGame();
 	}
@@ -102,54 +110,24 @@ public class Game extends BasicGameState {
 	 */
 
 	private void levelUp() {
+		log.log(this, "Game Levels Up");
 		this.LEVEL++;
 	}
 
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 		this.sbg = sbg;
-		this.pause = new Button("Pause", 507,50, 100, 30);
 		this.LEVEL = 1;
-		this.player = new Player("Player1");
+		this.pause = new Button("Pause", 507,50, 100, 30);		
+		this.player.reset();
 		this.startGame();
 	}
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
 		this.sbg = sbg;
-		cannon.TIME_SHOT_FIRED += delta;
+		this.cannon.update(container, delta);
 
-		if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
-			this.TIME_PASSED_KEY_RIGHT += delta;
-			if (this.TIME_PASSED_KEY_RIGHT > 10) {
-				cannon.stepDown();
-				this.TIME_PASSED_KEY_RIGHT = 0;
-			}
-		} else {
-			this.TIME_PASSED_KEY_RIGHT = 0;
-		}
-		if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
-			this.TIME_PASSED_KEY_LEFT += delta;
-			if (this.TIME_PASSED_KEY_LEFT > 10) {
-				cannon.stepUp();
-				this.TIME_PASSED_KEY_LEFT = 0;
-			}
-		} else {
-			this.TIME_PASSED_KEY_LEFT = 0;
-		}
 		if(container.getInput().isKeyPressed(Input.KEY_1)) {
 			arena.checkBubblesToDrop();
-		}
-		if (container.getInput().isKeyPressed(Input.KEY_UP)) {
-			cannon.fire();
-		}
-
-		if(cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
-			cannon.display_warning = true;
-		}
-
-		if (cannon.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
-			cannon.fire();
-			cannon.TIME_SHOT_FIRED = 0;
-			cannon.display_warning = false;
 		}
 
 		LinkedList<Bubble[]> arenaBubbles = this.arena.get_BubbleArray();
@@ -171,7 +149,7 @@ public class Game extends BasicGameState {
 						if (b2 != null && b1 != b2) {
 							if (b2.getState() == Bubble.State.LANDED) {
 								if (b1.getBoundingBox().intersects(b2.getBoundingBox())) {
-									System.out.println("Collision! " + b1.getColor() + " with " + b2.getColor());
+									log.log(this,"Fired Bubble collision! " + b1.getColor() + " with " + b2.getColor());
 									arena.landBubble(b1);
 									arena.popBubbles(b1);
 									break collisionLoop;
@@ -213,17 +191,8 @@ public class Game extends BasicGameState {
 		}
 	}
 
-	public BubbleFactory Generator() {
-		BubbleFactory nextBubbleGen = new BubbleFactory(arena);
-		return nextBubbleGen;
-	}
-
 	public int getID() {
 		return 3;
-	}
-
-	public BubbleFactory getBubbleGen() {
-		return this.bubblegen;
 	}
 
 	public Arena getArena() {

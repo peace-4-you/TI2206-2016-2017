@@ -13,12 +13,14 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
  * Created by Jason Xie on 15/09/2016.
  */
 public class StartScreen extends BasicGameState {
+	
+	
+	
     public int getID() {
         return 1;
     }
 
     public void init(GameContainer game, StateBasedGame stateBasedGame) throws SlickException {
-
     }
 
     public void render(GameContainer game, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {

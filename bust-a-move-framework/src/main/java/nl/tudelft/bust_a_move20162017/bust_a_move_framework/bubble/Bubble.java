@@ -12,9 +12,14 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
+import java.util.LinkedList;
+import java.util.Random;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
+
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
 /**
  * The Bubble class represents a single bubble entity
@@ -38,6 +43,7 @@ public class Bubble {
   private Color drawColor;
   private State state;
   private Circle boundingBox;
+  private Random rand = new Random();
 
   public enum State {
     NEW, LANDED, FIRING, POPPING, DROPPING
@@ -55,6 +61,7 @@ public class Bubble {
    * @param forCannon  boolean describing if Bubble is for Cannon or not (map otherwise)
    */
   public Bubble(double x, double y, ColorChoice color, boolean forCannon) {
+	App.game.log.log(this,"Bubble initialised");
     this.x = x;
     this.y = y;
     this.xSpeed = 0;
@@ -125,9 +132,8 @@ public class Bubble {
     this.setState(State.LANDED);
     this.setXSpeed(0);
     this.setYSpeed(0);
-
-    System.out.println("adjusting bubble land position - X: " + x + ", Y: " + y);
-    System.out.println("PREVIOUS X: " + this.getX() + ", Y: " + this.getY());
+    
+    App.game.log.log(this,"Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
     this.setX(x);
     this.setY(y);
   }
@@ -265,5 +271,20 @@ public class Bubble {
    */
   public Circle getBoundingBox() {
     return this.boundingBox;
+  }
+  
+  /**
+   * Creates a bubble object with a random color chosen from the list of colors.
+   * @param x position of the bubble
+   * @param y position of the bubble
+   * @param colors list of possible bubble colors
+   * @param forCannon
+   * @return
+   */
+  public static Bubble randomColor(double x, double y, LinkedList<ColorChoice> colors, boolean forCannon) {
+	  if(colors.size() == 0) return null;
+	  ColorChoice color = colors.get((int) Math.floor(Math.random() * colors.size()));
+	  
+	  return new Bubble(x, y, color, forCannon);
   }
 }
