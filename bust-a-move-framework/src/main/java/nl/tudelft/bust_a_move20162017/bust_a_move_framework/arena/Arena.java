@@ -50,6 +50,8 @@ public class Arena {
     /* Temporarily Bubble diameter variable */
     private final int DIAMETER = (int) Bubble.DIAMETER;
     private final double OFFSET = ((double)DIAMETER / (double)2.0);
+    
+    private LinkedList<Bubble> droppingBubbles = new LinkedList<Bubble>();
 
     /**
      * Creates Arena for bubbles storage and render variables
@@ -261,7 +263,7 @@ public class Arena {
 
                 //dropBubbles(popList);
                 //bubbleToPop.pop();
-                removeBubble(bubbleToPop);
+                removeBubble(bubbleToPop, false);
             }
             checkBubblesToDrop();
         }
@@ -383,7 +385,7 @@ public class Arena {
      *
      * @param bubble
      */
-    public void removeBubble(Bubble bubble) {
+    public void removeBubble(Bubble bubble, boolean dropping) {
 
         for (Bubble[] row : bubble2DArray) {
             boolean finished = false;
@@ -495,7 +497,11 @@ public class Arena {
             Bubble[] row = bubble2DArray.get(i);
             for (Bubble bubble : row) {
                 if (!newVisited.contains(bubble)) {
-                    removeBubble(bubble);
+                    removeBubble(bubble, true);
+                    
+                    bubble.setState(Bubble.State.DROPPING);
+                    droppingBubbles.add(bubble);
+                    
                     dropped_bubbles++;
                 }
             }
@@ -580,6 +586,11 @@ public class Arena {
                     b.draw(g);
                 }
             }
+        }
+        for(Bubble dropBubble : droppingBubbles) {
+        	if(dropBubble.getY() > 1000) continue;// TODO: remove the bubble from the list
+        	dropBubble.setY(dropBubble.getY() + 3);
+        	dropBubble.draw(g);
         }
         g.setColor(Color.white);
         g.drawRect((float) xPos, (float) yPos, (float) width, (float) height);
