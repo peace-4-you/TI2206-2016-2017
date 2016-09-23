@@ -12,6 +12,9 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
+import java.util.LinkedList;
+import java.util.Random;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
@@ -40,6 +43,7 @@ public class Bubble {
   private Color drawColor;
   private State state;
   private Circle boundingBox;
+  private Random rand = new Random();
 
   public enum State {
     NEW, LANDED, FIRING, POPPING, DROPPING
@@ -267,5 +271,20 @@ public class Bubble {
    */
   public Circle getBoundingBox() {
     return this.boundingBox;
+  }
+  
+  /**
+   * Creates a bubble object with a random color chosen from the list of colors.
+   * @param x position of the bubble
+   * @param y position of the bubble
+   * @param colors list of possible bubble colors
+   * @param forCannon
+   * @return
+   */
+  public static Bubble randomColor(double x, double y, LinkedList<ColorChoice> colors, boolean forCannon) {
+	  if(colors.size() == 0) return null;
+	  ColorChoice color = colors.get((int) Math.floor(Math.random() * colors.size()));
+	  
+	  return new Bubble(x, y, color, forCannon);
   }
 }
