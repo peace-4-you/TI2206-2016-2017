@@ -173,6 +173,10 @@ public class Game extends BasicGameState {
             	this.pauseGame();
             }
         }
+        
+        if(container.getInput().isKeyPressed(Input.KEY_F1)) {
+        	System.out.println(arena.toString());
+        }
 	}
 
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {

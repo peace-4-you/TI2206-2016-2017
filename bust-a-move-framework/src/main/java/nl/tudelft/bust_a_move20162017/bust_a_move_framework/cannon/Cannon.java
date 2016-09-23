@@ -169,7 +169,7 @@ public class Cannon {
 
 		if (this.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
 			game.log.log(this, "Time elapsed, shooting automatically");
-			fire();
+			//fire();
 			TIME_SHOT_FIRED = 0;
 			display_warning = false;
 		}

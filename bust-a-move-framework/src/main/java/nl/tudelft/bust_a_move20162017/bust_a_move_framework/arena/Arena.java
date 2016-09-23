@@ -49,7 +49,7 @@ public class Arena {
 
     /* Temporarily Bubble diameter variable */
     private final int DIAMETER = (int) Bubble.DIAMETER;
-    private final int OFFSET = DIAMETER / 2;
+    private final double OFFSET = ((double)DIAMETER / (double)2.0);
 
     /**
      * Creates Arena for bubbles storage and render variables
@@ -67,7 +67,7 @@ public class Arena {
         bubble2DArray = new LinkedList<Bubble[]>();
         bubbleCount = 0;
 
-        App.game.log.log(this,"Arena initialised");
+        App.game.log.log("Arena initialised");
         //Level 1
         for (int i = 0; i < 5; i++) {
             addBubbleRow(true);
@@ -151,12 +151,8 @@ public class Arena {
         int column = 0;
 
 		/* Check and add if a new row is needed */
-        if (bubble2DArray.size() <= row) {
-            if (bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES) {
-                bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
-            } else {
-                bubble2DArray.add(new Bubble[WIDTH_BUBBLES - 1]);
-            }
+        while (bubble2DArray.size() <= row) {
+        	addEmptyBubbleRowBelow();
         }
 
         column = getColumn(shotBubble.getX(), shotBubble.getY());
@@ -182,20 +178,29 @@ public class Arena {
     public int getColumn(double xpos, double ypos) {
         int row = getRow(ypos);
         int column = 0;
-        if (bubble2DArray.size() > row) {
-            if (bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-                column = (int) Math.round((xpos - xPos) / DIAMETER);
-                return Math.min(column, WIDTH_BUBBLES - 1);
-            } else {
-                if ((xpos - xPos) >= OFFSET) {
-                    column = (int) Math.round(((xpos - xPos) - OFFSET) / DIAMETER);
-                }
-                return Math.min(column, (WIDTH_BUBBLES - 1) - 1);
-            }
+        
+        int rowWidth = 0;
+        // get the amount of bubbles the row should have
+        if(bubble2DArray.peekFirst() == null) return 0; // ERROR: Trying to get a column while there are no rows
+        int firstRowLength = bubble2DArray.getFirst().length;
+        if(row % 2 == 0) {
+        	rowWidth = firstRowLength;
         } else {
-            System.out.println("Trying to access a row that is not there");
+        	if(firstRowLength == WIDTH_BUBBLES) {
+        		rowWidth = WIDTH_BUBBLES - 1;
+        	} else {
+        		rowWidth = WIDTH_BUBBLES;
+        	}
         }
-        return 0;
+        if (rowWidth == WIDTH_BUBBLES) {
+            column = (int) Math.round((xpos - xPos) / DIAMETER);
+            return Math.min(column, WIDTH_BUBBLES - 1);
+        } else {
+            if ((xpos - xPos) >= OFFSET) {
+                column = (int) Math.round(((xpos - xPos) - OFFSET) / DIAMETER);
+            }
+            return Math.min(column, (WIDTH_BUBBLES - 1) - 1);
+        }
     }
 
     /**
@@ -273,12 +278,8 @@ public class Arena {
         int column = 0;
 
 		/* Check and add if a new row is needed */
-        if (bubble2DArray.size() <= row) {
-            if (bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES) {
-                bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
-            } else {
-                bubble2DArray.add(new Bubble[WIDTH_BUBBLES - 1]);
-            }
+        while (bubble2DArray.size() <= row) {
+            addEmptyBubbleRowBelow();
         }
 
         column = getColumn(bubble.getX(), bubble.getY());
@@ -302,21 +303,12 @@ public class Arena {
      */
     public void addBubbleRow(boolean useAllColors) {
 
-        App.game.log.log(this,"Adding a row of bubbles to the arena");
+        App.game.log.log("Adding a row of bubbles to the arena");
 
-        if (get_BubbleArray().size() >= HEIGHT_BUBBLES) {
-            // Lose the game
-
-        }
-        int offset = 0;
-        Bubble[] bubbleRow;
-        if (get_BubbleArray().size() > 0 && get_BubbleArray().getFirst().length == WIDTH_BUBBLES) {
-            offset = DIAMETER / 2;
-            bubbleRow = new Bubble[WIDTH_BUBBLES - 1];
-        } else {
-
-            bubbleRow = new Bubble[WIDTH_BUBBLES];
-        }
+        
+        Bubble[] bubbleRow = addEmptyBubbleRowAbove();
+        double offset = 0;
+        if(bubbleRow.length != WIDTH_BUBBLES) offset = OFFSET;
 
         Random rand = new Random();
         // TODO: Store the value of a Random() class somewhere instead of making
@@ -335,11 +327,36 @@ public class Arena {
 
         for (int i = 0; i < bubbleRow.length; i++) {
             //
-            int bubbleX = (DIAMETER * i) + offset + xPos;
+            int bubbleX = (int) ((DIAMETER * i) + offset + xPos);
             int bubbleY = 0 + yPos;
             int colorInt = rand.nextInt(colors.size());
             bubbleRow[i] = new Bubble(bubbleX, bubbleY, colors.get(colorInt), false);
         }
+    }
+    
+    /**
+     * Adds a new row below the current playing field
+     * 
+     * @return the row added
+     */
+    public Bubble[] addEmptyBubbleRowBelow() {
+        Bubble[] bubbleRow;
+        if (get_BubbleArray().size() > 0 && get_BubbleArray().getLast().length == WIDTH_BUBBLES) {
+            bubbleRow = new Bubble[WIDTH_BUBBLES - 1];
+        } else {
+            bubbleRow = new Bubble[WIDTH_BUBBLES];
+        }
+        bubble2DArray.addLast(bubbleRow);
+        return bubbleRow;
+    }
+    
+    /**
+     * Adds a new row below the current playing field
+     * 
+     * @return the row added
+     */
+    public Bubble[] addEmptyBubbleRowAbove() {
+
 
         // Move all the other bubbles down by diameter
         for (Bubble[] row : bubble2DArray) {
@@ -349,8 +366,15 @@ public class Arena {
                 row[i].setY(currentY + (((double) DIAMETER * Math.tan(60)) + OFFSET + 2));
             }
         }
-
+    	
+        Bubble[] bubbleRow;
+        if (get_BubbleArray().size() > 0 && get_BubbleArray().getFirst().length == WIDTH_BUBBLES) {
+            bubbleRow = new Bubble[WIDTH_BUBBLES - 1];
+        } else {
+            bubbleRow = new Bubble[WIDTH_BUBBLES];
+        }
         bubble2DArray.addFirst(bubbleRow);
+        return bubbleRow;
     }
 
 
@@ -373,12 +397,16 @@ public class Arena {
         }
         LinkedList<Bubble[]> rowsToRemove = new LinkedList<Bubble[]>();
         // remove empty rows
+        boolean alreadyRemovedRow = false;
         for (Bubble[] row : bubble2DArray) {
             boolean empty = true;
             for (Bubble b : row) {
                 if (b != null) empty = false;
             }
-            if (empty) rowsToRemove.add(row);
+            if (empty || alreadyRemovedRow) {
+            	rowsToRemove.add(row);
+            	alreadyRemovedRow = true;
+            }
         }
 
         for (Bubble[] row : rowsToRemove) {
@@ -445,13 +473,11 @@ public class Arena {
 
     /**
      * Checks which bubble needs to be dropped using recursive calls.
-     *
-     * @param lastBubble checks the neighbors of this bubble.
      */
     public LinkedList<Bubble> checkBubblesToDrop() {
         int dropped_bubbles = 0;
         LinkedList<Bubble> visited = new LinkedList<Bubble>();
-        App.game.log.log(this,"Checking for bubbles to drop");
+        App.game.log.log("Checking for bubbles to drop");
 
 
         if (!bubble2DArray.isEmpty() && bubble2DArray.get(0) != null) {
@@ -545,6 +571,23 @@ public class Arena {
         }
 		
         return neighbors;
+    }
+    
+    
+    /**
+     * DEBUG methods
+     */
+    public int countBubble() {
+    	int count = 0;
+    	for(Bubble[] row : bubble2DArray) {
+    		for(Bubble b : row) {
+    			if(b != null) count++;
+    		}
+    	}
+    	return count;
+    }
+    public String toString() {
+    	return "[ARENA]: rows("+bubble2DArray.size()+"), bubbles("+countBubble()+")";
     }
 
     public void draw(Graphics g) {
