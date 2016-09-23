@@ -572,23 +572,6 @@ public class Arena {
 		
         return neighbors;
     }
-    
-    
-    /**
-     * DEBUG methods
-     */
-    public int countBubble() {
-    	int count = 0;
-    	for(Bubble[] row : bubble2DArray) {
-    		for(Bubble b : row) {
-    			if(b != null) count++;
-    		}
-    	}
-    	return count;
-    }
-    public String toString() {
-    	return "[ARENA]: rows("+bubble2DArray.size()+"), bubbles("+countBubble()+")";
-    }
 
     public void draw(Graphics g) {
         for (Bubble[] row : bubble2DArray) {
