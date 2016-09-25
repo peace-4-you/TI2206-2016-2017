@@ -412,6 +412,9 @@ public class Arena {
         }
 
         for (Bubble[] row : rowsToRemove) {
+        	for(Bubble b : row) {
+        		dropBubble(b);
+        	}
             bubble2DArray.remove(row);
         }
 
@@ -499,8 +502,7 @@ public class Arena {
                 if (!newVisited.contains(bubble)) {
                     removeBubble(bubble, true);
                     
-                    bubble.setState(Bubble.State.DROPPING);
-                    droppingBubbles.add(bubble);
+                    dropBubble(bubble);
                     
                     dropped_bubbles++;
                 }
@@ -512,6 +514,14 @@ public class Arena {
 
         return visited;
         //return null;
+    }
+    
+    
+    public void dropBubble(Bubble bubble) {
+    	if(bubble != null && !droppingBubbles.contains(bubble)) {
+            bubble.setState(Bubble.State.DROPPING);
+            droppingBubbles.add(bubble);
+    	}
     }
 
     /**
@@ -553,7 +563,51 @@ public class Arena {
      */
     private Bubble[] getNeighbors(int row, int column) {
         Bubble[] neighbors = new Bubble[6];
-
+        
+        int offset = (bubble2DArray.get(row).length == WIDTH_BUBBLES) ? 0 : 1;
+        // UP-LEFT neighbour
+        try {
+        	neighbors[0] = bubble2DArray.get(row - 1)[column - 1 + offset];
+        } catch(Exception e) {
+        	//System.out.println("top left neighbour of ("+row+","+column+") does not exist");
+        }
+        
+        // UP-RIGHT neighbour
+        try {
+        	neighbors[1] = bubble2DArray.get(row - 1)[column + offset];
+        } catch(Exception e) {
+        	//System.out.println("top right neighbour of ("+row+","+column+") does not exist");
+        }
+        
+        // LEFT neighbour
+        try {
+        	neighbors[2] = bubble2DArray.get(row)[column - 1];
+        } catch(Exception e) {
+        	//System.out.println("left neighbour of ("+row+","+column+") does not exist");
+        }
+        
+        // RIGHT neighbour
+        try {
+        	neighbors[3] = bubble2DArray.get(row)[column + 1];
+        } catch(Exception e) {
+        	//System.out.println("right neighbour of ("+row+","+column+") does not exist");
+        }
+        
+        // BOTTOM-LEFT neighbour
+        try {
+        	neighbors[4] = bubble2DArray.get(row + 1)[column - 1 + offset];
+        } catch(Exception e) {
+        	//System.out.println("bottom left neighbour of ("+row+","+column+") does not exist");
+        }
+        
+        // BOTTOM-RIGHT neighbour
+        try {
+        	neighbors[5] = bubble2DArray.get(row + 1)[column + offset];
+        } catch(Exception e) {
+        	//System.out.println("bottom right neighbour of ("+row+","+column+") does not exist");
+        }
+        // OLD METHOD
+        /*
         int height = bubble2DArray.size();
         if (height <= row) {
             return neighbors;
@@ -574,7 +628,7 @@ public class Arena {
             neighbors[2] = (row != 0 && column < width - 1) ? (bubble2DArray.get(row - 1)[column + 1]) : null;
             neighbors[4] = (row < height - 1 && column < width - 1) ? (bubble2DArray.get(row + 1)[column + 1]) : null;
             neighbors[5] = (row < height - 1) ? (bubble2DArray.get(row + 1)[column]) : null;
-        }
+        }*/
 		
         return neighbors;
     }
