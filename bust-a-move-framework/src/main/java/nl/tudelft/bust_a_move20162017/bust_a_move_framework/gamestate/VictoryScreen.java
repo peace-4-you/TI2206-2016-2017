@@ -1,6 +1,16 @@
+/*
+ * File: VictoryScreen.java
+ * Class: VictoryScreen
+ *
+ * Version: 0.0.3
+ * Date: September 26th, 2016
+ */
+
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate;
 
-import org.newdawn.slick.Color;
+import java.util.Observable;
+import java.util.Observer;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -13,43 +23,66 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
 /**
- * Created by Jason Xie on 15/09/2016.
+ * Generates a VictoryScreen as a instance of GameState
+ * @author Jason Xie, Maurice Willemsen
  */
-public class VictoryScreen extends BasicGameState {
 
-	private Button main;
-	
+public class VictoryScreen extends BasicGameState implements Observer {
+
+	private Button main;	
 	private Button restart;
+	private Text nameText;
+	private Text scoreText;
+	private Text wonText;
+	private int score;
+	
+    /**
+     * @return integer of BasicGameState number
+     */	
 
 	public int getID() {
 		return 5;
 	}
+	
+    /**
+     * Called when BasicGameState initializes
+     */
 
 	public void init(GameContainer game, StateBasedGame stateBasedGame) throws SlickException {
-
 		main = new Button("Main Menu", 170, 150, 30);
 		main.centerButton(game);
 		restart = new Button("Restart", 220, 100, 30);
 		restart.centerButton(game);
+        wonText = new Text("You Won",30);
+        wonText.centerText(game);
+		nameText = new Text("Player: " + App.game.player.getName(),90);
+        nameText.centerText(game);
+        scoreText = new Text("Score: " + this.score,120);
+        scoreText.centerText(game);
+		App.game.player.score.addAsObserver(this);
 	}
+	
+    /**
+     * Renders the BasicGameState
+     */
 
 	public void render(GameContainer game, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		String text = "You Won.";
-		float textwidth = restart.font.getWidth(text);
-		restart.font.drawString(320 - textwidth / 2, 30, text, Color.white);
-		
-		text = "Player: " + App.game.player.getName();
-		textwidth = restart.font.getWidth(text);
-		restart.font.drawString(320 - textwidth / 2, 90, text, Color.white);
-		
-		text = "Score: " + App.game.player.score.getScore();
-		textwidth = restart.font.getWidth(text);
-		restart.font.drawString(320 - textwidth / 2, 120, text, Color.white);
+        wonText.draw(graphics); 		
+        nameText.draw(graphics);          
+        scoreText.draw(graphics);   
 		main.draw(graphics);
 		restart.draw(graphics);
 	}
+	
+    /**
+     * Updates the BasicGameState
+     */
 
 	public void update(GameContainer game, StateBasedGame stateBasedGame, int i) throws SlickException {
+        nameText.setText("Player: " + App.game.player.getName());
+        nameText.centerText(game);
+        scoreText.setText("Score: " + this.score);
+        scoreText.centerText(game);
 		Input input = game.getInput();
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if (main.isInBounds(input)) {
@@ -61,5 +94,13 @@ public class VictoryScreen extends BasicGameState {
 				stateBasedGame.enterState(GameState.GAME_ACTIVE, new FadeOutTransition(), new FadeInTransition());
 			}
 		}
+	}
+	
+    /**
+     * Updates the Observer
+     */
+	
+	public void update(Observable o, Object arg) {
+		this.score = (Integer) arg;		
 	}
 }

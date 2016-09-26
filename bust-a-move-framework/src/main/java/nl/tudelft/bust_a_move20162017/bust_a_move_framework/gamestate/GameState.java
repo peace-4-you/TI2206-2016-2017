@@ -1,8 +1,17 @@
+/*
+ * File: GameState.java
+ * Class: GameState
+ *
+ * Version: 0.0.1
+ * Date: September 15th, 2016
+ */
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate;
 
 /**
- * Created by Jason Xie on 15/09/2016.
+ * Contains static integervalues of all GameStates
+ * @author Jason Xie
  */
+
 public abstract class GameState {
     public static final int START_SCREEN = 1;
     public static final int MAIN_MENU = 2;
