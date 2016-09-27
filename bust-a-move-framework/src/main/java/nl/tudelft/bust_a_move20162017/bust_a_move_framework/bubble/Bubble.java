@@ -47,7 +47,7 @@ public class Bubble {
     NEW, LANDED, FIRING, POPPING, DROPPING
   }
   public enum ColorChoice {
-      RED, BLUE, YELLOW, GREEN
+    RED, BLUE, YELLOW, GREEN
   }
 
   /**
@@ -83,7 +83,7 @@ public class Bubble {
     }
   }
 
-/**
+  /**
    * draws the Bubble
    *
    * @param g  Java Graphics instance
@@ -118,21 +118,21 @@ public class Bubble {
     }
   }
 
-    /**
-     * stops the Bubble, adjusts bubble's position
-     *
-     * @param landed at adjusted x position
-     * @param landed at adjusted y position
-     */
-    public void land(double x, double y) {
-        this.setState(State.LANDED);
-        this.setXSpeed(0);
-        this.setYSpeed(0);
+  /**
+   * stops the Bubble, adjusts bubble's position
+   *
+   * @param landed at adjusted x position
+   * @param landed at adjusted y position
+   */
+  public void land(double x, double y) {
+    this.setState(State.LANDED);
+    this.setXSpeed(0);
+    this.setYSpeed(0);
 
-        App.game.log.log("Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
-        this.setX(x);
-        this.setY(y);
-    }
+    App.getGame().log.log("Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
+    this.setX(x);
+    this.setY(y);
+  }
 
   /**
    * wall collision detection, inverts ball's xSpeed
@@ -204,7 +204,7 @@ public class Bubble {
 
   /**
    * returns xSpeed value
-	 */
+   */
   public double getXSpeed() {
     return this.xSpeed;
   }
@@ -270,9 +270,9 @@ public class Bubble {
    * @return
    */
   public static Bubble randomColor(double x, double y, LinkedList<ColorChoice> colors, boolean forCannon) {
-	  if(colors.size() == 0) return null;
-	  ColorChoice color = colors.get((int) Math.floor(Math.random() * colors.size()));
+    if(colors.size() == 0) return null;
+    ColorChoice color = colors.get((int) Math.floor(Math.random() * colors.size()));
 
-	  return new Bubble(x, y, color, forCannon);
+    return new Bubble(x, y, color, forCannon);
   }
 }

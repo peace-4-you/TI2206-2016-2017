@@ -63,7 +63,7 @@ public class Arena {
         bubbleStorage = new BubbleStorage(xPos, yPos);
         bubbleCount = 0;
 
-        App.game.log.log("Arena initialised");
+        App.getGame().log.log("Arena initialised");
         //Level 1
 
     }
@@ -114,7 +114,7 @@ public class Arena {
 
 		/* Check if 3 or more bubbleStorage are connected */
         if (popList.size() >= 3) {
-            App.game.player.score.scoreBubblesPopped((int) popList.size());
+            App.getGame().player.score.scoreBubblesPopped((int) popList.size());
             while (popList.size() != 0) {
                 int row = 0;
                 int column = 0;
@@ -172,7 +172,7 @@ public class Arena {
     public LinkedList<Bubble> checkBubblesToDrop() {
         int dropped_bubbles = 0;
         LinkedList<Bubble> visited = new LinkedList<Bubble>();
-        App.game.log.log("Checking for bubbleStorage to drop");
+        App.getGame().log.log("Checking for bubbles to drop");
 
 
         if (!bubbleStorage.isEmpty() && bubbleStorage.get(0) != null) {
@@ -199,7 +199,7 @@ public class Arena {
             }
         }
         if (dropped_bubbles > 0) {
-            App.game.player.score.scoreBubblesDropped(dropped_bubbles);
+            App.getGame().player.score.scoreBubblesDropped(dropped_bubbles);
         }
         return visited;
     }
