@@ -55,11 +55,11 @@ public class DefeatScreen extends BasicGameState implements Observer {
         mainmenu.centerButton(game);
         failedText = new Text("You Failed",30);
         failedText.centerText(game);
-		nameText = new Text("Player: " + App.game.player.getName(),90);
+		nameText = new Text("Player: " + App.getGame().player.getName(),90);
         nameText.centerText(game);
         scoreText = new Text("Score: " + this.score,120);
         scoreText.centerText(game);
-        App.game.player.score.addAsObserver(this);
+        App.getGame().player.score.addAsObserver(this);
     }
     
     /**
@@ -79,7 +79,7 @@ public class DefeatScreen extends BasicGameState implements Observer {
      */
 
     public void update(GameContainer game, StateBasedGame stateBasedGame, int i) throws SlickException {
-        nameText.setText("Player: " + App.game.player.getName());
+        nameText.setText("Player: " + App.getGame().player.getName());
         nameText.centerText(game);
         scoreText.setText("Score: " + this.score);
         scoreText.centerText(game);

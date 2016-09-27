@@ -19,9 +19,10 @@ public abstract class GameConfig {
     public static final int FOURTH_LINE = 160;
     public static final int FIFTH_LINE = 200;
     public static final int SIXT_LINE = 240;
+    public static final int SEVENTH_LINE = 280;
     public static final int WIDTH1 = 100;
     public static final int WIDTH2 = 150;
     public static final int WIDTH3 = 200;
     public static final int HEIGHT = 30;
-    public static final int CENTRAL = 235;
+    public static final int CENTRAL = 220;
 }

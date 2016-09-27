@@ -75,10 +75,10 @@ public class MainMenu extends BasicGameState {
 		play.centerButton(game);
 		quit = new Button("Quit", GameConfig.FOURTH_LINE, GameConfig.WIDTH1, GameConfig.HEIGHT);
 		quit.centerButton(game);
-		namefield = new TextField(game, game.getDefaultFont(), GameConfig.FIFTH_LINE, GameConfig.CENTRAL,
+		namefield = new TextField(game, game.getDefaultFont(), GameConfig.CENTRAL,GameConfig.SIXT_LINE, 
 				GameConfig.WIDTH3, GameConfig.HEIGHT);
 		namefield.setText("Player1");
-		setName = new Button("Set Name", GameConfig.SIXT_LINE, GameConfig.WIDTH1, GameConfig.HEIGHT);
+		setName = new Button("Set Name", GameConfig.SEVENTH_LINE, GameConfig.WIDTH1, GameConfig.HEIGHT);
 		setName.centerButton(game);
 	}
 
