@@ -129,7 +129,7 @@ public class Bubble {
     this.setXSpeed(0);
     this.setYSpeed(0);
     
-    App.game.log.log("Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
+    App.getGame().log.log("Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
     this.setX(x);
     this.setY(y);
   }

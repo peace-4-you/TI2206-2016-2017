@@ -69,7 +69,7 @@ public class Arena {
         bubble2DArray = new LinkedList<Bubble[]>();
         bubbleCount = 0;
 
-        App.game.log.log("Arena initialised");
+        App.getGame().log.log("Arena initialised");
         //Level 1
         for (int i = 0; i < 5; i++) {
             addBubbleRow(true);
@@ -254,7 +254,7 @@ public class Arena {
 
 		/* Check if 3 or more bubbles are connected */
         if (popList.size() >= 3) {
-            App.game.player.score.scoreBubblesPopped((int) popList.size());
+            App.getGame().player.score.scoreBubblesPopped((int) popList.size());
             while (popList.size() != 0) {
                 int row = 0;
                 int column = 0;
@@ -305,7 +305,7 @@ public class Arena {
      */
     public void addBubbleRow(boolean useAllColors) {
 
-        App.game.log.log("Adding a row of bubbles to the arena");
+        App.getGame().log.log("Adding a row of bubbles to the arena");
 
         
         Bubble[] bubbleRow = addEmptyBubbleRowAbove();
@@ -482,7 +482,7 @@ public class Arena {
     public LinkedList<Bubble> checkBubblesToDrop() {
         int dropped_bubbles = 0;
         LinkedList<Bubble> visited = new LinkedList<Bubble>();
-        App.game.log.log("Checking for bubbles to drop");
+        App.getGame().log.log("Checking for bubbles to drop");
 
 
         if (!bubble2DArray.isEmpty() && bubble2DArray.get(0) != null) {
@@ -509,7 +509,7 @@ public class Arena {
             }
         }
         if (dropped_bubbles > 0) {
-            App.game.player.score.scoreBubblesDropped(dropped_bubbles);
+            App.getGame().player.score.scoreBubblesDropped(dropped_bubbles);
         }
 
         return visited;
