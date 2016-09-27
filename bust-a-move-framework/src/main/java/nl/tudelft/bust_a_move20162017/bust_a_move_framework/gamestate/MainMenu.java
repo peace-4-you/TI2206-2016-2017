@@ -53,7 +53,7 @@ public class MainMenu extends BasicGameState {
 	 * @return integer of BasicGameState number.
 	 */
 
-	public int getID() {
+	public final int getID() {
 		return 2;
 	}
 
@@ -68,7 +68,7 @@ public class MainMenu extends BasicGameState {
 	 *             any type of slick exception
 	 */
 
-	public void init(GameContainer game, StateBasedGame stateBasedGame) throws SlickException {
+	public final void init(final GameContainer game, final StateBasedGame stateBasedGame) throws SlickException {
 		nameText = new Text("Player: " + App.getGame().player.getName(), GameConfig.FIRST_LINE);
 		nameText.centerText(game);
 		play = new Button("Play", GameConfig.THIRD_LINE, GameConfig.WIDTH1, GameConfig.HEIGHT);
@@ -95,7 +95,7 @@ public class MainMenu extends BasicGameState {
 	 *             any type of slick exception
 	 */
 
-	public void render(GameContainer game, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+	public final void render(final GameContainer game, final StateBasedGame stateBasedGame, final Graphics graphics) throws SlickException {
 		nameText.draw(graphics);
 		play.draw(graphics);
 		quit.draw(graphics);
@@ -116,7 +116,7 @@ public class MainMenu extends BasicGameState {
 	 *             any type of slick exception
 	 */
 
-	public void update(GameContainer game, StateBasedGame stateBasedGame, int i) throws SlickException {
+	public final void update(final GameContainer game, final StateBasedGame stateBasedGame, final int i) throws SlickException {
 		nameText.setText("Player: " + App.getGame().player.getName());
 		nameText.centerText(game);
 		Input input = game.getInput();

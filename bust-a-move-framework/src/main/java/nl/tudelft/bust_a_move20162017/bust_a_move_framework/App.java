@@ -58,17 +58,12 @@ public class App extends StateBasedGame {
     }
 
     /**
-     * Main Method of the App Class, initialises StateBasedGame
-     * @param args
-     * @throws SlickException
-     */
-
-    /**
      * This is the main() of the program. This method is called when the
      * program runs.
      * @param args argument included at program call
      * @throws SlickException any type of Slick exception
      */
+    
     public static void main(final String[] args) throws SlickException {
         AppGameContainer app = new AppGameContainer(new App("Bust-A-Move!!"));
         app.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
