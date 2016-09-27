@@ -38,12 +38,10 @@ public class Bubble {
   private double y;
   private double xSpeed;
   private double ySpeed;
-  private int angle;
   private ColorChoice color;
   private Color drawColor;
   private State state;
   private Circle boundingBox;
-  private Random rand = new Random();
 
   public enum State {
     NEW, LANDED, FIRING, POPPING, DROPPING
@@ -61,12 +59,10 @@ public class Bubble {
    * @param forCannon  boolean describing if Bubble is for Cannon or not (map otherwise)
    */
   public Bubble(double x, double y, ColorChoice color, boolean forCannon) {
-	App.game.log.log(this,"Bubble initialised");
     this.x = x;
     this.y = y;
     this.xSpeed = 0;
     this.ySpeed = 0;
-    this.angle = 0;
     this.color = color;
     this.state = forCannon ? State.NEW : State.LANDED;
     this.boundingBox = new Circle((float) (x+Bubble.DIAMETER/2), (float) (y+Bubble.DIAMETER/2), (float) Bubble.DIAMETER/2);
@@ -133,7 +129,7 @@ public class Bubble {
     this.setXSpeed(0);
     this.setYSpeed(0);
     
-    App.game.log.log(this,"Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
+    App.getGame().log.log("Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
     this.setX(x);
     this.setY(y);
   }
@@ -151,7 +147,6 @@ public class Bubble {
    * fire the Bubble
    */
   public void fire(int angle) {
-    this.setAngle(angle);
     this.setState(State.FIRING);
     this.setXSpeed(Math.cos(Math.toRadians(angle + 90)) * Bubble.SPEED);
     this.setYSpeed(-Math.sin(Math.toRadians(angle + 90)) * Bubble.SPEED);
@@ -257,13 +252,6 @@ public class Bubble {
    */
   public void setState(State state) {
     this.state = state;
-  }
-
-  /**
-   * sets angle
-   */
-  public void setAngle(int angle) {
-    this.angle = angle;
   }
 
   /**

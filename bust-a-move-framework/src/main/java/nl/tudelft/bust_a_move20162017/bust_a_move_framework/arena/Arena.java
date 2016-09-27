@@ -49,7 +49,9 @@ public class Arena {
 
     /* Temporarily Bubble diameter variable */
     private final int DIAMETER = (int) Bubble.DIAMETER;
-    private final int OFFSET = DIAMETER / 2;
+    private final double OFFSET = ((double)DIAMETER / (double)2.0);
+    
+    private LinkedList<Bubble> droppingBubbles = new LinkedList<Bubble>();
 
     /**
      * Creates Arena for bubbles storage and render variables
@@ -67,7 +69,7 @@ public class Arena {
         bubble2DArray = new LinkedList<Bubble[]>();
         bubbleCount = 0;
 
-        App.game.log.log(this,"Arena initialised");
+        App.getGame().log.log("Arena initialised");
         //Level 1
         for (int i = 0; i < 5; i++) {
             addBubbleRow(true);
@@ -151,12 +153,8 @@ public class Arena {
         int column = 0;
 
 		/* Check and add if a new row is needed */
-        if (bubble2DArray.size() <= row) {
-            if (bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES) {
-                bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
-            } else {
-                bubble2DArray.add(new Bubble[WIDTH_BUBBLES - 1]);
-            }
+        while (bubble2DArray.size() <= row) {
+        	addEmptyBubbleRowBelow();
         }
 
         column = getColumn(shotBubble.getX(), shotBubble.getY());
@@ -182,20 +180,29 @@ public class Arena {
     public int getColumn(double xpos, double ypos) {
         int row = getRow(ypos);
         int column = 0;
-        if (bubble2DArray.size() > row) {
-            if (bubble2DArray.get(row).length == WIDTH_BUBBLES) {
-                column = (int) Math.round((xpos - xPos) / DIAMETER);
-                return Math.min(column, WIDTH_BUBBLES - 1);
-            } else {
-                if ((xpos - xPos) >= OFFSET) {
-                    column = (int) Math.round(((xpos - xPos) - OFFSET) / DIAMETER);
-                }
-                return Math.min(column, (WIDTH_BUBBLES - 1) - 1);
-            }
+        
+        int rowWidth = 0;
+        // get the amount of bubbles the row should have
+        if(bubble2DArray.peekFirst() == null) return 0; // ERROR: Trying to get a column while there are no rows
+        int firstRowLength = bubble2DArray.getFirst().length;
+        if(row % 2 == 0) {
+        	rowWidth = firstRowLength;
         } else {
-            System.out.println("Trying to access a row that is not there");
+        	if(firstRowLength == WIDTH_BUBBLES) {
+        		rowWidth = WIDTH_BUBBLES - 1;
+        	} else {
+        		rowWidth = WIDTH_BUBBLES;
+        	}
         }
-        return 0;
+        if (rowWidth == WIDTH_BUBBLES) {
+            column = (int) Math.round((xpos - xPos) / DIAMETER);
+            return Math.min(column, WIDTH_BUBBLES - 1);
+        } else {
+            if ((xpos - xPos) >= OFFSET) {
+                column = (int) Math.round(((xpos - xPos) - OFFSET) / DIAMETER);
+            }
+            return Math.min(column, (WIDTH_BUBBLES - 1) - 1);
+        }
     }
 
     /**
@@ -247,7 +254,7 @@ public class Arena {
 
 		/* Check if 3 or more bubbles are connected */
         if (popList.size() >= 3) {
-            App.game.player.score.scoreBubblesPopped((int) popList.size());
+            App.getGame().player.score.scoreBubblesPopped((int) popList.size());
             while (popList.size() != 0) {
                 int row = 0;
                 int column = 0;
@@ -256,7 +263,7 @@ public class Arena {
 
                 //dropBubbles(popList);
                 //bubbleToPop.pop();
-                removeBubble(bubbleToPop);
+                removeBubble(bubbleToPop, false);
             }
             checkBubblesToDrop();
         }
@@ -273,12 +280,8 @@ public class Arena {
         int column = 0;
 
 		/* Check and add if a new row is needed */
-        if (bubble2DArray.size() <= row) {
-            if (bubble2DArray.peekLast() == null || bubble2DArray.peekLast().length != WIDTH_BUBBLES) {
-                bubble2DArray.add(new Bubble[WIDTH_BUBBLES]);
-            } else {
-                bubble2DArray.add(new Bubble[WIDTH_BUBBLES - 1]);
-            }
+        while (bubble2DArray.size() <= row) {
+            addEmptyBubbleRowBelow();
         }
 
         column = getColumn(bubble.getX(), bubble.getY());
@@ -302,21 +305,12 @@ public class Arena {
      */
     public void addBubbleRow(boolean useAllColors) {
 
-        App.game.log.log(this,"Adding a row of bubbles to the arena");
+        App.getGame().log.log("Adding a row of bubbles to the arena");
 
-        if (get_BubbleArray().size() >= HEIGHT_BUBBLES) {
-            // Lose the game
-
-        }
-        int offset = 0;
-        Bubble[] bubbleRow;
-        if (get_BubbleArray().size() > 0 && get_BubbleArray().getFirst().length == WIDTH_BUBBLES) {
-            offset = DIAMETER / 2;
-            bubbleRow = new Bubble[WIDTH_BUBBLES - 1];
-        } else {
-
-            bubbleRow = new Bubble[WIDTH_BUBBLES];
-        }
+        
+        Bubble[] bubbleRow = addEmptyBubbleRowAbove();
+        double offset = 0;
+        if(bubbleRow.length != WIDTH_BUBBLES) offset = OFFSET;
 
         Random rand = new Random();
         // TODO: Store the value of a Random() class somewhere instead of making
@@ -335,11 +329,36 @@ public class Arena {
 
         for (int i = 0; i < bubbleRow.length; i++) {
             //
-            int bubbleX = (DIAMETER * i) + offset + xPos;
+            int bubbleX = (int) ((DIAMETER * i) + offset + xPos);
             int bubbleY = 0 + yPos;
             int colorInt = rand.nextInt(colors.size());
             bubbleRow[i] = new Bubble(bubbleX, bubbleY, colors.get(colorInt), false);
         }
+    }
+    
+    /**
+     * Adds a new row below the current playing field
+     * 
+     * @return the row added
+     */
+    public Bubble[] addEmptyBubbleRowBelow() {
+        Bubble[] bubbleRow;
+        if (get_BubbleArray().size() > 0 && get_BubbleArray().getLast().length == WIDTH_BUBBLES) {
+            bubbleRow = new Bubble[WIDTH_BUBBLES - 1];
+        } else {
+            bubbleRow = new Bubble[WIDTH_BUBBLES];
+        }
+        bubble2DArray.addLast(bubbleRow);
+        return bubbleRow;
+    }
+    
+    /**
+     * Adds a new row below the current playing field
+     * 
+     * @return the row added
+     */
+    public Bubble[] addEmptyBubbleRowAbove() {
+
 
         // Move all the other bubbles down by diameter
         for (Bubble[] row : bubble2DArray) {
@@ -349,8 +368,15 @@ public class Arena {
                 row[i].setY(currentY + (((double) DIAMETER * Math.tan(60)) + OFFSET + 2));
             }
         }
-
+    	
+        Bubble[] bubbleRow;
+        if (get_BubbleArray().size() > 0 && get_BubbleArray().getFirst().length == WIDTH_BUBBLES) {
+            bubbleRow = new Bubble[WIDTH_BUBBLES - 1];
+        } else {
+            bubbleRow = new Bubble[WIDTH_BUBBLES];
+        }
         bubble2DArray.addFirst(bubbleRow);
+        return bubbleRow;
     }
 
 
@@ -359,7 +385,7 @@ public class Arena {
      *
      * @param bubble
      */
-    public void removeBubble(Bubble bubble) {
+    public void removeBubble(Bubble bubble, boolean dropping) {
 
         for (Bubble[] row : bubble2DArray) {
             boolean finished = false;
@@ -373,15 +399,22 @@ public class Arena {
         }
         LinkedList<Bubble[]> rowsToRemove = new LinkedList<Bubble[]>();
         // remove empty rows
+        boolean alreadyRemovedRow = false;
         for (Bubble[] row : bubble2DArray) {
             boolean empty = true;
             for (Bubble b : row) {
                 if (b != null) empty = false;
             }
-            if (empty) rowsToRemove.add(row);
+            if (empty || alreadyRemovedRow) {
+            	rowsToRemove.add(row);
+            	alreadyRemovedRow = true;
+            }
         }
 
         for (Bubble[] row : rowsToRemove) {
+        	for(Bubble b : row) {
+        		dropBubble(b);
+        	}
             bubble2DArray.remove(row);
         }
 
@@ -445,13 +478,11 @@ public class Arena {
 
     /**
      * Checks which bubble needs to be dropped using recursive calls.
-     *
-     * @param lastBubble checks the neighbors of this bubble.
      */
     public LinkedList<Bubble> checkBubblesToDrop() {
         int dropped_bubbles = 0;
         LinkedList<Bubble> visited = new LinkedList<Bubble>();
-        App.game.log.log(this,"Checking for bubbles to drop");
+        App.getGame().log.log("Checking for bubbles to drop");
 
 
         if (!bubble2DArray.isEmpty() && bubble2DArray.get(0) != null) {
@@ -469,17 +500,28 @@ public class Arena {
             Bubble[] row = bubble2DArray.get(i);
             for (Bubble bubble : row) {
                 if (!newVisited.contains(bubble)) {
-                    removeBubble(bubble);
+                    removeBubble(bubble, true);
+                    
+                    dropBubble(bubble);
+                    
                     dropped_bubbles++;
                 }
             }
         }
         if (dropped_bubbles > 0) {
-            App.game.player.score.scoreBubblesDropped(dropped_bubbles);
+            App.getGame().player.score.scoreBubblesDropped(dropped_bubbles);
         }
 
         return visited;
         //return null;
+    }
+    
+    
+    public void dropBubble(Bubble bubble) {
+    	if(bubble != null && !droppingBubbles.contains(bubble)) {
+            bubble.setState(Bubble.State.DROPPING);
+            droppingBubbles.add(bubble);
+    	}
     }
 
     /**
@@ -521,7 +563,51 @@ public class Arena {
      */
     private Bubble[] getNeighbors(int row, int column) {
         Bubble[] neighbors = new Bubble[6];
-
+        
+        int offset = (bubble2DArray.get(row).length == WIDTH_BUBBLES) ? 0 : 1;
+        // UP-LEFT neighbour
+        try {
+        	neighbors[0] = bubble2DArray.get(row - 1)[column - 1 + offset];
+        } catch(Exception e) {
+        	//System.out.println("top left neighbour of ("+row+","+column+") does not exist");
+        }
+        
+        // UP-RIGHT neighbour
+        try {
+        	neighbors[1] = bubble2DArray.get(row - 1)[column + offset];
+        } catch(Exception e) {
+        	//System.out.println("top right neighbour of ("+row+","+column+") does not exist");
+        }
+        
+        // LEFT neighbour
+        try {
+        	neighbors[2] = bubble2DArray.get(row)[column - 1];
+        } catch(Exception e) {
+        	//System.out.println("left neighbour of ("+row+","+column+") does not exist");
+        }
+        
+        // RIGHT neighbour
+        try {
+        	neighbors[3] = bubble2DArray.get(row)[column + 1];
+        } catch(Exception e) {
+        	//System.out.println("right neighbour of ("+row+","+column+") does not exist");
+        }
+        
+        // BOTTOM-LEFT neighbour
+        try {
+        	neighbors[4] = bubble2DArray.get(row + 1)[column - 1 + offset];
+        } catch(Exception e) {
+        	//System.out.println("bottom left neighbour of ("+row+","+column+") does not exist");
+        }
+        
+        // BOTTOM-RIGHT neighbour
+        try {
+        	neighbors[5] = bubble2DArray.get(row + 1)[column + offset];
+        } catch(Exception e) {
+        	//System.out.println("bottom right neighbour of ("+row+","+column+") does not exist");
+        }
+        // OLD METHOD
+        /*
         int height = bubble2DArray.size();
         if (height <= row) {
             return neighbors;
@@ -542,7 +628,7 @@ public class Arena {
             neighbors[2] = (row != 0 && column < width - 1) ? (bubble2DArray.get(row - 1)[column + 1]) : null;
             neighbors[4] = (row < height - 1 && column < width - 1) ? (bubble2DArray.get(row + 1)[column + 1]) : null;
             neighbors[5] = (row < height - 1) ? (bubble2DArray.get(row + 1)[column]) : null;
-        }
+        }*/
 		
         return neighbors;
     }
@@ -554,6 +640,11 @@ public class Arena {
                     b.draw(g);
                 }
             }
+        }
+        for(Bubble dropBubble : droppingBubbles) {
+        	if(dropBubble.getY() > 1000) continue;// TODO: remove the bubble from the list
+        	dropBubble.setY(dropBubble.getY() + 3);
+        	dropBubble.draw(g);
         }
         g.setColor(Color.white);
         g.drawRect((float) xPos, (float) yPos, (float) width, (float) height);

@@ -28,14 +28,29 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
 public class MainMenu extends BasicGameState {
 
+	/**
+	 * Play Button.
+	 */
 	private Button play;
+	/**
+	 * Quit Button.
+	 */
 	private Button quit;
+	/**
+	 * setName Button.
+	 */
 	private Button setName;
+	/**
+	 * Name Textfield.
+	 */
 	private TextField namefield;
+	/**
+	 * Name Text.
+	 */
 	private Text nameText;
 
 	/**
-	 * @return integer of BasicGameState number
+	 * @return integer of BasicGameState number.
 	 */
 
 	public int getID() {
@@ -54,16 +69,17 @@ public class MainMenu extends BasicGameState {
 	 */
 
 	public void init(GameContainer game, StateBasedGame stateBasedGame) throws SlickException {
+		nameText = new Text("Player: " + App.getGame().player.getName(), GameConfig.FIRST_LINE);
+		nameText.centerText(game);
 		play = new Button("Play", GameConfig.THIRD_LINE, GameConfig.WIDTH1, GameConfig.HEIGHT);
 		play.centerButton(game);
 		quit = new Button("Quit", GameConfig.FOURTH_LINE, GameConfig.WIDTH1, GameConfig.HEIGHT);
 		quit.centerButton(game);
-		setName = new Button("Set Name", 275, GameConfig.WIDTH1, GameConfig.HEIGHT);
-		setName.centerButton(game);
-		nameText = new Text("Player: " + App.game.player.getName(), GameConfig.FIRST_LINE);
-		nameText.centerText(game);
-		namefield = new TextField(game, game.getDefaultFont(), 220, 235, 200, 30);
+		namefield = new TextField(game, game.getDefaultFont(), GameConfig.FIFTH_LINE, GameConfig.CENTRAL,
+				GameConfig.WIDTH3, GameConfig.HEIGHT);
 		namefield.setText("Player1");
+		setName = new Button("Set Name", GameConfig.SIXT_LINE, GameConfig.WIDTH1, GameConfig.HEIGHT);
+		setName.centerButton(game);
 	}
 
 	/**
@@ -109,7 +125,7 @@ public class MainMenu extends BasicGameState {
 				stateBasedGame.enterState(GameState.GAME_ACTIVE, new FadeOutTransition(), new FadeInTransition());
 			}
 			if (setName.isInBounds(input)) {
-				App.game.player.setName(this.namefield.getText());
+				App.getGame().player.setName(this.namefield.getText());
 			}
 			if (quit.isInBounds(input)) {
 				game.exit();
