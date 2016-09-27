@@ -84,7 +84,6 @@ public class Player {
 	public void draw(Graphics g) {
 		g.setColor(Color.white);
 		g.drawString("Name:" + this.name, 10, 40);
-		g.drawString("Score:" + this.score.getScore(), 10, 70);
 		g.drawString("Combo:" + this.combo, 10, 100);
 
 	}
