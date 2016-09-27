@@ -32,7 +32,6 @@ public class App extends StateBasedGame {
     /**
      * Values for the width of the game window.
      */
-	
     private static final int GAME_WIDTH = 640;
     /**
      * Values for the height of the game window.
@@ -63,7 +62,6 @@ public class App extends StateBasedGame {
      * @param args argument included at program call
      * @throws SlickException any type of Slick exception
      */
-    
     public static void main(final String[] args) throws SlickException {
         AppGameContainer app = new AppGameContainer(new App("Bust-A-Move!!"));
         app.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
@@ -78,11 +76,10 @@ public class App extends StateBasedGame {
      * @throws SlickException indicates a failure to initialise the state
      * based game resources
      */
-
     public final void initStatesList(final GameContainer container)
             throws SlickException {
         game = new Game();
-        game.initialisePlayer();        
+        game.initialisePlayer();
         addState(new StartScreen());
         addState(new MainMenu());
         addState(game);
