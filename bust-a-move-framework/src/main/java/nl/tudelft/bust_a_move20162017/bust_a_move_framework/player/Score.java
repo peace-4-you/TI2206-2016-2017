@@ -14,6 +14,9 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.player;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
 /**
@@ -22,13 +25,14 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
  * @author Maurice Willemsen
  */
 
-public class Score {
+public class Score extends Observable {
 	
 	private int score;
 
 	public Score() {
 		App.getGame().log.log(this,"Score initialised");
 		this.score = 0;
+		this.updateObserver();
 	}
 
 	/**
@@ -42,6 +46,7 @@ public class Score {
 	public void setScore(int score) {
 		App.getGame().log.log(this,"Score Set to " + score);
 		this.score = score;
+		this.updateObserver();
 	}
 
 	/**
@@ -52,6 +57,7 @@ public class Score {
 	public void reset() {
 		App.getGame().log.log(this,"Score Reset");
 		this.score = 0;
+		this.updateObserver();
 	}
 	
 	/**
@@ -65,6 +71,7 @@ public class Score {
 	public void addScore(int score) {
 		App.getGame().log.log(this,"Score added with " + score);
 		this.score += score;
+		this.updateObserver();
 	}
 
 	/**
@@ -80,6 +87,7 @@ public class Score {
 			int score = 10 * bubbles;
 			App.getGame().log.log(this,bubbles + " Bubbles Popped.  Score added with " + score);
 			this.score += score;
+			this.updateObserver();
 		}
 	}
 
@@ -96,6 +104,7 @@ public class Score {
 			int score = (int) (20 * Math.pow(2, bubbles));
 			App.getGame().log.log(this,bubbles + " bBubbles Dropped. Score added with " + score);
 			this.score += score;
+			this.updateObserver();
 		}
 	}
 
@@ -105,5 +114,32 @@ public class Score {
 
 	public int getScore() {
 		return this.score;
+	}
+	
+	/**
+	 * Updates connected observers
+	 */
+	
+	private void updateObserver(){
+		this.setChanged();	
+		this.notifyObservers(this.score);			
+	}
+	
+	/**
+	 * Adds class object to observer list
+	 * @param o Class Object
+	 */
+	
+	public void addAsObserver(Object o){
+		this.addObserver((Observer) o);
+	}
+	
+	/**
+	 * Deletes class object from observer list
+	 * @param o Class Object
+	 */
+	
+	public void deleteAsObser(Object o){
+		this.deleteObserver((Observer) o);
 	}
 }

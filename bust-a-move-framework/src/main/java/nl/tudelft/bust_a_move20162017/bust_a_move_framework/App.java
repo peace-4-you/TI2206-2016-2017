@@ -1,3 +1,10 @@
+/*
+ * File: App.java
+ * Class: App
+ *
+ * Version: 0.0.4
+ * Date: September 26th, 2016
+ */
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
@@ -20,6 +27,7 @@ import org.newdawn.slick.state.StateBasedGame;
 /**
  * The App class contains the launcher of the program.
  */
+
 public class App extends StateBasedGame {
     /**
      * Values for the width of the game window.
@@ -43,10 +51,10 @@ public class App extends StateBasedGame {
      * Constructor for the launcher of the game.
      * @param title the name of the game
      */
+
     public App(final String title) {
         super(title);
     }
-
 
     /**
      * This is the main() of the program. This method is called when the
@@ -93,6 +101,6 @@ public class App extends StateBasedGame {
      * @param g game object
      */
     public final void setGame(final Game g) {
-        this.game = g;
+        App.game = g;
     }
 }
