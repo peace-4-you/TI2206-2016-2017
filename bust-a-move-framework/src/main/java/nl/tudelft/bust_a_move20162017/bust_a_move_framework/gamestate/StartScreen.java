@@ -18,42 +18,74 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 /**
- * Generates a StartScreen as a instance of GameState
+ * Generates a StartScreen as a instance of GameState.
+ * 
  * @author Jason Xie
  */
 
 public class StartScreen extends BasicGameState {
-	
-    /**
-     * @return integer of BasicGameState number
-     */
-	
-    public int getID() {
-        return 1;
-    }
-    
-    /**
-     * Called when BasicGameState initializes
-     */
 
-    public void init(GameContainer game, StateBasedGame stateBasedGame) throws SlickException {
-    }
-    
-    /**
-     * Renders the BasicGameState
-     */
+	/**
+	 * @return integer of BasicGameState number.
+	 */
 
-    public void render(GameContainer game, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        graphics.drawString("Click anywhere to start", game.getWidth() / 2, game.getHeight() / 2);
-    }
-    
-    /**
-     * Updates the BasicGameState
-     */
+	public final int getID() {
+		return GameState.START_SCREEN;
+	}
 
-    public void update(GameContainer game, StateBasedGame stateBasedGame, int i) throws SlickException {
-        if (game.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            stateBasedGame.enterState(GameState.MAIN_MENU,new FadeOutTransition(), new FadeInTransition());
-        }
-    }
+	/**
+	 * Called when BasicGameState initializes.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
+
+	public final void init(final GameContainer game,
+		final StateBasedGame stateBasedGame) throws SlickException {
+	}
+
+	/**
+	 * Renders the BasicGameState.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @param graphics
+	 *            Graphics object
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
+
+	public final void render(final GameContainer game,
+		final StateBasedGame stateBasedGame, final Graphics graphics)
+		throws SlickException {
+		graphics.drawString("Click anywhere to start", (int) game.getWidth() / 2, (int) game
+			.getHeight() / 2);
+	}
+
+	/**
+	 * Updates the BasicGameState.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @param i
+	 *            delta of time exceeded
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
+
+	public final void update(final GameContainer game,
+		final StateBasedGame stateBasedGame, final int i) {
+		if (game.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			stateBasedGame.enterState(GameState.MAIN_MENU,
+				new FadeOutTransition(), new FadeInTransition());
+		}
+	}
 }

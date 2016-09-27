@@ -22,51 +22,91 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
 /**
- * Generates a VictoryScreen as a instance of GameState
+ * Generates a VictoryScreen as a instance of GameState.
  * 
  * @author Jason Xie, Maurice Willemsen
  */
 
 public class VictoryScreen extends BasicGameState implements Observer {
 
+	/**
+	 * Main Button.
+	 */
 	private Button main;
+	/**
+	 * Restart Button.
+	 */
 	private Button restart;
+	/**
+	 * Name Text.
+	 */
 	private Text nameText;
+	/**
+	 * Score Text.
+	 */
 	private Text scoreText;
+	/**
+	 * Won Text.
+	 */
 	private Text wonText;
+	/**
+	 * Score Integer. Should be updated by observer
+	 */
 	private int score;
 
 	/**
-	 * @return integer of BasicGameState number
+	 * @return integer of BasicGameState number.
 	 */
 
-	public int getID() {
-		return 5;
+	public final int getID() {
+		return GameState.WIN_SCREEN;
 	}
 
 	/**
-	 * Called when BasicGameState initializes
+	 * Called when BasicGameState initializes.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @throws SlickException
+	 *             any type of slick exception
 	 */
 
-	public void init(GameContainer game, StateBasedGame stateBasedGame) throws SlickException {
-		main = new Button("Main Menu", 170, 150, 30);
-		main.centerButton(game);
-		restart = new Button("Restart", 220, 100, 30);
-		restart.centerButton(game);
-		wonText = new Text("You Won", 30);
+	public final void init(final GameContainer game,
+		final StateBasedGame stateBasedGame) throws SlickException {
+		wonText = new Text("You Won", GameConfig.FIRST_LINE);
 		wonText.centerText(game);
-		nameText = new Text("Player: " + App.getGame().player.getName(), 90);
+		nameText = new Text("Player: " + App.getGame().player.getName(),
+			GameConfig.SECOND_LINE);
 		nameText.centerText(game);
-		scoreText = new Text("Score: " + this.score, 120);
+		scoreText = new Text("Score: " + this.score, GameConfig.THIRD_LINE);
 		scoreText.centerText(game);
+		main = new Button("Main Menu", GameConfig.FOURTH_LINE,
+			GameConfig.WIDTH2, GameConfig.HEIGHT);
+		main.centerButton(game);
+		restart = new Button("Restart", GameConfig.FIFTH_LINE,
+			GameConfig.WIDTH1, GameConfig.HEIGHT);
+		restart.centerButton(game);
 		App.getGame().player.score.addAsObserver(this);
 	}
 
 	/**
-	 * Renders the BasicGameState
+	 * Renders the BasicGameState.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @param graphics
+	 *            Graphics object
+	 * @throws SlickException
+	 *             any type of slick exception
 	 */
 
-	public void render(GameContainer game, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+	public final void render(final GameContainer game,
+		final StateBasedGame stateBasedGame, final Graphics graphics)
+		throws SlickException {
 		wonText.draw(graphics);
 		nameText.draw(graphics);
 		scoreText.draw(graphics);
@@ -75,10 +115,21 @@ public class VictoryScreen extends BasicGameState implements Observer {
 	}
 
 	/**
-	 * Updates the BasicGameState
+	 * Updates the BasicGameState.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @param i
+	 *            delta of time exceeded
+	 * @throws SlickException
+	 *             any type of slick exception
 	 */
 
-	public void update(GameContainer game, StateBasedGame stateBasedGame, int i) throws SlickException {
+	public final void update(final GameContainer game,
+		final StateBasedGame stateBasedGame, final int i)
+		throws SlickException {
 		nameText.setText("Player: " + App.getGame().player.getName());
 		nameText.centerText(game);
 		scoreText.setText("Score: " + this.score);
@@ -86,21 +137,30 @@ public class VictoryScreen extends BasicGameState implements Observer {
 		Input input = game.getInput();
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if (main.isInBounds(input)) {
-				stateBasedGame.getState(GameState.GAME_ACTIVE).init(game, stateBasedGame);
-				stateBasedGame.enterState(GameState.MAIN_MENU, new FadeOutTransition(), new FadeInTransition());
+				stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
+					stateBasedGame);
+				stateBasedGame.enterState(GameState.MAIN_MENU,
+					new FadeOutTransition(), new FadeInTransition());
 			}
 			if (restart.isInBounds(input)) {
-				stateBasedGame.getState(GameState.GAME_ACTIVE).init(game, stateBasedGame);
-				stateBasedGame.enterState(GameState.GAME_ACTIVE, new FadeOutTransition(), new FadeInTransition());
+				stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
+					stateBasedGame);
+				stateBasedGame.enterState(GameState.GAME_ACTIVE,
+					new FadeOutTransition(), new FadeInTransition());
 			}
 		}
 	}
 
 	/**
 	 * Updates the Observer
+	 * 
+	 * @param o
+	 *            the observable item
+	 * @param arg
+	 *            the observable argument
 	 */
 
-	public void update(Observable o, Object arg) {
+	public final void update(final Observable o, final Object arg) {
 		this.score = (Integer) arg;
 	}
 }

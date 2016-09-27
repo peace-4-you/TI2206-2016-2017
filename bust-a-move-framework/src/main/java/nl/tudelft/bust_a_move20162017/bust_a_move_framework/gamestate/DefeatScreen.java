@@ -23,84 +23,144 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
 /**
- * Generates a DefeatScreen as a instance of GameState
+ * Generates a DefeatScreen as a instance of GameState.
+ * 
  * @author Jason Xie, Maurice Willemsen
  */
 
 public class DefeatScreen extends BasicGameState implements Observer {
 
-    private Button restart;
-    private Button mainmenu;
+	/**
+	 * Restart Button.
+	 */
+	private Button restart;
+	/**
+	 * Mainmenu Button.
+	 */
+	private Button mainmenu;
+	/**
+	 * Name Text.
+	 */
 	private Text nameText;
+	/**
+	 * Score Text.
+	 */
 	private Text scoreText;
+	/**
+	 * Failed Text.
+	 */
 	private Text failedText;
-    private int	score;
-    
-    /**
-     * @return integer of BasicGameState number
-     */
+	/**
+	 * Integer of score, should be updated by observer.
+	 */
+	private int score;
 
-    public int getID() {
-        return 6;
-    }
-    
-    /**
-     * Called when BasicGameState initializes
-     */
+	/**
+	 * @return integer of BasicGameState number.
+	 */
 
-    public void init(GameContainer game, StateBasedGame stateBasedGame) throws SlickException {
-        restart = new Button("Restart", 170, 120, 30);
-        restart.centerButton(game);
-        mainmenu = new Button("Go to Main Menu", 205, 200, 30);
-        mainmenu.centerButton(game);
-        failedText = new Text("You Failed",30);
-        failedText.centerText(game);
-		nameText = new Text("Player: " + App.getGame().player.getName(),90);
-        nameText.centerText(game);
-        scoreText = new Text("Score: " + this.score,120);
-        scoreText.centerText(game);
-        App.getGame().player.score.addAsObserver(this);
-    }
-    
-    /**
-     * Renders the BasicGameState
-     */
+	public final int getID() {
+		return GameState.DEFEAT_SCREEN;
+	}
 
-    public void render(GameContainer game, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        failedText.draw(graphics); 		
-        nameText.draw(graphics);          
-        scoreText.draw(graphics); 
-        restart.draw(graphics);
-        mainmenu.draw(graphics);
-    }
-    
-    /**
-     * Updates the BasicGameState
-     */
+	/**
+	 * Called when BasicGameState initializes.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
 
-    public void update(GameContainer game, StateBasedGame stateBasedGame, int i) throws SlickException {
-        nameText.setText("Player: " + App.getGame().player.getName());
-        nameText.centerText(game);
-        scoreText.setText("Score: " + this.score);
-        scoreText.centerText(game);
-        Input input = game.getInput();
-        if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            if (restart.isInBounds(input)) {
-                stateBasedGame.getState(GameState.GAME_ACTIVE).init(game, stateBasedGame);
-                stateBasedGame.enterState(GameState.GAME_ACTIVE, new FadeOutTransition(), new FadeInTransition());
-            }
-            if (mainmenu.isInBounds(input)) {
-            	stateBasedGame.getState(GameState.GAME_ACTIVE).init(game, stateBasedGame);
-                stateBasedGame.enterState(GameState.MAIN_MENU, new FadeOutTransition(), new FadeInTransition());
-            }
-        }
-    }
-    
-    /**
-     * Updates the Observer
-     */
+	public final void init(final GameContainer game,
+		final StateBasedGame stateBasedGame) throws SlickException {
+		failedText = new Text("You Failed", GameConfig.FIRST_LINE);
+		failedText.centerText(game);
+		nameText = new Text("Player: " + App.getGame().player.getName(),
+			GameConfig.SECOND_LINE);
+		nameText.centerText(game);
+		scoreText = new Text("Score: " + this.score, GameConfig.THIRD_LINE);
+		scoreText.centerText(game);
+		restart = new Button("Restart", GameConfig.FOURTH_LINE,
+			GameConfig.WIDTH2, GameConfig.HEIGHT);
+		restart.centerButton(game);
+		mainmenu = new Button("Go to Main Menu", GameConfig.FIFTH_LINE,
+			GameConfig.WIDTH3, GameConfig.HEIGHT);
+		mainmenu.centerButton(game);
+		App.getGame().player.score.addAsObserver(this);
+	}
 
-	public void update(Observable o, Object arg) {
+	/**
+	 * Renders the BasicGameState.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @param graphics
+	 *            Graphics object
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
+
+	public final void render(final GameContainer game,
+		final StateBasedGame stateBasedGame, final Graphics graphics)
+		throws SlickException {
+		failedText.draw(graphics);
+		nameText.draw(graphics);
+		scoreText.draw(graphics);
+		restart.draw(graphics);
+		mainmenu.draw(graphics);
+	}
+
+	/**
+	 * Updates the BasicGameState.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @param i
+	 *            delta of time exceeded
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
+
+	public final void update(final GameContainer game,
+		final StateBasedGame stateBasedGame, final int i)
+		throws SlickException {
+		nameText.setText("Player: " + App.getGame().player.getName());
+		nameText.centerText(game);
+		scoreText.setText("Score: " + this.score);
+		scoreText.centerText(game);
+		Input input = game.getInput();
+		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			if (restart.isInBounds(input)) {
+				stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
+					stateBasedGame);
+				stateBasedGame.enterState(GameState.GAME_ACTIVE,
+					new FadeOutTransition(), new FadeInTransition());
+			}
+			if (mainmenu.isInBounds(input)) {
+				stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
+					stateBasedGame);
+				stateBasedGame.enterState(GameState.MAIN_MENU,
+					new FadeOutTransition(), new FadeInTransition());
+			}
+		}
+	}
+
+	/**
+	 * Updates the Observer
+	 * 
+	 * @param o
+	 *            the observable item
+	 * @param arg
+	 *            the observable argument
+	 */
+	public final void update(final Observable o, final Object arg) {
 		this.score = (Integer) arg;
 	}
 }
