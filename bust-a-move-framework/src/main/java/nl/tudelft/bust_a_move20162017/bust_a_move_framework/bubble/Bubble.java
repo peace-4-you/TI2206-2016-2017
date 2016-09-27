@@ -22,13 +22,19 @@ import org.newdawn.slick.geom.Circle;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
 /**
- * The Bubble class represents a single bubble entity
+ * The Bubble class represents a single bubble entity.
  *
  * @author Calvin Nhieu
  *
  */
 public class Bubble {
+  /**
+   * Diameter of a bubble
+   */
   public static final double DIAMETER = 35;
+  /**
+   * Standard speed of a bubble
+   */
   public static final double SPEED = 3;
   private static final Color RED_COLOR = Color.red;
   private static final Color BLUE_COLOR = Color.blue;
