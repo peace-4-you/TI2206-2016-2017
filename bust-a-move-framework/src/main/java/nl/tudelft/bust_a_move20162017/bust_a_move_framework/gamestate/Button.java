@@ -42,7 +42,6 @@ public class Button {
     /**
      * Font of the text.
      */
-    //TODO: Find a nice font.
     private TrueTypeFont font = new TrueTypeFont(
             new Font("Verdana", Font.BOLD, fontSize), true);
 
