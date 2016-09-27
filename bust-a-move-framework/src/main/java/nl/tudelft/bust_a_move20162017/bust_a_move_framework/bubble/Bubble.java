@@ -47,7 +47,7 @@ public class Bubble {
     NEW, LANDED, FIRING, POPPING, DROPPING
   }
   public enum ColorChoice {
-    RED, BLUE, YELLOW, GREEN
+      RED, BLUE, YELLOW, GREEN
   }
 
   /**
@@ -118,21 +118,21 @@ public class Bubble {
     }
   }
 
-  /**
-   * stops the Bubble, adjusts bubble's position
-   *
-   * @param landed at adjusted x position
-   * @param landed at adjusted y position
-   */
-  public void land(double x, double y) {
-    this.setState(State.LANDED);
-    this.setXSpeed(0);
-    this.setYSpeed(0);
-    
-    App.game.log.log("Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
-    this.setX(x);
-    this.setY(y);
-  }
+    /**
+     * stops the Bubble, adjusts bubble's position
+     *
+     * @param landed at adjusted x position
+     * @param landed at adjusted y position
+     */
+    public void land(double x, double y) {
+        this.setState(State.LANDED);
+        this.setXSpeed(0);
+        this.setYSpeed(0);
+
+        App.game.log.log("Adjusting bubble land position to: (" + (int) x + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; " + (int) this.getY() + ")");
+        this.setX(x);
+        this.setY(y);
+    }
 
   /**
    * wall collision detection, inverts ball's xSpeed
@@ -260,7 +260,7 @@ public class Bubble {
   public Circle getBoundingBox() {
     return this.boundingBox;
   }
-  
+
   /**
    * Creates a bubble object with a random color chosen from the list of colors.
    * @param x position of the bubble
@@ -272,7 +272,7 @@ public class Bubble {
   public static Bubble randomColor(double x, double y, LinkedList<ColorChoice> colors, boolean forCannon) {
 	  if(colors.size() == 0) return null;
 	  ColorChoice color = colors.get((int) Math.floor(Math.random() * colors.size()));
-	  
+
 	  return new Bubble(x, y, color, forCannon);
   }
 }
