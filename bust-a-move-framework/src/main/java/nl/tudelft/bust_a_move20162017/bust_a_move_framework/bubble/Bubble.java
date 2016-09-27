@@ -334,7 +334,7 @@ public class Bubble {
    * @param ySPEED  double value to set ySpeed to
    */
   public final void setYSpeed(final double ySPEED) {
-    this.ySpeed = ySpeed;
+    this.ySpeed = ySPEED;
   }
 
   /**
