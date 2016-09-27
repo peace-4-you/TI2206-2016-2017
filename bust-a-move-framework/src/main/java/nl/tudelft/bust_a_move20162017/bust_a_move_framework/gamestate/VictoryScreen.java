@@ -39,12 +39,12 @@ public class VictoryScreen extends BasicGameState {
 		restart.getFont().drawString(320 - textwidth / 2, 30, text, Color.white);
 
 		text = "Player: " + App.getGame().player.getName();
-		textwidth = restart.font.getWidth(text);
-		restart.font.drawString(320 - textwidth / 2, 90, text, Color.white);
+		textwidth = restart.getFont().getWidth(text);
+		restart.getFont().drawString(320 - textwidth / 2, 90, text, Color.white);
 		
 		text = "Score: " + App.getGame().player.score.getScore();
-		textwidth = restart.font.getWidth(text);
-		restart.font.drawString(320 - textwidth / 2, 120, text, Color.white);
+		textwidth = restart.getFont().getWidth(text);
+		restart.getFont().drawString(320 - textwidth / 2, 120, text, Color.white);
 		main.draw(graphics);
 		restart.draw(graphics);
 	}

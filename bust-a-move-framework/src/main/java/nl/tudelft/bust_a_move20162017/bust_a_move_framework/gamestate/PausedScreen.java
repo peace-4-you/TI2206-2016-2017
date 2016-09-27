@@ -38,12 +38,12 @@ public class PausedScreen extends BasicGameState {
         resume.getFont().drawString(320 - textwidth / 2, 30, text, Color.white);
 
         text = "Player: " + App.getGame().player.getName();
-        textwidth = resume.font.getWidth(text);
-        resume.font.drawString(320 - textwidth / 2, 90, text, Color.white);
+        textwidth = resume.getFont().getWidth(text);
+        resume.getFont().drawString(320 - textwidth / 2, 90, text, Color.white);
 
         text = "Score: " + App.getGame().player.score.getScore();
-        textwidth = resume.font.getWidth(text);
-        resume.font.drawString(320 - textwidth / 2, 120, text, Color.white);
+        textwidth = resume.getFont().getWidth(text);
+        resume.getFont().drawString(320 - textwidth / 2, 120, text, Color.white);
         resume.draw(graphics);
         quit.draw(graphics);
     }
