@@ -34,16 +34,16 @@ public class PausedScreen extends BasicGameState {
 
     public void render(GameContainer game, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         String text = "Game Paused.";
-        float textwidth = resume.font.getWidth(text);
-        resume.font.drawString(320 - textwidth / 2, 30, text, Color.white);
+        float textwidth = resume.getFont().getWidth(text);
+        resume.getFont().drawString(320 - textwidth / 2, 30, text, Color.white);
 
         text = "Player: " + App.game.player.getName();
-        textwidth = resume.font.getWidth(text);
-        resume.font.drawString(320 - textwidth / 2, 90, text, Color.white);
+        textwidth = resume.getFont().getWidth(text);
+        resume.getFont().drawString(320 - textwidth / 2, 90, text, Color.white);
 
         text = "Score: " + App.game.player.score.getScore();
-        textwidth = resume.font.getWidth(text);
-        resume.font.drawString(320 - textwidth / 2, 120, text, Color.white);
+        textwidth = resume.getFont().getWidth(text);
+        resume.getFont().drawString(320 - textwidth / 2, 120, text, Color.white);
         resume.draw(graphics);
         quit.draw(graphics);
     }

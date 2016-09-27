@@ -36,15 +36,16 @@ public class Button {
      */
     private float bHeight;
     /**
+     * Font size constant.
+     */
+    private final int fontSize = 20;
+    /**
      * Font of the text.
      */
     //TODO: Find a nice font.
     private TrueTypeFont font = new TrueTypeFont(
-            new Font("Verdana", Font.BOLD, FONT_SIZE), true);
-    /**
-     * Font size constant.
-     */
-    private final int fontSize = 20;
+            new Font("Verdana", Font.BOLD, fontSize), true);
+
 
 
     /**
