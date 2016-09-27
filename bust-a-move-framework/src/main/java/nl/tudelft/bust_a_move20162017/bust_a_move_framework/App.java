@@ -21,33 +21,6 @@ import org.newdawn.slick.state.StateBasedGame;
  * The App class contains the launcher of the program.
  */
 public class App extends StateBasedGame {
-
-
-    /**
-     * Int values for start screen gamestate.
-     */
-    private static final int START_SCREEN = 1;
-    /**
-     * Int values for main menu screen gamestate.
-     */
-    private static final int MAIN_MENU = 2;
-    /**
-     * Int values for game screen gamestate.
-     */
-    private static final int GAME_ACTIVE = 3;
-    /**
-     * Int values for pause screen gamestate.
-     */
-    private static final int PAUSE_SCREEN = 4;
-    /**
-     * Int values for win/victory screen gamestate.
-     */
-    private static final int WIN_SCREEN = 5;
-    /**
-     * Int values for lose/defeat screen gamestate.
-     */
-    private static final int DEFEAT_SCREEN = 6;
-
     /**
      * Values for the width of the game window.
      */
