@@ -24,7 +24,7 @@ public class Player {
 	public Score score;
 
 	public Player(String name) {
-		App.game.log.log(this,"Player initialiased");
+		App.getGame().log.log(this,"Player initialiased");
 		this.setName(name);
 		this.score = new Score();
 		this.combo = 1;
@@ -45,7 +45,7 @@ public class Player {
 	 *
 	 */
 	public void setName(String name) {
-		App.game.log.log(this,"Name " + this.name + " changed to " + name);
+		App.getGame().log.log(this,"Name " + this.name + " changed to " + name);
 		this.name = name;
 	}
 
@@ -64,7 +64,7 @@ public class Player {
 	 *
 	 */
 	public void setCombo(int combo) {
-		App.game.log.log(this,"Combo set to " + combo);
+		App.getGame().log.log(this,"Combo set to " + combo);
 		this.combo = combo;
 	}
 
@@ -72,7 +72,7 @@ public class Player {
 	 * Sets the player's members to default values
 	 */
 	public void reset() {
-		App.game.log.log(this,"Player Reset");
+		App.getGame().log.log(this,"Player Reset");
 		this.score.reset();
 		this.combo = 1;
 	}
