@@ -111,7 +111,7 @@ public class App extends StateBasedGame {
      * Getter function for game object.
      * @return the game object associated to this class
      */
-    public final Game getGame() {
+    public static final Game getGame() {
         return game;
     }
 
