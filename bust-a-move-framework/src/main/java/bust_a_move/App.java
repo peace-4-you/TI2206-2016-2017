@@ -5,24 +5,19 @@
  * Version: 0.0.4
  * Date: September 26th, 2016
  */
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework;
-
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate
-        .DefeatScreen;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate
-        .MainMenu;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate
-        .PausedScreen;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate
-        .StartScreen;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate
-        .VictoryScreen;
+package bust_a_move;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import bust_a_move.game.Game;
+import bust_a_move.gamestate.DefeatScreen;
+import bust_a_move.gamestate.MainMenu;
+import bust_a_move.gamestate.PausedScreen;
+import bust_a_move.gamestate.StartScreen;
+import bust_a_move.gamestate.VictoryScreen;
 
 /**
  * The App class contains the launcher of the program.

@@ -6,16 +6,7 @@
  * Date: September 12th, 2016
  */
 
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.game;
-
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon.Cannon;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.Button;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameState;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.log.Log;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.player.Player;
+package bust_a_move.game;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -31,6 +22,13 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import bust_a_move.App;
+import bust_a_move.bubble.Bubble;
+import bust_a_move.gamestate.Button;
+import bust_a_move.gamestate.GameState;
+import bust_a_move.player.Player;
+import bust_a_move.tools.Log;
 
 /**
  * The Game class represents a game entity.

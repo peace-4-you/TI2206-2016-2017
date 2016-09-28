@@ -10,7 +10,7 @@
  */
 
 
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena;
+package bust_a_move.game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,9 +21,9 @@ import java.util.Random;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.*;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble.ColorChoice;
+import bust_a_move.App;
+import bust_a_move.bubble.*;
+import bust_a_move.bubble.Bubble.ColorChoice;
 
 /**
  * The arena class maintains a LinkedList of ArrayList data structure to store the bubble objects.

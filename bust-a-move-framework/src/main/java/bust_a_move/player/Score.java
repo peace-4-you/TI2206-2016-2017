@@ -12,12 +12,12 @@
  * @author Maurice Willemsen
  */
 
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.player;
+package bust_a_move.player;
 
 import java.util.Observable;
 import java.util.Observer;
 
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+import bust_a_move.App;
 
 /**
  * The Game class represents a game entity.

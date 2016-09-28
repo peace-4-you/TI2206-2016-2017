@@ -6,12 +6,7 @@
  * Date: September 12th, 2016
  */
 
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon;
-
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.Button;
+package bust_a_move.game;
 
 import java.util.LinkedList;
 
@@ -21,6 +16,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import bust_a_move.App;
+import bust_a_move.bubble.Bubble;
+import bust_a_move.gamestate.Button;
 
 /**
  * The Cannon class represents a cannon entity.
