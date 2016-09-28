@@ -6,7 +6,7 @@
  * Date: September 26th, 2016
  */
 
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate;
+package bust_a_move.gamestate;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,7 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+import bust_a_move.App;
 
 /**
  * Generates a MainMenu as a instance of GameState.

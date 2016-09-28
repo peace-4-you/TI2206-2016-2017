@@ -6,12 +6,12 @@
  * Date: September 8th, 2016
  */
 
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.player;
+package bust_a_move.player;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+import bust_a_move.App;
 
 /**
  * The Player class represents a player entity.

@@ -5,7 +5,7 @@
  * Version: 0.0.1
  * Date: September 27th, 2016
  */
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate;
+package bust_a_move.gamestate;
 
 /**
  * Contains static integervalues of all GameConfig.
