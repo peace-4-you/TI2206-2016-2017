@@ -77,3 +77,4 @@ public abstract class GameConfig {
     public static final double ROW_OFFSET = (double) Bubble.DIAMETER
             * Math.tan(60) + COLUMN_OFFSET + 2;
 }
+
