@@ -7,6 +7,8 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
+
 /**
  * Contains static integervalues of all GameConfig.
  * @author Maurice
@@ -65,4 +67,13 @@ public abstract class GameConfig {
      * Text Size.
      */
     public static final int TEXT_SIZE = 20;
+    /**
+     * Horizontal distance between each bubble in the arena.
+     */
+    public static final double COLUMN_OFFSET = Bubble.DIAMETER / 2.0;
+    /**
+     * Vertical distance between each bubble in the arena.
+     */
+    public static final double ROW_OFFSET = (double) Bubble.DIAMETER
+            * Math.tan(60) + COLUMN_OFFSET + 2;
 }
