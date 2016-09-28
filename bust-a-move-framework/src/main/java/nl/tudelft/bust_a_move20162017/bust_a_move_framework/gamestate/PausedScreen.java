@@ -1,6 +1,15 @@
+/*
+ * File: PausedScreen.java
+ * Class: PausedScreen
+ *
+ * Version: 0.0.3
+ * Date: September 26th, 2016
+ */
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate;
 
-import org.newdawn.slick.Color;
+import java.util.Observable;
+import java.util.Observer;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -13,51 +22,142 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
 /**
- * Created by Jason Xie on 15/09/2016.
+ * Generates a PausedScreen as a instance of GameState.
+ * 
+ * @author Jason Xie, Maurice Willemsen
  */
-public class PausedScreen extends BasicGameState {
 
-    private Button resume;
-    private Button quit;
+public class PausedScreen extends BasicGameState implements Observer {
 
-    public int getID() {
-        return 4;
-    }
+	/**
+	 * Resume Button.
+	 */
+	private Button resume;
+	/**
+	 * Quit Button.
+	 */
+	private Button quit;
+	/**
+	 * Name Text.
+	 */
+	private Text nameText;
+	/**
+	 * Score Text.
+	 */
+	private Text scoreText;
+	/**
+	 * Pause Text
+	 */
+	private Text pauseText;
+	/**
+	 * Integer of score, should be updated by observer.
+	 */
+	private int score;
 
-    public void init(GameContainer game, StateBasedGame stateBasedGame) throws SlickException {
-        //TODO: Come up with better name and text for buttons.
-        resume = new Button("Resume", 170, 120, 30);
-        resume.centerButton(game);
-        quit = new Button("Quit", 205, 120, 30);
-        quit.centerButton(game);
-    }
+	/**
+	 * @return integer of BasicGameState number.
+	 */
 
-    public void render(GameContainer game, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        String text = "Game Paused.";
-        float textwidth = resume.font.getWidth(text);
-        resume.font.drawString(320 - textwidth / 2, 30, text, Color.white);
+	public final int getID() {
+		return GameState.PAUSE_SCREEN;
+	}
 
-        text = "Player: " + App.getGame().player.getName();
-        textwidth = resume.font.getWidth(text);
-        resume.font.drawString(320 - textwidth / 2, 90, text, Color.white);
+	/**
+	 * Called when BasicGameState initializes.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
 
-        text = "Score: " + App.getGame().player.score.getScore();
-        textwidth = resume.font.getWidth(text);
-        resume.font.drawString(320 - textwidth / 2, 120, text, Color.white);
-        resume.draw(graphics);
-        quit.draw(graphics);
-    }
+	public final void init(final GameContainer game,
+		final StateBasedGame stateBasedGame) throws SlickException {
+		pauseText = new Text("Game Paused", GameConfig.FIRST_LINE);
+		pauseText.centerText(game);
+		nameText = new Text("Player: " + App.getGame().player.getName(),
+			GameConfig.SECOND_LINE);
+		nameText.centerText(game);
+		scoreText = new Text("Score: " + this.score, GameConfig.THIRD_LINE);
+		scoreText.centerText(game);
+		resume = new Button("Resume", GameConfig.FOURTH_LINE, GameConfig.WIDTH2,
+			GameConfig.HEIGHT);
+		resume.centerButton(game);
+		quit = new Button("Quit", GameConfig.FIFTH_LINE, GameConfig.WIDTH2,
+			GameConfig.HEIGHT);
+		quit.centerButton(game);
+		App.getGame().player.score.addAsObserver(this);
+	}
 
-    public void update(GameContainer game, StateBasedGame stateBasedGame, int i) throws SlickException {
-        Input input = game.getInput();
-        if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            if (resume.isInBounds(input)) {
-                stateBasedGame.enterState(GameState.GAME_ACTIVE, new FadeOutTransition(), new FadeInTransition());
-            }
-            if (quit.isInBounds(input)) {
-                stateBasedGame.enterState(GameState.MAIN_MENU, new FadeOutTransition(), new FadeInTransition());
-            }
-        }
+	/**
+	 * Renders the BasicGameState.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @param graphics
+	 *            Graphics object
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
 
-    }
+	public final void render(final GameContainer game,
+		final StateBasedGame stateBasedGame, final Graphics graphics)
+		throws SlickException {
+		pauseText.draw(graphics);
+		nameText.draw(graphics);
+		scoreText.draw(graphics);
+		resume.draw(graphics);
+		quit.draw(graphics);
+	}
+
+	/**
+	 * Updates the BasicGameState.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @param i
+	 *            delta of time exceeded
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
+
+	public final void update(final GameContainer game,
+		final StateBasedGame stateBasedGame, final int i)
+		throws SlickException {
+		nameText.setText("Player: " + App.getGame().player.getName());
+		nameText.centerText(game);
+		scoreText.setText("Score: " + this.score);
+		scoreText.centerText(game);
+		Input input = game.getInput();
+		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			if (resume.isInBounds(input)) {
+				stateBasedGame.enterState(GameState.GAME_ACTIVE,
+					new FadeOutTransition(), new FadeInTransition());
+			}
+			if (quit.isInBounds(input)) {
+				stateBasedGame.enterState(GameState.MAIN_MENU,
+					new FadeOutTransition(), new FadeInTransition());
+			}
+		}
+
+	}
+
+	/**
+	 * Updates the Observer
+	 * 
+	 * @param o
+	 *            the observable item
+	 * @param arg
+	 *            the observable argument
+	 */
+
+	public final void update(final Observable o, final Object arg) {
+		this.score = (Integer) arg;
+	}
 }
