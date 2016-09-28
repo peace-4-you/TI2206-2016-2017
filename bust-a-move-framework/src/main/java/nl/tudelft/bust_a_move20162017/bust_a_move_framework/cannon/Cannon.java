@@ -26,31 +26,31 @@ public class Cannon {
     /**
      * X coordinate of the cannon.
      */
-    private int x;
+    private final int x = 320;
     /**
      * Y coordinate of the cannon.
      */
-    private int y;
+    private final int y = 530;
     /**
      * X coordinate of the next bubble.
      */
-    private int xLaunch;
+    private final int xLaunch = (int) (375 - Bubble.DIAMETER / 2);
     /**
      * Y coordinate of the next bubble.
      */
-    private int yLaunch;
+    private final int yLaunch = (int) (555 - Bubble.DIAMETER / 2);
     /**
      * X coordinate of the current bubble.
      */
-    private int xLoad;
+    private final int xLoad  = (int) (320 - Bubble.DIAMETER / 2);
     /**
      * Y coordinate of the current bubble.
      */
-    private int yLoad;
+    private final int yLoad = (int) (530 - Bubble.DIAMETER / 2);
     /**
      * The size/length of the cannon barrel.
      */
-    private int size;
+    private final int size = 80;
     /**
      * The color of the cannon barrel.
      */
@@ -58,7 +58,7 @@ public class Cannon {
     /**
      * The angle of the cannon.
      */
-    private int angle;
+    private int angle = 0;
     /**
      * Current bubble in the cannon.
      */
@@ -97,19 +97,35 @@ public class Cannon {
      */
     private boolean displayWarning;
     /**
+     * Right angle limit.
+     */
+    private final int rightAngleLimit = 60;
+    /**
+     * Left angle limit.
+     */
+    private final int leftAngleLimit = -60;
+    /**
+     * Input scan delay.
+     */
+    private final int inputScanDelay = 10;
+    /**
+     * Angle offset.
+     */
+    private final int angleOffset = 90;
+    /**
+     * X coordinate of auto shoot warning message.
+     */
+    private final int displayWarningX = 225;
+    /**
+     * Y coordinate of auto shoot warning message.
+     */
+    private final int displayWarningY = 500;
+    /**
      * Creates Cannon instance.
      * @param g game object for reference
      */
     public Cannon(final Game g) {
         g.log.log(this, "Cannon initialised");
-        this.x = 320;
-        this.y = 530;
-        this.xLaunch = (int) (375 - Bubble.DIAMETER / 2);
-        this.yLaunch = (int) (555 - Bubble.DIAMETER / 2);
-        this.xLoad = (int) (320 - Bubble.DIAMETER / 2);
-        this.yLoad = (int) (530 - Bubble.DIAMETER / 2);
-        this.size = 80;
-        this.angle = 0;
         this.cannonColour = Color.red;
         this.game = g;
         this.nextBubble = getNextBubble();
@@ -132,9 +148,9 @@ public class Cannon {
      */
     private Bubble getNextBubble() {
         game.log.log(this, "Next bubble loaded to cannon");
-        Bubble nextBubble = Bubble.randomColor((double) this.xLaunch,
+        Bubble newBubble = Bubble.randomColor((double) this.xLaunch,
                 (double) this.yLaunch, game.arena.getColorsOnArena(), true);
-        return nextBubble;
+        return newBubble;
     }
     /**
      * Fires current bubble and loads next bubble.
@@ -150,7 +166,7 @@ public class Cannon {
      * Updates the Cannon angle per input step.
      */
     public final void stepUp() {
-        if (this.angle <= 60) {
+        if (this.angle <= rightAngleLimit) {
             this.angle += 1;
         }
     }
@@ -158,7 +174,7 @@ public class Cannon {
      * Updates the Cannon angle per input step.
      */
     public final void stepDown() {
-        if (this.angle >= -60) {
+        if (this.angle >= leftAngleLimit) {
             this.angle -= 1;
         }
     }
@@ -175,7 +191,7 @@ public class Cannon {
                 game.log.log(this, "Cannon moving to the right");
             }
             this.timePassedKeyRight += delta;
-            if (this.timePassedKeyRight > 10) {
+            if (this.timePassedKeyRight > inputScanDelay) {
                 stepDown();
                 this.timePassedKeyRight = 0;
             }
@@ -187,7 +203,7 @@ public class Cannon {
                 game.log.log(this, "Cannon moving to the left");
             }
             this.timePassedKeyLeft += delta;
-            if (this.timePassedKeyLeft > 10) {
+            if (this.timePassedKeyLeft > inputScanDelay) {
                 stepUp();
                 this.timePassedKeyLeft = 0;
             }
@@ -217,10 +233,11 @@ public class Cannon {
         g.setColor(this.cannonColour);
         // TODO Make a nicer cannon
         g.drawLine(this.x, this.y, (int) (this.x + Math.cos(Math.toRadians(
-                this.angle + 90)) * this.size), (int) (this.y - Math.sin(
-                        Math.toRadians(this.angle + 90)) * this.size));
-        if(displayWarning) {
-            g.drawString("Hurry up!", 225, 500);
+                this.angle + angleOffset)) * this.size), (int) (this.y
+                - Math.sin(Math.toRadians(this.angle + angleOffset))
+                * this.size));
+        if (displayWarning) {
+            g.drawString("Hurry up!", displayWarningX, displayWarningY);
         }
     }
 }
