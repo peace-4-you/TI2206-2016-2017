@@ -207,17 +207,50 @@ public class BubbleTest {
     }
 
     @Test
-    public void drop() throws Exception {
-        //TODO: add drop tests
+    public void dropLandedBubbleSetsStateToDroppingTest() throws Exception {
+        Bubble bubble = new Bubble(200, 200, Bubble.ColorChoice.BLUE, true);
+
+        bubble.drop();
+
+        assertEquals(Bubble.State.DROPPING, bubble.getState());
     }
 
     @Test
-    public void getBoundingBox() throws Exception {
-        //TODO: add return Circle tests
+    public void dropLandedBubbleSetsXSpeedToZeroTest() throws Exception {
+        Bubble bubble = new Bubble(200, 200, Bubble.ColorChoice.BLUE, true);
+
+        bubble.drop();
+
+        assertEquals(0, bubble.getXSpeed(), 0);
     }
 
     @Test
-    public void randomColor() throws Exception {
-        //TODO: add return Bubble with random color tests
+    public void dropLandedBubbleSetsYSpeedToSPEEDTest() throws Exception {
+        Bubble bubble = new Bubble(200, 200, Bubble.ColorChoice.BLUE, true);
+
+        bubble.drop();
+
+        assertEquals(Bubble.SPEED, bubble.getYSpeed(), 0);
+    }
+
+    @Test
+    public void getBoundingBoxReturnsCircleObjectWithXPosInTheCenterTest() throws Exception {
+        Bubble bubble = new Bubble(200, 300, Bubble.ColorChoice.BLUE, true);
+
+        assertEquals((200 + (Bubble.DIAMETER / 2)), bubble.getBoundingBox().getCenterX(), 0);
+    }
+
+    @Test
+    public void getBoundingBoxReturnsCircleObjectWithYPosInTheCenterTest() throws Exception {
+        Bubble bubble = new Bubble(200, 300, Bubble.ColorChoice.BLUE, true);
+
+        assertEquals((300 + (Bubble.DIAMETER / 2)), bubble.getBoundingBox().getCenterY(), 0);
+    }
+
+    @Test
+    public void getBoundingBoxReturnsCircleObjectWithCorrectRadiusTest() throws Exception {
+        Bubble bubble = new Bubble(200, 300, Bubble.ColorChoice.BLUE, true);
+
+        assertEquals((Bubble.DIAMETER / 2), bubble.getBoundingBox().getRadius(), 0);
     }
 }
