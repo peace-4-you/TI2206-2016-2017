@@ -37,12 +37,9 @@ public class Arena {
     private BubbleStorage bubbleStorage;
 
 
-    /* Keep track how many bubbleStorage are shot */
-    private int bubbleCount;
-
     /* Temporarily Bubble diameter variable */
     private final int DIAMETER = (int) Bubble.DIAMETER;
-    private final double OFFSET = ((double) DIAMETER / (double) 2.0);
+    private final double OFFSET =  DIAMETER /  2;
     /* Max amount of bubbleStorage that fit in the vertical axis */
 
 
@@ -75,7 +72,7 @@ public class Arena {
         collide.checkCollision(bubble);
     }
 
-    public Collision getCollision(){
+    public Collision getCollision() {
         return collide;
     }
 
@@ -136,6 +133,11 @@ public class Arena {
     }
 
 
+    /**
+     * Return the bubbleStorage.
+     *
+     * @return BubbleStorage instance
+     */
     public BubbleStorage getBubbleStorage() {
         return bubbleStorage;
     }
@@ -150,7 +152,7 @@ public class Arena {
         collide.draw(g);
         g.setColor(Color.white);
         g.drawRect(xPos, yPos, width, height);
-        float yPosLine = (float) (bubbleStorage.heightStorage * ((DIAMETER * Math.tan(60)) + OFFSET + 2) + yPos + 5);
+        float yPosLine = (float) (bubbleStorage.getHeight() * ((DIAMETER * Math.tan(60)) + OFFSET + 2) + yPos + 5);
         g.drawLine(xPos, yPosLine, xPos + width, yPosLine);
 
     }

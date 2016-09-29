@@ -15,11 +15,11 @@ public final class BubbleStorage {
     /**
      * Max amount of columns width wise.
      */
-    public final int widthStorage = 8;
+    private final int widthStorage = 8;
     /**
      * Max amount of rows height wise.
      */
-    public final int heightStorage = 12;
+    private final int heightStorage = 12;
     /**
      * Starting amount of rows.
      */
@@ -37,7 +37,7 @@ public final class BubbleStorage {
     /**
      * The offset of Y between each row.
      */
-    public final double rowOffset =
+    private final double rowOffset =
             (double) diameter * Math.tan(60) + bubbleOffset + 2;
 
     /**
@@ -54,19 +54,23 @@ public final class BubbleStorage {
      */
     private int yBound;
 
-    private Arena arena;
+    /**
+     * Container of this storage.
+     */
+    private Arena arenaCont;
 
     /**
      * Constructor for bubble storage.
      *
-     * @param x x-coordinate of upper left corner of the arena
-     * @param y y-coordinate of upper left corner of the arena
+     * @param x     x-coordinate of upper left corner of the arena
+     * @param y     y-coordinate of upper left corner of the arena
+     * @param arena arena container of this bubblestorage object
      */
-    public BubbleStorage(int x, int y, Arena are) {
+    public BubbleStorage(final int x, final int y, final Arena arena) {
         bubble2DArray = new LinkedList<Bubble[]>();
         xBound = x;
         yBound = y;
-        arena = are;
+        arenaCont = arena;
         App.getGame().log.log("Creating a BubbleStorage.");
         for (int i = 0; i < startRows; i++) {
             addBubbleRow(true);
@@ -82,11 +86,11 @@ public final class BubbleStorage {
 
     /**
      * Adds a new row of bubbles after the cannon shots 10 times. The new
-     * row is added to the top of the Arena and saved in the graph.
+     * row is added to the top of the arenaCont and saved in the graph.
      *
      * @param useAllColors boolean for using all colors possible or not.
      */
-    public void addBubbleRow(boolean useAllColors) {
+    private void addBubbleRow(final boolean useAllColors) {
 
         App.getGame().log.log("Adding a row of bubbles to the storage.");
 
@@ -109,7 +113,7 @@ public final class BubbleStorage {
         Random rand = new Random();
         for (int i = 0; i < bubbleRow.length; i++) {
             //
-            int xPos = (int) ((diameter * i) + offset + xBound);
+            int xPos = (int) (diameter * i + offset + xBound);
             int yPos = 0 + yBound;
             Bubble.ColorChoice color = colors.get(rand.nextInt(colors.size()));
             bubbleRow[i] = new Bubble(xPos, yPos, color, false);
@@ -138,7 +142,7 @@ public final class BubbleStorage {
      *
      * @return the row added
      */
-    public Bubble[] addEmptyBubbleRowAbove() {
+    private Bubble[] addEmptyBubbleRowAbove() {
         // Move all the other bubbles down by diameter
         for (Bubble[] row : bubble2DArray) {
             for (int i = 0; i < row.length; i++) {
@@ -208,7 +212,7 @@ public final class BubbleStorage {
      *
      * @param bubble bubble to be removed
      */
-    public void removeBubble(Bubble bubble) {
+    public void removeBubble(final Bubble bubble) {
         //TODO: Remove dropbubble from here. This method should be called after
 
         for (Bubble[] row : bubble2DArray) {
@@ -241,7 +245,7 @@ public final class BubbleStorage {
 
         for (Bubble[] row : rowsToRemove) {
             for (Bubble b : row) {
-                arena.getCollision().dropBubble(b);
+                arenaCont.getCollision().dropBubble(b);
             }
             bubble2DArray.remove(row);
         }
@@ -267,42 +271,36 @@ public final class BubbleStorage {
         try {
             neighbors[0] = bubble2DArray.get(row - 1)[column - 1 + offset];
         } catch (Exception e) {
-            //System.out.println("top left neighbour of ("+row+","+column+") does not exist");
         }
 
         // UP-RIGHT neighbour
         try {
             neighbors[1] = bubble2DArray.get(row - 1)[column + offset];
         } catch (Exception e) {
-            //System.out.println("top right neighbour of ("+row+","+column+") does not exist");
         }
 
         // LEFT neighbour
         try {
             neighbors[2] = bubble2DArray.get(row)[column - 1];
         } catch (Exception e) {
-            //System.out.println("left neighbour of ("+row+","+column+") does not exist");
         }
 
         // RIGHT neighbour
         try {
             neighbors[3] = bubble2DArray.get(row)[column + 1];
         } catch (Exception e) {
-            //System.out.println("right neighbour of ("+row+","+column+") does not exist");
         }
 
         // BOTTOM-LEFT neighbour
         try {
             neighbors[4] = bubble2DArray.get(row + 1)[column - 1 + offset];
         } catch (Exception e) {
-            //System.out.println("bottom left neighbour of ("+row+","+column+") does not exist");
         }
 
         // BOTTOM-RIGHT neighbour
         try {
             neighbors[5] = bubble2DArray.get(row + 1)[column + offset];
         } catch (Exception e) {
-            //System.out.println("bottom right neighbour of ("+row+","+column+") does not exist");
         }
 
         return neighbors;
@@ -337,7 +335,7 @@ public final class BubbleStorage {
      * @param ypos y coordinate of a bubble
      * @return row number
      */
-    public int getRow(double ypos) {
+    public int getRow(final double ypos) {
         return (int) Math.round((ypos - yBound) / rowOffset);
     }
 
@@ -349,7 +347,7 @@ public final class BubbleStorage {
      * @param ypos y coordinate of bubble
      * @return column number
      */
-    public int getColumn(double xpos, double ypos) {
+    public int getColumn(final double xpos, final double ypos) {
         int row = getRow(ypos);
         int column = 0;
 
@@ -381,11 +379,38 @@ public final class BubbleStorage {
     }
 
     /**
+     * Returns the amount of bubbles allowed width wise.
+     *
+     * @return width of storage
+     */
+    public int getWidth() {
+        return widthStorage;
+    }
+
+    /**
+     * Returns the amount of bubbles allowed heightwise.
+     *
+     * @return height of storage
+     */
+    public int getHeight() {
+        return heightStorage;
+    }
+
+    /**
+     * Return the rowOffset between rows.
+     *
+     * @return double
+     */
+    public double getRowOffset() {
+        return rowOffset;
+    }
+
+    /**
      * Draw all bubbles that are in the bubbleStorage.
      *
      * @param g canvas to draw on
      */
-    public void draw(Graphics g) {
+    public void draw(final Graphics g) {
         for (Bubble[] row : bubble2DArray) {
             for (Bubble b : row) {
                 if (b != null) {

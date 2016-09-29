@@ -4,26 +4,57 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
 import org.newdawn.slick.Graphics;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  * Created by Jason Xie on 29/09/2016.
  */
-public class Collision {
+public final class Collision {
 
-    private BubbleStorage bubbleStorage;
-    private Arena arena;
-    private LinkedList<Bubble> droppingBubbles = new LinkedList<Bubble>();
+    /**
+     * Minimum amount of bubbles that need to be connected before pop.
+     */
+    private final int popAmount = 3;
+
+    /**
+     * LinkedList for temporarily storing dropping bubbles.
+     */
+    private LinkedList<Bubble> droppingBubbles;
+    /**
+     * Shot bubbles counter for adding a new row on top.
+     */
     private int bubbleCount;
 
-    public Collision(BubbleStorage bubbleStorage, Arena arena) {
-        this.bubbleStorage = bubbleStorage;
-        this.arena = arena;
-        bubbleCount = 0;
+    /**
+     * The object to check collisions on.
+     */
+    private BubbleStorage bubbleStorage;
+    /**
+     * The container of this ojbect.
+     */
+    private Arena arenaCont;
 
+
+    /**
+     * Constructor for creating an object just for checking collisions.
+     *
+     * @param bubbles container to check collisions on
+     * @param arena   container thtat contains this object
+     */
+    public Collision(final BubbleStorage bubbles, final Arena arena) {
+        this.bubbleStorage = bubbles;
+        this.arenaCont = arena;
+        droppingBubbles = new LinkedList<Bubble>();
+        bubbleCount = 0;
     }
 
-    public void checkCollision(Bubble bubble) {
+    /**
+     * Wrapper for checking the collisions.
+     *
+     * @param bubble Bubble to check collisions on.
+     */
+    public void checkCollision(final Bubble bubble) {
         checkWallCollision(bubble);
         if (bubble.getY() <= 0) {
             landBubble(bubble);
@@ -32,24 +63,36 @@ public class Collision {
         checkGridCollision(bubble);
     }
 
-    private void checkWallCollision(Bubble bubble) {
-        if (bubble.getX() <= arena.get_xPos()
-                || bubble.getX() + Bubble.DIAMETER >= arena.get_xPos() + arena.getWidth()) {
+    /**
+     * Check collision between bubble and arena wall.
+     *
+     * @param bubble Bubble to check collisions on.
+     */
+    private void checkWallCollision(final Bubble bubble) {
+        double xPos = bubble.getX();
+        double wallPos = arenaCont.get_xPos();
+        if (xPos <= wallPos
+                || xPos + Bubble.DIAMETER >= wallPos + arenaCont.getWidth()) {
             bubble.hitWall();
         }
     }
 
-    private void checkGridCollision(Bubble shotBUbble) {
+    /**
+     * Check collisions between bubble and the bubbleStorage grid.
+     *
+     * @param shotBubble bubble that was fired.
+     */
+    private void checkGridCollision(final Bubble shotBubble) {
         collisionLoop:
         for (int i = 0; i < bubbleStorage.size(); i++) {
             for (int j = 0; j < bubbleStorage.get(i).length; j++) {
                 Bubble bubble = bubbleStorage.get(i)[j];
-                if (bubble != null && shotBUbble != bubble) {
+                if (bubble != null && shotBubble != bubble) {
                     if (bubble.getState() == Bubble.State.LANDED) {
-                        if (shotBUbble.getBoundingBox().intersects(bubble.getBoundingBox())) {
-                            App.getGame().log.log(this, "Fired Bubble collision! " + shotBUbble.getColor() + " with " + bubble.getColor());
-                            landBubble(shotBUbble);
-                            popBubbles(shotBUbble);
+                        if (shotBubble.getBoundingBox().intersects(bubble.getBoundingBox())) {
+                            App.getGame().log.log(this, "Fired Bubble collision! " + shotBubble.getColor() + " with " + bubble.getColor());
+                            landBubble(shotBubble);
+                            popBubbles(shotBubble);
                             break collisionLoop;
                         }
                     }
@@ -64,21 +107,23 @@ public class Collision {
      *
      * @param shotBubble The bubble shot by the cannon
      */
-    public void landBubble(Bubble shotBubble) {
+    private void landBubble(final Bubble shotBubble) {
         int row = bubbleStorage.getRow(shotBubble.getY());
         int column = 0;
 
-		/* Check and add if a new row is needed */
         while (bubbleStorage.size() <= row) {
             bubbleStorage.addEmptyBubbleRowBelow();
         }
 
         column = bubbleStorage.getColumn(shotBubble.getX(), shotBubble.getY());
         bubbleStorage.get(row)[column] = shotBubble;
-        shotBubble.land((double) arena.get_xPos() + (column * Bubble.DIAMETER) + (bubbleStorage.get(row).length == bubbleStorage.widthStorage ? 0 : Bubble.DIAMETER / 2), (double) arena.get_yPos() + (row * bubbleStorage.rowOffset));
+        //TODO: This should not be calculated here.
+        double offset = (bubbleStorage.get(row).length % 2 == 0) ? 0 : Bubble.DIAMETER / 2;
+        double xPos = arenaCont.get_xPos() + column * Bubble.DIAMETER + offset;
+        double yPos = arenaCont.get_yPos() + row * bubbleStorage.getRowOffset();
+        shotBubble.land(xPos, yPos);
 
-        // popBubbles(shotBubble);
-
+        //Is not part of the functionalty that this class offers, should be thus moved.
         bubbleCount++;
         if (bubbleCount > 10) {
             bubbleCount = 0;
@@ -87,18 +132,17 @@ public class Collision {
     }
 
     /**
-     * Checks for 3 (or more) connected bubbles. If so, it signals the bubble objects to
-     * pop and removes it from the graph. It also calls the drop bubbles method.
+     * Checks for bubbles that can be popped.
+     * Requires at least 3 connected bubbles of same colour.
      *
      * @param popBubble The bubble to be popped
      */
-    public void popBubbles(Bubble popBubble) {
+    private void popBubbles(final Bubble popBubble) {
         LinkedList<Bubble> popList = new LinkedList<Bubble>();
 
         popList = checkBubblesToPop(popBubble, popList);
 
-		/* Check if 3 or more bubbles are connected */
-        if (popList.size() >= 3) {
+        if (popList.size() >= popAmount) {
             App.getGame().player.score.scoreBubblesPopped((int) popList.size());
             while (popList.size() != 0) {
                 Bubble bubbleToPop = popList.pop();
@@ -113,11 +157,16 @@ public class Collision {
      * Checks which bubble needs to be popped using recursive calls.
      *
      * @param lastBubble checks the neighbors of this bubble.
+     * @param popList    list of to be popped bubbles
+     * @return LinkedList with all bubbles that should be popped.
      */
-    private LinkedList<Bubble> checkBubblesToPop(Bubble lastBubble, LinkedList<Bubble> popList) {
+    private LinkedList<Bubble> checkBubblesToPop(final Bubble lastBubble,
+                                                 LinkedList<Bubble> popList) {
         Bubble[] neighbors;
-        int row = bubbleStorage.getRow(lastBubble.getY());
-        int column = bubbleStorage.getColumn(lastBubble.getX(), lastBubble.getY());
+        double xPos = lastBubble.getX();
+        double yPos = lastBubble.getY();
+        int row = bubbleStorage.getRow(yPos);
+        int column = bubbleStorage.getColumn(xPos, yPos);
         boolean empty = true;
 
         neighbors = bubbleStorage.getNeighbors(row, column);
@@ -147,9 +196,11 @@ public class Collision {
 
     /**
      * Checks which bubble needs to be dropped using recursive calls.
+     *
+     * @return LinkedList of bubbles to be dropped.
      */
-    public LinkedList<Bubble> checkBubblesToDrop() {
-        int dropped_bubbles = 0;
+    private LinkedList<Bubble> checkBubblesToDrop() {
+        int dropCount = 0;
         LinkedList<Bubble> visited = new LinkedList<Bubble>();
         App.getGame().log.log("Checking for bubbles to drop");
 
@@ -160,7 +211,7 @@ public class Collision {
             }
         }
 
-        // now do recursive call
+        // Recursive call
         LinkedList<Bubble> newVisited = checkBubblesToDrop(visited);
 
         // loop over each bubble to see if newVisited contains it
@@ -173,30 +224,33 @@ public class Collision {
 
                     dropBubble(bubble);
 
-                    dropped_bubbles++;
+                    dropCount++;
                 }
             }
         }
-        if (dropped_bubbles > 0) {
-            App.getGame().player.score.scoreBubblesDropped(dropped_bubbles);
+        if (dropCount > 0) {
+            App.getGame().player.score.scoreBubblesDropped(dropCount);
         }
 
         return visited;
-        //return null;
     }
 
     /**
-     * Checks for bubbles to drop using a recursive algorithm
+     * Checks for bubbles to drop using a recursive algorithm.
      *
-     * @param visited
-     * @return
+     * @param visited LinkedList with already visited bubbles
+     * @return LinkedList with bubbles to be dropped
      */
     private LinkedList<Bubble> checkBubblesToDrop(LinkedList<Bubble> visited) {
         boolean addedSomething = false;
         for (int i = 0; i < visited.size(); i++) {
             Bubble b = visited.get(i);
-            if (b == null) continue;
-            Bubble[] neighbours = bubbleStorage.getNeighbors(bubbleStorage.getRow(b.getY()), bubbleStorage.getColumn(b.getX(), b.getY()));
+            if (b == null) {
+                continue;
+            }
+            int row = bubbleStorage.getRow(b.getY());
+            int column = bubbleStorage.getColumn(b.getX(), b.getY());
+            Bubble[] neighbours = bubbleStorage.getNeighbors(row, column);
             for (Bubble nb : neighbours) {
                 if (!visited.contains(nb)) {
                     visited.addLast(nb);
@@ -205,7 +259,9 @@ public class Collision {
             }
         }
 
-        if (!addedSomething) return visited;
+        if (!addedSomething) {
+            return visited;
+        }
 
         // else do a recursive call with the new list
         visited = checkBubblesToDrop(visited);
@@ -215,22 +271,35 @@ public class Collision {
 
     }
 
-    public void dropBubble(Bubble bubble) {
+    /**
+     * Drop a bubble.
+     *
+     * @param bubble Object to be dropped
+     */
+    public void dropBubble(final Bubble bubble) {
         if (bubble != null && !droppingBubbles.contains(bubble)) {
             bubble.setState(Bubble.State.DROPPING);
             droppingBubbles.add(bubble);
         }
     }
 
-    public void draw(Graphics g) {
-        for (Bubble dropBubble : droppingBubbles) {
-            //TODO: change 1000, to use the height of the windows/arena
-            if (dropBubble.getY() > 1000) {
+    /**
+     * Draw all dropping bubbles.
+     *
+     * @param g canvas to draw on
+     */
+    public void draw(final Graphics g) {
+        Iterator<Bubble> ite = droppingBubbles.iterator();
+        App.getGame().log.log("" + droppingBubbles.size());
+        while (ite.hasNext()) {
+            Bubble bubble = ite.next();
+            //TODO: change this number to the height of the game window
+            if (bubble.getY() > 580) {
+                ite.remove();
                 continue;
             }
-            // TODO: remove the bubble from the list
-            dropBubble.setY(dropBubble.getY() + Bubble.SPEED);
-            dropBubble.draw(g);
+            bubble.setY(bubble.getY() + Bubble.SPEED);
+            bubble.draw(g);
         }
     }
 
