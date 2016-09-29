@@ -91,7 +91,7 @@ public class Cannon {
 
 	private Bubble getNextBubble() {
 		game.log.log(this,"Next bubble loaded to cannon");
-		Bubble nextBubble = Bubble.randomColor((double) this.Xlaunch, (double) this.Ylaunch, game.arena.getBubbles().getColorsOnArena(), true);
+		Bubble nextBubble = Bubble.randomColor((double) this.Xlaunch, (double) this.Ylaunch, game.arena.getBubbleStorage().getColorsOnArena(), true);
 		
 		return nextBubble;
 	}

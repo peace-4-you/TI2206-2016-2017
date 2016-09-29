@@ -8,6 +8,7 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.game;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleStorage;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon.Cannon;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.Button;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameState;
@@ -17,6 +18,7 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.player.Player;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -125,46 +127,21 @@ public class Game extends BasicGameState {
         this.sbg = sbg;
         this.cannon.update(container, delta);
 
-        if (container.getInput().isKeyPressed(Input.KEY_1)) {
-            arena.checkBubblesToDrop();
-        }
+        // ??? What's this for?
+        /*if (container.getInput().isKeyPressed(Input.KEY_1)) {
+            arena.getCollision().checkBubblesToDrop();
+        }*/
 
-		/*LinkedList<Bubble[]> arenaBubbles = this.arena.get_BubbleArray();
         for (Bubble b1 : bubbleslist) {
-			b1.move();
-			if (b1.getState() == Bubble.State.FIRING) {
-				if (b1.getX() <= arena.get_xPos() || b1.getX()+Bubble.DIAMETER >= arena.get_xPos()+arena.getWidth()) {
-					b1.hitWall();
-				}
-				if(b1.getY() <= 0) {
-					arena.landBubble(b1);
-					arena.popBubbles(b1);
-				}
-				// collision with landed bubbles
-				collisionLoop:
-				for (int i = 0; i < arenaBubbles.size(); i++) {
-					for (int j = 0; j < arenaBubbles.get(i).length; j++) {
-						Bubble b2 = arenaBubbles.get(i)[j];
-						if (b2 != null && b1 != b2) {
-							if (b2.getState() == Bubble.State.LANDED) {
-								if (b1.getBoundingBox().intersects(b2.getBoundingBox())) {
-									log.log(this,"Fired Bubble collision! " + b1.getColor() + " with " + b2.getColor());
-									arena.landBubble(b1);
-									arena.popBubbles(b1);
-									break collisionLoop;
-								}
-							}
-						}
-					}
-				}
-				// end collision with landed bubbles
-			}
-
-		}*/
-        if (arena.getBubbles().isFull()) {
+            b1.move();
+            if (b1.getState() == Bubble.State.FIRING) {
+                arena.checkCollision(b1);
+            }
+        }
+        if (arena.getBubbleStorage().isFull()) {
             this.failedGame();
         }
-        if (arena.getBubbles().isEmpty()) {
+        if (arena.getBubbleStorage().isEmpty()) {
             this.wonGame();
         }
         if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {

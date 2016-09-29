@@ -72,8 +72,8 @@ public class App extends StateBasedGame {
             throws SlickException {
         game = new Game();
         game.initialisePlayer();
-        addState(new StartScreen());
-        addState(new MainMenu());
+        //addState(new StartScreen());
+        //addState(new MainMenu());
         addState(game);
         addState(new PausedScreen());
         addState(new VictoryScreen());

@@ -1,6 +1,7 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
 import org.newdawn.slick.Graphics;
 
 import java.util.LinkedList;
@@ -14,11 +15,11 @@ public final class BubbleStorage {
     /**
      * Max amount of columns width wise.
      */
-    private final int widthStorage = 8;
+    public final int widthStorage = 8;
     /**
      * Max amount of rows height wise.
      */
-    private final int heightStorage = 12;
+    public final int heightStorage = 12;
     /**
      * Starting amount of rows.
      */
@@ -31,18 +32,19 @@ public final class BubbleStorage {
     /**
      * The radius of a bubble.
      */
-    private final int bubbleOffset = (int) Bubble.DIAMETER / 2;
+    private final double bubbleOffset = Bubble.DIAMETER / 2;
 
     /**
      * The offset of Y between each row.
      */
-    private final double rowOffset =
+    public final double rowOffset =
             (double) diameter * Math.tan(60) + bubbleOffset + 2;
 
     /**
      * Structure that contains all the rows of bubbles.
      */
     private LinkedList<Bubble[]> bubble2DArray;
+
     /**
      * The x coordinate of the left bound of the arena.
      */
@@ -52,44 +54,24 @@ public final class BubbleStorage {
      */
     private int yBound;
 
+    private Arena arena;
+
     /**
      * Constructor for bubble storage.
      *
      * @param x x-coordinate of upper left corner of the arena
      * @param y y-coordinate of upper left corner of the arena
      */
-    public BubbleStorage(int x, int y) {
+    public BubbleStorage(int x, int y, Arena are) {
         bubble2DArray = new LinkedList<Bubble[]>();
         xBound = x;
         yBound = y;
-        App.game.log.log("Creating a BubbleStorage.");
+        arena = are;
+        App.getGame().log.log("Creating a BubbleStorage.");
         for (int i = 0; i < startRows; i++) {
             addBubbleRow(true);
         }
     }
-
-
-    /**
-     * Is this even used?
-     * Stores a bubble in the 2D array.
-     * This will overwrite the previous bubble at the location.
-     *
-     * @param bubble Bubble to be stored
-     */
-    public void addBubble(Bubble bubble) {
-        int row = getRow(bubble.getY());
-        int column = 0;
-
-		/* Check and add if a new row is needed */
-        while (bubble2DArray.size() <= row) {
-            addEmptyBubbleRowBelow();
-        }
-
-        column = getColumn(bubble.getX(), bubble.getY());
-
-        bubble2DArray.get(row)[column] = bubble;
-    }
-
 
     /**
      * Adds a new row of bubbles to the arena.
@@ -106,7 +88,7 @@ public final class BubbleStorage {
      */
     public void addBubbleRow(boolean useAllColors) {
 
-        App.game.log.log("Adding a row of bubbles to the storage.");
+        App.getGame().log.log("Adding a row of bubbles to the storage.");
 
         Bubble[] bubbleRow = addEmptyBubbleRowAbove();
         double offset = 0;
@@ -157,8 +139,6 @@ public final class BubbleStorage {
      * @return the row added
      */
     public Bubble[] addEmptyBubbleRowAbove() {
-
-
         // Move all the other bubbles down by diameter
         for (Bubble[] row : bubble2DArray) {
             for (int i = 0; i < row.length; i++) {
@@ -226,10 +206,9 @@ public final class BubbleStorage {
     /**
      * Removes a bubble.
      *
-     * @param bubble   bubble to be removed
-     * @param dropping boolean of whether bubble is dropping or not
+     * @param bubble bubble to be removed
      */
-    public void removeBubble(Bubble bubble, final boolean dropping) {
+    public void removeBubble(Bubble bubble) {
         //TODO: Remove dropbubble from here. This method should be called after
 
         for (Bubble[] row : bubble2DArray) {
@@ -262,7 +241,7 @@ public final class BubbleStorage {
 
         for (Bubble[] row : rowsToRemove) {
             for (Bubble b : row) {
-                dropBubble(b);
+                arena.getCollision().dropBubble(b);
             }
             bubble2DArray.remove(row);
         }
@@ -283,26 +262,47 @@ public final class BubbleStorage {
         if (height <= row) {
             return neighbors;
         }
-        int width = bubble2DArray.get(row).length;
-        int offset = 1;
-        if (width == widthStorage) {
-            offset = 0;
+        int offset = (bubble2DArray.get(row).length == widthStorage) ? 0 : 1;
+        // UP-LEFT neighbour
+        try {
+            neighbors[0] = bubble2DArray.get(row - 1)[column - 1 + offset];
+        } catch (Exception e) {
+            //System.out.println("top left neighbour of ("+row+","+column+") does not exist");
         }
 
-        if (row > 0) {
-            Bubble[] aboveRow = bubble2DArray.get(row - 1);
-            neighbors[0] = (column > 0) ? (aboveRow[column - 1 + offset]) : null;
-            neighbors[1] = (column < width - 1) ? (aboveRow[column + offset]) : null;
+        // UP-RIGHT neighbour
+        try {
+            neighbors[1] = bubble2DArray.get(row - 1)[column + offset];
+        } catch (Exception e) {
+            //System.out.println("top right neighbour of ("+row+","+column+") does not exist");
         }
 
-        Bubble[] currentRow = bubble2DArray.get(row);
-        neighbors[2] = (column > 0) ? (currentRow[column - 1]) : null;
-        neighbors[3] = (column < width - 1) ? (currentRow[column]) : null;
+        // LEFT neighbour
+        try {
+            neighbors[2] = bubble2DArray.get(row)[column - 1];
+        } catch (Exception e) {
+            //System.out.println("left neighbour of ("+row+","+column+") does not exist");
+        }
 
-        if (row < height - 1) {
-            Bubble[] belowRow = bubble2DArray.get(row + 1);
-            neighbors[4] = (column > 0) ? (belowRow[column - 1 + offset]) : null;
-            neighbors[5] = (column < width - 1) ? (belowRow[column + offset]) : null;
+        // RIGHT neighbour
+        try {
+            neighbors[3] = bubble2DArray.get(row)[column + 1];
+        } catch (Exception e) {
+            //System.out.println("right neighbour of ("+row+","+column+") does not exist");
+        }
+
+        // BOTTOM-LEFT neighbour
+        try {
+            neighbors[4] = bubble2DArray.get(row + 1)[column - 1 + offset];
+        } catch (Exception e) {
+            //System.out.println("bottom left neighbour of ("+row+","+column+") does not exist");
+        }
+
+        // BOTTOM-RIGHT neighbour
+        try {
+            neighbors[5] = bubble2DArray.get(row + 1)[column + offset];
+        } catch (Exception e) {
+            //System.out.println("bottom right neighbour of ("+row+","+column+") does not exist");
         }
 
         return neighbors;
@@ -350,13 +350,10 @@ public final class BubbleStorage {
      * @return column number
      */
     public int getColumn(double xpos, double ypos) {
-        //int xPos = point.getX();
-        //int yPos = point.getY();
         int row = getRow(ypos);
         int column = 0;
 
         int rowWidth = 0;
-        // get the amount of bubbles the row should have
         if (bubble2DArray.peekFirst() == null) {
             return 0;
         }
@@ -395,16 +392,6 @@ public final class BubbleStorage {
                     b.draw(g);
                 }
             }
-        }
-        //TODO: The storage for the dropping bubbles should be moved elsewhere.
-        for (Bubble dropBubble : droppingBubbles) {
-            //TODO: change 1000, to use the height of the windows/arena
-            if (dropBubble.getY() > 1000) {
-                continue;
-            }
-            // TODO: remove the bubble from the list
-            dropBubble.setY(dropBubble.getY() + Bubble.SPEED);
-            dropBubble.draw(g);
         }
     }
 }

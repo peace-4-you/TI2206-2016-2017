@@ -15,6 +15,7 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena;
 import java.util.LinkedList;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.BubbleStorage;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Collision;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -43,9 +44,10 @@ public class Arena {
     private final int DIAMETER = (int) Bubble.DIAMETER;
     private final double OFFSET = ((double) DIAMETER / (double) 2.0);
     /* Max amount of bubbleStorage that fit in the vertical axis */
-    private final int HEIGHT_BUBBLES = 12;
 
-    private LinkedList<Bubble> droppingBubbles = new LinkedList<Bubble>();
+
+    private Collision collide;
+
 
     /**
      * Creates Arena for bubbleStorage storage and render variables
@@ -60,7 +62,8 @@ public class Arena {
         yPos = yVal;
         height = height_t;
         width = width_t;
-        bubbleStorage = new BubbleStorage(xPos, yPos);
+        bubbleStorage = new BubbleStorage(xPos, yPos, this);
+        collide = new Collision(bubbleStorage, this);
         bubbleCount = 0;
 
         App.getGame().log.log("Arena initialised");
@@ -68,178 +71,12 @@ public class Arena {
 
     }
 
-    public BubbleStorage getBubbles() {
-        return bubbleStorage;
+    public void checkCollision(Bubble bubble) {
+        collide.checkCollision(bubble);
     }
 
-    /**
-     * Calculates where the shot bubble lands on the arena. The location is
-     * saved in the graph. It also calls the pop bubbleStorage method.
-     *
-     * @param shotBubble The bubble shot by the cannon
-     */
-    public void landBubble(Bubble shotBubble) {
-        int row = bubbleStorage.getRow(shotBubble.getY());
-        int column = 0;
-
-		/* Check and add if a new row is needed */
-        while (bubbleStorage.size() <= row) {
-            bubbleStorage.addEmptyBubbleRowBelow();
-        }
-
-        column = bubbleStorage.getColumn(shotBubble.getX(), shotBubble.getY());
-        bubbleStorage.get(row)[column] = shotBubble;
-        shotBubble.land((double) this.xPos + (column * DIAMETER) + (this.bubbleStorage.get(row).length == WIDTH_BUBBLES ? 0 : DIAMETER / 2), (double) this.yPos + (row * (DIAMETER * Math.tan(60) + OFFSET + 2)));
-
-        // popBubbles(shotBubble);
-
-        bubbleCount++;
-        if (bubbleCount > 10) {
-            bubbleCount = 0;
-            bubbleStorage.addBubbleRow();
-        }
-    }
-
-
-    /**
-     * Checks for 3 (or more) connected bubbleStorage. If so, it signals the bubble objects to
-     * pop and removes it from the graph. It also calls the drop bubbleStorage method.
-     *
-     * @param popBubble The bubble to be popped
-     */
-    public void popBubbles(Bubble popBubble) {
-        LinkedList<Bubble> popList = new LinkedList<Bubble>();
-
-        popList = checkBubblesToPop(popBubble, popList);
-
-		/* Check if 3 or more bubbleStorage are connected */
-        if (popList.size() >= 3) {
-            App.getGame().player.score.scoreBubblesPopped((int) popList.size());
-            while (popList.size() != 0) {
-                int row = 0;
-                int column = 0;
-                boolean empty = true;
-                Bubble bubbleToPop = popList.pop();
-
-                //dropBubbles(popList);
-                //bubbleToPop.pop();
-                bubbleStorage.removeBubble(bubbleToPop, false);
-            }
-            checkBubblesToDrop();
-        }
-
-    }
-
-    /**
-     * Checks which bubble needs to be popped using recursive calls.
-     *
-     * @param lastBubble checks the neighbors of this bubble.
-     */
-    private LinkedList<Bubble> checkBubblesToPop(Bubble lastBubble, LinkedList<Bubble> popList) {
-        Bubble[] neighbors;
-        int row = bubbleStorage.getRow(lastBubble.getY());
-        int column = bubbleStorage.getColumn(lastBubble.getX(), lastBubble.getY());
-        boolean empty = true;
-
-        neighbors = bubbleStorage.getNeighbors(row, column);
-        popList.add(lastBubble);
-
-        for (Bubble b : neighbors) {
-            if (b != null) {
-                empty = false;
-                break;
-            }
-        }
-
-        if (empty) {
-            return popList;
-        }
-
-        for (Bubble b : neighbors) {
-            if (b != null) {
-                if (b.getColor() == lastBubble.getColor()
-                        && !popList.contains(b)) {
-                    popList = checkBubblesToPop(b, popList);
-                }
-            }
-        }
-        return popList;
-    }
-
-    /**
-     * Checks which bubble needs to be dropped using recursive calls.
-     */
-    public LinkedList<Bubble> checkBubblesToDrop() {
-        int dropped_bubbles = 0;
-        LinkedList<Bubble> visited = new LinkedList<Bubble>();
-        App.getGame().log.log("Checking for bubbles to drop");
-
-
-        if (!bubbleStorage.isEmpty() && bubbleStorage.get(0) != null) {
-            for (Bubble b : bubbleStorage.get(0)) {
-                visited.add(b);
-            }
-        }
-
-        // now do recursive call
-        LinkedList<Bubble> newVisited = checkBubblesToDrop(visited);
-
-        // loop over each bubble to see if newVisited contains it
-        // if it does not, remove the bubble
-        for (int i = 0; i < bubbleStorage.size(); i++) {
-            Bubble[] row = bubbleStorage.get(i);
-            for (Bubble bubble : row) {
-                if (!newVisited.contains(bubble)) {
-                    bubbleStorage.removeBubble(bubble, true);
-
-                    dropBubble(bubble);
-
-                    dropped_bubbles++;
-                }
-            }
-        }
-        if (dropped_bubbles > 0) {
-            App.getGame().player.score.scoreBubblesDropped(dropped_bubbles);
-        }
-        return visited;
-    }
-
-
-    public void dropBubble(Bubble bubble) {
-        if (bubble != null && !droppingBubbles.contains(bubble)) {
-            bubble.setState(Bubble.State.DROPPING);
-            droppingBubbles.add(bubble);
-        }
-    }
-
-    /**
-     * Checks for bubbleStorage to drop using a recursive algorithm.
-     *
-     * @param visited List of already visisted bubbles
-     * @return list of bubbles that might get dropped.
-     */
-    private LinkedList<Bubble> checkBubblesToDrop(LinkedList<Bubble> visited) {
-        boolean addedSomething = false;
-        for (int i = 0; i < visited.size(); i++) {
-            Bubble b = visited.get(i);
-            if (b == null) continue;
-            int row = bubbleStorage.getRow(b.getX());
-            int col = bubbleStorage.getColumn(b.getX(), b.getY());
-            Bubble[] neighbours = bubbleStorage.getNeighbors(row, col));
-            for (Bubble nb : neighbours) {
-                if (!visited.contains(nb)) {
-                    visited.addLast(nb);
-                    addedSomething = true;
-                }
-            }
-        }
-
-        if (!addedSomething) return visited;
-
-        // else do a recursive call with the new list
-        visited = checkBubblesToDrop(visited);
-
-        return visited;
+    public Collision getCollision(){
+        return collide;
     }
 
     /**
@@ -299,13 +136,8 @@ public class Arena {
     }
 
 
-    /**
-     * Returns the total amount of bubbleStorage in the storage.
-     *
-     * @return bubbleCount
-     */
-    public int getBubbleCount() {
-        return bubbleCount;
+    public BubbleStorage getBubbleStorage() {
+        return bubbleStorage;
     }
 
     /**
@@ -315,9 +147,11 @@ public class Arena {
      */
     public void draw(Graphics g) {
         bubbleStorage.draw(g);
+        collide.draw(g);
         g.setColor(Color.white);
-        g.drawRect((float) xPos, (float) yPos, (float) width, (float) height);
-        float yPosLine = (float) (HEIGHT_BUBBLES * ((DIAMETER * Math.tan(60)) + OFFSET + 2) + yPos + 5);
-        g.drawLine((float) xPos, yPosLine, (float) xPos + width, yPosLine);
+        g.drawRect(xPos, yPos, width, height);
+        float yPosLine = (float) (bubbleStorage.heightStorage * ((DIAMETER * Math.tan(60)) + OFFSET + 2) + yPos + 5);
+        g.drawLine(xPos, yPosLine, xPos + width, yPosLine);
+
     }
 }
