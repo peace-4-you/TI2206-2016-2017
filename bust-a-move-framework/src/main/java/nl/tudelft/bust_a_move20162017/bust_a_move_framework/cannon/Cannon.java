@@ -9,7 +9,9 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.PowerUp;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameConfig;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -150,6 +152,10 @@ public class Cannon {
         game.log.log(this, "Next bubble loaded to cannon");
         Bubble newBubble = Bubble.randomColor((double) this.xLaunch,
                 (double) this.yLaunch, game.arena.getColorsOnArena(), true);
+        if (GameConfig.ENABLE_POWERUPS) {
+            newBubble = PowerUp.apply(newBubble);
+        }
+
         return newBubble;
     }
     /**

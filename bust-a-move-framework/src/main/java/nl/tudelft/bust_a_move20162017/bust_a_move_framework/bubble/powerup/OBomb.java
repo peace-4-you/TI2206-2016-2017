@@ -12,6 +12,8 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -38,7 +40,7 @@ public class OBomb extends PowerUp {
   public final void draw(final Graphics g) {
     this.bubble.draw(g);
     g.setColor(Color.black);
-    g.drawString("OB", (int) this.getX(), (int) this.getY());
+    g.drawString("OB", (int) this.getX()+7, (int) this.getY()+7);
   }
 
   /**
@@ -47,5 +49,6 @@ public class OBomb extends PowerUp {
    */
   public final void pop() {
     this.bubble.pop();
+    // App.getGame().getArena().popOBomb(this);
   }
 }

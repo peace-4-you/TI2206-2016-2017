@@ -24,6 +24,7 @@ import org.newdawn.slick.Graphics;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.*;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble.ColorChoice;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameConfig;
 
 /**
  * The arena class maintains a LinkedList of ArrayList data structure to store the bubble objects.
@@ -254,20 +255,63 @@ public class Arena {
 
 		/* Check if 3 or more bubbles are connected */
         if (popList.size() >= 3) {
-            App.getGame().player.getScore().scoreBubblesPopped((int) popList.size());
             while (popList.size() != 0) {
                 int row = 0;
                 int column = 0;
                 boolean empty = true;
                 Bubble bubbleToPop = popList.pop();
 
-                //dropBubbles(popList);
-                //bubbleToPop.pop();
-                removeBubble(bubbleToPop, false);
+                popBubble(bubbleToPop);
             }
             checkBubblesToDrop();
         }
 
+    }
+
+    /**
+     * Pops a single bubble and removes it from the graph.
+     *
+     * @param bubble  Bubble to pop
+     */
+    public void popBubble(Bubble bubble) {
+      App.getGame().player.score.scoreBubblesPopped(1);
+      removeBubble(bubble);
+      bubble.pop();
+    }
+
+    /**
+     * Pops a RowBomb, pops a row of bubbles
+     *
+     * @param bubble  RowBomb to be popped
+     */
+    public void popRowBomb(Bubble bubble) {
+      int row = this.getRow(bubble.getY());
+      if (row < bubble2DArray.size()) {
+        for (Bubble b : bubble2DArray.get(row)) {
+          if (b != null) {
+            popBubble(b);
+          }
+        }
+      }
+      checkBubblesToDrop();
+    }
+
+    /**
+     * Pops an OBomb, pops a row of bubbles
+     *
+     * @param bubble  OBomb to be popped
+     */
+    public void popOBomb(Bubble bubble) {
+      int row = getRow(bubble.getY());
+      int col = getColumn(bubble.getX(), bubble.getY());
+      Bubble[] neighbors = getNeighbors(row, col);
+
+      for (Bubble b : neighbors) {
+        if (b != null) {
+          popBubble(b);
+        }
+      }
+      checkBubblesToDrop();
     }
 
     /**
@@ -324,15 +368,16 @@ public class Arena {
                 colors.add(c);
             }
         }
-        // TODO: should get a list of currently available colors,
-        // therefore we should make a method that returns all colors on the map.
 
         for (int i = 0; i < bubbleRow.length; i++) {
             int bubbleX = (int) ((DIAMETER * i) + offset + xPos);
             int bubbleY = 0 + yPos;
             int colorInt = rand.nextInt(colors.size());
-            Bubble bubble = new Bubble(bubbleX, bubbleY, colors.get(colorInt), false);
-            bubbleRow[i] = new SlowDown(new FixCannon(bubble));
+            Bubble b = new Bubble(bubbleX, bubbleY, colors.get(colorInt), false);
+            if (GameConfig.ENABLE_POWERUPS) {
+                b = PowerUp.apply(b);
+            }
+            bubbleRow[i] = b;
         }
     }
 
@@ -385,7 +430,7 @@ public class Arena {
      *
      * @param bubble
      */
-    public void removeBubble(Bubble bubble, boolean dropping) {
+    public void removeBubble(Bubble bubble) {
 
         for (Bubble[] row : bubble2DArray) {
             boolean finished = false;
@@ -500,7 +545,7 @@ public class Arena {
             Bubble[] row = bubble2DArray.get(i);
             for (Bubble bubble : row) {
                 if (!newVisited.contains(bubble)) {
-                    removeBubble(bubble, true);
+                    removeBubble(bubble);
 
                     dropBubble(bubble);
 

@@ -32,9 +32,9 @@ public class Bubble {
    */
   public static final double DIAMETER = 35;
   /**
-   * Standard speed of a bubble.
+   * Firing speed of a bubble.
    */
-  public static final double SPEED = 3;
+  public static double SPEED = 3;
   /**
    * Red color constant.
    */
@@ -111,7 +111,7 @@ public class Bubble {
     /**
      * Bubble is popping.
      */
-    POPPING,
+    POPPED,
     /**
      * Bubble is dropping.
      */
@@ -141,6 +141,11 @@ public class Bubble {
   }
 
   /**
+   * Empty constructor per abstract class specification.
+   */
+  public Bubble() {}
+
+  /**
    * Creates Bubble instance.
    * @param xPos  double value for starting x position
    * @param yPos  double value for starting y position
@@ -150,7 +155,6 @@ public class Bubble {
    */
   public Bubble(final double xPos, final double yPos, final ColorChoice c,
                 final boolean forCannon) {
-    System.out.println("Bubble constructor");
     this.x = xPos;
     this.y = yPos;
     this.xSpeed = 0;
@@ -183,8 +187,6 @@ public class Bubble {
     }
   }
 
-  public Bubble() {}
-
   /**
    * Draws the Bubble.
    * @param g  Java Graphics instance
@@ -211,7 +213,7 @@ public class Bubble {
         this.setX(nextX);
         this.setY(nextY);
         break;
-      case POPPING:
+      case POPPED:
         break;
       case DROPPING:
         this.setX(nextX);
@@ -262,11 +264,10 @@ public class Bubble {
   }
 
   /**
-   * Pops the Bubble by setting state to POPPING and setting xSpeed
+   * Pops the Bubble by setting state to POPPED and setting xSpeed
    * and ySpeed to zero.
    */
   public void pop() {
-    this.setState(State.POPPING);
     this.setXSpeed(0);
     this.setYSpeed(0);
   }
@@ -392,6 +393,14 @@ public class Bubble {
    */
   public Circle getBoundingBox() {
     return this.boundingBox;
+  }
+
+  /**
+   * Setter method: for a Bubble's firing speed.
+   * @param nextSPEED  new SPEED value
+   */
+  public static void setSPEED(double nextSPEED) {
+    Bubble.SPEED = nextSPEED;
   }
 
   /**

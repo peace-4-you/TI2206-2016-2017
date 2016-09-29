@@ -76,5 +76,12 @@ public abstract class GameConfig {
      */
     public static final double ROW_OFFSET = (double) Bubble.DIAMETER
             * Math.tan(60) + COLUMN_OFFSET + 2;
+    /**
+     * Bubble PowerUp feature flag.
+     */
+    public static final boolean ENABLE_POWERUPS = true;
+    /**
+     * Bubble speed up/slow down factor.
+     */
+    public static final double BUBBLE_SPEEDUP = 1.3;
 }
-

@@ -30,8 +30,7 @@ public abstract class PowerUp extends Bubble {
   protected Bubble rootBubble;
 
   /**
-   * Empty constructor per abstract specification.
-   *
+   * Empty constructor per abstract class specification.
    */
   public PowerUp() {}
 
@@ -39,9 +38,33 @@ public abstract class PowerUp extends Bubble {
    * Creates PowerUp instance.
    * @param bubble  wrapped Bubble component.
    */
-  public PowerUp(Bubble bubble) {
+  public PowerUp(final Bubble bubble) {
     this.bubble = bubble;
     this.rootBubble = this.getRootBubble();
+  }
+
+  /**
+   * Applies a random PowerUp to the supplied Bubble
+   * (can be none).
+   *
+   * @param bubble  Bubble to apply PowerUps to.
+   * @return Bubble  PowerUp'd Bubble.
+   */
+  public static Bubble apply(final Bubble bubble) {
+    double rng = Math.random();
+    Bubble puBubble = bubble;
+
+    if (rng < 0.075) {
+      puBubble = new SpeedUp(puBubble);
+    } else if (0.075 <= rng && rng < 0.15) {
+      puBubble = new SlowDown(puBubble);
+    } else if (0.15 <= rng && rng < 0.175) {
+      puBubble = new RowBomb(puBubble);
+    } else if (0.175 <= rng && rng < 0.2) {
+      puBubble = new OBomb(puBubble);
+    }
+
+    return puBubble;
   }
 
   /**
