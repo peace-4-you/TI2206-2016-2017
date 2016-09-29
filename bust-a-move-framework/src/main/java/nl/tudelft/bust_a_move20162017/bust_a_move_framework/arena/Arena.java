@@ -39,7 +39,7 @@ public class Arena {
 
     /* Temporarily Bubble diameter variable */
     private final int DIAMETER = (int) Bubble.DIAMETER;
-    private final double OFFSET =  DIAMETER /  2;
+    private final double OFFSET = DIAMETER / 2;
     /* Max amount of bubbleStorage that fit in the vertical axis */
 
 
@@ -61,7 +61,6 @@ public class Arena {
         width = width_t;
         bubbleStorage = new BubbleStorage(xPos, yPos, this);
         collide = new Collision(bubbleStorage, this);
-        bubbleCount = 0;
 
         App.getGame().log.log("Arena initialised");
         //Level 1

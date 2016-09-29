@@ -290,7 +290,6 @@ public final class Collision {
      */
     public void draw(final Graphics g) {
         Iterator<Bubble> ite = droppingBubbles.iterator();
-        App.getGame().log.log("" + droppingBubbles.size());
         while (ite.hasNext()) {
             Bubble bubble = ite.next();
             //TODO: change this number to the height of the game window
