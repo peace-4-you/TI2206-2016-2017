@@ -254,7 +254,7 @@ public class Arena {
 
 		/* Check if 3 or more bubbles are connected */
         if (popList.size() >= 3) {
-            App.getGame().player.score.scoreBubblesPopped((int) popList.size());
+            App.getGame().player.getScore().scoreBubblesPopped((int) popList.size());
             while (popList.size() != 0) {
                 int row = 0;
                 int column = 0;
@@ -509,7 +509,7 @@ public class Arena {
             }
         }
         if (dropped_bubbles > 0) {
-            App.getGame().player.score.scoreBubblesDropped(dropped_bubbles);
+            App.getGame().player.getScore().scoreBubblesDropped(dropped_bubbles);
         }
 
         return visited;

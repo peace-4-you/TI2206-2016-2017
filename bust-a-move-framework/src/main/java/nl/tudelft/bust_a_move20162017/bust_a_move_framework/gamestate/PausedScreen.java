@@ -79,7 +79,7 @@ public class PausedScreen extends BasicGameState implements Observer {
         quit = new Button("Quit", GameConfig.FIFTH_LINE, GameConfig.WIDTH2,
                 GameConfig.HEIGHT);
         quit.centerButton(game);
-        App.getGame().player.score.addAsObserver(this);
+        App.getGame().player.getScore().addAsObserver(this);
     }
     /**
      * Renders the BasicGameState.

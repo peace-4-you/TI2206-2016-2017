@@ -82,7 +82,7 @@ public class DefeatScreen extends BasicGameState implements Observer {
         mainmenu = new Button("Go to Main Menu", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH3, GameConfig.HEIGHT);
         mainmenu.centerButton(game);
-        App.getGame().player.score.addAsObserver(this);
+        App.getGame().player.getScore().addAsObserver(this);
     }
     /**
      * Renders the BasicGameState.

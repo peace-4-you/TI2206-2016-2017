@@ -59,7 +59,7 @@ public class Game extends BasicGameState implements Observer {
 	
 	public void initialisePlayer(){
 		this.player = new Player("Player1");
-		this.player.score.addAsObserver(this);
+		this.player.getScore().addAsObserver(this);
 	}
 
 	/**
