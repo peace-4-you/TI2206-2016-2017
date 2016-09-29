@@ -12,13 +12,13 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+
 import java.util.LinkedList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
-
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
 /**
  * The Bubble class represents a single bubble entity.
@@ -87,6 +87,10 @@ public class Bubble {
    * Collision space of the bubble.
    */
   private Circle boundingBox;
+  /**
+   * Wrapped bubble component.
+   */
+  protected Bubble bubble;
 
   /**
    * Enum of all the values a State variable can take.
@@ -146,6 +150,7 @@ public class Bubble {
    */
   public Bubble(final double xPos, final double yPos, final ColorChoice c,
                 final boolean forCannon) {
+    System.out.println("Bubble constructor");
     this.x = xPos;
     this.y = yPos;
     this.xSpeed = 0;
@@ -178,12 +183,13 @@ public class Bubble {
     }
   }
 
+  public Bubble() {}
+
   /**
    * Draws the Bubble.
    * @param g  Java Graphics instance
    */
-  // Might have abstract or final tag.
-  public final void draw(final Graphics g) {
+  public void draw(final Graphics g) {
     g.setColor(this.drawColor);
     g.fillOval((int) this.x, (int) this.y, (int) Bubble.DIAMETER,
             (int) Bubble.DIAMETER);
@@ -192,7 +198,7 @@ public class Bubble {
   /**
    * Updates the Bubble's position per game tick.
    */
-  public final void move() {
+  public void move() {
     double nextX = this.getX() + this.getXSpeed();
     double nextY = this.getY() + this.getYSpeed();
 
@@ -223,7 +229,7 @@ public class Bubble {
    * @param xPos at adjusted x position
    * @param yPos at adjusted y position
    */
-  public final void land(final double xPos, final double yPos) {
+  public void land(final double xPos, final double yPos) {
     this.setState(State.LANDED);
     this.setXSpeed(0);
     this.setYSpeed(0);
@@ -237,7 +243,7 @@ public class Bubble {
   /**
    * Wall collision detection, inverts ball's xSpeed.
    */
-  public final void hitWall() {
+  public void hitWall() {
     if (this.getState() == State.FIRING) {
       this.setXSpeed(-this.getXSpeed());
     }
@@ -247,7 +253,7 @@ public class Bubble {
    * Fires the Bubble by setting the state, xSpeed and ySpeed.
    * @param angle the angle at which the bubble is fired at
    */
-  public final void fire(final int angle) {
+  public void fire(final int angle) {
     this.setState(State.FIRING);
     this.setXSpeed(Math.cos(Math.toRadians(angle + ANGLE_OFFSET))
             * Bubble.SPEED);
@@ -259,7 +265,7 @@ public class Bubble {
    * Pops the Bubble by setting state to POPPING and setting xSpeed
    * and ySpeed to zero.
    */
-  public final void pop() {
+  public void pop() {
     this.setState(State.POPPING);
     this.setXSpeed(0);
     this.setYSpeed(0);
@@ -269,24 +275,40 @@ public class Bubble {
    * Drops the Bubble by setting state to DROPPING and setting xSpeed
    * to zero and ySpeed to SPEED.
    */
-  public final void drop() {
+  public void drop() {
     this.setState(State.DROPPING);
     this.setXSpeed(0);
     this.setYSpeed(Bubble.SPEED);
   }
 
   /**
+   * Recursively traverses the PowerUp hierarchy to find the root
+   * Bubble instance.
+   * @return the root Bubble instance
+   */
+  public final Bubble getRootBubble() {
+    if (PowerUp.class.isAssignableFrom(this.getClass())) {
+      return this.bubble.getRootBubble();
+    } else if (this.getClass() == Bubble.class) {
+      return this;
+    } else {
+      return null;
+    }
+  }
+
+  /**
    * Getter method: for X coordinate of the bubble.
    * @return x value
    */
-  public final double getX() {
+  public double getX() {
     return this.x;
   }
+
   /**
-   * Setter method: for the X ooordinate of the bubble.
+   * Setter method: for the X coordinate of the bubble.
    * @param xPos  double value to set x to
    */
-  public final void setX(final double xPos) {
+  public void setX(final double xPos) {
     this.x = xPos;
     this.boundingBox.setX((float) xPos);
   }
@@ -295,14 +317,15 @@ public class Bubble {
    * Getter method: for the Y coordinate of the bubble.
    * @return y value
    */
-  public final double getY() {
+  public double getY() {
     return this.y;
   }
+
   /**
    * Setter method: for the Y coordinate of the bubble.
    * @param yPos  double value to set y to
    */
-  public final void setY(final double yPos) {
+  public void setY(final double yPos) {
     this.y = yPos;
     this.boundingBox.setY((float) yPos);
   }
@@ -311,37 +334,39 @@ public class Bubble {
    * Getter method: for the xSpeed value.
    * @return xSpeed value
    */
-  public final double getXSpeed() {
+  public double getXSpeed() {
     return this.xSpeed;
   }
+
   /**
    * Setter method: for the xSpeed value.
-   * @param xSPEED  double value to set xSpeed to
+   * @param xSpeed  double value to set xSpeed to
    */
-  public final void setXSpeed(final double xSPEED) {
-    this.xSpeed = xSPEED;
+  public void setXSpeed(final double xSpeed) {
+    this.xSpeed = xSpeed;
   }
 
   /**
    * Getter method: for the ySpeed value.
    * @return  ySpeed value
    */
-  public final double getYSpeed() {
+  public double getYSpeed() {
     return this.ySpeed;
   }
+
   /**
    * Setter method: for the ySpeed value.
-   * @param ySPEED  double value to set ySpeed to
+   * @param ySpeed  double value to set ySpeed to
    */
-  public final void setYSpeed(final double ySPEED) {
-    this.ySpeed = ySPEED;
+  public void setYSpeed(final double ySpeed) {
+    this.ySpeed = ySpeed;
   }
 
   /**
    * Getter method: for the Color value.
    * @return color value
    */
-  public final ColorChoice getColor() {
+  public ColorChoice getColor() {
     return this.color;
   }
 
@@ -349,14 +374,15 @@ public class Bubble {
    * Getter method: for the state.
    * @return state value
    */
-  public final State getState() {
+  public State getState() {
     return this.state;
   }
+
   /**
    * Setter method: for the state.
    * @param newState  State enum value to set state to
    */
-  public final void setState(final State newState) {
+  public void setState(final State newState) {
     this.state = newState;
   }
 
@@ -364,9 +390,10 @@ public class Bubble {
    * Getter method: for the boundingBox.
    * @return circle object
    */
-  public final Circle getBoundingBox() {
+  public Circle getBoundingBox() {
     return this.boundingBox;
   }
+
   /**
    * Creates a bubble object with a random color chosen from the list of colors.
    * @param x X coordinate of the new bubble
