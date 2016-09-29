@@ -14,11 +14,11 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
-import java.util.LinkedList;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
+
+import java.util.LinkedList;
 
 /**
  * The Bubble class represents a single bubble entity.

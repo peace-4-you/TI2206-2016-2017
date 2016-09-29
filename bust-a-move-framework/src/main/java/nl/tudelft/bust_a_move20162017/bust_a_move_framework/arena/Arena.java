@@ -332,7 +332,7 @@ public class Arena {
             int bubbleY = 0 + yPos;
             int colorInt = rand.nextInt(colors.size());
             Bubble bubble = new Bubble(bubbleX, bubbleY, colors.get(colorInt), false);
-            bubbleRow[i] = new RowBomb(bubble);
+            bubbleRow[i] = new SlowDown(new FixCannon(bubble));
         }
     }
 

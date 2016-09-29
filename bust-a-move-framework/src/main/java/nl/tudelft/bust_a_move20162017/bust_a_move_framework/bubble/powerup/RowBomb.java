@@ -38,11 +38,12 @@ public class RowBomb extends PowerUp {
   public final void draw(final Graphics g) {
     this.bubble.draw(g);
     g.setColor(Color.black);
-    g.drawString("RB", (int) this.getRootBubble().getX(), (int) this.getRootBubble().getY());
+    g.drawString("RB", (int) this.getX(), (int) this.getY());
   }
 
   /**
-   * Pops the root Bubble.
+   * Pops subsequent PowerUp decorators and the root bubble.
+   * Pops respective row.
    */
   public final void pop() {
     this.bubble.pop();
