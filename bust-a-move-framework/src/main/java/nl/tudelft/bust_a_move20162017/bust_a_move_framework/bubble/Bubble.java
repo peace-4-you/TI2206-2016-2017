@@ -12,14 +12,16 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
-import java.util.LinkedList;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.powerup.PowerUp;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameConfig;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+import java.util.LinkedList;
 
 /**
  * The Bubble class represents a single bubble entity.
@@ -33,9 +35,9 @@ public class Bubble {
    */
   public static final double DIAMETER = 35;
   /**
-   * Standard speed of a bubble.
+   * Firing speed of a bubble.
    */
-  public static final double SPEED = 3;
+  public static double SPEED = 3;
   /**
    * Red color constant.
    */
@@ -59,7 +61,7 @@ public class Bubble {
   /**
    * The position of the bubble.
    */
-  private Point pos;
+  private Point pos = new Point(0, 0);
   /**
    * Horizontal component of speed.
    */
@@ -84,6 +86,10 @@ public class Bubble {
    * Collision space of the bubble.
    */
   private Circle boundingBox;
+  /**
+   * Wrapped bubble component.
+   */
+  protected Bubble bubble;
 
   /**
    * Enum of all the values a State variable can take.
@@ -104,7 +110,7 @@ public class Bubble {
     /**
      * Bubble is popping.
      */
-    POPPING,
+    POPPED,
     /**
      * Bubble is dropping.
      */
@@ -132,6 +138,11 @@ public class Bubble {
      */
     GREEN
   }
+
+  /**
+   * Empty constructor per abstract class specification.
+   */
+  public Bubble() {}
 
   /**
    * Creates Bubble instance.
@@ -178,8 +189,7 @@ public class Bubble {
    * Draws the Bubble.
    * @param g  Java Graphics instance
    */
-  // Might have abstract or final tag.
-  public final void draw(final Graphics g) {
+  public void draw(final Graphics g) {
     g.setColor(this.drawColor);
     g.fillOval((int) this.pos.getX(), (int) this.pos.getY(), (int) Bubble.DIAMETER,
             (int) Bubble.DIAMETER);
@@ -188,7 +198,7 @@ public class Bubble {
   /**
    * Updates the Bubble's position per game tick.
    */
-  public final void move() {
+  public void move() {
     float nextX = (float) (this.getX() + this.getXSpeed());
     float nextY = (float) (this.getY() + this.getYSpeed());
 
@@ -201,7 +211,7 @@ public class Bubble {
         this.setX(nextX);
         this.setY(nextY);
         break;
-      case POPPING:
+      case POPPED:
         break;
       case DROPPING:
         this.setX(nextX);
@@ -223,6 +233,7 @@ public class Bubble {
     this.setState(State.LANDED);
     this.setXSpeed(0);
     this.setYSpeed(0);
+    System.out.println("pos = "+pos);
     App.getGame().log.log("Adjusting bubble land position to: (" + (int) pos.getX()
             + " ; " + (int) pos.getY() + ") from: (" + (int) pos.getX() + " ; "
             + (int) pos.getY() + ")");
@@ -233,7 +244,7 @@ public class Bubble {
   /**
    * Wall collision detection, inverts ball's xSpeed.
    */
-  public final void hitWall() {
+  public void hitWall() {
     if (this.getState() == State.FIRING) {
       this.setXSpeed(-this.getXSpeed());
     }
@@ -243,7 +254,7 @@ public class Bubble {
    * Fires the Bubble by setting the state, xSpeed and ySpeed.
    * @param angle the angle at which the bubble is fired at
    */
-  public final void fire(final int angle) {
+  public void fire(final int angle) {
     this.setState(State.FIRING);
     this.setXSpeed(Math.cos(Math.toRadians(angle + ANGLE_OFFSET))
             * Bubble.SPEED);
@@ -252,11 +263,10 @@ public class Bubble {
   }
 
   /**
-   * Pops the Bubble by setting state to POPPING and setting xSpeed
+   * Pops the Bubble by setting state to POPPED and setting xSpeed
    * and ySpeed to zero.
    */
-  public final void pop() {
-    this.setState(State.POPPING);
+  public void pop() {
     this.setXSpeed(0);
     this.setYSpeed(0);
   }
@@ -265,24 +275,47 @@ public class Bubble {
    * Drops the Bubble by setting state to DROPPING and setting xSpeed
    * to zero and ySpeed to SPEED.
    */
-  public final void drop() {
+  public void drop() {
     this.setState(State.DROPPING);
     this.setXSpeed(0);
     this.setYSpeed(Bubble.SPEED);
   }
 
   /**
+   * Recursively traverses the PowerUp hierarchy to find the root
+   * Bubble instance.
+   * @return the root Bubble instance
+   */
+  public final Bubble getRootBubble() {
+    if (PowerUp.class.isAssignableFrom(this.getClass())) {
+      return this.bubble.getRootBubble();
+    } else if (this.getClass() == Bubble.class) {
+      return this;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * sets class variables to defaults.
+   */
+  public final static void reset() {
+    Bubble.SPEED = GameConfig.DEFAULT_BUBBLE_SPEED;
+  }
+
+  /**
    * Getter method: for X coordinate of the bubble.
    * @return x value
    */
-  public final float getX() {
+  public float getX() {
     return this.pos.getX();
   }
+
   /**
-   * Setter method: for the X ooordinate of the bubble.
+   * Setter method: for the X coordinate of the bubble.
    * @param xPos  double value to set x to
    */
-  public final void setX(final float xPos) {
+  public void setX(final float xPos) {
     this.pos.setX(xPos);
     this.boundingBox.setX((float) xPos);
   }
@@ -291,14 +324,15 @@ public class Bubble {
    * Getter method: for the Y coordinate of the bubble.
    * @return y value
    */
-  public final float getY() {
+  public float getY() {
     return this.pos.getY();
   }
+
   /**
    * Setter method: for the Y coordinate of the bubble.
    * @param yPos  double value to set y to
    */
-  public final void setY(final float yPos) {
+  public void setY(final float yPos) {
     this.pos.setY(yPos);
     this.boundingBox.setY((float) yPos);
   }
@@ -307,37 +341,39 @@ public class Bubble {
    * Getter method: for the xSpeed value.
    * @return xSpeed value
    */
-  public final double getXSpeed() {
+  public double getXSpeed() {
     return this.xSpeed;
   }
+
   /**
    * Setter method: for the xSpeed value.
-   * @param xSPEED  double value to set xSpeed to
+   * @param xSpeed  double value to set xSpeed to
    */
-  public final void setXSpeed(final double xSPEED) {
-    this.xSpeed = xSPEED;
+  public void setXSpeed(final double xSpeed) {
+    this.xSpeed = xSpeed;
   }
 
   /**
    * Getter method: for the ySpeed value.
    * @return  ySpeed value
    */
-  public final double getYSpeed() {
+  public double getYSpeed() {
     return this.ySpeed;
   }
+
   /**
    * Setter method: for the ySpeed value.
-   * @param ySPEED  double value to set ySpeed to
+   * @param ySpeed  double value to set ySpeed to
    */
-  public final void setYSpeed(final double ySPEED) {
-    this.ySpeed = ySPEED;
+  public void setYSpeed(final double ySpeed) {
+    this.ySpeed = ySpeed;
   }
 
   /**
    * Getter method: for the Color value.
    * @return color value
    */
-  public final ColorChoice getColor() {
+  public ColorChoice getColor() {
     return this.color;
   }
 
@@ -345,14 +381,15 @@ public class Bubble {
    * Getter method: for the state.
    * @return state value
    */
-  public final State getState() {
+  public State getState() {
     return this.state;
   }
+
   /**
    * Setter method: for the state.
    * @param newState  State enum value to set state to
    */
-  public final void setState(final State newState) {
+  public void setState(final State newState) {
     this.state = newState;
   }
 
@@ -360,9 +397,18 @@ public class Bubble {
    * Getter method: for the boundingBox.
    * @return circle object
    */
-  public final Circle getBoundingBox() {
+  public Circle getBoundingBox() {
     return this.boundingBox;
   }
+
+  /**
+   * Setter method: for a Bubble's firing speed.
+   * @param nextSPEED  new SPEED value
+   */
+  public static void setSPEED(double nextSPEED) {
+    Bubble.SPEED = nextSPEED;
+  }
+
   /**
    * Creates a bubble object with a random color chosen from the list of colors.
    * @param x X coordinate of the new bubble
