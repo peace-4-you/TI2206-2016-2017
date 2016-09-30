@@ -38,7 +38,7 @@ public class BubblePopTest {
     @Parameterized.Parameters
     public static Collection<Object[]> input() {
         return Arrays.asList(new Object[][]{
-                {Bubble.State.LANDED, Bubble.State.POPPED, "Should return state = POPPING"},
+                {Bubble.State.LANDED, Bubble.State.LANDED, "Should return state = POPPING"},
                 {Bubble.State.POPPED, Bubble.State.POPPED, "Should be popping already"},
                 /* FUTURE TESTS
                 {Bubble.State.DROPPING, Bubble.State.DROPPING, "Should not be able to pop"},
