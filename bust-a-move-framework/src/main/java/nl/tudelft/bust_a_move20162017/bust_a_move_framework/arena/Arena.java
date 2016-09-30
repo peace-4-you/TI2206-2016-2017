@@ -159,7 +159,7 @@ public class Arena {
 
         column = getColumn(shotBubble.getX(), shotBubble.getY());
         bubble2DArray.get(row)[column] = shotBubble;
-        shotBubble.land((double) this.xPos + (column * DIAMETER) + (this.bubble2DArray.get(row).length == WIDTH_BUBBLES ? 0 : DIAMETER / 2), (double) this.yPos + (row * (DIAMETER * Math.tan(60) + OFFSET + 2)));
+        shotBubble.land((float) this.xPos + (column * DIAMETER) + (this.bubble2DArray.get(row).length == WIDTH_BUBBLES ? 0 : DIAMETER / 2), (float) (this.yPos + (row * (DIAMETER * Math.tan(60) + OFFSET + 2))));
 
         // popBubbles(shotBubble);
 
@@ -358,14 +358,12 @@ public class Arena {
      * @return the row added
      */
     public Bubble[] addEmptyBubbleRowAbove() {
-
-
         // Move all the other bubbles down by diameter
         for (Bubble[] row : bubble2DArray) {
             for (int i = 0; i < row.length; i++) {
                 if (row[i] == null) continue;
-                double currentY = row[i].getY();
-                row[i].setY(currentY + (((double) DIAMETER * Math.tan(60)) + OFFSET + 2));
+                float currentY = row[i].getY();
+                row[i].setY((float) (currentY + (((float) DIAMETER * Math.tan(60)) + OFFSET + 2)));
             }
         }
     	
