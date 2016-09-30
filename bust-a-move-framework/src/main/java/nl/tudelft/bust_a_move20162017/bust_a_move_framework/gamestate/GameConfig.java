@@ -76,5 +76,40 @@ public abstract class GameConfig {
      */
     public static final double ROW_OFFSET = (double) Bubble.DIAMETER
             * Math.tan(60) + COLUMN_OFFSET + 2;
+    /**
+     * Bubble PowerUp feature flag.
+     */
+    public static final boolean ENABLE_POWERUPS = true;
+    /**
+     * Default Bubble speed.
+     */
+    public static final double DEFAULT_BUBBLE_SPEED = 3.0;
+    /**
+     * Maximum Bubble speed.
+     */
+    public static final double MAX_BUBBLE_SPEED = 7.5;
+    /**
+     * Minimum Bubble speed.
+     */
+    public static final double MIN_BUBBLE_SPEED = 1;
+    /**
+     * Bubble speed up/slow down factor.
+     */
+    public static final double BUBBLE_SPEEDUP = 0.5;
+    /**
+     * Default Cannon length.
+     */
+    public static final int DEFAULT_CANNON_LENGTH = 80;
+    /**
+     * Maximum Cannon scope length.
+     */
+    public static final int MAX_CANNON_LENGTH = 200;
+    /**
+     * Minimum Cannon scope length.
+     */
+    public static final int MIN_CANNON_LENGTH = 0;
+    /**
+     * Cannon length increment value.
+     */
+    public static final int CANNON_LENGTH_INCREMENT = 20;
 }
-
