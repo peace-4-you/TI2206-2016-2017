@@ -1,4 +1,4 @@
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
+package bust_a_move.bubble;
 
 import org.junit.Before;
 import org.junit.Ignore;

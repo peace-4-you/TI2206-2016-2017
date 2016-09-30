@@ -27,27 +27,27 @@ public class Cannon {
     /**
      * X coordinate of the cannon.
      */
-    private final int x = 320;
+    private static final int x = 320;
     /**
      * Y coordinate of the cannon.
      */
-    private final int y = 530;
+    private static final int y = 530;
     /**
      * X coordinate of the next bubble.
      */
-    private final int xLaunch = (int) (375 - Bubble.DIAMETER / 2);
+    private static final int xLaunch = (int) (375 - Bubble.DIAMETER / 2);
     /**
      * Y coordinate of the next bubble.
      */
-    private final int yLaunch = (int) (555 - Bubble.DIAMETER / 2);
+    private static final int yLaunch = (int) (555 - Bubble.DIAMETER / 2);
     /**
      * X coordinate of the current bubble.
      */
-    private final int xLoad  = (int) (320 - Bubble.DIAMETER / 2);
+    private static final int xLoad  = (int) (320 - Bubble.DIAMETER / 2);
     /**
      * Y coordinate of the current bubble.
      */
-    private final int yLoad = (int) (530 - Bubble.DIAMETER / 2);
+    private static final int yLoad = (int) (530 - Bubble.DIAMETER / 2);
     /**
      * The length of the cannon barrel.
      */
@@ -100,27 +100,27 @@ public class Cannon {
     /**
      * Right angle limit.
      */
-    private final int rightAngleLimit = 60;
+    private static final int rightAngleLimit = 60;
     /**
      * Left angle limit.
      */
-    private final int leftAngleLimit = -60;
+    private static final int leftAngleLimit = -60;
     /**
      * Input scan delay.
      */
-    private final int inputScanDelay = 10;
+    private static final int inputScanDelay = 10;
     /**
      * Angle offset.
      */
-    private final int angleOffset = 90;
+    private static final int angleOffset = 90;
     /**
      * X coordinate of auto shoot warning message.
      */
-    private final int displayWarningX = 225;
+    private static final int displayWarningX = 225;
     /**
      * Y coordinate of auto shoot warning message.
      */
-    private final int displayWarningY = 500;
+    private static final int displayWarningY = 500;
     /**
      * Creates Cannon instance.
      * @param g game object for reference

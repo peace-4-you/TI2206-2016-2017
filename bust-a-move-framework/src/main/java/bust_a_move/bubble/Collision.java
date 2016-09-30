@@ -16,7 +16,7 @@ public final class Collision {
     /**
      * Minimum amount of bubbles that need to be connected before pop.
      */
-    private final int popAmount = 3;
+    private static final int popAmount = 3;
 
     /**
      * LinkedList for temporarily storing dropping bubbles.

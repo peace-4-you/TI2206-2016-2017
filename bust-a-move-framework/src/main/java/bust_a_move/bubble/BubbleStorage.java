@@ -16,24 +16,24 @@ public final class BubbleStorage {
     /**
      * Max amount of columns width wise.
      */
-    private final int widthStorage = 8;
+    private static final int widthStorage = 8;
     /**
      * Max amount of rows height wise.
      */
-    private final int heightStorage = 12;
+    private static final int heightStorage = 12;
     /**
      * Starting amount of rows.
      */
-    private final int startRows = 5;
+    private static final int startRows = 5;
 
     /**
      * Diameter of a bubble.
      */
-    private final int diameter = (int) Bubble.DIAMETER;
+    private static final int diameter = (int) Bubble.DIAMETER;
     /**
      * The radius of a bubble.
      */
-    private final double bubbleOffset = Bubble.DIAMETER / 2;
+    private static final double bubbleOffset = Bubble.DIAMETER / 2;
 
     /**
      * The offset of Y between each row.

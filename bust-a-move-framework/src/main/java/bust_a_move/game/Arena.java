@@ -38,8 +38,8 @@ public class Arena {
 
 
     /* Temporarily Bubble diameter variable */
-    private final int DIAMETER = (int) Bubble.DIAMETER;
-    private final double OFFSET = DIAMETER / 2;
+    private static final int DIAMETER = (int) Bubble.DIAMETER;
+    private static final double OFFSET = DIAMETER / 2;
     /* Max amount of bubbleStorage that fit in the vertical axis */
 
 
