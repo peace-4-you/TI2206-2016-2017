@@ -12,10 +12,11 @@
 
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameConfig;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameConfig;
 
 /**
  * SpeedUp is a PowerUp that speeds up Bubbles fired from the Cannon.
@@ -39,7 +40,7 @@ public class SpeedUp extends PowerUp {
   public final void draw(final Graphics g) {
     this.bubble.draw(g);
     g.setColor(Color.black);
-    g.drawString("+", (int) this.getX()+7, (int) this.getY()+7);
+    g.drawString("+", (int) this.getX() + 7, (int) this.getY() + 7);
   }
 
   /**
@@ -48,6 +49,8 @@ public class SpeedUp extends PowerUp {
    */
   public final void pop() {
     this.bubble.pop();
-    Bubble.setSPEED(Bubble.SPEED*GameConfig.BUBBLE_SPEEDUP);
+    if (Bubble.SPEED < GameConfig.MAX_BUBBLE_SPEED) {
+      Bubble.setSPEED(Bubble.SPEED + GameConfig.BUBBLE_SPEEDUP);
+    }
   }
 }

@@ -40,7 +40,7 @@ public class OBomb extends PowerUp {
   public final void draw(final Graphics g) {
     this.bubble.draw(g);
     g.setColor(Color.black);
-    g.drawString("OB", (int) this.getX()+7, (int) this.getY()+7);
+    g.drawString("OB", (int) this.getX() + 7, (int) this.getY() + 7);
   }
 
   /**

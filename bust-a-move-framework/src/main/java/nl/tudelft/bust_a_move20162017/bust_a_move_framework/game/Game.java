@@ -45,7 +45,7 @@ public class Game extends BasicGameState implements Observer {
 
 
 	public Cannon cannon;
-	public ArrayList<Bubble> bubbleslist;	
+	public ArrayList<Bubble> bubbleslist;
 	public Player player;
 	public Log log;
 	public Arena arena;
@@ -54,9 +54,9 @@ public class Game extends BasicGameState implements Observer {
 
 	public Game(){
 		this.log = new Log();
-		log.log(this, "Game initialised");		
+		log.log(this, "Game initialised");
 	}
-	
+
 	public void initialisePlayer(){
 		this.player = new Player("Player1");
 		this.player.getScore().addAsObserver(this);
@@ -105,7 +105,7 @@ public class Game extends BasicGameState implements Observer {
 	 * Asks for new level and new start of game.
 	 */
 
-	private void startNewLevel() {		
+	private void startNewLevel() {
 		this.levelUp();
 		this.startGame();
 	}
@@ -118,7 +118,7 @@ public class Game extends BasicGameState implements Observer {
 		log.log(this, "Game Levels Up");
 		this.LEVEL++;
 	}
-	
+
     /**
      * Called when BasicGameState initializes
      */
@@ -126,11 +126,12 @@ public class Game extends BasicGameState implements Observer {
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 		this.sbg = sbg;
 		this.LEVEL = 1;
-		this.pause = new Button("Pause", 507,50, 100, 30);		
+		this.pause = new Button("Pause", 507,50, 100, 30);
 		this.player.reset();
+		Bubble.reset();
 		this.startGame();
 	}
-	
+
     /**
      * Updates the BasicGameState
      */
@@ -187,7 +188,7 @@ public class Game extends BasicGameState implements Observer {
             }
         }
 	}
-	
+
     /**
      * Renders the BasicGameState
      */
@@ -198,6 +199,7 @@ public class Game extends BasicGameState implements Observer {
 		g.setColor(Color.white);
 		g.drawString("Level:" + this.LEVEL, 10, 130);
 		g.drawString("Score:" + this.score, 10, 70);
+		g.drawString("Fire power: x" + (double) Math.round(Bubble.SPEED*10/3)/10, 10, 160);
 		cannon.draw(g);
 		player.draw(g);
 		arena.draw(g);
@@ -207,10 +209,10 @@ public class Game extends BasicGameState implements Observer {
 				bubble.draw(g);
 			}
 		}
-		
-		
+
+
 	}
-	
+
     /**
      * @return integer of BasicGameState number
      */
@@ -218,22 +220,22 @@ public class Game extends BasicGameState implements Observer {
 	public int getID() {
 		return 3;
 	}
-	
+
 	/**
 	 * Method to return the arena object inside game class.
-	 * 
+	 *
 	 * @return Arena object inside game class
 	 */
 
 	public Arena getArena() {
 		return this.arena;
 	}
-	
+
     /**
      * Updates the Observer
      */
 
 	public void update(Observable o, Object arg) {
-		this.score = (Integer) arg;		
+		this.score = (Integer) arg;
 	}
 }

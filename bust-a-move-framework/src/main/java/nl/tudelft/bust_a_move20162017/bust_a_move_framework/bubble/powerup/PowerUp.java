@@ -54,14 +54,18 @@ public abstract class PowerUp extends Bubble {
     double rng = Math.random();
     Bubble puBubble = bubble;
 
-    if (rng < 0.075) {
+    if (rng < 0.15) {
       puBubble = new SpeedUp(puBubble);
-    } else if (0.075 <= rng && rng < 0.15) {
+    } else if (0.15 <= rng && rng < 0.25) {
       puBubble = new SlowDown(puBubble);
-    } else if (0.15 <= rng && rng < 0.175) {
-      puBubble = new RowBomb(puBubble);
-    } else if (0.175 <= rng && rng < 0.2) {
+    } else if (0.25 <= rng && rng < 0.35) {
+      puBubble = new LongScope(puBubble);
+    } else if (0.35 <= rng && rng < 0.45) {
+      puBubble = new ShortScope(puBubble);
+    } else if (0.45 <= rng && rng < 0.475) {
       puBubble = new OBomb(puBubble);
+    } else if (0.475 <= rng && rng < 0.485) {
+      puBubble = new RowBomb(puBubble);
     }
 
     return puBubble;

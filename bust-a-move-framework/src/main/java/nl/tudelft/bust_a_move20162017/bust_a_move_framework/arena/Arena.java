@@ -274,7 +274,7 @@ public class Arena {
      * @param bubble  Bubble to pop
      */
     public void popBubble(Bubble bubble) {
-      App.getGame().player.score.scoreBubblesPopped(1);
+      App.getGame().player.getScore().scoreBubblesPopped(1);
       removeBubble(bubble);
       bubble.pop();
     }

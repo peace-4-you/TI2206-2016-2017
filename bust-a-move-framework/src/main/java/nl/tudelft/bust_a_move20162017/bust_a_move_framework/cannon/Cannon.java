@@ -50,9 +50,9 @@ public class Cannon {
      */
     private final int yLoad = (int) (530 - Bubble.DIAMETER / 2);
     /**
-     * The size/length of the cannon barrel.
+     * The length of the cannon barrel.
      */
-    private final int size = 80;
+    private int length = GameConfig.DEFAULT_CANNON_LENGTH;
     /**
      * The color of the cannon barrel.
      */
@@ -239,11 +239,27 @@ public class Cannon {
         g.setColor(this.cannonColour);
         // TODO Make a nicer cannon
         g.drawLine(this.x, this.y, (int) (this.x + Math.cos(Math.toRadians(
-                this.angle + angleOffset)) * this.size), (int) (this.y
+                this.angle + angleOffset)) * this.length), (int) (this.y
                 - Math.sin(Math.toRadians(this.angle + angleOffset))
-                * this.size));
+                * this.length));
         if (displayWarning) {
             g.drawString("Hurry up!", displayWarningX, displayWarningY);
         }
+    }
+
+    /**
+     * Getter method: length.
+     * @return int  Cannon length
+     */
+    public final int getLength() {
+      return this.length;
+    }
+
+    /**
+     * Setter method: length.
+     * @param l  Cannon length
+     */
+    public final void setLength(int l) {
+      this.length = l;
     }
 }

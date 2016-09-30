@@ -13,6 +13,7 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameConfig;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -295,6 +296,13 @@ public class Bubble {
     } else {
       return null;
     }
+  }
+
+  /**
+   * sets class variables to defaults.
+   */
+  public final static void reset() {
+    Bubble.SPEED = GameConfig.DEFAULT_BUBBLE_SPEED;
   }
 
   /**
