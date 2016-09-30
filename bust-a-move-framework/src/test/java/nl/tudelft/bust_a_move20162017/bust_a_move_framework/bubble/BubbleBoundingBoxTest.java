@@ -2,6 +2,8 @@ package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
 import org.junit.Test;
 
+import bust_a_move.bubble.Bubble;
+
 import static org.junit.Assert.assertEquals;
 
 /**

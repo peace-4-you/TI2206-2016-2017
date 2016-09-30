@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import bust_a_move.bubble.Bubble;
+
 import java.util.Arrays;
 import java.util.Collection;
 
