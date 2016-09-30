@@ -80,7 +80,7 @@ public class VictoryScreen extends BasicGameState implements Observer {
         restart = new Button("Restart", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         restart.centerButton(game);
-        App.getGame().player.score.addAsObserver(this);
+        App.getGame().player.getScore().addAsObserver(this);
     }
     /**
      * Renders the BasicGameState.

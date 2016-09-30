@@ -13,7 +13,6 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.Button;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameState;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.log.Log;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.arena.Arena;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.player.Player;
 
@@ -59,7 +58,7 @@ public class Game extends BasicGameState implements Observer {
 
     public void initialisePlayer() {
         this.player = new Player("Player1");
-        this.player.score.addAsObserver(this);
+        this.player.getScore().addAsObserver(this);
     }
 
     /**
@@ -128,6 +127,7 @@ public class Game extends BasicGameState implements Observer {
         this.LEVEL = 1;
         this.pause = new Button("Pause", 507, 50, 100, 30);
         this.player.reset();
+        Bubble.reset();
         this.startGame();
     }
 
@@ -156,7 +156,6 @@ public class Game extends BasicGameState implements Observer {
         if (arena.getBubbleStorage().isEmpty()) {
             this.wonGame();
         }
-
         if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (pause.isInBounds(container.getInput())) {
                 this.pauseGame();
@@ -174,6 +173,7 @@ public class Game extends BasicGameState implements Observer {
         g.setColor(Color.white);
         g.drawString("Level:" + this.LEVEL, 10, 130);
         g.drawString("Score:" + this.score, 10, 70);
+        g.drawString("Fire power: x" + (double) Math.round(Bubble.SPEED * 10 / 3) / 10, 10, 160);
         cannon.draw(g);
         player.draw(g);
         arena.draw(g);

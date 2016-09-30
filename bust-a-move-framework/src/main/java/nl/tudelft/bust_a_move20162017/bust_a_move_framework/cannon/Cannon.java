@@ -9,7 +9,9 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.powerup.PowerUp;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameConfig;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -42,15 +44,15 @@ public class Cannon {
     /**
      * X coordinate of the current bubble.
      */
-    private final int xLoad = (int) (320 - Bubble.DIAMETER / 2);
+    private final int xLoad  = (int) (320 - Bubble.DIAMETER / 2);
     /**
      * Y coordinate of the current bubble.
      */
     private final int yLoad = (int) (530 - Bubble.DIAMETER / 2);
     /**
-     * The size/length of the cannon barrel.
+     * The length of the cannon barrel.
      */
-    private final int size = 80;
+    private int length = GameConfig.DEFAULT_CANNON_LENGTH;
     /**
      * The color of the cannon barrel.
      */
@@ -120,10 +122,8 @@ public class Cannon {
      * Y coordinate of auto shoot warning message.
      */
     private final int displayWarningY = 500;
-
     /**
      * Creates Cannon instance.
-     *
      * @param g game object for reference
      */
     public Cannon(final Game g) {
@@ -134,7 +134,6 @@ public class Cannon {
         this.loadNextBubble();
         this.loadNextBubble();
     }
-
     /**
      * Load next bubble to current bubble and asks for a new bubble.
      */
@@ -145,19 +144,20 @@ public class Cannon {
         this.currBubble.setY(this.yLoad);
         this.game.bubbleslist.add(this.nextBubble);
     }
-
     /**
      * Determines next bubble.
-     *
      * @return newly created bubble
      */
     private Bubble getNextBubble() {
         game.log.log(this, "Next bubble loaded to cannon");
         Bubble newBubble = Bubble.randomColor((double) this.xLaunch,
                 (double) this.yLaunch, game.arena.getBubbleStorage().getColorsOnArena(), true);
+        if (GameConfig.ENABLE_POWERUPS) {
+            newBubble = PowerUp.apply(newBubble);
+        }
+
         return newBubble;
     }
-
     /**
      * Fires current bubble and loads next bubble.
      */
@@ -168,7 +168,6 @@ public class Cannon {
         this.timeShotFired = 0;
         this.displayWarning = false;
     }
-
     /**
      * Updates the Cannon angle per input step.
      */
@@ -177,7 +176,6 @@ public class Cannon {
             this.angle += 1;
         }
     }
-
     /**
      * Updates the Cannon angle per input step.
      */
@@ -189,9 +187,8 @@ public class Cannon {
 
     /**
      * Update the cannon.
-     *
      * @param container game container
-     * @param delta     time passed
+     * @param delta time passed
      */
     public final void update(final GameContainer container, final int delta) {
         timeShotFired += delta;
@@ -236,18 +233,33 @@ public class Cannon {
 
     /**
      * Draws the graphics on the screen.
-     *
      * @param g graphics
      */
     public final void draw(final Graphics g) {
         g.setColor(this.cannonColour);
         // TODO Make a nicer cannon
         g.drawLine(this.x, this.y, (int) (this.x + Math.cos(Math.toRadians(
-                this.angle + angleOffset)) * this.size), (int) (this.y
+                this.angle + angleOffset)) * this.length), (int) (this.y
                 - Math.sin(Math.toRadians(this.angle + angleOffset))
-                * this.size));
+                * this.length));
         if (displayWarning) {
             g.drawString("Hurry up!", displayWarningX, displayWarningY);
         }
+    }
+
+    /**
+     * Getter method: length.
+     * @return int  Cannon length
+     */
+    public final int getLength() {
+        return this.length;
+    }
+
+    /**
+     * Setter method: length.
+     * @param l  Cannon length
+     */
+    public final void setLength(int l) {
+        this.length = l;
     }
 }

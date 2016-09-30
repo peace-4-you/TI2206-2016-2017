@@ -132,25 +132,56 @@ public final class Collision {
     }
 
     /**
-     * Checks for bubbles that can be popped.
-     * Requires at least 3 connected bubbles of same colour.
+     * Checks for 3 (or more) connected bubbles. If so, it signals the bubble objects to
+     * pop and removes it from the graph. It also calls the drop bubbles method.
      *
      * @param popBubble The bubble to be popped
      */
-    private void popBubbles(final Bubble popBubble) {
+    public void popBubbles(Bubble popBubble) {
         LinkedList<Bubble> popList = new LinkedList<Bubble>();
 
         popList = checkBubblesToPop(popBubble, popList);
 
-        if (popList.size() >= popAmount) {
-            App.getGame().player.score.scoreBubblesPopped((int) popList.size());
+		/* Check if 3 or more bubbles are connected */
+        if (popList.size() >= 3) {
             while (popList.size() != 0) {
+                int row = 0;
+                int column = 0;
+                boolean empty = true;
                 Bubble bubbleToPop = popList.pop();
-                bubbleStorage.removeBubble(bubbleToPop);
+
+                popBubble(bubbleToPop);
             }
             checkBubblesToDrop();
         }
 
+    }
+
+    /**
+     * Pops a single bubble and removes it from the graph.
+     *
+     * @param bubble  Bubble to pop
+     */
+    public void popBubble(Bubble bubble) {
+        App.getGame().player.getScore().scoreBubblesPopped(1);
+        bubbleStorage.removeBubble(bubble);
+        bubble.pop();
+    }
+    /**
+     * Pops a RowBomb, pops a row of bubbles
+     *
+     * @param bubble  RowBomb to be popped
+     */
+    public void popRowBomb(Bubble bubble) {
+        int row = bubbleStorage.getRow(bubble.getY());
+        if (row < bubbleStorage.size()) {
+            for (Bubble b : bubbleStorage.get(row)) {
+                if (b != null) {
+                    popBubble(b);
+                }
+            }
+        }
+        checkBubblesToDrop();
     }
 
     /**
@@ -229,7 +260,7 @@ public final class Collision {
             }
         }
         if (dropCount > 0) {
-            App.getGame().player.score.scoreBubblesDropped(dropCount);
+            App.getGame().player.getScore().scoreBubblesDropped(dropCount);
         }
 
         return visited;

@@ -15,76 +15,107 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
 /**
  * The Player class represents a player entity.
- *
  * @author Calvin Nhieu, Maurice Willemsen
  */
 public class Player {
-	private String name;
-	private int combo;
-	public Score score;
+    /**
+     * Contains the name of the player.
+     */
+    private String name;
+    /**
+     * Contains the current combo multiplier.
+     */
+    private int combo;
+    /**
+     * Contains a Score object.
+     */
+    private Score score;
+    /**
+     * X coordinate where the name will be printed.
+     */
+    private static final float NAME_XPOS = 10;
+    /**
+     * Y coordinate where the name will be printed.
+     */
+    private static final float NAME_YPOS = 40;
+    /**
+     * X coordinate where the combo value will be printed.
+     */
+    private static final float COMBO_XPOS = 10;
+    /**
+     * Y coordinate where the combo value will be printed.
+     */
+    private static final float COMBO_YPOS = 100;
 
-	public Player(String name) {
-		App.getGame().log.log(this,"Player initialiased");
-		this.setName(name);
-		this.score = new Score();
-		this.combo = 1;
-	}
+    /**
+     * Constructor of Player class.
+     * @param s player's name
+     */
+    public Player(final String s) {
+        App.getGame().log.log(this, "Player initialiased");
+        this.setName(s);
+        this.score = new Score();
+        this.combo = 1;
+    }
 
-	/**
-	 * @return String name
-	 */
-	public String getName() {
-		return this.name;
-	}
+    /**
+     * Getter method: returns the name of the player.
+     * @return String name
+     */
+    public final String getName() {
+        return this.name;
+    }
 
-	/**
-	 * sets the player's name
-	 *
-	 * @param name
-	 *            String value to set name to
-	 *
-	 */
-	public void setName(String name) {
-		App.getGame().log.log(this,"Name " + this.name + " changed to " + name);
-		this.name = name;
-	}
+    /**
+     * Setter method: for the player's name.
+     * @param s String value to set name to
+     */
+    public final void setName(final String s) {
+        App.getGame().log.log(this, "Name " + this.name + " changed to " + s);
+        this.name = s;
+    }
 
-	/**
-	 * @return int combo
-	 */
-	public int getCombo() {
-		return this.combo;
-	}
+    /**
+     * Getter method: for combo value.
+     * @return int combo
+     */
+    public final int getCombo() {
+        return this.combo;
+    }
 
-	/**
-	 * sets the player's combo
-	 *
-	 * @param name
-	 *            integer value to set combo to
-	 *
-	 */
-	public void setCombo(int combo) {
-		App.getGame().log.log(this,"Combo set to " + combo);
-		this.combo = combo;
-	}
+    /**
+     * Setter method: for the player's combo.
+     * @param comboVal integer value to set combo to
+     */
+    public final void setCombo(final int comboVal) {
+        App.getGame().log.log(this, "Combo set to " + comboVal);
+        this.combo = comboVal;
+    }
 
-	/**
-	 * Sets the player's members to default values
-	 */
-	public void reset() {
-		App.getGame().log.log(this,"Player Reset");
-		this.score.reset();
-		this.combo = 1;
-	}
+    /**
+     * Getter method: for Score object.
+     * @return Score object
+     */
+    public final Score getScore() {
+        return score;
+    }
 
-	/**
-	 * Draws player info
-	 */
+    /**
+     * Sets the player's members to default values.
+     */
+    public final void reset() {
+        App.getGame().log.log(this, "Player Reset");
+        this.score.reset();
+        this.combo = 1;
+    }
 
-	public void draw(Graphics g) {
-		g.setColor(Color.white);
-		g.drawString("Name:" + this.name, 10, 40);
-		g.drawString("Combo:" + this.combo, 10, 100);
-
-	}
+    /**
+     * Draws player info.
+     * @param g object
+     */
+    public final void draw(final Graphics g) {
+        g.setColor(Color.white);
+        g.drawString("Name:" + this.name, NAME_XPOS, NAME_YPOS);
+        g.drawString("Combo:" + this.combo, COMBO_XPOS, COMBO_YPOS);
+    }
 }
