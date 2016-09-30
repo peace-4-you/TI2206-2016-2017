@@ -98,7 +98,7 @@ public final class BubbleStorage {
         Bubble[] bubbleRow = addEmptyBubbleRowAbove();
         double offset = 0;
         if (bubbleRow.length != widthStorage) {
-            offset = this.bubbleOffset;
+            offset = BubbleStorage.bubbleOffset;
         }
 
         LinkedList<Bubble.ColorChoice> colors;

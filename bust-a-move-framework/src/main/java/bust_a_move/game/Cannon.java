@@ -139,8 +139,8 @@ public class Cannon {
     private void loadNextBubble() {
         this.currBubble = this.nextBubble;
         this.nextBubble = this.getNextBubble();
-        this.currBubble.setX(this.xLoad);
-        this.currBubble.setY(this.yLoad);
+        this.currBubble.setX(Cannon.xLoad);
+        this.currBubble.setY(Cannon.yLoad);
         this.game.bubbleslist.add(this.nextBubble);
     }
     /**
@@ -149,8 +149,8 @@ public class Cannon {
      */
     private Bubble getNextBubble() {
         game.log.log(this, "Next bubble loaded to cannon");
-        Bubble newBubble = Bubble.randomColor((float) this.xLaunch,
-                (float) this.yLaunch, game.arena.getBubbleStorage().getColorsOnArena(), true);
+        Bubble newBubble = Bubble.randomColor((float) Cannon.xLaunch,
+                (float) Cannon.yLaunch, game.arena.getBubbleStorage().getColorsOnArena(), true);
         if (GameConfig.ENABLE_POWERUPS) {
             newBubble = PowerUp.apply(newBubble);
         }
@@ -235,9 +235,8 @@ public class Cannon {
      */
     public final void draw(final Graphics g) {
         g.setColor(this.cannonColour);
-        // TODO Make a nicer cannon
-        g.drawLine(this.x, this.y, (int) (this.x + Math.cos(Math.toRadians(
-                this.angle + angleOffset)) * this.length), (int) (this.y
+        g.drawLine(Cannon.x, Cannon.y, (int) (Cannon.x + Math.cos(Math.toRadians(
+                this.angle + angleOffset)) * this.length), (int) (Cannon.y
                 - Math.sin(Math.toRadians(this.angle + angleOffset))
                 * this.length));
         if (displayWarning) {

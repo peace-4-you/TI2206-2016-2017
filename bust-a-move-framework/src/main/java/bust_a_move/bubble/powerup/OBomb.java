@@ -14,8 +14,6 @@ package bust_a_move.bubble.powerup;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-
-import bust_a_move.App;
 import bust_a_move.bubble.Bubble;
 
 

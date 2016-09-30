@@ -9,7 +9,6 @@
 package bust_a_move.game;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,6 +24,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bust_a_move.bubble.Bubble;
 import bust_a_move.gamestate.Button;
+import bust_a_move.gamestate.GameConfig;
 import bust_a_move.gamestate.GameState;
 import bust_a_move.log.Log;
 import bust_a_move.player.Player;
@@ -37,177 +37,238 @@ import bust_a_move.player.Player;
 
 public class Game extends BasicGameState implements Observer {
 
-    private int LEVEL;
-    private int score;
+	/**
+	 * Score of the game, updated by observer.
+	 */
+	private int score;
+	/**
+	 * Cannon instance for the game.
+	 */
+	public Cannon cannon;
+	/**
+	 * Arraylist of bubbles.
+	 */
+	public ArrayList<Bubble> bubbleslist;
+	/**
+	 * Player instance for the game.
+	 */
+	public Player player;
+	/**
+	 * Log instance for logging the game.
+	 */
+	public Log log;
+	/**
+	 * Arena instance for in the game.
+	 */
+	public Arena arena;
+	/**
+	 * Button instance for a pause button.
+	 */
+	private Button pause;
+	/**
+	 * The statebasedgame instance.
+	 */
+	private StateBasedGame sbg;
+	/**
+	 * X position for the button.
+	 */
+	private static final int button_X = 503;
+	/**
+	 * X position for the arena.
+	 */
+	private static final int arena_x = 180;
+	/**
+	 * Y position for the arena.
+	 */
+	private static final int arena_y = 0;
+	/**
+	 * width for the arena.
+	 */
+	private static final int arena_width = 531;
+	/**
+	 * height  for the arena.
+	 */
+	private static final int arena_height = 280;
 
+	/**
+	 * Public constructor.
+	 */
+	public Game() {
+		this.log = new Log();
+		log.log(this, "Game initialised");
+	}
 
-    public Cannon cannon;
-    public ArrayList<Bubble> bubbleslist;
-    public Player player;
-    public Log log;
-    public Arena arena;
-    private Button pause;
-    private StateBasedGame sbg;
+	/**
+	 * Start function to initialize the player.
+	 */
+	public void initialisePlayer() {
+		this.player = new Player("Player1");
+		this.player.getScore().addAsObserver(this);
+	}
 
-    public Game() {
-        this.log = new Log();
-        log.log(this, "Game initialised");
-    }
+	/**
+	 * Starts game, creates new arena, cannon, BubbleFactory instance, and a
+	 * bubblelist array.
+	 */
+	private void startGame() {
+		log.log(this, "Game Started");
+		this.bubbleslist = new ArrayList<Bubble>();
+		this.arena = new Arena(Game.arena_x, Game.arena_y, Game.arena_width, Game.arena_height);
+		this.cannon = new Cannon(this);
+	}
 
-    public void initialisePlayer() {
-        this.player = new Player("Player1");
-        this.player.getScore().addAsObserver(this);
-    }
+	/**
+	 * Ends game, changes state to WON.
+	 */
 
-    /**
-     * Starts game, creates new arena, cannon, BubbleFactory instance, and a bubblelist array
-     */
+	private void wonGame() {
+		log.log(this, "Game Won");
+		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
+			new FadeInTransition());
+	}
 
-    private void startGame() {
-        log.log(this, "Game Started");
-        this.bubbleslist = new ArrayList<Bubble>();
-        this.arena = new Arena(180, 0, 531, 280);
-        this.cannon = new Cannon(this);
+	/**
+	 * Ends game, changes state to FAILED.
+	 */
 
-    }
+	private void failedGame() {
+		log.log(this, "Game Failed");
+		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(),
+			new FadeInTransition());
+	}
 
-    /**
-     * Ends game, changes state to WON
-     */
+	/**
+	 * Pauses game, changes state to PAUSE.
+	 */
 
-    private void wonGame() {
-        log.log(this, "Game Won");
-        sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(), new FadeInTransition());
-    }
+	private void pauseGame() {
+		log.log(this, "Game Paused");
+		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(),
+			new FadeInTransition());
+	}
 
-    /**
-     * Ends game, changes state to FAILED
-     */
+	/**
+	 * Called when BasicGameState initializes.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
+	public final void init(final GameContainer game,
+		final StateBasedGame stateBasedGame) throws SlickException {
+		this.sbg = stateBasedGame;
+		this.pause = new Button("Pause", Game.button_X, GameConfig.SECOND_LINE,
+			GameConfig.WIDTH1, GameConfig.HEIGHT);
+		this.player.reset();
+		Bubble.reset();
+		this.startGame();
+	}
 
-    private void failedGame() {
-        log.log(this, "Game Failed");
-        sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(), new FadeInTransition());
-    }
+	/**
+	 * Renders the BasicGameState.
+	 * 
+	 * @param container
+	 *            the game container
+	 * @param sbg
+	 *            the state based game
+	 * @param g
+	 *            Graphics object
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
 
-    /**
-     * Pauses game, changes state to FAILED
-     */
+	public final void update(final GameContainer container,
+		final StateBasedGame sbg, final int delta)
+		throws SlickException {
+		this.sbg = sbg;
+		this.cannon.update(container, delta);
 
-    private void pauseGame() {
-        log.log(this, "Game Paused");
-        sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(), new FadeInTransition());
-    }
+		for (Bubble b1 : bubbleslist) {
+			b1.move();
+			if (b1.getState() == Bubble.State.FIRING) {
+				arena.checkCollision(b1);
+			}
+		}
+		if (arena.getBubbleStorage().isFull()) {
+			this.failedGame();
+		}
+		if (arena.getBubbleStorage().isEmpty()) {
+			this.wonGame();
+		}
+		if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			if (pause.isInBounds(container.getInput())) {
+				this.pauseGame();
+			}
+		}
+	}
 
-    /**
-     * Asks for new level and new start of game.
-     */
+	/**
+	 * Updates the BasicGameState.
+	 * 
+	 * @param game
+	 *            the game container
+	 * @param stateBasedGame
+	 *            the state based game
+	 * @param i
+	 *            delta of time exceeded
+	 * @throws SlickException
+	 *             any type of slick exception
+	 */
 
-    private void startNewLevel() {
-        this.levelUp();
-        this.startGame();
-    }
+	public final void render(final GameContainer game,
+		final StateBasedGame stateBasedGame, final Graphics g)
+		throws SlickException {
+		g.setColor(Color.gray);
+		g.fillRect(0, 530, 640, 580);
+		g.setColor(Color.white);
+		g.drawString("Score:" + this.score, 10, 70);
+		g.drawString("Fire power: x" + (double) Math.round(Bubble.SPEED * 10
+			/ 3) / 10, 10, 130);
+		cannon.draw(g);
+		player.draw(g);
+		arena.draw(g);
+		pause.draw(g);
+		for (Bubble bubble : this.bubbleslist) {
+			if (bubble.getState() != Bubble.State.LANDED) {
+				bubble.draw(g);
+			}
+		}
 
-    /**
-     * Level up
-     */
+	}
 
-    private void levelUp() {
-        log.log(this, "Game Levels Up");
-        this.LEVEL++;
-    }
+	/**
+	 * Getter method: for the GameState ID.
+	 * 
+	 * @return integer of BasicGameState number.
+	 */
 
-    /**
-     * Called when BasicGameState initializes
-     */
+	public final int getID() {
+		return GameState.GAME_ACTIVE;
+	}
 
-    public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
-        this.sbg = sbg;
-        this.LEVEL = 1;
-        this.pause = new Button("Pause", 507, 50, 100, 30);
-        this.player.reset();
-        Bubble.reset();
-        this.startGame();
-    }
+	/**
+	 * Method to return the arena object inside game class.
+	 *
+	 * @return Arena object inside game class
+	 */
 
-    /**
-     * Updates the BasicGameState
-     */
+	public final Arena getArena() {
+		return this.arena;
+	}
 
-    public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
-        this.sbg = sbg;
-        this.cannon.update(container, delta);
+	/**
+	 * Updates the Observer.
+	 * 
+	 * @param o
+	 *            the observable item
+	 * @param arg
+	 *            the observable argument
+	 */
 
-        // ??? What's this for?
-        /*if (container.getInput().isKeyPressed(Input.KEY_1)) {
-            arena.getCollision().checkBubblesToDrop();
-        }*/
-
-        for (Bubble b1 : bubbleslist) {
-            b1.move();
-            if (b1.getState() == Bubble.State.FIRING) {
-                arena.checkCollision(b1);
-            }
-        }
-        if (arena.getBubbleStorage().isFull()) {
-            this.failedGame();
-        }
-        if (arena.getBubbleStorage().isEmpty()) {
-            this.wonGame();
-        }
-        if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            if (pause.isInBounds(container.getInput())) {
-                this.pauseGame();
-            }
-        }
-    }
-
-    /**
-     * Renders the BasicGameState
-     */
-
-    public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
-        g.setColor(Color.gray);
-        g.fillRect(0, 530, 640, 580);
-        g.setColor(Color.white);
-        g.drawString("Level:" + this.LEVEL, 10, 130);
-        g.drawString("Score:" + this.score, 10, 70);
-        g.drawString("Fire power: x" + (double) Math.round(Bubble.SPEED * 10 / 3) / 10, 10, 160);
-        cannon.draw(g);
-        player.draw(g);
-        arena.draw(g);
-        pause.draw(g);
-        for (Bubble bubble : this.bubbleslist) {
-            if (bubble.getState() != Bubble.State.LANDED) {
-                bubble.draw(g);
-            }
-        }
-
-
-    }
-
-    /**
-     * @return integer of BasicGameState number
-     */
-
-    public int getID() {
-        return 3;
-    }
-
-    /**
-     * Method to return the arena object inside game class.
-     *
-     * @return Arena object inside game class
-     */
-
-    public Arena getArena() {
-        return this.arena;
-    }
-
-    /**
-     * Updates the Observer
-     */
-
-    public void update(Observable o, Object arg) {
-        this.score = (Integer) arg;
-    }
+	public final void update(final Observable o, final Object arg) {
+		this.score = (Integer) arg;
+	}
 }

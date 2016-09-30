@@ -12,7 +12,6 @@
 
 package bust_a_move.bubble.powerup;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
