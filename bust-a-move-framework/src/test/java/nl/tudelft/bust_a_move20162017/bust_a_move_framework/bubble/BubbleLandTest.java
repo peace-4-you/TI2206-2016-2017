@@ -81,8 +81,8 @@ public class BubbleLandTest {
                         Bubble.State.LANDED, "Should return state = LANDED, "
                         + "xPos/yPos = collision position and xSpeed/ySpeed set "
                         + "to 0"},
-                {100, 100, 2, 3, Bubble.State.POPPING, 200, 300, 2, 3,
-                        Bubble.State.POPPING, "Should not be able to land"},
+                {100, 100, 2, 3, Bubble.State.POPPED, 200, 300, 2, 3,
+                        Bubble.State.POPPED, "Should not be able to land"},
                 {100, 100, 2, 3, Bubble.State.DROPPING, 200, 300, 2, 3,
                         Bubble.State.DROPPING, "Should not be able to land"},
                 {100, 100, 2, 3, Bubble.State.LANDED, 200, 300, 2, 3,

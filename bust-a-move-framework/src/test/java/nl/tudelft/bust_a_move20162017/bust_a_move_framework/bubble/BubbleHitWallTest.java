@@ -68,7 +68,7 @@ public class BubbleHitWallTest {
                         + "ySpeed unchanged when the state = NEW"},
                 {2, 3, Bubble.State.DROPPING, 2, 3, "Should leave xSpeed and "
                         + "ySpeed unchanged when the state = DROPPING"},
-                {2, 3, Bubble.State.POPPING, 2, 3, "Should leave xSpeed and "
+                {2, 3, Bubble.State.POPPED, 2, 3, "Should leave xSpeed and "
                         + "ySpeed unchanged when the state = POPPING"}
         });
     }

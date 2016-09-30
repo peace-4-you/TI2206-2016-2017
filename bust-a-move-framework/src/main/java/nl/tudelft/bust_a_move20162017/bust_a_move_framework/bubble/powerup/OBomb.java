@@ -10,10 +10,11 @@
  */
 
 
-package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
+package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.powerup;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
 
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 

@@ -29,7 +29,7 @@ public class BubblePopTest {
 
     //Inject via constructor
     public BubblePopTest(Bubble.State state, Bubble.State expectedState,
-                          String message) {
+                         String message) {
         this.fState = state;
         this.fExpectedState = expectedState;
         this.fMessage = message;
@@ -37,9 +37,9 @@ public class BubblePopTest {
 
     @Parameterized.Parameters
     public static Collection<Object[]> input() {
-        return Arrays.asList(new Object[][] {
-                {Bubble.State.LANDED, Bubble.State.POPPING, "Should return state = POPPING"},
-                {Bubble.State.POPPING, Bubble.State.POPPING, "Should be popping already"},
+        return Arrays.asList(new Object[][]{
+                {Bubble.State.LANDED, Bubble.State.LANDED, "Should return state = POPPING"},
+                {Bubble.State.POPPED, Bubble.State.POPPED, "Should be popping already"},
                 /* FUTURE TESTS
                 {Bubble.State.DROPPING, Bubble.State.DROPPING, "Should not be able to pop"},
                 {Bubble.State.FIRING, Bubble.State.FIRING, "Should not be able to pop"},

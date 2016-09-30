@@ -13,6 +13,7 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.powerup.PowerUp;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameConfig;
 
 import org.newdawn.slick.Color;

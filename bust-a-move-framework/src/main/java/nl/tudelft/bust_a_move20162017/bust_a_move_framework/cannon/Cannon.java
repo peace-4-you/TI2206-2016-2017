@@ -9,7 +9,7 @@
 package nl.tudelft.bust_a_move20162017.bust_a_move_framework.cannon;
 
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.Bubble;
-import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.PowerUp;
+import nl.tudelft.bust_a_move20162017.bust_a_move_framework.bubble.powerup.PowerUp;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.game.Game;
 import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameConfig;
 
@@ -151,7 +151,7 @@ public class Cannon {
     private Bubble getNextBubble() {
         game.log.log(this, "Next bubble loaded to cannon");
         Bubble newBubble = Bubble.randomColor((double) this.xLaunch,
-                (double) this.yLaunch, game.arena.getColorsOnArena(), true);
+                (double) this.yLaunch, game.arena.getBubbleStorage().getColorsOnArena(), true);
         if (GameConfig.ENABLE_POWERUPS) {
             newBubble = PowerUp.apply(newBubble);
         }
@@ -252,7 +252,7 @@ public class Cannon {
      * @return int  Cannon length
      */
     public final int getLength() {
-      return this.length;
+        return this.length;
     }
 
     /**
@@ -260,6 +260,6 @@ public class Cannon {
      * @param l  Cannon length
      */
     public final void setLength(int l) {
-      this.length = l;
+        this.length = l;
     }
 }
