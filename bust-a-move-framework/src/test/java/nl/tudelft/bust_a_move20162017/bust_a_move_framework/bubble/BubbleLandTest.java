@@ -17,8 +17,8 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class BubbleLandTest {
     private Bubble bubble;
-    private double fCollisionXPos;
-    private double fCollisionYPos;
+    private float fCollisionXPos;
+    private float fCollisionYPos;
     private double fXSpeed;
     private double fYSpeed;
     private Bubble.State fState;
@@ -39,7 +39,7 @@ public class BubbleLandTest {
     }
 
     //Inject via constructor
-    public BubbleLandTest(double collisionXPos, double collisionYPos,
+    public BubbleLandTest(float collisionXPos, float collisionYPos,
                           double xSpeed, double ySpeed, Bubble.State state,
                           double expectedXPos, double expectedYPos,
                           double expectedXSpeed, double expectedYSpeed,

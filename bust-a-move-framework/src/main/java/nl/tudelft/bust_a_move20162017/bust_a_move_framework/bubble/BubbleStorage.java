@@ -37,8 +37,8 @@ public final class BubbleStorage {
     /**
      * The offset of Y between each row.
      */
-    private final double rowOffset =
-            (double) diameter * Math.tan(60) + bubbleOffset + 2;
+    private final float rowOffset =
+            (float) ((double) diameter * Math.tan(60) + bubbleOffset + 2);
 
     /**
      * Structure that contains all the rows of bubbles.
@@ -149,7 +149,7 @@ public final class BubbleStorage {
                 if (row[i] == null) {
                     continue;
                 }
-                double currentY = row[i].getY();
+                float currentY = row[i].getY();
                 row[i].setY(currentY + rowOffset);
             }
         }

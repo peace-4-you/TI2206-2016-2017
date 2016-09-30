@@ -92,7 +92,7 @@ public abstract class PowerUp extends Bubble {
    * @param yPos at adjusted y position
    */
   public final void land(final double xPos, final double yPos) {
-    this.rootBubble.land(xPos, yPos);
+    this.rootBubble.land((float) xPos, (float) yPos);
   }
 
   /**
@@ -127,7 +127,7 @@ public abstract class PowerUp extends Bubble {
    * Getter method: for X coordinate of the bubble.
    * @return x value
    */
-  public final double getX() {
+  public final float getX() {
     return this.rootBubble.getX();
   }
 
@@ -135,7 +135,7 @@ public abstract class PowerUp extends Bubble {
    * Setter method: for the X coordinate of the bubble.
    * @param xPos  double value to set x to
    */
-  public final void setX(final double xPos) {
+  public final void setX(final float xPos) {
     this.rootBubble.setX(xPos);
   }
 
@@ -143,7 +143,7 @@ public abstract class PowerUp extends Bubble {
    * Getter method: for the Y coordinate of the bubble.
    * @return y value
    */
-  public final double getY() {
+  public final float getY() {
     return this.rootBubble.getY();
   }
 
@@ -151,7 +151,7 @@ public abstract class PowerUp extends Bubble {
    * Setter method: for the Y coordinate of the bubble.
    * @param yPos  double value to set y to
    */
-  public final void setY(final double yPos) {
+  public final void setY(final float yPos) {
     this.rootBubble.setY(yPos);
   }
 

@@ -24,7 +24,7 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
  * Generates a MainMenu as a instance of GameState.
  * @author Jason Xie, Maurice Willemsen
  */
-public class MainMenu extends BasicGameState {
+public class MainMenu extends BasicGameState implements Screen {
     /**
      * Play Button.
      */

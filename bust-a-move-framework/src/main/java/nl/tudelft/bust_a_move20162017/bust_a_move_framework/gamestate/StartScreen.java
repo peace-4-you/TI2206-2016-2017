@@ -21,7 +21,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
  * Generates a StartScreen as a instance of GameState.
  * @author Jason Xie
  */
-public class StartScreen extends BasicGameState {
+public class StartScreen extends BasicGameState implements Screen {
 
     /**
      * @return integer of BasicGameState number.

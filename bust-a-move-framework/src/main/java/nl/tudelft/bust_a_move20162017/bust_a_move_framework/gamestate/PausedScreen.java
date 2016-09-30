@@ -25,7 +25,7 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.App;
  * Generates a PausedScreen as a instance of GameState.
  * @author Jason Xie, Maurice Willemsen
  */
-public class PausedScreen extends BasicGameState implements Observer {
+public class PausedScreen extends BasicGameState implements Observer,Screen {
     /**
      * Resume Button.
      */

@@ -19,6 +19,7 @@ import nl.tudelft.bust_a_move20162017.bust_a_move_framework.gamestate.GameConfig
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Point;
 
 import java.util.LinkedList;
 
@@ -58,13 +59,9 @@ public class Bubble {
    */
   private static final int ANGLE_OFFSET = 90;
   /**
-   * X coordinate of the bubble. This is the top left of the bubble.
+   * The position of the bubble.
    */
-  private double x;
-  /**
-   * Y coordinate of the bubble. This is the top left of the bubble.
-   */
-  private double y;
+  private Point pos = new Point(0, 0);
   /**
    * Horizontal component of speed.
    */
@@ -155,10 +152,9 @@ public class Bubble {
    * @param forCannon  boolean describing if Bubble is for
    *                   Cannon or not (map otherwise)
    */
-  public Bubble(final double xPos, final double yPos, final ColorChoice c,
+  public Bubble(final float xPos, final float yPos, final ColorChoice c,
                 final boolean forCannon) {
-    this.x = xPos;
-    this.y = yPos;
+	this.pos = new Point(xPos, yPos);
     this.xSpeed = 0;
     this.ySpeed = 0;
     this.color = c;
@@ -167,8 +163,8 @@ public class Bubble {
     } else {
       this.state = State.LANDED;
     }
-    this.boundingBox = new Circle((float) (x + Bubble.DIAMETER / 2),
-            (float) (y + Bubble.DIAMETER / 2), (float) Bubble.DIAMETER / 2);
+    this.boundingBox = new Circle((float) (pos.getX() + Bubble.DIAMETER / 2),
+            (float) (pos.getY() + Bubble.DIAMETER / 2), (float) Bubble.DIAMETER / 2);
 
     switch (color) {
       case RED:
@@ -195,7 +191,7 @@ public class Bubble {
    */
   public void draw(final Graphics g) {
     g.setColor(this.drawColor);
-    g.fillOval((int) this.x, (int) this.y, (int) Bubble.DIAMETER,
+    g.fillOval((int) this.pos.getX(), (int) this.pos.getY(), (int) Bubble.DIAMETER,
             (int) Bubble.DIAMETER);
   }
 
@@ -203,8 +199,8 @@ public class Bubble {
    * Updates the Bubble's position per game tick.
    */
   public void move() {
-    double nextX = this.getX() + this.getXSpeed();
-    double nextY = this.getY() + this.getYSpeed();
+    float nextX = (float) (this.getX() + this.getXSpeed());
+    float nextY = (float) (this.getY() + this.getYSpeed());
 
     switch (this.state) {
       case NEW:
@@ -233,13 +229,14 @@ public class Bubble {
    * @param xPos at adjusted x position
    * @param yPos at adjusted y position
    */
-  public void land(final double xPos, final double yPos) {
+  public final void land(final float xPos, final float yPos) {
     this.setState(State.LANDED);
     this.setXSpeed(0);
     this.setYSpeed(0);
-    App.getGame().log.log("Adjusting bubble land position to: (" + (int) x
-            + " ; " + (int) y + ") from: (" + (int) this.getX() + " ; "
-            + (int) this.getY() + ")");
+    System.out.println("pos = "+pos);
+    App.getGame().log.log("Adjusting bubble land position to: (" + (int) pos.getX()
+            + " ; " + (int) pos.getY() + ") from: (" + (int) pos.getX() + " ; "
+            + (int) pos.getY() + ")");
     this.setX(xPos);
     this.setY(yPos);
   }
@@ -310,16 +307,16 @@ public class Bubble {
    * Getter method: for X coordinate of the bubble.
    * @return x value
    */
-  public double getX() {
-    return this.x;
+  public float getX() {
+    return this.pos.getX();
   }
 
   /**
    * Setter method: for the X coordinate of the bubble.
    * @param xPos  double value to set x to
    */
-  public void setX(final double xPos) {
-    this.x = xPos;
+  public void setX(final float xPos) {
+    this.pos.setX(xPos);
     this.boundingBox.setX((float) xPos);
   }
 
@@ -327,16 +324,16 @@ public class Bubble {
    * Getter method: for the Y coordinate of the bubble.
    * @return y value
    */
-  public double getY() {
-    return this.y;
+  public float getY() {
+    return this.pos.getY();
   }
 
   /**
    * Setter method: for the Y coordinate of the bubble.
    * @param yPos  double value to set y to
    */
-  public void setY(final double yPos) {
-    this.y = yPos;
+  public void setY(final float yPos) {
+    this.pos.setY(yPos);
     this.boundingBox.setY((float) yPos);
   }
 
@@ -421,7 +418,7 @@ public class Bubble {
    *                  (map otherwise)
    * @return  newly created bubble
    */
-  public static Bubble randomColor(final double x, final double y,
+  public static Bubble randomColor(final float x, final float y,
                                    final LinkedList<ColorChoice> colors,
                                    final boolean forCannon) {
     if (colors.size() == 0) {

@@ -119,8 +119,8 @@ public final class Collision {
         bubbleStorage.get(row)[column] = shotBubble;
         //TODO: This should not be calculated here.
         double offset = (bubbleStorage.get(row).length % 2 == 0) ? 0 : Bubble.DIAMETER / 2;
-        double xPos = arenaCont.get_xPos() + column * Bubble.DIAMETER + offset;
-        double yPos = arenaCont.get_yPos() + row * bubbleStorage.getRowOffset();
+        float xPos = (float) (arenaCont.get_xPos() + column * Bubble.DIAMETER + offset);
+        float yPos = (float) (arenaCont.get_yPos() + row * bubbleStorage.getRowOffset());
         shotBubble.land(xPos, yPos);
 
         //Is not part of the functionalty that this class offers, should be thus moved.
@@ -328,7 +328,7 @@ public final class Collision {
                 ite.remove();
                 continue;
             }
-            bubble.setY(bubble.getY() + Bubble.SPEED);
+            bubble.setY(bubble.getY() + (float)Bubble.SPEED);
             bubble.draw(g);
         }
     }
