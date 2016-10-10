@@ -1,5 +1,6 @@
 package bust_a_move.bubble;
 
+import bust_a_move.log.Log;
 import org.newdawn.slick.Graphics;
 
 import bust_a_move.App;
@@ -91,7 +92,7 @@ public final class Collision {
                 if (bubble != null && shotBubble != bubble) {
                     if (bubble.getState() == Bubble.State.LANDED) {
                         if (shotBubble.getBoundingBox().intersects(bubble.getBoundingBox())) {
-                            App.getGame().log.log(this, "Fired Bubble collision! " + shotBubble.getColor() + " with " + bubble.getColor());
+                            Log.log(this, "Fired Bubble collision! " + shotBubble.getColor() + " with " + bubble.getColor());
                             landBubble(shotBubble);
                             popBubbles(shotBubble);
                             break collisionLoop;
@@ -234,7 +235,7 @@ public final class Collision {
     private LinkedList<Bubble> checkBubblesToDrop() {
         int dropCount = 0;
         LinkedList<Bubble> visited = new LinkedList<Bubble>();
-        App.getGame().log.log(this, "Checking for bubbles to drop");
+        Log.log(this, "Checking for bubbles to drop");
 
 
         if (!bubbleStorage.isEmpty() && bubbleStorage.get(0) != null) {

@@ -12,43 +12,47 @@ import java.util.Date;
 
 /**
  * The Log class represents a game entity.
+ *
  * @author Maurice Willemsen
  */
 public class Log {
     /**
      * Used for timestamping.
      */
-    private Date d;
+    private static Date d;
     /**
      * Log count.
      */
-    private int number = 0;
+    private static int number = 0;
+
     /**
      * Method to output logging with only a log message.
+     *
      * @param log log message
      */
     @SuppressWarnings("deprecation")
-    public final void log(final String log) {
+    public final static void log(final String log) {
         d = new Date();
-        this.number++;
+        number++;
         System.out.format("[Bust-A-Move] -> [Log: %d] -> [%d:%d:%d] -> %s%n",
-                this.number, d.getHours(), d.getMinutes(),
+                number, d.getHours(), d.getMinutes(),
                 d.getSeconds(), log);
     }
 
     /**
      * Method to output logging with a log message and the object that
      * generated that log.
+     *
      * @param obj object that generated the log
      * @param log log message
      */
     @SuppressWarnings("deprecation")
-    public final void log(final Object obj, final String log) {
+    public final static void log(final Object obj, final String log) {
         d = new Date();
-        this.number++;
+        number++;
         System.out.format("[Bust-A-Move] -> [Class: %s] -> [Log: %d] "
-                + "-> [%d:%d:%d] -> %s%n",
-                obj.getClass().getSimpleName(), this.number,
+                        + "-> [%d:%d:%d] -> %s%n",
+                obj.getClass().getSimpleName(), number,
                 d.getHours(), d.getMinutes(), d.getSeconds(),
                 log);
     }
