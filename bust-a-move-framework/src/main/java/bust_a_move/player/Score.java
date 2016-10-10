@@ -14,16 +14,13 @@
 
 package bust_a_move.player;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import bust_a_move.App;
 
 /**
  * The Game class represents a game entity.
  * @author Maurice Willemsen
  */
-public class Score extends Observable {
+public class Score {
     /**
      * Integer variable to store the score value.
      */
@@ -37,22 +34,27 @@ public class Score extends Observable {
      */
     private static final int DEFAULT_DROPPED_POINTS = 20;
     /**
+     * 
+     */
+    private final Player owner;
+    /**
      * Constructor of the Score class.
      */
-    public Score() {
+    public Score(Player owner) {
         App.getGame().log.log(this, "Score initialised");
         this.score = 0;
-        this.updateObserver();
+        this.owner = owner;
+        this.owner.notifyObserver();
     }
 
-    /**
+	/**
      * sets the player's score.
      * @param scoreVal integer value to set score to
      */
     public final void setScore(final int scoreVal) {
         App.getGame().log.log(this, "Score Set to " + scoreVal);
         this.score = scoreVal;
-        this.updateObserver();
+        this.owner.notifyObserver();
     }
 
     /**
@@ -61,7 +63,7 @@ public class Score extends Observable {
     public final void reset() {
         App.getGame().log.log(this, "Score Reset");
         this.score = 0;
-        this.updateObserver();
+        this.owner.notifyObserver();
     }
     /**
      * Add to the player's score.
@@ -70,7 +72,7 @@ public class Score extends Observable {
     public final void addScore(final int scoreVal) {
         App.getGame().log.log(this, "Score added with " + scoreVal);
         this.score += scoreVal;
-        this.updateObserver();
+        this.owner.notifyObserver();
     }
     /**
      * Add popped bubble points to the player's score by algorithm.
@@ -83,7 +85,7 @@ public class Score extends Observable {
             App.getGame().log.log(this, bubbles + " Bubbles Popped.  "
                     + "Score added with " + scoreVal);
             this.score += scoreVal;
-            this.updateObserver();
+            this.owner.notifyObserver();
         }
     }
     /**
@@ -98,7 +100,7 @@ public class Score extends Observable {
             App.getGame().log.log(this, bubbles + " bBubbles Dropped. "
                     + "Score added with " + scoreVal);
             this.score += scoreVal;
-            this.updateObserver();
+            this.owner.notifyObserver();
         }
     }
 
@@ -108,26 +110,5 @@ public class Score extends Observable {
      */
     public final int getScore() {
         return this.score;
-    }
-    /**
-     * Updates connected observers.
-     */
-    private void updateObserver() {
-        this.setChanged();
-        this.notifyObservers(this.score);
-    }
-    /**
-     * Adds class object to observer list.
-     * @param o Class Object
-     */
-    public final void addAsObserver(final Object o) {
-        this.addObserver((Observer) o);
-    }
-    /**
-     * Deletes class object from observer list.
-     * @param o Class Object
-     */
-    public final void deleteAsObser(final Object o) {
-        this.deleteObserver((Observer) o);
     }
 }

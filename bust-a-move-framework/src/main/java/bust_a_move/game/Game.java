@@ -76,8 +76,11 @@ public class Game extends BasicGameState {
 	public final void start2Player() throws SlickException {
 		AppGameContainer gc = (AppGameContainer) this.container;
 		gc.setDisplayMode(1040, 580, false);
-		this.gamedata.add(new GameData(0, 2));
-		this.gamedata.add(new GameData(500, 1));
+		GameData firstplayer = new GameData(0, 2);
+		GameData secondplayer = new GameData(500, 1);
+		this.gamedata.add(firstplayer);
+		this.gamedata.add(secondplayer);
+		firstplayer.getPlayer().notifyAmountObserver(2);		
 	}
 
 	/**
@@ -85,7 +88,9 @@ public class Game extends BasicGameState {
 	 */
 
 	public final void start1Player() {
-		this.gamedata.add(new GameData(0, 1));
+		GameData firstplayer = new GameData(0, 1);
+		this.gamedata.add(firstplayer);
+		firstplayer.getPlayer().notifyAmountObserver(1);	
 	}
 
 	/**
@@ -197,7 +202,7 @@ public class Game extends BasicGameState {
 	public final void render(final GameContainer container, final StateBasedGame sbg, final Graphics g)
 			throws SlickException {
 		g.setColor(Color.gray);
-		g.fillRect(0, 530, 640, 580);
+		g.fillRect(0, 530, 1040, 580);
 		pause.draw(g);
 		for (GameData gd : this.gamedata) {
 			gd.render(container, sbg, g);

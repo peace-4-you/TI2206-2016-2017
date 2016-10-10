@@ -21,12 +21,13 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bust_a_move.App;
+import bust_a_move.game.PlayerObserver;
 
 /**
  * Generates a DefeatScreen as a instance of GameState.
  * @author Jason Xie, Maurice Willemsen
  */
-public class DefeatScreen extends BasicGameState implements Observer, Screen {
+public class DefeatScreen extends BasicGameState implements PlayerObserver{
     /**
      * Restart Button.
      */
@@ -38,11 +39,11 @@ public class DefeatScreen extends BasicGameState implements Observer, Screen {
     /**
      * Contains the player name.
      */
-    private Text nameText;
+    private Text player1name;
     /**
      * Contains the player's score.
      */
-    private Text scoreText;
+    private Text player1score;
     /**
      * Contains the fail message.
      */
@@ -71,11 +72,11 @@ public class DefeatScreen extends BasicGameState implements Observer, Screen {
             throws SlickException {
         failedText = new Text("You Failed", GameConfig.FIRST_LINE);
         failedText.centerText(game);
-        /*nameText = new Text("Player: " + App.getGame().player.getName(),
+        /*player1name = new Text("Player: " + App.getGame().player.getName(),
                 GameConfig.SECOND_LINE);
-        nameText.centerText(game);*/
-        scoreText = new Text("Score: " + this.score, GameConfig.THIRD_LINE);
-        scoreText.centerText(game);
+        player1name.centerText(game);*/
+        player1score = new Text("Score: " + this.score, GameConfig.THIRD_LINE);
+        player1score.centerText(game);
         restart = new Button("Restart", GameConfig.FOURTH_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         restart.centerButton(game);
@@ -96,10 +97,14 @@ public class DefeatScreen extends BasicGameState implements Observer, Screen {
                              final Graphics graphics)
             throws SlickException {
         failedText.draw(graphics);
-        //nameText.draw(graphics);
-        scoreText.draw(graphics);
+        player1name.draw(graphics);
+        player1score.draw(graphics);
         restart.draw(graphics);
         mainmenu.draw(graphics);
+		if (this.players == 2){
+			player2name.draw(graphics);
+			player2score.draw(graphics);
+		}
     }
     /**
      * Updates the BasicGameState.
@@ -111,10 +116,10 @@ public class DefeatScreen extends BasicGameState implements Observer, Screen {
     public final void update(final GameContainer game,
                              final StateBasedGame stateBasedGame, final int i)
             throws SlickException {
-        //nameText.setText("Player: " + App.getGame().player.getName());
-       // nameText.centerText(game);
-        scoreText.setText("Score: " + this.score);
-        scoreText.centerText(game);
+		player1name.centerText(game);
+		player1score.centerText(game);
+		player2name.centerText(game);
+		player2score.centerText(game); 
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (restart.isInBounds(input)) {
@@ -129,12 +134,31 @@ public class DefeatScreen extends BasicGameState implements Observer, Screen {
             }
         }
     }
-    /**
-     * Updates the Observer.
-     * @param o the observable item
-     * @param arg the observable argument
-     */
-    public final void update(final Observable o, final Object arg) {
-        this.score = (Integer) arg;
-    }
+
+
+	/**
+	 * Updated by Observable. Sets data
+	 * 
+	 * @param number integer of player number
+	 * @param name String of player name
+	 * @param score integer of player score
+	 */
+	
+	public void update(int number, String name, int score) {
+		if (number == 1) {
+			this.player1name.setText("Player: " + name);
+			this.player1score.setText("Score: " + score);
+		} else if (number == 2) {
+			this.player2name.setText("Player: " + name);
+			this.player2score.setText("Score: " + score);
+		}
+	}
+	
+	/**
+	 * Updated by Observable, sets amount of playerdata.
+	 */
+
+	public void update(int playeramount) {
+		this.players = playeramount;
+	}
 }

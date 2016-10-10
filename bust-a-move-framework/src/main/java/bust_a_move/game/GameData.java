@@ -66,10 +66,11 @@ public class GameData implements Observer{
 		this.player_nr = nr;
 		this.state = GameDataState.RUNNING;		
 		this.bubbleslist = new ArrayList<Bubble>();
-		this.arena = new Arena(GameData.arena_x+this.offset, GameData.arena_y, GameData.arena_width, GameData.arena_height);
+		this.player = new Player("Player1",this.offset,this.player_nr);
+		this.player.registerObserver((PlayerObserver)App.getPauseScreen());
+		this.player.registerObserver((PlayerObserver)App.getDefeatScreen());
+		this.arena = new Arena(GameData.arena_x+this.offset, GameData.arena_y, GameData.arena_width, GameData.arena_height,this.player.getScore());
 		this.cannon = new Cannon(this,this.offset,this.player_nr);
-		this.player = new Player("Player1",this.offset);
-		this.player.getScore().addAsObserver(this);		
 	}
 	
 	
@@ -130,6 +131,17 @@ public class GameData implements Observer{
 
 	public final Arena getArena() {
 		return this.arena;
+	}
+	
+	/**
+	 * Method to return the player object inside gamedata class.
+	 *
+	 * @return Player object inside gamedata class
+	 */
+	
+	
+	public final Player getPlayer(){
+		return this.player;
 	}
 	
 	/**

@@ -4,6 +4,7 @@ import org.newdawn.slick.Graphics;
 
 import bust_a_move.App;
 import bust_a_move.game.Arena;
+import bust_a_move.player.Score;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -35,7 +36,10 @@ public final class Collision {
      * The container of this ojbect.
      */
     private Arena arenaCont;
-
+    /**
+     * The object to set scores to
+     */
+    private Score scorekeeper;
 
     /**
      * Constructor for creating an object just for checking collisions.
@@ -43,11 +47,13 @@ public final class Collision {
      * @param bubbles container to check collisions on
      * @param arena   container thtat contains this object
      */
-    public Collision(final BubbleStorage bubbles, final Arena arena) {
+    public Collision(final BubbleStorage bubbles, final Arena arena, final Score score) {
         this.bubbleStorage = bubbles;
         this.arenaCont = arena;
+        this.scorekeeper = score; 
         droppingBubbles = new LinkedList<Bubble>();
         bubbleCount = 0;
+        
     }
 
     /**
@@ -164,7 +170,7 @@ public final class Collision {
      * @param bubble  Bubble to pop
      */
     public void popBubble(Bubble bubble) {
-        App.getGame().player.getScore().scoreBubblesPopped(1);
+        this.scorekeeper.scoreBubblesPopped(1);
         bubbleStorage.removeBubble(bubble);
         bubble.pop();
     }
@@ -261,7 +267,7 @@ public final class Collision {
             }
         }
         if (dropCount > 0) {
-            App.getGame().player.getScore().scoreBubblesDropped(dropCount);
+           this.scorekeeper.scoreBubblesDropped(dropCount);
         }
 
         return visited;

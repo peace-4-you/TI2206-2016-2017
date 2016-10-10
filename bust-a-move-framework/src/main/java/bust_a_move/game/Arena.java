@@ -17,6 +17,7 @@ import bust_a_move.App;
 import bust_a_move.bubble.Bubble;
 import bust_a_move.bubble.BubbleStorage;
 import bust_a_move.bubble.Collision;
+import bust_a_move.player.Score;
 
 /**
  * TODO: new description for functioning of this class The arena class maintains
@@ -71,13 +72,13 @@ public class Arena {
 	 * @param width_t
 	 *            width of the background
 	 */
-	public Arena(int xVal, int yVal, int height_t, int width_t) {
+	public Arena(int xVal, int yVal, int height_t, int width_t,Score score) {
 		xPos = xVal;
 		yPos = yVal;
 		height = height_t;
 		width = width_t;
 		bubbleStorage = new BubbleStorage(xPos, yPos, this);
-		collide = new Collision(bubbleStorage, this);
+		collide = new Collision(bubbleStorage, this, score);
 		App.getGame().log.log(this, "Arena initialised");
 	}
 
