@@ -18,6 +18,8 @@ import bust_a_move.gamestate.MainMenu;
 import bust_a_move.gamestate.PausedScreen;
 import bust_a_move.gamestate.StartScreen;
 import bust_a_move.gamestate.VictoryScreen;
+import bust_a_move.gamestate.NameScreen;
+import bust_a_move.gamestate.NamesScreen;
 
 /**
  * The App class contains the launcher of the program.
@@ -74,13 +76,14 @@ public class App extends StateBasedGame {
     public final void initStatesList(final GameContainer container)
             throws SlickException {
         game = new Game();
-        game.initialisePlayer();
         addState(new StartScreen());
         addState(new MainMenu());
         addState(game);
         addState(new PausedScreen());
         addState(new VictoryScreen());
         addState(new DefeatScreen());
+        addState(new NameScreen());
+        addState(new NamesScreen());
     }
 
     /**

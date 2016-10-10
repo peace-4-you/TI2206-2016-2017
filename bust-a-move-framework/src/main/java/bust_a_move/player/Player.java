@@ -47,15 +47,18 @@ public class Player {
      */
     private static final float COMBO_YPOS = 100;
 
+    private final int offset;
+    
     /**
      * Constructor of Player class.
      * @param s player's name
      */
-    public Player(final String s) {
+    public Player(final String s,int offset) {
         App.getGame().log.log(this, "Player initialiased");
         this.setName(s);
         this.score = new Score();
         this.combo = 1;
+        this.offset = offset;
     }
 
     /**
@@ -115,7 +118,7 @@ public class Player {
      */
     public final void draw(final Graphics g) {
         g.setColor(Color.white);
-        g.drawString("Name:" + this.name, NAME_XPOS, NAME_YPOS);
-        g.drawString("Combo:" + this.combo, COMBO_XPOS, COMBO_YPOS);
+        g.drawString("Name:" + this.name, NAME_XPOS+this.offset, NAME_YPOS);
+        g.drawString("Combo:" + this.combo, COMBO_XPOS+this.offset, COMBO_YPOS);
     }
 }

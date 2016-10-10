@@ -67,10 +67,10 @@ public class PausedScreen extends BasicGameState implements Observer,Screen {
                            final StateBasedGame stateBasedGame)
             throws SlickException {
         pauseText = new Text("Game Paused", GameConfig.FIRST_LINE);
-        pauseText.centerText(game);
+        pauseText.centerText(game);/*
         nameText = new Text("Player: " + App.getGame().player.getName(),
                 GameConfig.SECOND_LINE);
-        nameText.centerText(game);
+        nameText.centerText(game);*/
         scoreText = new Text("Score: " + this.score, GameConfig.THIRD_LINE);
         scoreText.centerText(game);
         resume = new Button("Resume", GameConfig.FOURTH_LINE, GameConfig.WIDTH2,
@@ -79,7 +79,7 @@ public class PausedScreen extends BasicGameState implements Observer,Screen {
         quit = new Button("Quit", GameConfig.FIFTH_LINE, GameConfig.WIDTH2,
                 GameConfig.HEIGHT);
         quit.centerButton(game);
-        App.getGame().player.getScore().addAsObserver(this);
+        //App.getGame().player.getScore().addAsObserver(this);
     }
     /**
      * Renders the BasicGameState.
@@ -93,7 +93,7 @@ public class PausedScreen extends BasicGameState implements Observer,Screen {
                              final Graphics graphics)
             throws SlickException {
         pauseText.draw(graphics);
-        nameText.draw(graphics);
+        //nameText.draw(graphics);
         scoreText.draw(graphics);
         resume.draw(graphics);
         quit.draw(graphics);
@@ -108,8 +108,8 @@ public class PausedScreen extends BasicGameState implements Observer,Screen {
     public final void update(final GameContainer game,
                              final StateBasedGame stateBasedGame, final int i)
             throws SlickException {
-        nameText.setText("Player: " + App.getGame().player.getName());
-        nameText.centerText(game);
+        //nameText.setText("Player: " + App.getGame().player.getName());
+        //nameText.centerText(game);
         scoreText.setText("Score: " + this.score);
         scoreText.centerText(game);
         Input input = game.getInput();
@@ -119,6 +119,7 @@ public class PausedScreen extends BasicGameState implements Observer,Screen {
                         new FadeOutTransition(), new FadeInTransition());
             }
             if (quit.isInBounds(input)) {
+            	App.getGame().destroyGame();
                 stateBasedGame.enterState(GameState.MAIN_MENU,
                         new FadeOutTransition(), new FadeInTransition());
             }

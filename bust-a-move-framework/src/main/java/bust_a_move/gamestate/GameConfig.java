@@ -43,6 +43,10 @@ public abstract class GameConfig {
      */
     public static final int SEVENTH_LINE = 280;
     /**
+     * Vertical Position of the eigth line to display on the screen.
+     */
+    public static final int EIGTH_LINE = 320;
+    /**
      * Width of something to display on the screen.
      */
     public static final int WIDTH1 = 100;
@@ -79,7 +83,7 @@ public abstract class GameConfig {
     /**
      * Bubble PowerUp feature flag.
      */
-    public static final boolean ENABLE_POWERUPS = true;
+    public static final boolean ENABLE_POWERUPS = false;
     /**
      * Default Bubble speed.
      */

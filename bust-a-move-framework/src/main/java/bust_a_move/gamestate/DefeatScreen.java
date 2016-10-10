@@ -71,9 +71,9 @@ public class DefeatScreen extends BasicGameState implements Observer, Screen {
             throws SlickException {
         failedText = new Text("You Failed", GameConfig.FIRST_LINE);
         failedText.centerText(game);
-        nameText = new Text("Player: " + App.getGame().player.getName(),
+        /*nameText = new Text("Player: " + App.getGame().player.getName(),
                 GameConfig.SECOND_LINE);
-        nameText.centerText(game);
+        nameText.centerText(game);*/
         scoreText = new Text("Score: " + this.score, GameConfig.THIRD_LINE);
         scoreText.centerText(game);
         restart = new Button("Restart", GameConfig.FOURTH_LINE,
@@ -82,7 +82,7 @@ public class DefeatScreen extends BasicGameState implements Observer, Screen {
         mainmenu = new Button("Go to Main Menu", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH3, GameConfig.HEIGHT);
         mainmenu.centerButton(game);
-        App.getGame().player.getScore().addAsObserver(this);
+        //App.getGame().player.getScore().addAsObserver(this);
     }
     /**
      * Renders the BasicGameState.
@@ -96,7 +96,7 @@ public class DefeatScreen extends BasicGameState implements Observer, Screen {
                              final Graphics graphics)
             throws SlickException {
         failedText.draw(graphics);
-        nameText.draw(graphics);
+        //nameText.draw(graphics);
         scoreText.draw(graphics);
         restart.draw(graphics);
         mainmenu.draw(graphics);
@@ -111,21 +111,19 @@ public class DefeatScreen extends BasicGameState implements Observer, Screen {
     public final void update(final GameContainer game,
                              final StateBasedGame stateBasedGame, final int i)
             throws SlickException {
-        nameText.setText("Player: " + App.getGame().player.getName());
-        nameText.centerText(game);
+        //nameText.setText("Player: " + App.getGame().player.getName());
+       // nameText.centerText(game);
         scoreText.setText("Score: " + this.score);
         scoreText.centerText(game);
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (restart.isInBounds(input)) {
-                stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
-                        stateBasedGame);
+            	App.getGame().destroyGame();
                 stateBasedGame.enterState(GameState.GAME_ACTIVE,
                         new FadeOutTransition(), new FadeInTransition());
             }
             if (mainmenu.isInBounds(input)) {
-                stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
-                        stateBasedGame);
+            	App.getGame().destroyGame();
                 stateBasedGame.enterState(GameState.MAIN_MENU,
                         new FadeOutTransition(), new FadeInTransition());
             }

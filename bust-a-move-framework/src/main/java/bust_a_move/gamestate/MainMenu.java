@@ -12,13 +12,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-
-import bust_a_move.App;
 
 /**
  * Generates a MainMenu as a instance of GameState.
@@ -26,25 +23,17 @@ import bust_a_move.App;
  */
 public class MainMenu extends BasicGameState implements Screen {
     /**
-     * Play Button.
+     * Play with 1 player Button.
      */
-    private Button play;
+    private Button play1player;
+    /**
+     * Play with 2 players Button.
+     */
+    private Button play2players;
     /**
      * Quit Button.
      */
     private Button quit;
-    /**
-     * setName Button.
-     */
-    private Button setName;
-    /**
-     * Name Textfield.
-     */
-    private TextField namefield;
-    /**
-     * Name Text.
-     */
-    private Text nameText;
 
     /**
      * @return integer of BasicGameState number.
@@ -61,22 +50,15 @@ public class MainMenu extends BasicGameState implements Screen {
      */
     public final void init(final GameContainer game,
         final StateBasedGame stateBasedGame) throws SlickException {
-        nameText = new Text("Player: " + App.getGame().player.getName(),
-            GameConfig.FIRST_LINE);
-        nameText.centerText(game);
-        play = new Button("Play", GameConfig.THIRD_LINE, GameConfig.WIDTH1,
+        play1player = new Button("1 Player", GameConfig.SECOND_LINE, GameConfig.WIDTH2,
             GameConfig.HEIGHT);
-        play.centerButton(game);
+        play1player.centerButton(game);
+        play2players = new Button("2 Players", GameConfig.THIRD_LINE, GameConfig.WIDTH2,
+                GameConfig.HEIGHT);
+            play2players.centerButton(game);
         quit = new Button("Quit", GameConfig.FOURTH_LINE, GameConfig.WIDTH1,
             GameConfig.HEIGHT);
         quit.centerButton(game);
-        namefield = new TextField(game, game.getDefaultFont(),
-            GameConfig.CENTRAL, GameConfig.SIXT_LINE, GameConfig.WIDTH3,
-            GameConfig.HEIGHT);
-        namefield.setText("Player1");
-        setName = new Button("Set Name", GameConfig.SEVENTH_LINE,
-            GameConfig.WIDTH2, GameConfig.HEIGHT);
-        setName.centerButton(game);
     }
 
     /**
@@ -90,11 +72,9 @@ public class MainMenu extends BasicGameState implements Screen {
     public final void render(final GameContainer game,
         final StateBasedGame stateBasedGame, final Graphics graphics)
         throws SlickException {
-        nameText.draw(graphics);
-        play.draw(graphics);
-        quit.draw(graphics);
-        setName.draw(graphics);
-        namefield.render(game, graphics);
+        play1player.draw(graphics);
+        play2players.draw(graphics);
+        quit.draw(graphics);;
     }
 
     /**
@@ -108,16 +88,15 @@ public class MainMenu extends BasicGameState implements Screen {
     public final void update(final GameContainer game,
         final StateBasedGame stateBasedGame, final int i)
         throws SlickException {
-        nameText.setText("Player: " + App.getGame().player.getName());
-        nameText.centerText(game);
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            if (play.isInBounds(input)) {
-                stateBasedGame.enterState(GameState.GAME_ACTIVE,
+            if (play1player.isInBounds(input)) {
+                stateBasedGame.enterState(GameState.NAME_SCREEN,
                     new FadeOutTransition(), new FadeInTransition());
             }
-            if (setName.isInBounds(input)) {
-                App.getGame().player.setName(this.namefield.getText());
+            if (play2players.isInBounds(input)) {
+                stateBasedGame.enterState(GameState.NAMES_SCREEN,
+                    new FadeOutTransition(), new FadeInTransition());
             }
             if (quit.isInBounds(input)) {
                 game.exit();

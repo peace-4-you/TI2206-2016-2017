@@ -67,10 +67,10 @@ public class VictoryScreen extends BasicGameState implements Observer, Screen {
                            final StateBasedGame stateBasedGame)
             throws SlickException {
         wonText = new Text("You Won", GameConfig.FIRST_LINE);
-        wonText.centerText(game);
+        wonText.centerText(game);/*
         nameText = new Text("Player: " + App.getGame().player.getName(),
                 GameConfig.SECOND_LINE);
-        nameText.centerText(game);
+        nameText.centerText(game);*/
         scoreText = new Text("Score: " + this.score,
                 GameConfig.THIRD_LINE);
         scoreText.centerText(game);
@@ -80,7 +80,7 @@ public class VictoryScreen extends BasicGameState implements Observer, Screen {
         restart = new Button("Restart", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         restart.centerButton(game);
-        App.getGame().player.getScore().addAsObserver(this);
+        //App.getGame().player.getScore().addAsObserver(this);
     }
     /**
      * Renders the BasicGameState.
@@ -94,7 +94,7 @@ public class VictoryScreen extends BasicGameState implements Observer, Screen {
                              final Graphics graphics)
             throws SlickException {
         wonText.draw(graphics);
-        nameText.draw(graphics);
+        //nameText.draw(graphics);
         scoreText.draw(graphics);
         main.draw(graphics);
         restart.draw(graphics);
@@ -110,37 +110,33 @@ public class VictoryScreen extends BasicGameState implements Observer, Screen {
                              final StateBasedGame stateBasedGame,
                              final int i)
             throws SlickException {
-        nameText.setText("Player: " + App.getGame().player.getName());
-        nameText.centerText(game);
+        //nameText.setText("Player: " + App.getGame().player.getName());
+        //nameText.centerText(game);
         scoreText.setText("Score: " + this.score);
         scoreText.centerText(game);
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (main.isInBounds(input)) {
-                stateBasedGame.getState(
-                        GameState.GAME_ACTIVE).init(
-                                game,
-                        stateBasedGame);
+            	App.getGame().destroyGame();
                 stateBasedGame.enterState(GameState.MAIN_MENU,
                         new FadeOutTransition(),
                         new FadeInTransition());
             }
             if (restart.isInBounds(input)) {
-                stateBasedGame.getState(
-                        GameState.GAME_ACTIVE).init(
-                                game,
-                        stateBasedGame);
+            	App.getGame().destroyGame();
                 stateBasedGame.enterState(GameState.GAME_ACTIVE,
                         new FadeOutTransition(),
                         new FadeInTransition());
             }
         }
     }
+    
     /**
      * Updates the Observer.
      * @param o the observable item
      * @param arg the observable argument
      */
+    
     public final void update(final Observable o, final Object arg) {
         this.score = (Integer) arg;
     }
