@@ -72,7 +72,7 @@ public final class Collision {
      */
     private void checkWallCollision(final Bubble bubble) {
         double xPos = bubble.getX();
-        double wallPos = arenaCont.get_xPos();
+        double wallPos = arenaCont.getxPos();
         if (xPos <= wallPos
                 || xPos + Bubble.DIAMETER >= wallPos + arenaCont.getWidth()) {
             bubble.hitWall();
@@ -121,8 +121,8 @@ public final class Collision {
         bubbleStorage.get(row)[column] = shotBubble;
         //TODO: This should not be calculated here.
         double offset = (bubbleStorage.get(row).length % 2 == 0) ? 0 : Bubble.DIAMETER / 2;
-        float xPos = (float) (arenaCont.get_xPos() + column * Bubble.DIAMETER + offset);
-        float yPos = (float) (arenaCont.get_yPos() + row * bubbleStorage.getRowOffset());
+        float xPos = (float) (arenaCont.getxPos() + column * Bubble.DIAMETER + offset);
+        float yPos = (float) (arenaCont.getyPos() + row * bubbleStorage.getRowOffset());
         shotBubble.land(xPos, yPos);
 
         //Is not part of the functionalty that this class offers, should be thus moved.
