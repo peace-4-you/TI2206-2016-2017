@@ -5,7 +5,6 @@
  * Version: 0.0.1
  * Date: September 20th, 2016
  */
-
 package bustamove.system;
 
 import java.util.Date;
@@ -15,7 +14,7 @@ import java.util.Date;
  *
  * @author Maurice Willemsen
  */
-public class Log {
+public final class Log {
     /**
      * Used for timestamping.
      */
@@ -25,13 +24,21 @@ public class Log {
      */
     private static int number = 0;
 
+
     /**
-     * Method to output logging with only a log message.
+     * Constructor that you aren't supposed to use.
+     */
+    private Log() {
+        throw new AssertionError("Not allowed to instantiate.");
+    }
+
+    /**
+     * Method to output logging with only a Log message.
      *
-     * @param log log message
+     * @param log Log message
      */
     @SuppressWarnings("deprecation")
-    public static final void log(final String log) {
+    public static void log(final String log) {
         d = new Date();
         number++;
         System.out.format("[Bust-A-Move] -> [Log: %d] -> [%d:%d:%d] -> %s%n",
@@ -40,14 +47,14 @@ public class Log {
     }
 
     /**
-     * Method to output logging with a log message and the object that
-     * generated that log.
+     * Method to output logging with a Log message and the object that
+     * generated that Log.
      *
-     * @param obj object that generated the log
-     * @param log log message
+     * @param obj object that generated the Log
+     * @param log Log message
      */
     @SuppressWarnings("deprecation")
-    public static final void log(final Object obj, final String log) {
+    public static void log(final Object obj, final String log) {
         d = new Date();
         number++;
         System.out.format("[Bust-A-Move] -> [Class: %s] -> [Log: %d] "

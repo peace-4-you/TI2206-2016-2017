@@ -30,7 +30,7 @@ public class SpeedUp extends PowerUp {
      *
      * @param bubble wrapped Bubble component.
      */
-    public SpeedUp(Bubble bubble) {
+    public SpeedUp(final Bubble bubble) {
         super(bubble);
     }
 
@@ -42,7 +42,8 @@ public class SpeedUp extends PowerUp {
     public final void draw(final Graphics g) {
         this.bubble.draw(g);
         g.setColor(Color.black);
-        g.drawString("+", (int) this.getX() + 7, (int) this.getY() + 7);
+        g.drawString("+", this.getX() + getpowerupOffset(),
+                this.getY() + getpowerupOffset());
     }
 
     /**

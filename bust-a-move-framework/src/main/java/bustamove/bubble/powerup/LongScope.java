@@ -31,7 +31,7 @@ public class LongScope extends PowerUp {
      *
      * @param bubble wrapped Bubble component.
      */
-    public LongScope(Bubble bubble) {
+    public LongScope(final Bubble bubble) {
         super(bubble);
     }
 
@@ -43,7 +43,8 @@ public class LongScope extends PowerUp {
     public final void draw(final Graphics g) {
         this.bubble.draw(g);
         g.setColor(Color.black);
-        g.drawString("+C", (int) this.getX() + 7, (int) this.getY() + 7);
+        g.drawString("+C", this.getX() + getpowerupOffset(),
+                this.getY() + getpowerupOffset());
     }
 
     /**

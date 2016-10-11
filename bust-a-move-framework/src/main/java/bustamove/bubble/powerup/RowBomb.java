@@ -30,7 +30,7 @@ public class RowBomb extends PowerUp {
      *
      * @param bubble wrapped Bubble component.
      */
-    public RowBomb(Bubble bubble) {
+    public RowBomb(final Bubble bubble) {
         super(bubble);
     }
 
@@ -42,7 +42,8 @@ public class RowBomb extends PowerUp {
     public final void draw(final Graphics g) {
         this.bubble.draw(g);
         g.setColor(Color.black);
-        g.drawString("RB", (int) this.getX() + 7, (int) this.getY() + 7);
+        g.drawString("RB", this.getX() + getpowerupOffset(),
+                this.getY() + getpowerupOffset());
     }
 
     /**

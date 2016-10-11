@@ -126,7 +126,7 @@ public class Cannon {
      * @param g game object for reference
      */
     public Cannon(final Game g) {
-        g.log.log(this, "Cannon initialised");
+        g.Log.log(this, "Cannon initialised");
         this.cannonColour = Color.red;
         this.game = g;
         this.nextBubble = getNextBubble();
@@ -148,7 +148,7 @@ public class Cannon {
      * @return newly created bubble
      */
     private Bubble getNextBubble() {
-        game.log.log(this, "Next bubble loaded to cannon");
+        game.Log.log(this, "Next bubble loaded to cannon");
         Bubble newBubble = Bubble.randomColor((float) Cannon.xLaunch,
                 (float) Cannon.yLaunch, game.arena.getBubbleStorage().getColorsOnArena(), true);
         if (GameConfig.ENABLE_POWERUPS) {
@@ -160,7 +160,7 @@ public class Cannon {
      * Fires current bubble and loads next bubble.
      */
     public final void fire() {
-        game.log.log(this, "Cannon fired a bubble");
+        game.Log.log(this, "Cannon fired a bubble");
         this.currBubble.fire(this.angle);
         this.loadNextBubble();
         this.timeShotFired = 0;
@@ -192,7 +192,7 @@ public class Cannon {
         timeShotFired += delta;
         if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
             if (container.getInput().isKeyPressed(Input.KEY_RIGHT)) {
-                game.log.log(this, "Cannon moving to the right");
+                game.Log.log(this, "Cannon moving to the right");
             }
             this.timePassedKeyRight += delta;
             if (this.timePassedKeyRight > inputScanDelay) {
@@ -204,7 +204,7 @@ public class Cannon {
         }
         if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
             if (container.getInput().isKeyPressed(Input.KEY_LEFT)) {
-                game.log.log(this, "Cannon moving to the left");
+                game.Log.log(this, "Cannon moving to the left");
             }
             this.timePassedKeyLeft += delta;
             if (this.timePassedKeyLeft > inputScanDelay) {
@@ -221,7 +221,7 @@ public class Cannon {
             displayWarning = true;
         }
         if (this.timeShotFired > TIME_TO_SHOOT) {
-            game.log.log(this, "Time elapsed, "
+            game.Log.log(this, "Time elapsed, "
                     + "shooting automatically");
             fire();
             timePassedKeyRight = 0;

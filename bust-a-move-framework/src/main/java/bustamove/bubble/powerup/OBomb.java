@@ -28,7 +28,7 @@ public class OBomb extends PowerUp {
      *
      * @param bubble wrapped Bubble component.
      */
-    public OBomb(Bubble bubble) {
+    public OBomb(final Bubble bubble) {
         super(bubble);
     }
 
@@ -40,7 +40,8 @@ public class OBomb extends PowerUp {
     public final void draw(final Graphics g) {
         this.bubble.draw(g);
         g.setColor(Color.black);
-        g.drawString("OB", (int) this.getX() + 7, (int) this.getY() + 7);
+        g.drawString("OB", this.getX() + getpowerupOffset(),
+                this.getY() + getpowerupOffset());
     }
 
     /**
@@ -49,6 +50,5 @@ public class OBomb extends PowerUp {
      */
     public final void pop() {
         this.bubble.pop();
-        // App.getGame().getArena().popOBomb(this);
     }
 }
