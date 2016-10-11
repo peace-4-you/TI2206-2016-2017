@@ -39,33 +39,36 @@ import bustamove.player.Player;
 public class Game extends BasicGameState implements Observer {
 
     /**
-     * Score of the game, updated by observer.
+     * Private variables of the game.
      */
     private int score;
     private Cannon cannon;
-    public ArrayList<Bubble> bubbleslist;
+    private Arena arena;
     private Player player;
-    /**
-     * Arena instance for in the game.
-     */
-    public Arena arena;
 
+
+    private ArrayList<Bubble> bubbleslist;
     private Button pause;
     private StateBasedGame sbg;
     /**
      * X position for the button.
      */
-    private static final int button_X = 503;
+    private static final int BUTTON_X = 503;
     /**
      * X and Y position for the arena.
      */
-    private static final int arena_x = 180;
-    private static final int arena_y = 0;
+    private static final int ARENA_X = 180;
+    private static final int ARENA_Y = 0;
     /**
      * Dimensions of the arena.
      */
-    private static final int arena_width = 531;
-    private static final int arena_height = 280;
+    private static final int ARENA_WIDTH = 531;
+    private static final int ARENA_HEIGHT = 280;
+
+    private static final int CANNON_BOX_Y = 530;
+    private static final int TEXT_X = 10;
+    private static final int SCORE_Y = 70;
+    private static final int POWER_Y = 130;
 
     /**
      * Public constructor.
@@ -89,8 +92,8 @@ public class Game extends BasicGameState implements Observer {
     private void startGame() {
         Log.log(this, "Game Started");
         this.bubbleslist = new ArrayList<Bubble>();
-        this.arena = new Arena(arena_x, arena_y,
-                Game.arena_width, Game.arena_height);
+        this.arena = new Arena(ARENA_X, ARENA_Y,
+                Game.ARENA_WIDTH, Game.ARENA_HEIGHT);
         this.cannon = new Cannon(this);
     }
 
@@ -135,7 +138,7 @@ public class Game extends BasicGameState implements Observer {
                            final StateBasedGame stateBasedGame)
             throws SlickException {
         this.sbg = stateBasedGame;
-        this.pause = new Button("Pause", Game.button_X, GameConfig.SECOND_LINE,
+        this.pause = new Button("Pause", Game.BUTTON_X, GameConfig.SECOND_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         this.player.reset();
         Bubble.reset();
@@ -190,11 +193,11 @@ public class Game extends BasicGameState implements Observer {
                              final Graphics g)
             throws SlickException {
         g.setColor(Color.gray);
-        g.fillRect(0, 530, App.getGameWidth(), App.getGameHeight());
+        g.fillRect(0, CANNON_BOX_Y, App.getGameWidth(), App.getGameHeight());
         g.setColor(Color.white);
-        g.drawString("Score:" + this.score, 10, 70);
-        g.drawString("Fire power: x" + Math.round(Bubble.getSpeed() * 10
-                / 3) / 10, 10, 130);
+        g.drawString("Score:" + this.score, TEXT_X, SCORE_Y);
+        g.drawString("Fire power: x" + Math.round(Bubble.getSpeed() / 2),
+                TEXT_X, POWER_Y);
         cannon.draw(g);
         player.draw(g);
         arena.draw(g);
@@ -243,6 +246,15 @@ public class Game extends BasicGameState implements Observer {
      */
     public final Cannon getCannon() {
         return cannon;
+    }
+
+    /**
+     * Getter method for the bubbleslist.
+     *
+     * @return ArrayList of Bubble
+     */
+    public final ArrayList<Bubble> getBubbleslist() {
+        return bubbleslist;
     }
 
     /**

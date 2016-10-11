@@ -93,15 +93,6 @@ public class App extends StateBasedGame {
     }
 
     /**
-     * Setter function for game object.
-     *
-     * @param g game object
-     */
-    public final void setGame(final Game g) {
-        App.game = g;
-    }
-
-    /**
      * Return the height of the game window.
      *
      * @return height in int form

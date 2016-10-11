@@ -113,7 +113,7 @@ public class Cannon {
         this.nextBubble = this.getNextBubble();
         this.currBubble.setX(Cannon.X_LOAD);
         this.currBubble.setY(Cannon.Y_LOAD);
-        this.game.bubbleslist.add(this.nextBubble);
+        this.game.getBubbleslist().add(this.nextBubble);
     }
 
     /**
@@ -125,7 +125,7 @@ public class Cannon {
         Log.log(this, "Next bubble loaded to cannon");
         Bubble newBubble = Bubble.randomColor((float) Cannon.X_LAUNCH,
                 (float) Cannon.Y_LAUNCH,
-                game.arena.getBubbleStorage().getColorsOnArena(), true);
+                game.getArena().getBubbleStorage().getColorsOnArena(), true);
         if (GameConfig.ENABLE_POWERUPS) {
             newBubble = PowerUp.apply(newBubble);
         }
