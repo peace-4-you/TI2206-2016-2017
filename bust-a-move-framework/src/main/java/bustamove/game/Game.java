@@ -20,11 +20,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import bust_a_move.App;
-import bust_a_move.gamestate.Button;
-import bust_a_move.gamestate.GameConfig;
-import bust_a_move.gamestate.GameState;
-import bust_a_move.log.Log;
+import bustamove.App;
+import bustamove.game.GameData.GameDataState;
+import bustamove.gamestate.Button;
+import bustamove.gamestate.GameConfig;
+import bustamove.gamestate.GameState;
+import bustamove.system.Log;
 
 /**
  * The Game class represents a game entity. Contains all GameModels.

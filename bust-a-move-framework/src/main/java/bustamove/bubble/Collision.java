@@ -60,8 +60,7 @@ public final class Collision {
         this.arenaCont = arena;
         this.scorekeeper = score; 
         droppingBubbles = new LinkedList<Bubble>();
-        bubbleCount = 0;
-        
+        bubbleCount = 0;        
     }
     
     /**
@@ -186,17 +185,11 @@ public final class Collision {
 
     /**
      * Pops a single bubble and removes it from the graph.
-     *
      * @param bubble Bubble to pop
      */
-<<<<<<< HEAD:bust-a-move-framework/src/main/java/bust_a_move/bubble/Collision.java
     public void popBubble(Bubble bubble) {
     	bubble.updateGame(this.gamehead);
         this.scorekeeper.scoreBubblesPopped(1);
-=======
-    public void popBubble(final Bubble bubble) {
-        App.getGame().player.getScore().scoreBubblesPopped(1);
->>>>>>> origin/development:bust-a-move-framework/src/main/java/bustamove/bubble/Collision.java
         bubbleStorage.removeBubble(bubble);
         bubble.pop();
     }

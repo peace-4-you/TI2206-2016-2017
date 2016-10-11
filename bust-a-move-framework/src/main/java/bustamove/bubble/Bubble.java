@@ -17,8 +17,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
-
-import bust_a_move.bubble.Bubble.State;
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
 

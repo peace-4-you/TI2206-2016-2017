@@ -18,7 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import bust_a_move.App;
+import bustamove.App;
 
 /**
  * Generates a MainMenu as a instance of GameState.

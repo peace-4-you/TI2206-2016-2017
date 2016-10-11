@@ -8,12 +8,8 @@
 
 package bustamove.player;
 
-<<<<<<< HEAD:bust-a-move-framework/src/main/java/bust_a_move/player/Player.java
 import java.util.Vector;
-import bust_a_move.log.Log;
-=======
 import bustamove.system.Log;
->>>>>>> origin/development:bust-a-move-framework/src/main/java/bustamove/player/Player.java
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 

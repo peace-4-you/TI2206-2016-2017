@@ -57,7 +57,7 @@ public class GameData implements PlayerObserver {
 	 * position for the arena.
 	 */
 	private static final int ARENA_X = 180;
-	private static final int arena_y = 0;
+	private static final int ARENA_Y = 0;
 	private static final int ARENA_W = 531;
 	private static final int ARENA_H = 280;
 	/**
@@ -82,8 +82,8 @@ public class GameData implements PlayerObserver {
 		this.player.registerObserver((PlayerObserver) App.getDefeatScreen());
 		this.player.registerObserver((PlayerObserver) App.getVictoryScreen());
 		this.player.registerObserver((PlayerObserver) this);
-		this.arena = new Arena(GameData.ARENA_X + this.offset, GameData.arena_y,
-				GameData.ARENA_W, GameData.ARENA_H, this);
+		this.arena = new Arena(ARENA_X + this.offset, ARENA_Y,
+				GameData.ARENA_W, GameData.ARENA_H, player.getScore());
 		this.cannon = new Cannon(this, this.offset, this.player_nr);
 		this.setBubbleSpeed(GameConfig.DEFAULT_BUBBLE_SPEED);
 	}
