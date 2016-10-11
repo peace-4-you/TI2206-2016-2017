@@ -17,7 +17,6 @@ import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
 
-
 /**
  * The Cannon class represents a cannon entity.
  * @author Maurice Willemsen
@@ -122,20 +121,22 @@ public class Cannon {
 	 */
 	private static final int WARNING_Y = 500;
 
+	/**
+	 * DataModel drawing offset and player number
+	 */
 	private final int offset;
-
 	private final int playernr;
 
 	/**
 	 * Creates Cannon instance.
 	 * @param g game object for reference
 	 */
-	public Cannon(final GameData g, int offset, int nr) {
+	public Cannon(final GameData g, final int drawingoffset, final int modelnr) {
 		Log.log(this, "Cannon initialised");
 		this.cannonColour = Color.red;
 		this.game = g;
-		this.offset = offset;
-		this.playernr = nr;
+		this.offset = drawingoffset;
+		this.playernr = modelnr;
 		this.nextBubble = getNextBubble();
 		this.loadNextBubble();
 		this.loadNextBubble();
@@ -201,6 +202,7 @@ public class Cannon {
 	 * Update the cannon.
 	 * @param container game container
 	 * @param delta time passed
+	 * @param gamehead the gamedata where its part of
 	 */
 	public final void update(final GameContainer container, final int delta,
 			final GameData gamehead) {
@@ -289,8 +291,7 @@ public class Cannon {
 						- Math.sin(Math.toRadians(this.angle + ANGLE_OFFSET))
 								* this.length));
 		if (displayWarning) {
-			g.drawString("Hurry up!", WARNING_X + this.offset,
-					WARNING_Y);
+			g.drawString("Hurry up!", WARNING_X + this.offset, WARNING_Y);
 		}
 	}
 
