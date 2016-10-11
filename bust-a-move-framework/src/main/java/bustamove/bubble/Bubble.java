@@ -79,7 +79,9 @@ public class Bubble {
     /**
      * Wrapped bubble component.
      */
+    //CHECKSTYLE:OFF: VisibilityModifier
     protected Bubble bubble;
+    //CHECKSTYLE:ON: VisibilityModifier
 
     /**
      * Enum of all the values a State variable can take.
@@ -139,7 +141,6 @@ public class Bubble {
                 this.drawColor = Bubble.GREEN_COLOR;
                 break;
             default:
-                //TODO: throw exception?
                 break;
         }
     }
@@ -149,6 +150,7 @@ public class Bubble {
      *
      * @param g Java Graphics instance
      */
+    //CHECKSTYLE:OFF: DesignForExtension
     public void draw(final Graphics g) {
         g.setColor(this.drawColor);
         g.fillOval((int) this.pos.getX(), (int) this.pos.getY(),
@@ -178,7 +180,6 @@ public class Bubble {
                 this.setY(nextY);
                 break;
             default:
-                //TODO: throw exception?
                 break;
         }
     }
@@ -378,6 +379,7 @@ public class Bubble {
      *
      * @param nextSPEED new speed value
      */
+    //CHECKSTYLE:OM: DesignForExtension
     public final void setSpeed(final double nextSPEED) {
         speed = nextSPEED;
     }
