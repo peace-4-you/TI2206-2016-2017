@@ -1,9 +1,10 @@
 package bustamove.bubble;
 
 import bustamove.gamestate.GameConfig;
+import bustamove.player.Score;
 import bustamove.system.Log;
 import org.newdawn.slick.Graphics;
-import bustamove.player.Score;
+
 import bustamove.App;
 import bustamove.game.Arena;
 import bustamove.game.GameData;
@@ -39,15 +40,9 @@ public final class Collision {
      * The container of this ojbect.
      */
     private Arena arenaCont;
-    /**
-     * The object to set scores to
-     */
-    private Score scorekeeper;
-    /**
-     * 
-     */
     private GameData gamehead;
-    
+    private Score scorekeeper;
+
 
     /**
      * Constructor for creating an object just for checking collisions.
@@ -71,7 +66,6 @@ public final class Collision {
     public void updateGame(GameData game){
     	this.gamehead = game;
     }
-    
 
     /**
      * Wrapper for checking the collisions.
@@ -121,8 +115,6 @@ public final class Collision {
                     landBubble(shotBubble);
                     popBubbles(shotBubble);
                     break collisionLoop;
-
-
                 }
             }
         }
@@ -171,9 +163,10 @@ public final class Collision {
         LinkedList<Bubble> popList = new LinkedList<Bubble>();
 
         popList = checkBubblesToPop(popBubble, popList);
+
         /* Check if 3 or more bubbles are connected */
         if (popList.size() >= POP_AMOUNT) {
-            while (popList.size() != 0) {
+          while (popList.size() != 0) {
                 Bubble bubbleToPop = popList.pop();
 
                 popBubble(bubbleToPop);
@@ -185,6 +178,7 @@ public final class Collision {
 
     /**
      * Pops a single bubble and removes it from the graph.
+     *
      * @param bubble Bubble to pop
      */
     public void popBubble(Bubble bubble) {
@@ -243,11 +237,9 @@ public final class Collision {
         }
 
         for (Bubble b : neighbors) {
-            if (b != null
-                    && b.getColor() == lastBubble.getColor()
+            if (b != null && b.getColor() == lastBubble.getColor()
                     && !popList.contains(b)) {
-                popList = checkBubblesToPop(b, popList);
-
+                    popList = checkBubblesToPop(b, popList);
             }
         }
         return popList;
@@ -289,7 +281,7 @@ public final class Collision {
             }
         }
         if (dropCount > 0) {
-           this.scorekeeper.scoreBubblesDropped(dropCount);
+            scorekeeper.scoreBubblesDropped(dropCount);
         }
 
         return visited;

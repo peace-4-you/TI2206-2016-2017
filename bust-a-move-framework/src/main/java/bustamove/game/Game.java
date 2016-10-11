@@ -194,4 +194,5 @@ public class Game extends BasicGameState {
 	public final ArrayList<GameData> getGameData() {
 		return this.gamedata;
 	}
+
 }

@@ -9,6 +9,8 @@
 package bustamove.player;
 
 import java.util.Vector;
+
+import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -30,11 +32,6 @@ public class Player implements PlayerObservable {
 	 * Contains a Score object.
 	 */
 	private Score score;
-	/**
-	 * coordinates where the combo value will be printed.
-	 */
-	private static final float COMBO_XPOS = 10;
-	private static final float COMBO_YPOS = 100;
 	/**
 	 * Drawing offset and id number of the GameModel the cannon belongs to.
 	 */
@@ -120,8 +117,8 @@ public class Player implements PlayerObservable {
 	public final void draw(final Graphics g) {
 		g.setColor(Color.white);
 
-		g.drawString("Combo:" + this.combo, COMBO_XPOS + this.offset,
-				COMBO_YPOS);
+		g.drawString("Combo:" + this.combo, GameConfig.MARGIN_LEFT + this.offset,
+				GameConfig.FOURTH_LINE);
 	}
 
 	/**
