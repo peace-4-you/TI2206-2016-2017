@@ -23,10 +23,10 @@ public interface Iterator<T> {
      * Returns next element in iteration.
      * @return  next Object.
      */
-    public T next();
+    T next();
     /**
      * Returns if there is a next element.
      * @return  true if there is a next element, false otherwise.
      */
-    public boolean hasNext();
+    boolean hasNext();
 }

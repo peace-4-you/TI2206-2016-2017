@@ -31,7 +31,7 @@ public class BubbleStorageIterator implements Iterator<Bubble> {
 
     /**
      * Creates BubbleStorageIterator instance.
-     * @param elements  LinkedList of arrays to iterate over.
+     * @param list  LinkedList of arrays to iterate over.
      */
     public BubbleStorageIterator(LinkedList<Bubble[]> list) {
         this.bubbles = list;
