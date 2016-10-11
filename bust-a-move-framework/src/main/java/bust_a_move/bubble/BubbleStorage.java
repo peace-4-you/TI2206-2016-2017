@@ -4,6 +4,7 @@ import org.newdawn.slick.Graphics;
 
 import bust_a_move.App;
 import bust_a_move.game.Arena;
+import bust_a_move.game.GameData;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -77,6 +78,7 @@ public final class BubbleStorage {
             addBubbleRow(true);
         }
     }
+    
 
     /**
      * Adds a new row of bubbles to the arena.

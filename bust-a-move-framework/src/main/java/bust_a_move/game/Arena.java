@@ -72,13 +72,13 @@ public class Arena {
 	 * @param width_t
 	 *            width of the background
 	 */
-	public Arena(int xVal, int yVal, int height_t, int width_t,Score score) {
+	public Arena(int xVal, int yVal, int height_t, int width_t,GameData gamehead) {
 		xPos = xVal;
 		yPos = yVal;
 		height = height_t;
 		width = width_t;
 		bubbleStorage = new BubbleStorage(xPos, yPos, this);
-		collide = new Collision(bubbleStorage, this, score);
+		collide = new Collision(bubbleStorage, this, gamehead.getPlayer().getScore());
 		App.getGame().log.log(this, "Arena initialised");
 	}
 

@@ -4,6 +4,7 @@ import org.newdawn.slick.Graphics;
 
 import bust_a_move.App;
 import bust_a_move.game.Arena;
+import bust_a_move.game.GameData;
 import bust_a_move.player.Score;
 
 import java.util.Iterator;
@@ -40,6 +41,11 @@ public final class Collision {
      * The object to set scores to
      */
     private Score scorekeeper;
+    /**
+     * 
+     */
+    private GameData gamehead;
+    
 
     /**
      * Constructor for creating an object just for checking collisions.
@@ -55,6 +61,16 @@ public final class Collision {
         bubbleCount = 0;
         
     }
+    
+    /**
+     * Update GameData object
+     * 
+     * @param game GameData object to store
+     */
+    public void updateGame(GameData game){
+    	this.gamehead = game;
+    }
+    
 
     /**
      * Wrapper for checking the collisions.
@@ -170,6 +186,7 @@ public final class Collision {
      * @param bubble  Bubble to pop
      */
     public void popBubble(Bubble bubble) {
+    	bubble.updateGame(this.gamehead);
         this.scorekeeper.scoreBubblesPopped(1);
         bubbleStorage.removeBubble(bubble);
         bubble.pop();

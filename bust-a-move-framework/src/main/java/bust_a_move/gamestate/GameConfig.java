@@ -83,7 +83,7 @@ public abstract class GameConfig {
     /**
      * Bubble PowerUp feature flag.
      */
-    public static final boolean ENABLE_POWERUPS = false;
+    public static final boolean ENABLE_POWERUPS = true;
     /**
      * Default Bubble speed.
      */

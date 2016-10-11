@@ -143,6 +143,7 @@ public class Cannon {
 		this.loadNextBubble();
 		this.loadNextBubble();
 	}
+	
 
 	/**
 	 * Load next bubble to current bubble and asks for a new bubble.
@@ -175,6 +176,7 @@ public class Cannon {
 	 */
 	public final void fire() {
 		App.getGame().log.log(this, "Cannon fired a bubble");
+		this.currBubble.updateGame(game);
 		this.currBubble.fire(this.angle);
 		this.loadNextBubble();
 		this.timeShotFired = 0;
@@ -207,8 +209,9 @@ public class Cannon {
 	 * @param delta
 	 *            time passed
 	 */
-	public final void update(final GameContainer container, final int delta) {
+	public final void update(final GameContainer container, final int delta, final GameData gamehead) {
 		timeShotFired += delta;
+		game = gamehead;
 		if (this.player_nr == 1) {
 			if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
 				if (container.getInput().isKeyPressed(Input.KEY_RIGHT)) {

@@ -16,6 +16,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
 import bust_a_move.bubble.Bubble;
+import bust_a_move.game.GameData;
 
 /**
  * PowerUp provides an abstract representation of a PowerUp
@@ -225,5 +226,10 @@ public abstract class PowerUp extends Bubble {
    */
   public final Bubble getBubble() {
     return this.bubble;
+  }
+  
+  public final void updateGame(GameData game){
+	  this.gamehead = game;
+	  this.bubble.updateGame(game);
   }
 }

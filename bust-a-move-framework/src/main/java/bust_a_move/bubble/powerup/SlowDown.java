@@ -50,8 +50,8 @@ public class SlowDown extends PowerUp {
    */
   public final void pop() {
     this.bubble.pop();
-    if (Bubble.SPEED > GameConfig.MIN_BUBBLE_SPEED) {
-      Bubble.setSPEED(Bubble.SPEED - GameConfig.BUBBLE_SPEEDUP);
+    if (gamehead.getBubbleSpeed() > GameConfig.MIN_BUBBLE_SPEED) {
+      gamehead.setBubbleSpeed(gamehead.getBubbleSpeed() - GameConfig.BUBBLE_SPEEDUP);
     }
   }
 }

@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import bust_a_move.App;
 import bust_a_move.bubble.Bubble;
+import bust_a_move.gamestate.GameConfig;
 import bust_a_move.player.Player;
 
 public class GameData implements Observer{
@@ -60,6 +61,8 @@ public class GameData implements Observer{
 	
 	private int player_nr;
 	
+	public double bubblespeed;
+	
 	public GameData(int offset, int nr) {
 		App.getGame().log.log(this, "GameData initialised");
 		this.offset = offset;
@@ -68,18 +71,20 @@ public class GameData implements Observer{
 		this.bubbleslist = new ArrayList<Bubble>();
 		this.player = new Player("Player1",this.offset,this.player_nr);
 		this.player.registerObserver((PlayerObserver)App.getPauseScreen());
-		this.player.registerObserver((PlayerObserver)App.getDefeatScreen());
-		this.arena = new Arena(GameData.arena_x+this.offset, GameData.arena_y, GameData.arena_width, GameData.arena_height,this.player.getScore());
+		this.player.registerObserver((PlayerObserver)App.getDefeatScreen());	
+		this.arena = new Arena(GameData.arena_x+this.offset, GameData.arena_y, GameData.arena_width, GameData.arena_height,this);	
 		this.cannon = new Cannon(this,this.offset,this.player_nr);
+		this.setBubbleSpeed(GameConfig.DEFAULT_BUBBLE_SPEED);
 	}
 	
 	
 	public final void update(final GameContainer container, final StateBasedGame sbg, final int delta)
 			throws SlickException {
 		if(this.state == GameDataState.RUNNING){
-			this.cannon.update(container, delta);
+			this.cannon.update(container, delta,this);
 		}
 
+		arena.getCollision().updateGame(this);
 		for (Bubble b1 : bubbleslist) {
 			b1.move();
 			if (b1.getState() == Bubble.State.FIRING) {
@@ -112,7 +117,7 @@ public class GameData implements Observer{
 			throws SlickException {
 		g.setColor(Color.white);
 		g.drawString("Score:" + this.score, 10 + this.offset, 70);
-		g.drawString("Fire power: x" + (double) Math.round(Bubble.SPEED * 10 / 3) / 10, 10 + this.offset, 130);
+		g.drawString("Fire power: x" + (double) Math.round(this.bubblespeed * 10 / 3) / 10, 10 + this.offset, 130);
 		cannon.draw(g);
 		player.draw(g);
 		arena.draw(g);
@@ -145,6 +150,17 @@ public class GameData implements Observer{
 	}
 	
 	/**
+	 * Method to return the cannon object inside gamedata class.
+	 *
+	 * @return Cannon object inside gamedata class
+	 */
+	
+	
+	public final Cannon getCannon(){
+		return this.cannon;
+	}
+	
+	/**
 	 * Updates the Observer.
 	 * 
 	 * @param o
@@ -159,6 +175,13 @@ public class GameData implements Observer{
 	
 	public GameDataState getState(){
 		return this.state;
+	}
+	public double getBubbleSpeed(){
+		return this.bubblespeed;
+	}
+	
+	public void setBubbleSpeed(double speed){
+		this.bubblespeed = speed;
 	}
 }
 

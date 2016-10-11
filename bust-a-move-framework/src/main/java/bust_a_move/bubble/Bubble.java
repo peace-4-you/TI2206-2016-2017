@@ -19,6 +19,7 @@ import org.newdawn.slick.geom.Point;
 
 import bust_a_move.App;
 import bust_a_move.bubble.powerup.PowerUp;
+import bust_a_move.game.GameData;
 import bust_a_move.gamestate.GameConfig;
 
 import java.util.LinkedList;
@@ -90,6 +91,10 @@ public class Bubble {
    * Wrapped bubble component.
    */
   protected Bubble bubble;
+  /**
+   * GameData Object where the bubbles belong to. Needed by powerups
+   */
+  protected GameData gamehead;
 
   /**
    * Enum of all the values a State variable can take.
@@ -184,6 +189,10 @@ public class Bubble {
         break;
     }
   }
+  
+  public void updateGame(GameData game){
+	  this.gamehead = game;
+  }
 
   /**
    * Draws the Bubble.
@@ -255,9 +264,9 @@ public class Bubble {
   public void fire(final int angle) {
     this.setState(State.FIRING);
     this.setXSpeed(Math.cos(Math.toRadians(angle + ANGLE_OFFSET))
-            * Bubble.SPEED);
+            * gamehead.getBubbleSpeed());
     this.setYSpeed(-Math.sin(Math.toRadians(angle + ANGLE_OFFSET))
-            * Bubble.SPEED);
+            * gamehead.getBubbleSpeed());
   }
 
   /**
