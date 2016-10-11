@@ -10,7 +10,7 @@
  */
 
 
-package bust_a_move.util;
+package bustamove.util;
 
 import java.util.LinkedList;
 

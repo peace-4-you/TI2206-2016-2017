@@ -10,13 +10,13 @@
  */
 
 
-package bust_a_move.bubble;
+package bustamove.bubble;
 
 import java.util.LinkedList;
 
-import bust_a_move.util.Iterator;
-import bust_a_move.util.ArrayIterator;
-import bust_a_move.util.LinkedListIterator;
+import bustamove.util.Iterator;
+import bustamove.util.ArrayIterator;
+import bustamove.util.LinkedListIterator;
 
 /**
  * BubbleStorageIterator is an iterator realization for BubbleStorage.

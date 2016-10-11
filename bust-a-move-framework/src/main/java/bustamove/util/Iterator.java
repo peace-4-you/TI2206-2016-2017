@@ -10,7 +10,7 @@
  */
 
 
-package bust_a_move.util;
+package bustamove.util;
 
 /**
  * Iterator interface makes an object iterable.
