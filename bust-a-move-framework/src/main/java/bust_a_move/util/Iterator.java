@@ -1,5 +1,5 @@
 /*
- * File: Interface.java
+ * File: Iterator.java
  *
  * Interface: Iterator
  *
