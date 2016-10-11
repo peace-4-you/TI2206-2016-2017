@@ -65,7 +65,7 @@ public class App extends StateBasedGame {
     }
 
     /**
-     * Initialize all the game states that are used in the game
+     * Initialize all the game states that are used in the game.
      *
      * @param container the container holding the game
      * @throws SlickException indicates a failure to initialise the state
