@@ -263,8 +263,8 @@ public abstract class PowerUp extends Bubble {
         return powerupOffset;
     }
     
-    public final void updateGame(GameData game){
+    public final void setGameHead(GameData game){
   	  this.gamehead = game;
-  	  this.bubble.updateGame(game);
+  	  this.bubble.setGameHead(game);
     }
 }
