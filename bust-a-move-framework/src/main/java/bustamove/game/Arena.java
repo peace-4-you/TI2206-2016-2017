@@ -41,14 +41,6 @@ public final class Arena {
      */
     private BubbleStorage bubbleStorage;
     /**
-     * TODO Check. Temporarily Bubble diameter variable.
-     */
-    private static final int DIAMETER = (int) Bubble.DIAMETER;
-    /**
-     * Max amount of bubbleStorage that fit in the vertical axis.
-     */
-    private static final double OFFSET = DIAMETER / 2;
-    /**
      * Collision instance.
      */
     private Collision collide;

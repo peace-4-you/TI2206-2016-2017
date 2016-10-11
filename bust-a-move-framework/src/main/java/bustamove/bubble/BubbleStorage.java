@@ -239,6 +239,7 @@ public final class BubbleStorage {
         if (height <= row) {
             return neighbors;
         }
+
         Bubble[] currRow = bubble2DArray.get(row);
         int offset = 1;
         if (currRow.length == WIDTH_STORAGE) {

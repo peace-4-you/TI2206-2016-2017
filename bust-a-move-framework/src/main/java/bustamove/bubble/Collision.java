@@ -101,8 +101,6 @@ public final class Collision {
                     landBubble(shotBubble);
                     popBubbles(shotBubble);
                     break collisionLoop;
-
-
                 }
             }
         }
@@ -151,9 +149,10 @@ public final class Collision {
         LinkedList<Bubble> popList = new LinkedList<Bubble>();
 
         popList = checkBubblesToPop(popBubble, popList);
+
         /* Check if 3 or more bubbles are connected */
         if (popList.size() >= POP_AMOUNT) {
-            while (popList.size() != 0) {
+          while (popList.size() != 0) {
                 Bubble bubbleToPop = popList.pop();
 
                 popBubble(bubbleToPop);
@@ -223,11 +222,9 @@ public final class Collision {
         }
 
         for (Bubble b : neighbors) {
-            if (b != null
-                    && b.getColor() == lastBubble.getColor()
+            if (b != null && b.getColor() == lastBubble.getColor()
                     && !popList.contains(b)) {
-                popList = checkBubblesToPop(b, popList);
-
+                    popList = checkBubblesToPop(b, popList);
             }
         }
         return popList;

@@ -190,10 +190,9 @@ public class Game extends BasicGameState implements Observer {
         if (arena.getBubbleStorage().isEmpty()) {
             this.wonGame();
         }
-        if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            if (pause.isInBounds(container.getInput())) {
+        if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)
+                && pause.isInBounds(container.getInput())) {
                 this.pauseGame();
-            }
         }
     }
 
