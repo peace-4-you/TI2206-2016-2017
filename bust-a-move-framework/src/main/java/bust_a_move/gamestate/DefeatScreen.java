@@ -8,9 +8,6 @@
 
 package bust_a_move.gamestate;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -19,7 +16,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-
 import bust_a_move.App;
 import bust_a_move.game.PlayerObserver;
 
@@ -145,6 +141,12 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if (restart.isInBounds(input)) {
 				App.getGame().destroyGame();
+				if(players == 2){
+					App.getGame().start2Player();
+				}
+				else{
+					App.getGame().start1Player();
+				}
 				stateBasedGame.enterState(GameState.GAME_ACTIVE, new FadeOutTransition(), new FadeInTransition());
 			}
 			if (mainmenu.isInBounds(input)) {
@@ -164,7 +166,6 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
 	 * @param score
 	 *            integer of player score
 	 */
-
 	public void update(int number, String name, int score) {
 		if (number == 1) {
 			this.player1name.setText("Player: " + name);
@@ -178,7 +179,6 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
 	/**
 	 * Updated by Observable, sets amount of playerdata.
 	 */
-
 	public void update(int playeramount) {
 		this.players = playeramount;
 	}

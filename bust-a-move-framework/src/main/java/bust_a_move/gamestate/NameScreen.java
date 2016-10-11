@@ -30,10 +30,10 @@ public class NameScreen extends BasicGameState {
 	 * Play Button.
 	 */
 	private Button play;
-    /**
-     * Mainmenu Button.
-     */
-    private Button mainmenu;
+	/**
+	 * Mainmenu Button.
+	 */
+	private Button mainmenu;
 	/**
 	 * Name Textfield.
 	 */
@@ -44,6 +44,8 @@ public class NameScreen extends BasicGameState {
 	private Text nameText;
 
 	/**
+	 * Getter method for GameState id.
+	 * 
 	 * @return integer of BasicGameState number.
 	 */
 	public final int getID() {
@@ -68,10 +70,9 @@ public class NameScreen extends BasicGameState {
 		namefield = new TextField(game, game.getDefaultFont(), GameConfig.CENTRAL, GameConfig.THIRD_LINE,
 				GameConfig.WIDTH3, GameConfig.HEIGHT);
 		namefield.setText("Player1");
-		 mainmenu = new Button("Main Menu", GameConfig.SIXT_LINE,
-	                GameConfig.WIDTH2, GameConfig.HEIGHT);
-	        mainmenu.centerButton(game);
-	        
+		mainmenu = new Button("Main Menu", GameConfig.SIXT_LINE, GameConfig.WIDTH2, GameConfig.HEIGHT);
+		mainmenu.centerButton(game);
+
 	}
 
 	/**
@@ -86,7 +87,6 @@ public class NameScreen extends BasicGameState {
 	 * @throws SlickException
 	 *             any type of slick exception
 	 */
-
 	public final void render(final GameContainer game, final StateBasedGame stateBasedGame, final Graphics graphics)
 			throws SlickException {
 		nameText.draw(graphics);
@@ -107,22 +107,19 @@ public class NameScreen extends BasicGameState {
 	 * @throws SlickException
 	 *             any type of slick exception
 	 */
-
 	public final void update(final GameContainer game, final StateBasedGame stateBasedGame, final int i)
 			throws SlickException {
 		Input input = game.getInput();
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if (play.isInBounds(input)) {
 				App.getGame().start1Player();
-				App.getGame().getGameData().get(0).player.setName(this.namefield.getText());
+				App.getGame().getGameData().get(0).getPlayer().setName(this.namefield.getText());
 				stateBasedGame.enterState(GameState.GAME_ACTIVE, new FadeOutTransition(), new FadeInTransition());
 			}
-            if (mainmenu.isInBounds(input)) {
-                stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
-                        stateBasedGame);
-                stateBasedGame.enterState(GameState.MAIN_MENU,
-                        new FadeOutTransition(), new FadeInTransition());
-            }
+			if (mainmenu.isInBounds(input)) {
+				stateBasedGame.getState(GameState.GAME_ACTIVE).init(game, stateBasedGame);
+				stateBasedGame.enterState(GameState.MAIN_MENU, new FadeOutTransition(), new FadeInTransition());
+			}
 		}
 	}
 }

@@ -2,11 +2,7 @@ package bust_a_move.bubble;
 
 import bust_a_move.log.Log;
 import org.newdawn.slick.Graphics;
-
-import bust_a_move.App;
 import bust_a_move.game.Arena;
-import bust_a_move.game.GameData;
-
 import java.util.LinkedList;
 import java.util.Random;
 

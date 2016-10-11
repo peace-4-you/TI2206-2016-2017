@@ -12,7 +12,6 @@ import java.util.Vector;
 import bust_a_move.log.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import bust_a_move.App;
 import bust_a_move.game.PlayerObservable;
 import bust_a_move.game.PlayerObserver;
 
@@ -35,27 +34,18 @@ public class Player implements PlayerObservable {
 	 */
 	private Score score;
 	/**
-	 * X coordinate where the name will be printed.
-	 */
-	private static final float NAME_XPOS = 10;
-	/**
-	 * Y coordinate where the name will be printed.
-	 */
-	private static final float NAME_YPOS = 40;
-	/**
-	 * X coordinate where the combo value will be printed.
+	 * coordinates where the combo value will be printed.
 	 */
 	private static final float COMBO_XPOS = 10;
-	/**
-	 * Y coordinate where the combo value will be printed.
-	 */
 	private static final float COMBO_YPOS = 100;
-
-
+	/**
+	 * Drawing offset and id number of the GameModel the cannon belongs to.
+	 */
 	private final int offset;
-
 	private final int id;
-
+	/**
+	 * Vector of all Observer that are subscribed;
+	 */
 	private Vector<PlayerObserver> observers;
 
 	/**
@@ -73,9 +63,6 @@ public class Player implements PlayerObservable {
 		this.score = new Score(this);
 		this.combo = 1;
 	}
-
- 
-
 
 	/**
 	 * Getter method: returns the name of the player.
@@ -101,21 +88,18 @@ public class Player implements PlayerObservable {
 
     /**
      * Sets the player's members to default values.
-     */
-	
+     */	
     public final void reset() {
         Log.log(this, "Player Reset");
         this.score.reset();
         this.combo = 1;
     }
     
-
 	/**
 	 * Getter method: for combo value.
 	 * 
 	 * @return int combo
-	 */
-    
+	 */    
 	public final int getCombo() {
 		return this.combo;
 	}
@@ -126,7 +110,6 @@ public class Player implements PlayerObservable {
 	 * @param comboVal
 	 *            integer value to set combo to
 	 */
-
     public final void setCombo(final int comboVal) {
         Log.log(this, "Combo set to " + comboVal);
         this.combo = comboVal;
@@ -141,7 +124,6 @@ public class Player implements PlayerObservable {
 		return score;
 	}
 
-
 	/**
 	 * Draws player info.
 	 * 
@@ -150,27 +132,45 @@ public class Player implements PlayerObservable {
 	 */
 	public final void draw(final Graphics g) {
 		g.setColor(Color.white);
-		g.drawString("Name:" + this.name, NAME_XPOS + this.offset, NAME_YPOS);
+		
 		g.drawString("Combo:" + this.combo, COMBO_XPOS + this.offset,
 			COMBO_YPOS);
 	}
 
+	/**
+	 * Notify's all observers.
+	 */
 	public void notifyObserver() {
 		for (PlayerObserver o : observers) {
 			o.update(this.id, this.name, this.score.getScore());
 		}
 	}
 
+	/**
+	 * Notify's about the amount of observables.
+	 */
 	public void notifyAmountObserver(int amount) {
 		for (PlayerObserver o : observers) {
 			o.update(amount);
 		}
 	}
-
+	
+	/**
+	 * Register a observer to the observable.
+	 * 
+	 * @param o
+	 *            A playerObserver object.
+	 */
 	public void registerObserver(PlayerObserver o) {
 		this.observers.addElement(o);
 	}
 
+	/**
+	 * Remove a observer from the observable.
+	 * 
+	 * @param o
+	 *            A playerObserver object.
+	 */
 	public void removeObserver(PlayerObserver o) {
 		this.observers.remove(o);
 	}

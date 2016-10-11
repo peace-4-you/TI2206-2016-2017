@@ -30,10 +30,10 @@ public class NamesScreen extends BasicGameState {
 	 * Play Button.
 	 */
 	private Button play;
-    /**
-     * Mainmenu Button.
-     */
-    private Button mainmenu;
+	/**
+	 * Mainmenu Button.
+	 */
+	private Button mainmenu;
 	/**
 	 * Name Textfield player 1.
 	 */
@@ -52,6 +52,8 @@ public class NamesScreen extends BasicGameState {
 	private Text player2text;
 
 	/**
+	 * Getter method for Id.
+	 * 
 	 * @return integer of BasicGameState number.
 	 */
 	public final int getID() {
@@ -81,10 +83,9 @@ public class NamesScreen extends BasicGameState {
 		player2name = new TextField(game, game.getDefaultFont(), GameConfig.CENTRAL, GameConfig.FIFTH_LINE,
 				GameConfig.WIDTH3, GameConfig.HEIGHT);
 		player2name.setText("Player2");
-		 mainmenu = new Button("Main Menu", GameConfig.EIGTH_LINE,
-	                GameConfig.WIDTH2, GameConfig.HEIGHT);
-	        mainmenu.centerButton(game);
-	        
+		mainmenu = new Button("Main Menu", GameConfig.EIGTH_LINE, GameConfig.WIDTH2, GameConfig.HEIGHT);
+		mainmenu.centerButton(game);
+
 	}
 
 	/**
@@ -99,7 +100,6 @@ public class NamesScreen extends BasicGameState {
 	 * @throws SlickException
 	 *             any type of slick exception
 	 */
-
 	public final void render(final GameContainer game, final StateBasedGame stateBasedGame, final Graphics graphics)
 			throws SlickException {
 		player1text.draw(graphics);
@@ -122,23 +122,20 @@ public class NamesScreen extends BasicGameState {
 	 * @throws SlickException
 	 *             any type of slick exception
 	 */
-
 	public final void update(final GameContainer game, final StateBasedGame stateBasedGame, final int i)
 			throws SlickException {
 		Input input = game.getInput();
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if (play.isInBounds(input)) {
 				App.getGame().start2Player();
-				App.getGame().getGameData().get(0).player.setName(this.player1name.getText());
-				App.getGame().getGameData().get(1).player.setName(this.player2name.getText());				
+				App.getGame().getGameData().get(0).getPlayer().setName(this.player1name.getText());
+				App.getGame().getGameData().get(1).getPlayer().setName(this.player2name.getText());
 				stateBasedGame.enterState(GameState.GAME_ACTIVE, new FadeOutTransition(), new FadeInTransition());
 			}
-            if (mainmenu.isInBounds(input)) {
-                stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
-                        stateBasedGame);
-                stateBasedGame.enterState(GameState.MAIN_MENU,
-                        new FadeOutTransition(), new FadeInTransition());
-            }
+			if (mainmenu.isInBounds(input)) {
+				stateBasedGame.getState(GameState.GAME_ACTIVE).init(game, stateBasedGame);
+				stateBasedGame.enterState(GameState.MAIN_MENU, new FadeOutTransition(), new FadeInTransition());
+			}
 		}
 	}
 }

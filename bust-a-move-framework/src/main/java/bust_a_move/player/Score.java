@@ -14,7 +14,6 @@
 
 package bust_a_move.player;
 
-import bust_a_move.App;
 import bust_a_move.log.Log;
 
 /**

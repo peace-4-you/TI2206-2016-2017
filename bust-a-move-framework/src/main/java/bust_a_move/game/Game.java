@@ -2,8 +2,8 @@
  * File: game.java
  * Class: Game
  *
- * Version: 0.0.3
- * Date: September 12th, 2016
+ * Version: 2.0
+ * Date: October 11, 2016
  */
 
 package bust_a_move.game;
@@ -26,37 +26,30 @@ import bust_a_move.gamestate.GameState;
 import bust_a_move.log.Log;
 
 /**
- * The Game class represents a game entity.
+ * The Game class represents a game entity. Contains all GameModels
  *
  * @author Maurice Willemsen
+ * @version 11.10.2016
  */
-
 public class Game extends BasicGameState {
 	/**
-	 * Button instance for a pause button.
+	 * The statebasedgame and container for runing BasicGameState instance.
 	 */
 	private StateBasedGame sbg;
-	/**
-	 * container.
-	 */
 	private GameContainer container;
 	/**
-	 * lists.
+	 * lists of all Game Data objects
 	 */
 	private ArrayList<GameData> gamedata;
 	/**
-	 * X position for the button.
+	 * Button instance and x coordinate for a pause button
 	 */
 	private Button pause;
-	/**
-	 * The statebasedgame instance.
-	 */
 	private static final int button_X = 503;
 
 	/**
 	 * Public constructor.
 	 */
-	
 	public Game() {
 		this.gamedata = new ArrayList<GameData>();
 		Log.log(this, "Game initialised");
@@ -65,9 +58,9 @@ public class Game extends BasicGameState {
 	/**
 	 * Starts a 2 player mode,
 	 * 
-	 * @throws SlickException all kind of SlickException
+	 * @throws SlickException
+	 *             all kind of SlickException
 	 */
-
 	public final void start2Player() throws SlickException {
 		AppGameContainer gc = (AppGameContainer) this.container;
 		gc.setDisplayMode(1040, 580, false);
@@ -75,25 +68,24 @@ public class Game extends BasicGameState {
 		GameData secondplayer = new GameData(500, 1);
 		this.gamedata.add(firstplayer);
 		this.gamedata.add(secondplayer);
-		firstplayer.getPlayer().notifyAmountObserver(2);		
+		firstplayer.getPlayer().notifyAmountObserver(2);
 	}
 
 	/**
 	 * Starts a 1 player mode,
 	 */
-
 	public final void start1Player() {
 		GameData firstplayer = new GameData(0, 1);
 		this.gamedata.add(firstplayer);
-		firstplayer.getPlayer().notifyAmountObserver(1);	
+		firstplayer.getPlayer().notifyAmountObserver(1);
 	}
 
 	/**
 	 * Clears the game, Emptys the list of GameDatas
 	 * 
-	 * @throws SlickException All Kind of SlickException
+	 * @throws SlickException
+	 *             All Kind of SlickException
 	 */
-
 	public final void destroyGame() throws SlickException {
 		this.gamedata.clear();
 		AppGameContainer gc = (AppGameContainer) this.container;
@@ -103,7 +95,6 @@ public class Game extends BasicGameState {
 	/**
 	 * Ends game, changes state to WON.
 	 */
-
 	private void wonGame() {
 		Log.log(this, "Game Won");
 		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(), new FadeInTransition());
@@ -112,7 +103,6 @@ public class Game extends BasicGameState {
 	/**
 	 * Ends game, changes state to FAILED.
 	 */
-
 	private void failedGame() {
 		Log.log(this, "Game Failed");
 		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(), new FadeInTransition());
@@ -121,7 +111,6 @@ public class Game extends BasicGameState {
 	/**
 	 * Pauses game, changes state to PAUSE.
 	 */
-
 	private void pauseGame() {
 		Log.log(this, "Game Paused");
 		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(), new FadeInTransition());
@@ -137,13 +126,12 @@ public class Game extends BasicGameState {
 	 * @throws SlickException
 	 *             any type of slick exception
 	 */
-	
 	public final void init(final GameContainer game, final StateBasedGame stateBasedGame) throws SlickException {
 		this.sbg = stateBasedGame;
 		this.container = game;
 		this.pause = new Button("Pause", Game.button_X, GameConfig.SEVENTH_LINE, GameConfig.WIDTH1, GameConfig.HEIGHT);
 	}
-	
+
 	/**
 	 * Updates the BasicGameState.
 	 * 
@@ -156,7 +144,6 @@ public class Game extends BasicGameState {
 	 * @throws SlickException
 	 *             any type of slick exception
 	 */
-
 	public final void update(final GameContainer container, final StateBasedGame sbg, final int delta)
 			throws SlickException {
 		this.sbg = sbg;
@@ -180,7 +167,7 @@ public class Game extends BasicGameState {
 			}
 		}
 	}
-	
+
 	/**
 	 * Renders the BasicGameState.
 	 * 
@@ -193,7 +180,6 @@ public class Game extends BasicGameState {
 	 * @throws SlickException
 	 *             any type of slick exception
 	 */
-
 	public final void render(final GameContainer container, final StateBasedGame sbg, final Graphics g)
 			throws SlickException {
 		g.setColor(Color.gray);
@@ -209,7 +195,6 @@ public class Game extends BasicGameState {
 	 * 
 	 * @return integer of BasicGameState number.
 	 */
-
 	public final int getID() {
 		return GameState.GAME_ACTIVE;
 	}
@@ -219,7 +204,6 @@ public class Game extends BasicGameState {
 	 * 
 	 * @return List of GameData objects
 	 */
-
 	public ArrayList<GameData> getGameData() {
 		return this.gamedata;
 	}

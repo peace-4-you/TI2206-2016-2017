@@ -18,7 +18,6 @@ import bust_a_move.App;
 import bust_a_move.bubble.Bubble;
 import bust_a_move.bubble.BubbleStorage;
 import bust_a_move.bubble.Collision;
-import bust_a_move.player.Score;
 
 /**
  * TODO: new description for functioning of this class The arena class maintains
