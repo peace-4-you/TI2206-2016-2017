@@ -135,7 +135,7 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>nl.tudelft.bust_a_move20162017.bust_a_move_framework.App</mainClass>
+              <mainClass>nl.tudelft.bustamove20162017.bustamove_framework.App</mainClass>
             </manifest>
           </archive>
         </configuration>

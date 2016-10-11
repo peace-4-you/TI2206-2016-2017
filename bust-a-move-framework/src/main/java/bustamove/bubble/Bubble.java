@@ -11,6 +11,7 @@
 
 package bustamove.bubble;
 
+import bustamove.log.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
@@ -51,7 +52,7 @@ public class Bubble {
     /**
      * The position of the bubble.
      */
-    private Point pos;
+    private Point pos = new Point(0, 0);
     /**
      * Horizontal component of speed.
      */
@@ -193,7 +194,7 @@ public class Bubble {
         this.setState(State.LANDED);
         this.setXSpeed(0);
         this.setYSpeed(0);
-        App.getGame().log.log(this, "Adjusting bubble land position to: (" + (int) pos.getX()
+        Log.log(this, "Adjusting bubble land position to: (" + (int) pos.getX()
                 + " ; " + (int) pos.getY() + ")");
         this.setX(xPos);
         this.setY(yPos);

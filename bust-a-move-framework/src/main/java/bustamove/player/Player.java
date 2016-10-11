@@ -8,7 +8,7 @@
 
 package bustamove.player;
 
-import bust_a_move.log.Log;
+import bustamove.log.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
