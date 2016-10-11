@@ -14,26 +14,21 @@ import java.util.Random;
 public final class BubbleStorage {
 
     /**
-     * Max amount of columns width wise.
+     * BubbleStorage variables.
      */
-    private static final int widthStorage = 8;
-    /**
-     * Max amount of rows height wise.
-     */
-    private static final int heightStorage = 12;
-    /**
-     * Starting amount of rows.
-     */
-    private static final int startRows = 5;
+    private final int widthStorage = 8;
+    private final int heightStorage = 12;
+    private final int startRows = 5;
+    private final int neighboursAmount = 6;
 
     /**
      * Diameter of a bubble.
      */
-    private static final int diameter = (int) Bubble.DIAMETER;
+    private final int diameter = (int) Bubble.DIAMETER;
     /**
      * The radius of a bubble.
      */
-    private static final double bubbleOffset = Bubble.DIAMETER / 2;
+    private final double bubbleOffset = Bubble.DIAMETER / 2;
 
     /**
      * The offset of Y between each row.
@@ -72,7 +67,7 @@ public final class BubbleStorage {
         xBound = x;
         yBound = y;
         arenaCont = arena;
-        Log.log(this,"Creating a BubbleStorage.");
+        Log.log(this, "Creating a BubbleStorage.");
         for (int i = 0; i < startRows; i++) {
             addBubbleRow(true);
         }
@@ -93,12 +88,12 @@ public final class BubbleStorage {
      */
     private void addBubbleRow(final boolean useAllColors) {
 
-        Log.log(this,"Adding a row of bubbles to the storage.");
+        Log.log(this, "Adding a row of bubbles to the storage.");
 
         Bubble[] bubbleRow = addEmptyBubbleRowAbove();
         double offset = 0;
         if (bubbleRow.length != widthStorage) {
-            offset = BubbleStorage.bubbleOffset;
+            offset = bubbleOffset;
         }
 
         LinkedList<Bubble.ColorChoice> colors;
@@ -110,7 +105,6 @@ public final class BubbleStorage {
                 colors.add(c);
             }
         }
-        // TODO: should get a list of currently available colors
         Random rand = new Random();
         for (int i = 0; i < bubbleRow.length; i++) {
             //
@@ -173,7 +167,6 @@ public final class BubbleStorage {
      * @return List<ColorChoice>
      */
     public LinkedList<Bubble.ColorChoice> getColorsOnArena() {
-        // TODO: add Colorlist to the variable on top.
         LinkedList<Bubble.ColorChoice> colorList =
                 new LinkedList<Bubble.ColorChoice>();
 
@@ -214,8 +207,6 @@ public final class BubbleStorage {
      * @param bubble bubble to be removed
      */
     public void removeBubble(final Bubble bubble) {
-        //TODO: Remove dropbubble from here. This method should be called after
-
         for (Bubble[] row : bubble2DArray) {
             boolean finished = false;
             if (finished) {
@@ -260,50 +251,53 @@ public final class BubbleStorage {
      * @return array of surrounding bubble neighbours
      */
     public Bubble[] getNeighbors(final int row, final int column) {
-        //TODO: Create pattern
-        Bubble[] neighbors = new Bubble[6];
+        Bubble[] neighbors = new Bubble[neighboursAmount];
 
         int height = bubble2DArray.size();
         if (height <= row) {
             return neighbors;
         }
-        int offset = (bubble2DArray.get(row).length == widthStorage) ? 0 : 1;
-        // UP-LEFT neighbour
-        try {
-            neighbors[0] = bubble2DArray.get(row - 1)[column - 1 + offset];
-        } catch (Exception e) {
+        Bubble[] currRow = bubble2DArray.get(row);
+        int offset = 1;
+        if (currRow.length == widthStorage) {
+            offset = 0;
         }
 
-        // UP-RIGHT neighbour
-        try {
-            neighbors[1] = bubble2DArray.get(row - 1)[column + offset];
-        } catch (Exception e) {
+        // Neighbours on upper row
+        int index = 0;
+        if (row > 0) {
+            Bubble[] upperRow = bubble2DArray.get(row - 1);
+            if (column - 1 + offset >= 0) {
+                neighbors[index] = upperRow[column - 1 + offset];
+            }
+            index++;
+            if (column + offset < upperRow.length) {
+                neighbors[index] = upperRow[column + offset];
+            }
+            index++;
         }
 
-        // LEFT neighbour
-        try {
-            neighbors[2] = bubble2DArray.get(row)[column - 1];
-        } catch (Exception e) {
+        // Neighbours on same row
+        if (column - 1 >= 0) {
+            neighbors[index] = currRow[column - 1];
         }
-
-        // RIGHT neighbour
-        try {
-            neighbors[3] = bubble2DArray.get(row)[column + 1];
-        } catch (Exception e) {
+        index++;
+        if (column + 1 < currRow.length) {
+            neighbors[index] = currRow[column + 1];
         }
+        index++;
 
-        // BOTTOM-LEFT neighbour
-        try {
-            neighbors[4] = bubble2DArray.get(row + 1)[column - 1 + offset];
-        } catch (Exception e) {
+        // Neighbours on lower row.
+        if (row + 1 < height) {
+            Bubble[] upperRow = bubble2DArray.get(row + 1);
+            if (column - 1 + offset >= 0) {
+                neighbors[index] = upperRow[column - 1 + offset];
+            }
+            index++;
+            if (column + offset < upperRow.length) {
+                neighbors[index] = upperRow[column + offset];
+            }
         }
-
-        // BOTTOM-RIGHT neighbour
-        try {
-            neighbors[5] = bubble2DArray.get(row + 1)[column + offset];
-        } catch (Exception e) {
-        }
-
         return neighbors;
     }
 
@@ -342,7 +336,6 @@ public final class BubbleStorage {
 
     /**
      * Return the column number based on the given x and y position.
-     * TODO: refactor to using Point class when Bubble has been refactored.
      *
      * @param xpos x coordinate of bubble
      * @param ypos y coordinate of bubble
@@ -373,7 +366,8 @@ public final class BubbleStorage {
             return Math.min(column, widthStorage - 1);
         } else {
             if (relativeX >= bubbleOffset) {
-                column = (int) Math.round((relativeX - bubbleOffset) / diameter);
+                column = (int) Math.round((relativeX - bubbleOffset)
+                        / diameter);
             }
             return Math.min(column, (widthStorage - 1) - 1);
         }
