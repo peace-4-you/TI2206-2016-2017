@@ -17,7 +17,7 @@ package bustamove.player;
 import java.util.Observable;
 import java.util.Observer;
 
-import bustamove.log.Log;
+import bustamove.system.Log;
 
 /**
  * The Game class represents a game entity.

@@ -26,7 +26,7 @@ import bustamove.bubble.Bubble;
 import bustamove.gamestate.Button;
 import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.GameState;
-import bustamove.log.Log;
+import bustamove.system.Log;
 import bustamove.player.Player;
 
 /**

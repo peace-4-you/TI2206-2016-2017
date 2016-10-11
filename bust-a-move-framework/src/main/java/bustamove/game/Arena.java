@@ -11,10 +11,9 @@
 
 package bustamove.game;
 
-import bustamove.log.Log;
+import bustamove.system.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import bustamove.App;
 import bustamove.bubble.Bubble;
 import bustamove.bubble.BubbleStorage;
 import bustamove.bubble.Collision;

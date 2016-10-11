@@ -1,6 +1,6 @@
 package bustamove.bubble;
 
-import bustamove.log.Log;
+import bustamove.system.Log;
 import org.newdawn.slick.Graphics;
 
 import bustamove.App;

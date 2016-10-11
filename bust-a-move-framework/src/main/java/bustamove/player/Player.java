@@ -8,11 +8,9 @@
 
 package bustamove.player;
 
-import bustamove.log.Log;
+import bustamove.system.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-
-import bustamove.App;
 
 /**
  * The Player class represents a player entity.
