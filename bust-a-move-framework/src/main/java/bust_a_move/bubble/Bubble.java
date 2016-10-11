@@ -35,7 +35,7 @@ public class Bubble {
     /**
      * Firing speed of a bubble.
      */
-    private double speed = GameConfig.DEFAULT_BUBBLE_SPEED;
+    private static double speed = GameConfig.DEFAULT_BUBBLE_SPEED;
     /**
      * Colors of the bubble.
      */
