@@ -1,5 +1,6 @@
 package bustamove.bubble;
 
+import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
 import org.newdawn.slick.Graphics;
 
@@ -122,7 +123,7 @@ public final class Collision {
         //TODO: This should not be calculated here.
         double offset = (bubbleStorage.get(row).length % 2 == 0) ? 0 : Bubble.DIAMETER / 2;
         float xPos = (float) (arenaCont.getxPos() + column * Bubble.DIAMETER + offset);
-        float yPos = (float) (arenaCont.getyPos() + row * bubbleStorage.getRowOffset());
+        float yPos = (float) (arenaCont.getyPos() + row * GameConfig.ROW_OFFSET);
         shotBubble.land(xPos, yPos);
 
         //Is not part of the functionalty that this class offers, should be thus moved.
