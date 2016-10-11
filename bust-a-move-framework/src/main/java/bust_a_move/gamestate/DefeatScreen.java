@@ -17,11 +17,10 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import bust_a_move.App;
-import bust_a_move.game.PlayerObserver;
+import bust_a_move.player.PlayerObserver;
 
 /**
  * Generates a DefeatScreen as a instance of GameState.
- * 
  * @author Jason Xie, Maurice Willemsen
  */
 public class DefeatScreen extends BasicGameState implements PlayerObserver {
@@ -60,7 +59,6 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
 
 	/**
 	 * Getter method: for the GameState ID.
-	 * 
 	 * @return integer of BasicGameState number.
 	 */
 	public final int getID() {
@@ -69,15 +67,12 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
 
 	/**
 	 * Called when BasicGameState initializes.
-	 * 
-	 * @param game
-	 *            the game container
-	 * @param stateBasedGame
-	 *            the state based game
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param game the game container
+	 * @param stateBasedGame the state based game
+	 * @throws SlickException any type of slick exception
 	 */
-	public final void init(final GameContainer game, final StateBasedGame stateBasedGame) throws SlickException {
+	public final void init(final GameContainer game,
+			final StateBasedGame stateBasedGame) throws SlickException {
 		failedText = new Text("You Failed", GameConfig.FIRST_LINE);
 		failedText.centerText(game);
 		player1name = new Text("Player: ", GameConfig.SECOND_LINE);
@@ -88,25 +83,23 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
 		player2name.centerText(game);
 		player2score = new Text("Score:", GameConfig.SEVENTH_LINE);
 		player2score.centerText(game);
-		restart = new Button("Restart", GameConfig.FOURTH_LINE, GameConfig.WIDTH2, GameConfig.HEIGHT);
+		restart = new Button("Restart", GameConfig.FOURTH_LINE,
+				GameConfig.WIDTH2, GameConfig.HEIGHT);
 		restart.centerButton(game);
-		mainmenu = new Button("Go to Main Menu", GameConfig.FIFTH_LINE, GameConfig.WIDTH3, GameConfig.HEIGHT);
+		mainmenu = new Button("Go to Main Menu", GameConfig.FIFTH_LINE,
+				GameConfig.WIDTH3, GameConfig.HEIGHT);
 		mainmenu.centerButton(game);
 	}
 
 	/**
 	 * Renders the BasicGameState.
-	 * 
-	 * @param game
-	 *            the game container
-	 * @param stateBasedGame
-	 *            the state based game
-	 * @param graphics
-	 *            Graphics object
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param game the game container
+	 * @param stateBasedGame the state based game
+	 * @param graphics Graphics object
+	 * @throws SlickException any type of slick exception
 	 */
-	public final void render(final GameContainer game, final StateBasedGame stateBasedGame, final Graphics graphics)
+	public final void render(final GameContainer game,
+			final StateBasedGame stateBasedGame, final Graphics graphics)
 			throws SlickException {
 		failedText.draw(graphics);
 		player1name.draw(graphics);
@@ -121,17 +114,13 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
 
 	/**
 	 * Updates the BasicGameState.
-	 * 
-	 * @param game
-	 *            the game container
-	 * @param stateBasedGame
-	 *            the state based game
-	 * @param i
-	 *            delta of time exceeded
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param game the game container
+	 * @param stateBasedGame the state based game
+	 * @param i delta of time exceeded
+	 * @throws SlickException any type of slick exception
 	 */
-	public final void update(final GameContainer game, final StateBasedGame stateBasedGame, final int i)
+	public final void update(final GameContainer game,
+			final StateBasedGame stateBasedGame, final int i)
 			throws SlickException {
 		player1name.centerText(game);
 		player1score.centerText(game);
@@ -141,32 +130,29 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if (restart.isInBounds(input)) {
 				App.getGame().destroyGame();
-				if(players == 2){
+				if (players == 2) {
 					App.getGame().start2Player();
-				}
-				else{
+				} else {
 					App.getGame().start1Player();
 				}
-				stateBasedGame.enterState(GameState.GAME_ACTIVE, new FadeOutTransition(), new FadeInTransition());
+				stateBasedGame.enterState(GameState.GAME_ACTIVE,
+						new FadeOutTransition(), new FadeInTransition());
 			}
 			if (mainmenu.isInBounds(input)) {
 				App.getGame().destroyGame();
-				stateBasedGame.enterState(GameState.MAIN_MENU, new FadeOutTransition(), new FadeInTransition());
+				stateBasedGame.enterState(GameState.MAIN_MENU,
+						new FadeOutTransition(), new FadeInTransition());
 			}
 		}
 	}
 
 	/**
 	 * Updated by Observable. Sets data
-	 * 
-	 * @param number
-	 *            integer of player number
-	 * @param name
-	 *            String of player name
-	 * @param score
-	 *            integer of player score
+	 * @param number integer of player number
+	 * @param name String of player name
+	 * @param score integer of player score
 	 */
-	public void update(int number, String name, int score) {
+	public final void update(final int number, final String name, final int score) {
 		if (number == 1) {
 			this.player1name.setText("Player: " + name);
 			this.player1score.setText("Score: " + score);
@@ -178,8 +164,9 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
 
 	/**
 	 * Updated by Observable, sets amount of playerdata.
+	 * @param playeramount integer about amount of players
 	 */
-	public void update(int playeramount) {
+	public void update(final int playeramount) {
 		this.players = playeramount;
 	}
 }

@@ -19,7 +19,6 @@ import bust_a_move.log.Log;
 
 /**
  * The Cannon class represents a cannon entity.
- *
  * @author Maurice Willemsen
  */
 
@@ -27,27 +26,27 @@ public class Cannon {
 	/**
 	 * X coordinate of the cannon.
 	 */
-	private static final int x = 320;
+	private static final int X = 320;
 	/**
 	 * Y coordinate of the cannon.
 	 */
-	private static final int y = 530;
+	private static final int Y = 530;
 	/**
 	 * X coordinate of the next bubble.
 	 */
-	private static final int xLaunch = (int) (375 - Bubble.DIAMETER / 2);
+	private static final int X_LAUNCH = (int) (375 - Bubble.DIAMETER / 2);
 	/**
 	 * Y coordinate of the next bubble.
 	 */
-	private static final int yLaunch = (int) (555 - Bubble.DIAMETER / 2);
+	private static final int Y_LAUNCH = (int) (555 - Bubble.DIAMETER / 2);
 	/**
 	 * X coordinate of the current bubble.
 	 */
-	private static final int xLoad = (int) (320 - Bubble.DIAMETER / 2);
+	private static final int X_LOAD = (int) (320 - Bubble.DIAMETER / 2);
 	/**
 	 * Y coordinate of the current bubble.
 	 */
-	private static final int yLoad = (int) (530 - Bubble.DIAMETER / 2);
+	private static final int Y_LOAD = (int) (530 - Bubble.DIAMETER / 2);
 	/**
 	 * The length of the cannon barrel.
 	 */
@@ -75,15 +74,15 @@ public class Cannon {
 	/**
 	 * Time delta between now and last time a bubble is shot.
 	 */
-	private int timeShotFired;
+	private int TIME_SHOT_FIRED;
 	/**
 	 * Time delta between now and last time the right arrow key was pressed.
 	 */
-	private int timePassedKeyRight;
+	private int TIME_KEY_RIGHT;
 	/**
 	 * Time delta between now and last time the left arrow key was pressed.
 	 */
-	private int timePassedKeyLeft;
+	private int TIME_KEY_LEFT;
 	/**
 	 * Idle time after which the cannon will shot automatically.
 	 */
@@ -100,49 +99,46 @@ public class Cannon {
 	/**
 	 * Right angle limit.
 	 */
-	private static final int rightAngleLimit = 60;
+	private static final int R_ANGLE_LIMIT = 60;
 	/**
 	 * Left angle limit.
 	 */
-	private static final int leftAngleLimit = -60;
+	private static final int L_ANGLE_LIMIT = -60;
 	/**
 	 * Input scan delay.
 	 */
-	private static final int inputScanDelay = 10;
+	private static final int SCAN_DELAY = 10;
 	/**
 	 * Angle offset.
 	 */
-	private static final int angleOffset = 90;
+	private static final int ANGLE_OFFSET = 90;
 	/**
 	 * X coordinate of auto shoot warning message.
 	 */
-	private static final int displayWarningX = 225;
+	private static final int WARNING_X = 225;
 	/**
 	 * Y coordinate of auto shoot warning message.
 	 */
-	private static final int displayWarningY = 500;
+	private static final int WARNING_Y = 500;
 
 	private final int offset;
 
-	private final int player_nr;
+	private final int playernr;
 
 	/**
 	 * Creates Cannon instance.
-	 * 
-	 * @param g
-	 *            game object for reference
+	 * @param g game object for reference
 	 */
 	public Cannon(final GameData g, int offset, int nr) {
 		Log.log(this, "Cannon initialised");
 		this.cannonColour = Color.red;
 		this.game = g;
 		this.offset = offset;
-		this.player_nr = nr;
+		this.playernr = nr;
 		this.nextBubble = getNextBubble();
 		this.loadNextBubble();
 		this.loadNextBubble();
 	}
-	
 
 	/**
 	 * Load next bubble to current bubble and asks for a new bubble.
@@ -150,19 +146,19 @@ public class Cannon {
 	private void loadNextBubble() {
 		this.currBubble = this.nextBubble;
 		this.nextBubble = this.getNextBubble();
-		this.currBubble.setX(Cannon.xLoad + this.offset);
-		this.currBubble.setY(Cannon.yLoad);
-		this.game.bubbleslist.add(this.nextBubble);
+		this.currBubble.setX(Cannon.X_LOAD + this.offset);
+		this.currBubble.setY(Cannon.Y_LOAD);
+		this.game.getBubbles().add(this.nextBubble);
 	}
 
 	/**
 	 * Determines next bubble.
-	 * 
 	 * @return newly created bubble
 	 */
 	private Bubble getNextBubble() {
 		Log.log(this, "Next bubble loaded to cannon");
-		Bubble newBubble = Bubble.randomColor((float) Cannon.xLaunch + this.offset, (float) Cannon.yLaunch,
+		Bubble newBubble = Bubble.randomColor(
+				(float) Cannon.X_LAUNCH + this.offset, (float) Cannon.Y_LAUNCH,
 				game.getArena().getBubbleStorage().getColorsOnArena(), true);
 		if (GameConfig.ENABLE_POWERUPS) {
 			newBubble = PowerUp.apply(newBubble);
@@ -178,7 +174,7 @@ public class Cannon {
 		this.currBubble.updateGame(game);
 		this.currBubble.fire(this.angle);
 		this.loadNextBubble();
-		this.timeShotFired = 0;
+		this.TIME_SHOT_FIRED = 0;
 		this.displayWarning = false;
 	}
 
@@ -186,7 +182,7 @@ public class Cannon {
 	 * Updates the Cannon angle per input step.
 	 */
 	public final void stepUp() {
-		if (this.angle <= rightAngleLimit) {
+		if (this.angle <= R_ANGLE_LIMIT) {
 			this.angle += 1;
 		}
 	}
@@ -195,111 +191,110 @@ public class Cannon {
 	 * Updates the Cannon angle per input step.
 	 */
 	public final void stepDown() {
-		if (this.angle >= leftAngleLimit) {
+		if (this.angle >= L_ANGLE_LIMIT) {
 			this.angle -= 1;
 		}
 	}
 
 	/**
 	 * Update the cannon.
-	 * 
-	 * @param container
-	 *            game container
-	 * @param delta
-	 *            time passed
+	 * @param container game container
+	 * @param delta time passed
 	 */
-	public final void update(final GameContainer container, final int delta, final GameData gamehead) {
-		timeShotFired += delta;
+	public final void update(final GameContainer container, final int delta,
+			final GameData gamehead) {
+		TIME_SHOT_FIRED += delta;
 		game = gamehead;
-		if (this.player_nr == 1) {
+		if (this.playernr == 1) {
 			if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
 				if (container.getInput().isKeyPressed(Input.KEY_RIGHT)) {
 					Log.log(this, "Cannon moving to the right");
 				}
-				this.timePassedKeyRight += delta;
-				if (this.timePassedKeyRight > inputScanDelay) {
+				this.TIME_KEY_RIGHT += delta;
+				if (this.TIME_KEY_RIGHT > SCAN_DELAY) {
 					stepDown();
-					this.timePassedKeyRight = 0;
+					this.TIME_KEY_RIGHT = 0;
 				}
 			} else {
-				this.timePassedKeyRight = 0;
+				this.TIME_KEY_RIGHT = 0;
 			}
 			if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
 				if (container.getInput().isKeyPressed(Input.KEY_LEFT)) {
 					Log.log(this, "Cannon moving to the left");
 				}
-				this.timePassedKeyLeft += delta;
-				if (this.timePassedKeyLeft > inputScanDelay) {
+				this.TIME_KEY_LEFT += delta;
+				if (this.TIME_KEY_LEFT > SCAN_DELAY) {
 					stepUp();
-					this.timePassedKeyLeft = 0;
+					this.TIME_KEY_LEFT = 0;
 				}
 			} else {
-				this.timePassedKeyLeft = 0;
+				this.TIME_KEY_LEFT = 0;
 			}
 			if (container.getInput().isKeyPressed(Input.KEY_UP)) {
 				fire();
 			}
-		}
-		else if (this.player_nr == 2) {
+		} else if (this.playernr == 2) {
 			if (container.getInput().isKeyDown(Input.KEY_D)) {
 				if (container.getInput().isKeyPressed(Input.KEY_D)) {
 					Log.log(this, "Cannon moving to the right");
 				}
-				this.timePassedKeyRight += delta;
-				if (this.timePassedKeyRight > inputScanDelay) {
+				this.TIME_KEY_RIGHT += delta;
+				if (this.TIME_KEY_RIGHT > SCAN_DELAY) {
 					stepDown();
-					this.timePassedKeyRight = 0;
+					this.TIME_KEY_RIGHT = 0;
 				}
 			} else {
-				this.timePassedKeyRight = 0;
+				this.TIME_KEY_RIGHT = 0;
 			}
 			if (container.getInput().isKeyDown(Input.KEY_A)) {
 				if (container.getInput().isKeyPressed(Input.KEY_A)) {
 					Log.log(this, "Cannon moving to the left");
 				}
-				this.timePassedKeyLeft += delta;
-				if (this.timePassedKeyLeft > inputScanDelay) {
+				this.TIME_KEY_LEFT += delta;
+				if (this.TIME_KEY_LEFT > SCAN_DELAY) {
 					stepUp();
-					this.timePassedKeyLeft = 0;
+					this.TIME_KEY_LEFT = 0;
 				}
 			} else {
-				this.timePassedKeyLeft = 0;
+				this.TIME_KEY_LEFT = 0;
 			}
 			if (container.getInput().isKeyPressed(Input.KEY_W)) {
 				fire();
 			}
 		}
 
-		if (this.timeShotFired > TIME_TO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
+		if (this.TIME_SHOT_FIRED > TIME_TO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
 			displayWarning = true;
 		}
-		if (this.timeShotFired > TIME_TO_SHOOT) {
+		if (this.TIME_SHOT_FIRED > TIME_TO_SHOOT) {
 			Log.log(this, "Time elapsed, " + "shooting automatically");
 			fire();
-			timePassedKeyRight = 0;
+			TIME_KEY_RIGHT = 0;
 			displayWarning = false;
 		}
 	}
 
 	/**
 	 * Draws the graphics on the screen.
-	 * 
-	 * @param g
-	 *            graphics
+	 * @param g graphics
 	 */
 	public final void draw(final Graphics g) {
 		g.setColor(this.cannonColour);
-		g.drawLine(Cannon.x + this.offset, Cannon.y,
-				(int) (Cannon.x + this.offset + Math.cos(Math.toRadians(this.angle + angleOffset)) * this.length),
-				(int) (Cannon.y - Math.sin(Math.toRadians(this.angle + angleOffset)) * this.length));
+		g.drawLine(Cannon.X + this.offset, Cannon.Y,
+				(int) (Cannon.X + this.offset
+						+ Math.cos(Math.toRadians(this.angle + ANGLE_OFFSET))
+								* this.length),
+				(int) (Cannon.Y
+						- Math.sin(Math.toRadians(this.angle + ANGLE_OFFSET))
+								* this.length));
 		if (displayWarning) {
-			g.drawString("Hurry up!", displayWarningX + this.offset, displayWarningY);
+			g.drawString("Hurry up!", WARNING_X + this.offset,
+					WARNING_Y);
 		}
 	}
 
 	/**
 	 * Getter method: length.
-	 * 
 	 * @return int Cannon length
 	 */
 	public final int getLength() {
@@ -308,9 +303,7 @@ public class Cannon {
 
 	/**
 	 * Setter method: length.
-	 * 
-	 * @param l
-	 *            Cannon length
+	 * @param l Cannon length
 	 */
 	public final void setLength(int l) {
 		this.length = l;

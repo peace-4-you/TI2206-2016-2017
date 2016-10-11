@@ -17,11 +17,10 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bust_a_move.App;
-import bust_a_move.game.PlayerObserver;
+import bust_a_move.player.PlayerObserver;
 
 /**
  * Generates a PausedScreen as a instance of GameState.
- * 
  * @author Jason Xie, Maurice Willemsen
  */
 public class PausedScreen extends BasicGameState implements PlayerObserver {
@@ -60,7 +59,6 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
 
 	/**
 	 * Getter method: for the GameState ID.
-	 * 
 	 * @return integer of BasicGameState number.
 	 */
 	public final int getID() {
@@ -69,16 +67,12 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
 
 	/**
 	 * Called when BasicGameState initializes.
-	 * 
-	 * @param game
-	 *            the game container
-	 * @param stateBasedGame
-	 *            the state based game
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param game the game container
+	 * @param stateBasedGame the state based game
+	 * @throws SlickException any type of slick exception
 	 */
 	public final void init(final GameContainer game,
-		final StateBasedGame stateBasedGame) throws SlickException {
+			final StateBasedGame stateBasedGame) throws SlickException {
 		pauseText = new Text("Game Paused", GameConfig.FIRST_LINE);
 		pauseText.centerText(game);
 		player1name = new Text("Player:", GameConfig.SECOND_LINE);
@@ -90,34 +84,29 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
 		player2score = new Text("Score:", GameConfig.SEVENTH_LINE);
 		player2score.centerText(game);
 		resume = new Button("Resume", GameConfig.FOURTH_LINE, GameConfig.WIDTH2,
-			GameConfig.HEIGHT);
+				GameConfig.HEIGHT);
 		resume.centerButton(game);
 		quit = new Button("Quit", GameConfig.FIFTH_LINE, GameConfig.WIDTH2,
-			GameConfig.HEIGHT);
+				GameConfig.HEIGHT);
 		quit.centerButton(game);
 	}
 
 	/**
 	 * Renders the BasicGameState.
-	 * 
-	 * @param game
-	 *            the game container
-	 * @param stateBasedGame
-	 *            the state based game
-	 * @param graphics
-	 *            Graphics object
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param game the game container
+	 * @param stateBasedGame the state based game
+	 * @param graphics Graphics object
+	 * @throws SlickException any type of slick exception
 	 */
-	public void render(final GameContainer game,
-		final StateBasedGame stateBasedGame, final Graphics graphics)
-		throws SlickException {
+	public final void render(final GameContainer game,
+			final StateBasedGame stateBasedGame, final Graphics graphics)
+			throws SlickException {
 		pauseText.draw(graphics);
 		player1name.draw(graphics);
 		player1score.draw(graphics);
 		resume.draw(graphics);
 		quit.draw(graphics);
-		if (this.players == 2){
+		if (this.players == 2) {
 			player2name.draw(graphics);
 			player2score.draw(graphics);
 		}
@@ -125,19 +114,14 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
 
 	/**
 	 * Updates the BasicGameState.
-	 * 
-	 * @param game
-	 *            the game container
-	 * @param stateBasedGame
-	 *            the state based game
-	 * @param i
-	 *            delta of time exceeded
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param game the game container
+	 * @param stateBasedGame the state based game
+	 * @param i delta of time exceeded
+	 * @throws SlickException any type of slick exception
 	 */
 	public final void update(final GameContainer game,
-		final StateBasedGame stateBasedGame, final int i)
-		throws SlickException {
+			final StateBasedGame stateBasedGame, final int i)
+			throws SlickException {
 		player1name.centerText(game);
 		player1score.centerText(game);
 		player2name.centerText(game);
@@ -146,26 +130,24 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if (resume.isInBounds(input)) {
 				stateBasedGame.enterState(GameState.GAME_ACTIVE,
-					new FadeOutTransition(), new FadeInTransition());
+						new FadeOutTransition(), new FadeInTransition());
 			}
 			if (quit.isInBounds(input)) {
 				App.getGame().destroyGame();
 				stateBasedGame.enterState(GameState.MAIN_MENU,
-					new FadeOutTransition(), new FadeInTransition());
+						new FadeOutTransition(), new FadeInTransition());
 			}
 		}
 	}
-	
 
 	/**
 	 * Updated by Observable. Sets data
-	 * 
 	 * @param number integer of player number
 	 * @param name String of player name
 	 * @param score integer of player score
 	 */
-	
-	public void update(int number, String name, int score) {
+	public final void update(final int number, final String name,
+			final int score) {
 		if (number == 1) {
 			this.player1name.setText("Player: " + name);
 			this.player1score.setText("Score: " + score);
@@ -174,12 +156,12 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
 			this.player2score.setText("Score: " + score);
 		}
 	}
-	
+
 	/**
 	 * Updated by Observable, sets amount of playerdata.
+	 * @param playeramount integer about amount of players
 	 */
-
-	public void update(int playeramount) {
+	public void update(final int playeramount) {
 		this.players = playeramount;
 	}
 }

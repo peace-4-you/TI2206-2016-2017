@@ -18,10 +18,10 @@ import bust_a_move.bubble.Bubble;
 import bust_a_move.gamestate.GameConfig;
 import bust_a_move.log.Log;
 import bust_a_move.player.Player;
+import bust_a_move.player.PlayerObserver;
 
 /**
- * The Game class represents a single game model
- *
+ * The Game class represents a single game model.
  * @author Maurice Willemsen
  * @version 11.10.2016
  */
@@ -48,15 +48,15 @@ public class GameData implements PlayerObserver {
 	/**
 	 * Arraylist of bubbles and their speed.
 	 */
-	public ArrayList<Bubble> bubbleslist;
-	public double bubblespeed;
+	private ArrayList<Bubble> bubbleslist;
+	private double bubblespeed;
 	/**
 	 * position for the arena.
 	 */
-	private static final int arena_x = 180;
+	private static final int ARENA_X = 180;
 	private static final int arena_y = 0;
-	private static final int arena_width = 531;
-	private static final int arena_height = 280;
+	private static final int ARENA_W = 531;
+	private static final int ARENA_H = 280;
 	/**
 	 * GameModel number and the drawing offset.
 	 */
@@ -64,43 +64,35 @@ public class GameData implements PlayerObserver {
 	private int player_nr;
 
 	/**
-	 * Constructor for the GameData
-	 * 
-	 * @param offset
-	 *            integer of the drawing offset
-	 * @param nr
-	 *            integer of the GameData model
+	 * Constructor for the GameData.
+	 * @param offset integer of the drawing offset
+	 * @param nr integer of the GameData model
 	 */
-	public GameData(int offset, int nr) {
+	public GameData(final int drawingoffset, final int modelnr) {
 		Log.log(this, "GameData initialised");
-		this.offset = offset;
-		this.player_nr = nr;
+		this.offset = drawingoffset;
+		this.player_nr = modelnr;
 		this.state = GameDataState.RUNNING;
 		this.bubbleslist = new ArrayList<Bubble>();
 		this.player = new Player("Player1", this.offset, this.player_nr);
 		this.player.registerObserver((PlayerObserver) App.getPauseScreen());
 		this.player.registerObserver((PlayerObserver) App.getDefeatScreen());
 		this.player.registerObserver((PlayerObserver) this);
-		this.arena = new Arena(GameData.arena_x + this.offset, GameData.arena_y, GameData.arena_width,
-				GameData.arena_height, this);
+		this.arena = new Arena(GameData.ARENA_X + this.offset, GameData.arena_y,
+				GameData.ARENA_W, GameData.ARENA_H, this);
 		this.cannon = new Cannon(this, this.offset, this.player_nr);
 		this.setBubbleSpeed(GameConfig.DEFAULT_BUBBLE_SPEED);
 	}
 
 	/**
 	 * Updates the BasicGameState.
-	 * 
-	 * @param container
-	 *            the game container
-	 * @param sbg
-	 *            the state based game
-	 * @param delta
-	 *            delta of time exceeded
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param container the game container
+	 * @param sbg the state based game
+	 * @param delta delta of time exceeded
+	 * @throws SlickException any type of slick exception
 	 */
-	public final void update(final GameContainer container, final StateBasedGame sbg, final int delta)
-			throws SlickException {
+	public final void update(final GameContainer container,
+			final StateBasedGame sbg, final int delta) throws SlickException {
 		if (this.state == GameDataState.RUNNING) {
 			this.cannon.update(container, delta, this);
 			arena.getCollision().updateGame(this);
@@ -120,22 +112,22 @@ public class GameData implements PlayerObserver {
 
 	/**
 	 * Renders the BasicGameState.
-	 * 
-	 * @param container
-	 *            the game container
-	 * @param sbg
-	 *            the state based game
-	 * @param g
-	 *            Graphics object
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param container the game container
+	 * @param sbg the state based game
+	 * @param g Graphics object
+	 * @throws SlickException any type of slick exception
 	 */
-	public final void render(final GameContainer game, final StateBasedGame stateBasedGame, final Graphics g)
-			throws SlickException {
+	public final void render(final GameContainer container,
+			final StateBasedGame sbg, final Graphics g) throws SlickException {
 		g.setColor(Color.white);
-		g.drawString("Score:" + this.score, 10 + this.offset, 70);
-		g.drawString("Name:" + this.name, 10 + this.offset,40);
-		g.drawString("Fire power: x" + (double) Math.round(this.bubblespeed * 10 / 3) / 10, 10 + this.offset, 130);
+		g.drawString("Score:" + this.score,
+				GameConfig.MARGIN_LEFT + this.offset, GameConfig.SECOND_LINE);
+		g.drawString("Name:" + this.name, GameConfig.MARGIN_LEFT + this.offset,
+				GameConfig.FIRST_LINE);
+		g.drawString(
+				"Fire speed: x"
+						+ (double) Math.round(this.bubblespeed * 10 / 3) / 10,
+				GameConfig.MARGIN_LEFT + this.offset, GameConfig.THIRD_LINE);
 		cannon.draw(g);
 		player.draw(g);
 		arena.draw(g);
@@ -148,7 +140,6 @@ public class GameData implements PlayerObserver {
 
 	/**
 	 * Method to return the arena object inside gamedata class.
-	 *
 	 * @return Arena object inside gamedata class
 	 */
 	public final Arena getArena() {
@@ -157,7 +148,6 @@ public class GameData implements PlayerObserver {
 
 	/**
 	 * Method to return the player object inside gamedata class.
-	 *
 	 * @return Player object inside gamedata class
 	 */
 	public final Player getPlayer() {
@@ -166,7 +156,6 @@ public class GameData implements PlayerObserver {
 
 	/**
 	 * Method to return the cannon object inside gamedata class.
-	 *
 	 * @return Cannon object inside gamedata class
 	 */
 	public final Cannon getCannon() {
@@ -175,49 +164,53 @@ public class GameData implements PlayerObserver {
 
 	/**
 	 * Method to return the gamedatastate object inside gamedata class.
-	 *
 	 * @return GameDataState object inside gamedata class
 	 */
-	public GameDataState getState() {
+	public final GameDataState getState() {
 		return this.state;
 	}
 
 	/**
-	 * Method to return the bubblespeed  inside gamedata class.
-	 *
+	 * Method to return the bubblespeed inside gamedata class.
 	 * @return Double bubblespeed object inside gamedata class
 	 */
-	public double getBubbleSpeed() {
+	public final double getBubbleSpeed() {
 		return this.bubblespeed;
+	}
+
+	/**
+	 * Method to return the bubbleslist inside gamedata class.
+	 * @return ArrayList of bubbles inside gamedata class
+	 */
+	public final ArrayList<Bubble> getBubbles() {
+		return this.bubbleslist;
 	}
 
 	/**
 	 * Method to set the BubbleSpeed
 	 * @param speed double to set speed to
 	 */
-	public void setBubbleSpeed(double speed) {
+	public final void setBubbleSpeed(final double speed) {
 		this.bubblespeed = speed;
 	}
 
 	/**
 	 * Empty update method from PlayerObserver interface.
 	 */
-	public void update(int playeramount) {}
+	public final void update(final int playeramount) {
+	}
 
 	/**
 	 * Updated by Observable. Sets data
-	 * 
-	 * @param number
-	 *            integer of player number
-	 * @param name
-	 *            String of player name
-	 * @param score
-	 *            integer of player score
+	 * @param number integer of player number
+	 * @param name String of player name
+	 * @param score integer of player score
 	 */
-	public void update(int number, String name, int score) {
-		if (number == player_nr){
+	public final void update(final int number, final String name,
+			final int score) {
+		if (number == player_nr) {
 			this.score = score;
 			this.name = name;
-		}		
+		}
 	}
 }

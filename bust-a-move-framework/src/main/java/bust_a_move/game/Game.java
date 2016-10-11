@@ -19,6 +19,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import bust_a_move.App;
 import bust_a_move.game.GameData.GameDataState;
 import bust_a_move.gamestate.Button;
 import bust_a_move.gamestate.GameConfig;
@@ -26,8 +28,7 @@ import bust_a_move.gamestate.GameState;
 import bust_a_move.log.Log;
 
 /**
- * The Game class represents a game entity. Contains all GameModels
- *
+ * The Game class represents a game entity. Contains all GameModels.
  * @author Maurice Willemsen
  * @version 11.10.2016
  */
@@ -38,14 +39,15 @@ public class Game extends BasicGameState {
 	private StateBasedGame sbg;
 	private GameContainer container;
 	/**
-	 * lists of all Game Data objects
+	 * lists of all Game Data objects.
 	 */
 	private ArrayList<GameData> gamedata;
 	/**
-	 * Button instance and x coordinate for a pause button
+	 * Button instance and x coordinate for a pause button.
 	 */
 	private Button pause;
 	private static final int button_X = 503;
+	private static final int DRAWING_OFFSET = 500;
 
 	/**
 	 * Public constructor.
@@ -56,23 +58,21 @@ public class Game extends BasicGameState {
 	}
 
 	/**
-	 * Starts a 2 player mode,
-	 * 
-	 * @throws SlickException
-	 *             all kind of SlickException
+	 * Starts a 2 player mode.
+	 * @throws SlickException all kind of SlickException
 	 */
 	public final void start2Player() throws SlickException {
 		AppGameContainer gc = (AppGameContainer) this.container;
-		gc.setDisplayMode(1040, 580, false);
+		gc.setDisplayMode(App.GAME_WIDTH_MULTIPLAYER, App.GAME_HEIGHT, false);
 		GameData firstplayer = new GameData(0, 2);
-		GameData secondplayer = new GameData(500, 1);
+		GameData secondplayer = new GameData(DRAWING_OFFSET, 1);
 		this.gamedata.add(firstplayer);
 		this.gamedata.add(secondplayer);
 		firstplayer.getPlayer().notifyAmountObserver(2);
 	}
 
 	/**
-	 * Starts a 1 player mode,
+	 * Starts a 1 player mode.
 	 */
 	public final void start1Player() {
 		GameData firstplayer = new GameData(0, 1);
@@ -81,15 +81,13 @@ public class Game extends BasicGameState {
 	}
 
 	/**
-	 * Clears the game, Emptys the list of GameDatas
-	 * 
-	 * @throws SlickException
-	 *             All Kind of SlickException
+	 * Clears the game, Emptys the list of GameDatas.
+	 * @throws SlickException All Kind of SlickException
 	 */
 	public final void destroyGame() throws SlickException {
 		this.gamedata.clear();
 		AppGameContainer gc = (AppGameContainer) this.container;
-		gc.setDisplayMode(640, 580, false);
+		gc.setDisplayMode(App.GAME_WIDTH,App.GAME_HEIGHT, false);
 	}
 
 	/**
@@ -97,7 +95,8 @@ public class Game extends BasicGameState {
 	 */
 	private void wonGame() {
 		Log.log(this, "Game Won");
-		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(), new FadeInTransition());
+		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
+				new FadeInTransition());
 	}
 
 	/**
@@ -105,7 +104,8 @@ public class Game extends BasicGameState {
 	 */
 	private void failedGame() {
 		Log.log(this, "Game Failed");
-		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(), new FadeInTransition());
+		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(),
+				new FadeInTransition());
 	}
 
 	/**
@@ -113,41 +113,35 @@ public class Game extends BasicGameState {
 	 */
 	private void pauseGame() {
 		Log.log(this, "Game Paused");
-		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(), new FadeInTransition());
+		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(),
+				new FadeInTransition());
 	}
 
 	/**
 	 * Called when BasicGameState initializes.
-	 * 
-	 * @param game
-	 *            the game container
-	 * @param stateBasedGame
-	 *            the state based game
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param game the game container
+	 * @param stateBasedGame the state based game
+	 * @throws SlickException any type of slick exception
 	 */
-	public final void init(final GameContainer game, final StateBasedGame stateBasedGame) throws SlickException {
+	public final void init(final GameContainer game,
+			final StateBasedGame stateBasedGame) throws SlickException {
 		this.sbg = stateBasedGame;
 		this.container = game;
-		this.pause = new Button("Pause", Game.button_X, GameConfig.SEVENTH_LINE, GameConfig.WIDTH1, GameConfig.HEIGHT);
+		this.pause = new Button("Pause", Game.button_X, GameConfig.SEVENTH_LINE,
+				GameConfig.WIDTH1, GameConfig.HEIGHT);
 	}
 
 	/**
 	 * Updates the BasicGameState.
-	 * 
-	 * @param container
-	 *            the game container
-	 * @param sbg
-	 *            the state based game
-	 * @param delta
-	 *            delta of time exceeded
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param game the game container
+	 * @param StateBasedGame the state based game
+	 * @param delta delta of time exceeded
+	 * @throws SlickException any type of slick exception
 	 */
-	public final void update(final GameContainer container, final StateBasedGame sbg, final int delta)
-			throws SlickException {
-		this.sbg = sbg;
-		this.container = container;
+	public final void update(final GameContainer game,
+			final StateBasedGame StateBasedGame, final int delta) throws SlickException {
+		this.sbg = StateBasedGame;
+		this.container = game;
 		boolean loosing = true;
 		for (GameData gd : this.gamedata) {
 			gd.update(container, sbg, delta);
@@ -158,7 +152,7 @@ public class Game extends BasicGameState {
 				this.wonGame();
 			}
 		}
-		if (loosing == true) {
+		if (loosing) {
 			this.failedGame();
 		}
 		if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
@@ -170,18 +164,13 @@ public class Game extends BasicGameState {
 
 	/**
 	 * Renders the BasicGameState.
-	 * 
-	 * @param container
-	 *            the game container
-	 * @param sbg
-	 *            the state based game
-	 * @param g
-	 *            Graphics object
-	 * @throws SlickException
-	 *             any type of slick exception
+	 * @param container the game container
+	 * @param sbg the state based game
+	 * @param g Graphics object
+	 * @throws SlickException any type of slick exception
 	 */
-	public final void render(final GameContainer container, final StateBasedGame sbg, final Graphics g)
-			throws SlickException {
+	public final void render(final GameContainer container,
+			final StateBasedGame sbg, final Graphics g) throws SlickException {
 		g.setColor(Color.gray);
 		g.fillRect(0, 530, 1040, 580);
 		pause.draw(g);
@@ -192,7 +181,6 @@ public class Game extends BasicGameState {
 
 	/**
 	 * Getter method: for the GameState ID.
-	 * 
 	 * @return integer of BasicGameState number.
 	 */
 	public final int getID() {
@@ -200,11 +188,10 @@ public class Game extends BasicGameState {
 	}
 
 	/**
-	 * Getter method: for the GameData list
-	 * 
+	 * Getter method: for the GameData list.
 	 * @return List of GameData objects
 	 */
-	public ArrayList<GameData> getGameData() {
+	public final ArrayList<GameData> getGameData() {
 		return this.gamedata;
 	}
 }

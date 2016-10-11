@@ -29,11 +29,15 @@ public class App extends StateBasedGame {
     /**
      * Values for the width of the game window.
      */
-    private static final int GAME_WIDTH = 640;
+    public static final int GAME_WIDTH = 640;
+    /**
+     * Values for the width of the game window.
+     */
+    public static final int GAME_WIDTH_MULTIPLAYER = 1040;
     /**
      * Values for the height of the game window.
      */
-    private static final int GAME_HEIGHT = 580;
+    public static final int GAME_HEIGHT = 580;
     /**
      * Values for fps of the game.
      */
