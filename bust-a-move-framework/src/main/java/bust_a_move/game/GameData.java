@@ -77,6 +77,7 @@ public class GameData implements PlayerObserver {
 		this.player = new Player("Player1", this.offset, this.player_nr);
 		this.player.registerObserver((PlayerObserver) App.getPauseScreen());
 		this.player.registerObserver((PlayerObserver) App.getDefeatScreen());
+		this.player.registerObserver((PlayerObserver) App.getVictoryScreen());
 		this.player.registerObserver((PlayerObserver) this);
 		this.arena = new Arena(GameData.ARENA_X + this.offset, GameData.arena_y,
 				GameData.ARENA_W, GameData.ARENA_H, this);

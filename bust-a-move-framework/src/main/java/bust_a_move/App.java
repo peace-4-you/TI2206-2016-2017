@@ -49,8 +49,7 @@ public class App extends StateBasedGame {
     private static Game game;
     private static DefeatScreen defeatScreen;
     private static VictoryScreen victoryScreen;
-    private static PausedScreen pausedScreen;
-    
+    private static PausedScreen pausedScreen;   
 
     /**
      * Constructor for the launcher of the game.
@@ -83,9 +82,8 @@ public class App extends StateBasedGame {
      */
     public final void initStatesList(final GameContainer container)
             throws SlickException {
-    	pausedScreen = new PausedScreen();
-        game = new Game();
-        
+    	game = new Game();         
+    	pausedScreen = new PausedScreen();       
         victoryScreen = new VictoryScreen();
         defeatScreen = new DefeatScreen();
         addState(new StartScreen());
@@ -106,12 +104,28 @@ public class App extends StateBasedGame {
         return game;
     }
     
+    /**
+     * Getter function for pausedScreen object.
+     * @return the screen associated to this class
+     */
     public static final PausedScreen getPauseScreen(){
     	return pausedScreen;
     }
     
+    /**
+     * Getter function for defeatScreen object.
+     * @return the screen associated to this class
+     */
     public static final DefeatScreen getDefeatScreen(){
     	return defeatScreen;
+    }
+    
+    /**
+     * Getter function for victoryScreen object.
+     * @return the screen associated to this class
+     */
+    public static final VictoryScreen getVictoryScreen(){
+    	return victoryScreen;
     }
 
     /**
