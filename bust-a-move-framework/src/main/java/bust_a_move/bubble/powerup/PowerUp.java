@@ -29,12 +29,10 @@ public abstract class PowerUp extends Bubble {
    * Root bubble component.
    */
   protected Bubble rootBubble;
-
   /**
    * Empty constructor per abstract class specification.
    */
   public PowerUp() {}
-
   /**
    * Creates PowerUp instance.
    * @param bubble  wrapped Bubble component.

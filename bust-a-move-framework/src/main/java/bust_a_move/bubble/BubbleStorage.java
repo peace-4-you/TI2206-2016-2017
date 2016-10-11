@@ -420,4 +420,13 @@ public final class BubbleStorage {
             }
         }
     }
+
+    /**
+     * creates a new BubbleStorageIterator.
+     *
+     * @return a BubbleStorageIterator
+     */
+    public BubbleStorageIterator iterator() {
+        return new BubbleStorageIterator(bubble2DArray);
+    }
 }
