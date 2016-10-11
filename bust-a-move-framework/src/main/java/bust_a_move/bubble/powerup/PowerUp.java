@@ -117,7 +117,7 @@ public abstract class PowerUp extends Bubble {
 
   /**
    * Drops the Bubble by setting state to DROPPING and setting xSpeed
-   * to zero and ySpeed to SPEED.
+   * to zero and ySpeed to speed.
    */
   public final void drop() {
     this.rootBubble.drop();

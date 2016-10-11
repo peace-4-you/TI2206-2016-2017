@@ -42,7 +42,7 @@ public class BubbleFireTest {
         this.fMessage = message;
     }
 
-    // Assumes Bubble.SPEED = 3
+    // Assumes Bubble.speed = 3
     @Parameterized.Parameters
     public static Collection<Object[]> input() {
         return Arrays.asList(new Object[][] {

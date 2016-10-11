@@ -329,7 +329,7 @@ public final class Collision {
                 ite.remove();
                 continue;
             }
-            bubble.setY(bubble.getY() + (float)Bubble.SPEED);
+            bubble.setY(bubble.getY() + (float)Bubble.speed);
             bubble.draw(g);
         }
     }

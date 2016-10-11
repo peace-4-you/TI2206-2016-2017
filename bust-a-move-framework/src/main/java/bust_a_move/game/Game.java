@@ -225,7 +225,7 @@ public class Game extends BasicGameState implements Observer {
 		g.fillRect(0, 530, 640, 580);
 		g.setColor(Color.white);
 		g.drawString("Score:" + this.score, 10, 70);
-		g.drawString("Fire power: x" + (double) Math.round(Bubble.SPEED * 10
+		g.drawString("Fire power: x" + (double) Math.round(Bubble.speed * 10
 			/ 3) / 10, 10, 130);
 		cannon.draw(g);
 		player.draw(g);
