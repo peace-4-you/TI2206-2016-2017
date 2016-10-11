@@ -61,7 +61,7 @@ public class MainMenu extends BasicGameState implements Screen {
      */
     public final void init(final GameContainer game,
         final StateBasedGame stateBasedGame) throws SlickException {
-        nameText = new Text("Player: " + App.getGame().player.getName(),
+        nameText = new Text("Player: " + App.getGame().getPlayer().getName(),
             GameConfig.FIRST_LINE);
         nameText.centerText(game);
         play = new Button("Play", GameConfig.THIRD_LINE, GameConfig.WIDTH1,
@@ -108,7 +108,7 @@ public class MainMenu extends BasicGameState implements Screen {
     public final void update(final GameContainer game,
         final StateBasedGame stateBasedGame, final int i)
         throws SlickException {
-        nameText.setText("Player: " + App.getGame().player.getName());
+        nameText.setText("Player: " + App.getGame().getPlayer().getName());
         nameText.centerText(game);
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
@@ -117,7 +117,7 @@ public class MainMenu extends BasicGameState implements Screen {
                     new FadeOutTransition(), new FadeInTransition());
             }
             if (setName.isInBounds(input)) {
-                App.getGame().player.setName(this.namefield.getText());
+                App.getGame().getPlayer().setName(this.namefield.getText());
             }
             if (quit.isInBounds(input)) {
                 game.exit();

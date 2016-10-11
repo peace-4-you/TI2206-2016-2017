@@ -1,11 +1,3 @@
-/*
- * File: Score.java
- * Class: Score
- *
- * Version: 0.0.1
- * Date: September 19th, 2016
- */
-
 /**
  * The Score class represents a score entity
  *
@@ -21,6 +13,7 @@ import bustamove.system.Log;
 
 /**
  * The Game class represents a game entity.
+ *
  * @author Maurice Willemsen
  */
 public class Score extends Observable {
@@ -36,6 +29,7 @@ public class Score extends Observable {
      * Default points a dropped bubble is worth.
      */
     private static final int DEFAULT_DROPPED_POINTS = 20;
+
     /**
      * Constructor of the Score class.
      */
@@ -47,6 +41,7 @@ public class Score extends Observable {
 
     /**
      * sets the player's score.
+     *
      * @param scoreVal integer value to set score to
      */
     public final void setScore(final int scoreVal) {
@@ -63,8 +58,10 @@ public class Score extends Observable {
         this.score = 0;
         this.updateObserver();
     }
+
     /**
      * Add to the player's score.
+     *
      * @param scoreVal integer value to add to score
      */
     public final void addScore(final int scoreVal) {
@@ -72,9 +69,11 @@ public class Score extends Observable {
         this.score += scoreVal;
         this.updateObserver();
     }
+
     /**
      * Add popped bubble points to the player's score by algorithm.
      * Each popped bubble is worth DEFAULT_POINTS points.
+     *
      * @param bubbles number of bubbles popped
      */
     public final void scoreBubblesPopped(final int bubbles) {
@@ -86,9 +85,11 @@ public class Score extends Observable {
             this.updateObserver();
         }
     }
+
     /**
      * Add dropped bubble points to the player's score by algorithm.
      * Each dropped bubble is worth
+     *
      * @param bubbles number of bubbles popped
      */
     public final void scoreBubblesDropped(final int bubbles) {
@@ -104,11 +105,13 @@ public class Score extends Observable {
 
     /**
      * Getter method: returns the score.
+     *
      * @return int score
      */
     public final int getScore() {
         return this.score;
     }
+
     /**
      * Updates connected observers.
      */
@@ -116,15 +119,19 @@ public class Score extends Observable {
         this.setChanged();
         this.notifyObservers(this.score);
     }
+
     /**
      * Adds class object to observer list.
+     *
      * @param o Class Object
      */
     public final void addAsObserver(final Object o) {
         this.addObserver((Observer) o);
     }
+
     /**
      * Deletes class object from observer list.
+     *
      * @param o Class Object
      */
     public final void deleteAsObser(final Object o) {

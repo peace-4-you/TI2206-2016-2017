@@ -102,10 +102,20 @@ public class App extends StateBasedGame {
     }
 
     /**
-     * Return the heights of the game window.
-     * @return game window in int form
+     * Return the height of the game window.
+     *
+     * @return height in int form
      */
     public static final int getGameHeight() {
         return GAME_HEIGHT;
+    }
+
+    /**
+     * Returns the width of the game window.
+     *
+     * @return width in int form
+     */
+    public static final int getGameWidth() {
+        return GAME_WIDTH;
     }
 }

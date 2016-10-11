@@ -14,6 +14,7 @@ import org.newdawn.slick.Graphics;
 
 /**
  * The Player class represents a player entity.
+ *
  * @author Calvin Nhieu, Maurice Willemsen
  */
 public class Player {
@@ -48,6 +49,7 @@ public class Player {
 
     /**
      * Constructor of Player class.
+     *
      * @param s player's name
      */
     public Player(final String s) {
@@ -59,6 +61,7 @@ public class Player {
 
     /**
      * Getter method: returns the name of the player.
+     *
      * @return String name
      */
     public final String getName() {
@@ -67,6 +70,7 @@ public class Player {
 
     /**
      * Setter method: for the player's name.
+     *
      * @param s String value to set name to
      */
     public final void setName(final String s) {
@@ -76,6 +80,7 @@ public class Player {
 
     /**
      * Getter method: for combo value.
+     *
      * @return int combo
      */
     public final int getCombo() {
@@ -84,6 +89,7 @@ public class Player {
 
     /**
      * Setter method: for the player's combo.
+     *
      * @param comboVal integer value to set combo to
      */
     public final void setCombo(final int comboVal) {
@@ -93,6 +99,7 @@ public class Player {
 
     /**
      * Getter method: for Score object.
+     *
      * @return Score object
      */
     public final Score getScore() {
@@ -110,6 +117,7 @@ public class Player {
 
     /**
      * Draws player info.
+     *
      * @param g object
      */
     public final void draw(final Graphics g) {
