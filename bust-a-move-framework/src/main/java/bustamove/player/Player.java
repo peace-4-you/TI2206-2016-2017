@@ -8,6 +8,7 @@
 
 package bustamove.player;
 
+import bust_a_move.log.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -52,7 +53,7 @@ public class Player {
      * @param s player's name
      */
     public Player(final String s) {
-        App.getGame().log.log(this, "Player initialiased");
+        Log.log(this, "Player initialiased");
         this.setName(s);
         this.score = new Score();
         this.combo = 1;
@@ -71,7 +72,7 @@ public class Player {
      * @param s String value to set name to
      */
     public final void setName(final String s) {
-        App.getGame().log.log(this, "Name " + this.name + " changed to " + s);
+        Log.log(this, "Name " + this.name + " changed to " + s);
         this.name = s;
     }
 
@@ -88,7 +89,7 @@ public class Player {
      * @param comboVal integer value to set combo to
      */
     public final void setCombo(final int comboVal) {
-        App.getGame().log.log(this, "Combo set to " + comboVal);
+        Log.log(this, "Combo set to " + comboVal);
         this.combo = comboVal;
     }
 
@@ -104,7 +105,7 @@ public class Player {
      * Sets the player's members to default values.
      */
     public final void reset() {
-        App.getGame().log.log(this, "Player Reset");
+        Log.log(this, "Player Reset");
         this.score.reset();
         this.combo = 1;
     }

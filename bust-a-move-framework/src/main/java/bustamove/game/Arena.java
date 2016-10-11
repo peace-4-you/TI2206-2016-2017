@@ -11,6 +11,7 @@
 
 package bustamove.game;
 
+import bust_a_move.log.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import bustamove.App;
@@ -78,7 +79,7 @@ public class Arena {
 		width = width_t;
 		bubbleStorage = new BubbleStorage(xPos, yPos, this);
 		collide = new Collision(bubbleStorage, this);
-		App.getGame().log.log(this, "Arena initialised");
+		Log.log(this, "Arena initialised");
 	}
 
 	/**
