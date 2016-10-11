@@ -12,8 +12,6 @@ import bust_a_move.log.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import bust_a_move.App;
-
 /**
  * The Player class represents a player entity.
  * @author Calvin Nhieu, Maurice Willemsen

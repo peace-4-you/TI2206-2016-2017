@@ -18,7 +18,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
-import bust_a_move.App;
 import bust_a_move.bubble.powerup.PowerUp;
 import bust_a_move.gamestate.GameConfig;
 

@@ -89,15 +89,14 @@ public final class Collision {
         for (int i = 0; i < bubbleStorage.size(); i++) {
             for (int j = 0; j < bubbleStorage.get(i).length; j++) {
                 Bubble bubble = bubbleStorage.get(i)[j];
-                if (bubble != null && shotBubble != bubble) {
-                    if (bubble.getState() == Bubble.State.LANDED) {
-                        if (shotBubble.getBoundingBox().intersects(bubble.getBoundingBox())) {
-                            Log.log(this, "Fired Bubble collision! " + shotBubble.getColor() + " with " + bubble.getColor());
-                            landBubble(shotBubble);
-                            popBubbles(shotBubble);
-                            break collisionLoop;
-                        }
-                    }
+                if (bubble != null && shotBubble != bubble
+                        && bubble.getState() == Bubble.State.LANDED
+                        && shotBubble.getBoundingBox().intersects(
+                                bubble.getBoundingBox())) {
+                        Log.log(this, "Fired Bubble collision! " + shotBubble.getColor() + " with " + bubble.getColor());
+                        landBubble(shotBubble);
+                        popBubbles(shotBubble);
+                        break collisionLoop;
                 }
             }
         }
@@ -145,11 +144,8 @@ public final class Collision {
         popList = checkBubblesToPop(popBubble, popList);
 
 		/* Check if 3 or more bubbles are connected */
-        if (popList.size() >= 3) {
+        if (popList.size() >= popAmount) {
             while (popList.size() != 0) {
-                int row = 0;
-                int column = 0;
-                boolean empty = true;
                 Bubble bubbleToPop = popList.pop();
 
                 popBubble(bubbleToPop);
@@ -217,11 +213,9 @@ public final class Collision {
         }
 
         for (Bubble b : neighbors) {
-            if (b != null) {
-                if (b.getColor() == lastBubble.getColor()
-                        && !popList.contains(b)) {
+            if (b != null && b.getColor() == lastBubble.getColor()
+                    && !popList.contains(b)) {
                     popList = checkBubblesToPop(b, popList);
-                }
             }
         }
         return popList;

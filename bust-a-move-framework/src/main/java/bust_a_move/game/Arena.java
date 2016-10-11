@@ -14,7 +14,6 @@ package bust_a_move.game;
 import bust_a_move.log.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import bust_a_move.App;
 import bust_a_move.bubble.Bubble;
 import bust_a_move.bubble.BubbleStorage;
 import bust_a_move.bubble.Collision;
@@ -181,8 +180,8 @@ public class Arena {
 		collide.draw(g);
 		g.setColor(Color.white);
 		g.drawRect(xPos, yPos, width, height);
-		float yPosLine = (float) (bubbleStorage.getHeight() * ((DIAMETER * Math
-			.tan(60)) + OFFSET + 2) + yPos + 5);
+		float yPosLine = (float) (bubbleStorage.getHeight() * (DIAMETER * Math
+			.tan(60) + OFFSET + 2) + yPos + 5);
 		g.drawLine(xPos, yPosLine, xPos + width, yPosLine);
 
 	}

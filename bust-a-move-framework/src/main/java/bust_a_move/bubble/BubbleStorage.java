@@ -3,7 +3,6 @@ package bust_a_move.bubble;
 import bust_a_move.log.Log;
 import org.newdawn.slick.Graphics;
 
-import bust_a_move.App;
 import bust_a_move.game.Arena;
 
 import java.util.LinkedList;
@@ -273,36 +272,42 @@ public final class BubbleStorage {
         try {
             neighbors[0] = bubble2DArray.get(row - 1)[column - 1 + offset];
         } catch (Exception e) {
+            System.out.println("Exception: " + e);
         }
 
         // UP-RIGHT neighbour
         try {
             neighbors[1] = bubble2DArray.get(row - 1)[column + offset];
         } catch (Exception e) {
+            System.out.println("Exception: " + e);
         }
 
         // LEFT neighbour
         try {
             neighbors[2] = bubble2DArray.get(row)[column - 1];
         } catch (Exception e) {
+            System.out.println("Exception: " + e);
         }
 
         // RIGHT neighbour
         try {
             neighbors[3] = bubble2DArray.get(row)[column + 1];
         } catch (Exception e) {
+            System.out.println("Exception: " + e);
         }
 
         // BOTTOM-LEFT neighbour
         try {
             neighbors[4] = bubble2DArray.get(row + 1)[column - 1 + offset];
         } catch (Exception e) {
+            System.out.println("Exception: " + e);
         }
 
         // BOTTOM-RIGHT neighbour
         try {
             neighbors[5] = bubble2DArray.get(row + 1)[column + offset];
         } catch (Exception e) {
+            System.out.println("Exception: " + e);
         }
 
         return neighbors;

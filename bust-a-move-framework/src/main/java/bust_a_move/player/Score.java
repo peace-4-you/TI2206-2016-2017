@@ -17,7 +17,6 @@ package bust_a_move.player;
 import java.util.Observable;
 import java.util.Observer;
 
-import bust_a_move.App;
 import bust_a_move.log.Log;
 
 /**
