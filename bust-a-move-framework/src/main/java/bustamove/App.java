@@ -25,12 +25,9 @@ import bustamove.gamestate.VictoryScreen;
 
 public class App extends StateBasedGame {
     /**
-     * Values for the width of the game window.
+     * Dimensions of the game window.
      */
     private static final int GAME_WIDTH = 640;
-    /**
-     * Values for the height of the game window.
-     */
     private static final int GAME_HEIGHT = 580;
     /**
      * Values for fps of the game.
@@ -44,6 +41,7 @@ public class App extends StateBasedGame {
 
     /**
      * Constructor for the launcher of the game.
+     *
      * @param title the name of the game
      */
 
@@ -54,6 +52,7 @@ public class App extends StateBasedGame {
     /**
      * This is the main() of the program. This method is called when the
      * program runs.
+     *
      * @param args argument included at program call
      * @throws SlickException any type of Slick exception
      */
@@ -67,9 +66,10 @@ public class App extends StateBasedGame {
 
     /**
      * Initialize all the game states that are used in the game.
+     *
      * @param container the container holding the game
      * @throws SlickException indicates a failure to initialise the state
-     * based game resources
+     *                        based game resources
      */
     public final void initStatesList(final GameContainer container)
             throws SlickException {
@@ -85,6 +85,7 @@ public class App extends StateBasedGame {
 
     /**
      * Getter function for game object.
+     *
      * @return the game object associated to this class
      */
     public static final Game getGame() {
@@ -93,9 +94,18 @@ public class App extends StateBasedGame {
 
     /**
      * Setter function for game object.
+     *
      * @param g game object
      */
     public final void setGame(final Game g) {
         App.game = g;
+    }
+
+    /**
+     * Return the heights of the game window.
+     * @return game window in int form
+     */
+    public static final int getGameHeight() {
+        return GAME_HEIGHT;
     }
 }
