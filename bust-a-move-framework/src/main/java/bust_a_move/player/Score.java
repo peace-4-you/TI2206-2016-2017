@@ -15,6 +15,7 @@
 package bust_a_move.player;
 
 import bust_a_move.App;
+import bust_a_move.log.Log;
 
 /**
  * The Game class represents a game entity.
@@ -40,8 +41,9 @@ public class Score {
     /**
      * Constructor of the Score class.
      */
+
     public Score(Player owner) {
-        App.getGame().log.log(this, "Score initialised");
+    	Log.log(this, "Score initialised");
         this.score = 0;
         this.owner = owner;
         this.owner.notifyObserver();
@@ -52,7 +54,7 @@ public class Score {
      * @param scoreVal integer value to set score to
      */
     public final void setScore(final int scoreVal) {
-        App.getGame().log.log(this, "Score Set to " + scoreVal);
+        Log.log(this, "Score Set to " + scoreVal);
         this.score = scoreVal;
         this.owner.notifyObserver();
     }
@@ -61,7 +63,7 @@ public class Score {
      * Sets the player's score to default values.
      */
     public final void reset() {
-        App.getGame().log.log(this, "Score Reset");
+        Log.log(this, "Score Reset");
         this.score = 0;
         this.owner.notifyObserver();
     }
@@ -70,7 +72,7 @@ public class Score {
      * @param scoreVal integer value to add to score
      */
     public final void addScore(final int scoreVal) {
-        App.getGame().log.log(this, "Score added with " + scoreVal);
+        Log.log(this, "Score added with " + scoreVal);
         this.score += scoreVal;
         this.owner.notifyObserver();
     }
@@ -82,7 +84,7 @@ public class Score {
     public final void scoreBubblesPopped(final int bubbles) {
         if (bubbles > 0) {
             int scoreVal = DEFAULT_POPPED_POINTS * bubbles;
-            App.getGame().log.log(this, bubbles + " Bubbles Popped.  "
+            Log.log(this, bubbles + " Bubbles Popped.  "
                     + "Score added with " + scoreVal);
             this.score += scoreVal;
             this.owner.notifyObserver();
@@ -97,7 +99,7 @@ public class Score {
         if (bubbles > 0) {
             int scoreVal = (int) (DEFAULT_DROPPED_POINTS
                     * Math.pow(2, bubbles));
-            App.getGame().log.log(this, bubbles + " bBubbles Dropped. "
+            Log.log(this, bubbles + " bBubbles Dropped. "
                     + "Score added with " + scoreVal);
             this.score += scoreVal;
             this.owner.notifyObserver();

@@ -33,10 +33,6 @@ import bust_a_move.log.Log;
 
 public class Game extends BasicGameState {
 	/**
-	 * Log instance for logging the game.
-	 */
-	public Log log;
-	/**
 	 * Button instance for a pause button.
 	 */
 	private StateBasedGame sbg;
@@ -63,8 +59,7 @@ public class Game extends BasicGameState {
 	
 	public Game() {
 		this.gamedata = new ArrayList<GameData>();
-		this.log = new Log();
-		log.log(this, "Game initialised");
+		Log.log(this, "Game initialised");
 	}
 
 	/**
@@ -110,7 +105,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void wonGame() {
-		log.log(this, "Game Won");
+		Log.log(this, "Game Won");
 		sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -119,7 +114,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void failedGame() {
-		log.log(this, "Game Failed");
+		Log.log(this, "Game Failed");
 		sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 
@@ -128,7 +123,7 @@ public class Game extends BasicGameState {
 	 */
 
 	private void pauseGame() {
-		log.log(this, "Game Paused");
+		Log.log(this, "Game Paused");
 		sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(), new FadeInTransition());
 	}
 

@@ -9,10 +9,9 @@
 package bust_a_move.player;
 
 import java.util.Vector;
-
+import bust_a_move.log.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-
 import bust_a_move.App;
 import bust_a_move.game.PlayerObservable;
 import bust_a_move.game.PlayerObserver;
@@ -52,6 +51,7 @@ public class Player implements PlayerObservable {
 	 */
 	private static final float COMBO_YPOS = 100;
 
+
 	private final int offset;
 
 	private final int id;
@@ -65,15 +65,17 @@ public class Player implements PlayerObservable {
 	 *            player's name
 	 */
 	public Player(final String s, int offset, int id) {
-		App.getGame().log.log(this, "Player initialiased");
+		Log.log(this, "Player initialiased");
 		this.observers = new Vector<PlayerObserver>();
 		this.offset = offset;
 		this.id = id;
 		this.setName(s);
 		this.score = new Score(this);
 		this.combo = 1;
-
 	}
+
+ 
+
 
 	/**
 	 * Getter method: returns the name of the player.
@@ -91,16 +93,29 @@ public class Player implements PlayerObservable {
 	 *            String value to set name to
 	 */
 	public final void setName(final String s) {
-		App.getGame().log.log(this, "Name " + this.name + " changed to " + s);
+		Log.log(this, "Name " + this.name + " changed to " + s);
 		this.name = s;
 		this.notifyObserver();
 	}
+	
+
+    /**
+     * Sets the player's members to default values.
+     */
+	
+    public final void reset() {
+        Log.log(this, "Player Reset");
+        this.score.reset();
+        this.combo = 1;
+    }
+    
 
 	/**
 	 * Getter method: for combo value.
 	 * 
 	 * @return int combo
 	 */
+    
 	public final int getCombo() {
 		return this.combo;
 	}
@@ -111,10 +126,11 @@ public class Player implements PlayerObservable {
 	 * @param comboVal
 	 *            integer value to set combo to
 	 */
-	public final void setCombo(final int comboVal) {
-		App.getGame().log.log(this, "Combo set to " + comboVal);
-		this.combo = comboVal;
-	}
+
+    public final void setCombo(final int comboVal) {
+        Log.log(this, "Combo set to " + comboVal);
+        this.combo = comboVal;
+    }
 
 	/**
 	 * Getter method: for Score object.
@@ -125,14 +141,6 @@ public class Player implements PlayerObservable {
 		return score;
 	}
 
-	/**
-	 * Sets the player's members to default values.
-	 */
-	public final void reset() {
-		App.getGame().log.log(this, "Player Reset");
-		this.score.reset();
-		this.combo = 1;
-	}
 
 	/**
 	 * Draws player info.

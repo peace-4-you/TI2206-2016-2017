@@ -50,9 +50,7 @@ public class ShortScope extends PowerUp {
    * Decreases Cannon scope.
    */
   public final void pop() {
-	  System.out.println(this.gamehead);
-    Cannon cannon = this.gamehead.getCannon();
-    
+    Cannon cannon = this.gamehead.getCannon();    
     int length = cannon.getLength();
 
     this.bubble.pop();

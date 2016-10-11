@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import bust_a_move.App;
 import bust_a_move.bubble.Bubble;
 import bust_a_move.gamestate.GameConfig;
+import bust_a_move.log.Log;
 import bust_a_move.player.Player;
 
 public class GameData implements Observer{
@@ -64,7 +65,7 @@ public class GameData implements Observer{
 	public double bubblespeed;
 	
 	public GameData(int offset, int nr) {
-		App.getGame().log.log(this, "GameData initialised");
+		Log.log(this, "GameData initialised");
 		this.offset = offset;
 		this.player_nr = nr;
 		this.state = GameDataState.RUNNING;		

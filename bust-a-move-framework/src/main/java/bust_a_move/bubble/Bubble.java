@@ -12,6 +12,7 @@
 
 package bust_a_move.bubble;
 
+import bust_a_move.log.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
@@ -242,7 +243,7 @@ public class Bubble {
     this.setState(State.LANDED);
     this.setXSpeed(0);
     this.setYSpeed(0);
-    App.getGame().log.log(this, "Adjusting bubble land position to: (" + (int) pos.getX()
+    Log.log(this, "Adjusting bubble land position to: (" + (int) pos.getX()
             + " ; " + (int) pos.getY() + ")");
     this.setX(xPos);
     this.setY(yPos);

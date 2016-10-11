@@ -52,7 +52,7 @@ public class LongScope extends PowerUp {
   public final void pop() {
     Cannon cannon = this.gamehead.getCannon();
     int length = cannon.getLength();
-
+    
     this.bubble.pop();
     if (length < GameConfig.MAX_CANNON_LENGTH) {
       cannon.setLength(length + GameConfig.CANNON_LENGTH_INCREMENT);

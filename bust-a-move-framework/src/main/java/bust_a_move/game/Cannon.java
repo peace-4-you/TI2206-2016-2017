@@ -17,6 +17,7 @@ import bust_a_move.App;
 import bust_a_move.bubble.Bubble;
 import bust_a_move.bubble.powerup.PowerUp;
 import bust_a_move.gamestate.GameConfig;
+import bust_a_move.log.Log;
 
 /**
  * The Cannon class represents a cannon entity.
@@ -134,7 +135,7 @@ public class Cannon {
 	 *            game object for reference
 	 */
 	public Cannon(final GameData g, int offset, int nr) {
-		App.getGame().log.log(this, "Cannon initialised");
+		Log.log(this, "Cannon initialised");
 		this.cannonColour = Color.red;
 		this.game = g;
 		this.offset = offset;
@@ -162,7 +163,7 @@ public class Cannon {
 	 * @return newly created bubble
 	 */
 	private Bubble getNextBubble() {
-		App.getGame().log.log(this, "Next bubble loaded to cannon");
+		Log.log(this, "Next bubble loaded to cannon");
 		Bubble newBubble = Bubble.randomColor((float) Cannon.xLaunch + this.offset, (float) Cannon.yLaunch,
 				game.arena.getBubbleStorage().getColorsOnArena(), true);
 		if (GameConfig.ENABLE_POWERUPS) {
@@ -175,7 +176,7 @@ public class Cannon {
 	 * Fires current bubble and loads next bubble.
 	 */
 	public final void fire() {
-		App.getGame().log.log(this, "Cannon fired a bubble");
+		Log.log(this, "Cannon fired a bubble");
 		this.currBubble.updateGame(game);
 		this.currBubble.fire(this.angle);
 		this.loadNextBubble();
@@ -215,7 +216,7 @@ public class Cannon {
 		if (this.player_nr == 1) {
 			if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
 				if (container.getInput().isKeyPressed(Input.KEY_RIGHT)) {
-					App.getGame().log.log(this, "Cannon moving to the right");
+					Log.log(this, "Cannon moving to the right");
 				}
 				this.timePassedKeyRight += delta;
 				if (this.timePassedKeyRight > inputScanDelay) {
@@ -227,7 +228,7 @@ public class Cannon {
 			}
 			if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
 				if (container.getInput().isKeyPressed(Input.KEY_LEFT)) {
-					App.getGame().log.log(this, "Cannon moving to the left");
+					Log.log(this, "Cannon moving to the left");
 				}
 				this.timePassedKeyLeft += delta;
 				if (this.timePassedKeyLeft > inputScanDelay) {
@@ -244,7 +245,7 @@ public class Cannon {
 		else if (this.player_nr == 2) {
 			if (container.getInput().isKeyDown(Input.KEY_D)) {
 				if (container.getInput().isKeyPressed(Input.KEY_D)) {
-					App.getGame().log.log(this, "Cannon moving to the right");
+					Log.log(this, "Cannon moving to the right");
 				}
 				this.timePassedKeyRight += delta;
 				if (this.timePassedKeyRight > inputScanDelay) {
@@ -256,7 +257,7 @@ public class Cannon {
 			}
 			if (container.getInput().isKeyDown(Input.KEY_A)) {
 				if (container.getInput().isKeyPressed(Input.KEY_A)) {
-					App.getGame().log.log(this, "Cannon moving to the left");
+					Log.log(this, "Cannon moving to the left");
 				}
 				this.timePassedKeyLeft += delta;
 				if (this.timePassedKeyLeft > inputScanDelay) {
@@ -275,7 +276,7 @@ public class Cannon {
 			displayWarning = true;
 		}
 		if (this.timeShotFired > TIME_TO_SHOOT) {
-			App.getGame().log.log(this, "Time elapsed, " + "shooting automatically");
+			Log.log(this, "Time elapsed, " + "shooting automatically");
 			fire();
 			timePassedKeyRight = 0;
 			displayWarning = false;

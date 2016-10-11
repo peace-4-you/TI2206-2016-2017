@@ -1,5 +1,6 @@
 package bust_a_move.bubble;
 
+import bust_a_move.log.Log;
 import org.newdawn.slick.Graphics;
 
 import bust_a_move.App;
@@ -73,7 +74,7 @@ public final class BubbleStorage {
         xBound = x;
         yBound = y;
         arenaCont = arena;
-        App.getGame().log.log(this,"Creating a BubbleStorage.");
+        Log.log(this,"Creating a BubbleStorage.");
         for (int i = 0; i < startRows; i++) {
             addBubbleRow(true);
         }
@@ -95,7 +96,7 @@ public final class BubbleStorage {
      */
     private void addBubbleRow(final boolean useAllColors) {
 
-        App.getGame().log.log(this,"Adding a row of bubbles to the storage.");
+        Log.log(this,"Adding a row of bubbles to the storage.");
 
         Bubble[] bubbleRow = addEmptyBubbleRowAbove();
         double offset = 0;
