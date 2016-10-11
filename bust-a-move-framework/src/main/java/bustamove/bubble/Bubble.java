@@ -148,7 +148,7 @@ public class Bubble {
         }
     }
     
-    public void updateGame(GameData game){
+    public void setGameHead(GameData game){
   	  this.gamehead = game;
     }
 

@@ -63,7 +63,7 @@ public final class Collision {
      * 
      * @param game GameData object to store
      */
-    public void updateGame(GameData game){
+    public void setGameHead(GameData game){
     	this.gamehead = game;
     }
 
@@ -182,7 +182,7 @@ public final class Collision {
      * @param bubble Bubble to pop
      */
     public void popBubble(Bubble bubble) {
-    	bubble.updateGame(this.gamehead);
+    	bubble.setGameHead(this.gamehead);
         this.scorekeeper.scoreBubblesPopped(1);
         bubbleStorage.removeBubble(bubble);
         bubble.pop();

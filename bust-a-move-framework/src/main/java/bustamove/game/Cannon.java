@@ -172,7 +172,7 @@ public class Cannon {
 	 */
 	public final void fire() {
 		Log.log(this, "Cannon fired a bubble");
-		this.currBubble.updateGame(game);
+		this.currBubble.setGameHead(game);
 		this.currBubble.fire(this.angle);
 		this.loadNextBubble();
 		this.TIME_SHOT_FIRED = 0;

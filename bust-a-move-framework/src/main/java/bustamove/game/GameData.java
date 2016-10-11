@@ -99,7 +99,7 @@ public class GameData implements PlayerObserver {
 			final StateBasedGame sbg, final int delta) throws SlickException {
 		if (this.state == GameDataState.RUNNING) {
 			this.cannon.update(container, delta, this);
-			arena.getCollision().updateGame(this);
+			arena.getCollision().setGameHead(this);
 			for (Bubble b1 : bubbleslist) {
 				b1.move();
 				if (b1.getState() == Bubble.State.FIRING) {
