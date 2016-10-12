@@ -28,6 +28,7 @@ import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.GameState;
 import bustamove.system.Log;
 import bustamove.player.Player;
+import bustamove.sound.SoundHandler;
 
 /**
  * The Game class represents a game entity.
@@ -94,6 +95,7 @@ public class Game extends BasicGameState implements Observer {
      * Public constructor.
      */
     public Game() {
+    	SoundHandler.init();
         Log.log(this, "Game initialised");
     }
 

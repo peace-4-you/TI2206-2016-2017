@@ -19,6 +19,7 @@ import org.newdawn.slick.geom.Point;
 
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
+import bustamove.sound.SoundHandler;
 
 import java.util.LinkedList;
 
@@ -226,6 +227,7 @@ public class Bubble {
      * and ySpeed to zero.
      */
     public void pop() {
+    	SoundHandler.playPopSound();
         this.setXSpeed(0);
         this.setYSpeed(0);
     }

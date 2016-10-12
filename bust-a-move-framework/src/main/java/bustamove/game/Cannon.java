@@ -16,6 +16,7 @@ import org.newdawn.slick.Input;
 import bustamove.bubble.Bubble;
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
+import bustamove.sound.SoundHandler;
 
 /**
  * The Cannon class represents a cannon entity.
@@ -161,6 +162,7 @@ public class Cannon {
      */
     public final void fire() {
         game.Log.log(this, "Cannon fired a bubble");
+        SoundHandler.playFireSound();
         this.currBubble.fire(this.angle);
         this.loadNextBubble();
         this.timeShotFired = 0;
