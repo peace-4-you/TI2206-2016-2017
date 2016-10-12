@@ -168,7 +168,7 @@ public final class Collision {
      * @param bubble Bubble to pop
      */
     public void popBubble(final Bubble bubble) {
-        App.getGame().player.getScore().scoreBubblesPopped(1);
+        App.getGame().getPlayer().getScore().scoreBubblesPopped(1);
         bubbleStorage.removeBubble(bubble);
         bubble.pop();
     }
@@ -266,7 +266,7 @@ public final class Collision {
             }
         }
         if (dropCount > 0) {
-            App.getGame().player.getScore().scoreBubblesDropped(dropCount);
+            App.getGame().getPlayer().getScore().scoreBubblesDropped(dropCount);
         }
 
         return visited;

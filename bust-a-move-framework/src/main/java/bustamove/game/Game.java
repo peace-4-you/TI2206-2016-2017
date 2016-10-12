@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import bustamove.App;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -38,57 +39,36 @@ import bustamove.player.Player;
 public class Game extends BasicGameState implements Observer {
 
     /**
-     * Score of the game, updated by observer.
+     * Private variables of the game.
      */
     private int score;
-    /**
-     * Cannon instance for the game.
-     */
-    public Cannon cannon;
-    /**
-     * Arraylist of bubbles.
-     */
-    public ArrayList<Bubble> bubbleslist;
-    /**
-     * Player instance for the game.
-     */
-    public Player player;
-    /**
-     * Log instance for logging the game.
-     */
-    public Log Log;
-    /**
-     * Arena instance for in the game.
-     */
-    public Arena arena;
-    /**
-     * Button instance for a pause button.
-     */
+    private Cannon cannon;
+    private Arena arena;
+    private Player player;
+
+
+    private ArrayList<Bubble> bubbleslist;
     private Button pause;
-    /**
-     * The statebasedgame instance.
-     */
     private StateBasedGame sbg;
     /**
      * X position for the button.
      */
-    private static final int button_X = 503;
+    private static final int BUTTON_X = 503;
     /**
-     * X position for the arena.
+     * X and Y position for the arena.
      */
-    private static final int arena_x = 180;
+    private static final int ARENA_X = 180;
+    private static final int ARENA_Y = 0;
     /**
-     * Y position for the arena.
+     * Dimensions of the arena.
      */
-    private static final int arena_y = 0;
-    /**
-     * width for the arena.
-     */
-    private static final int arena_width = 531;
-    /**
-     * height  for the arena.
-     */
-    private static final int arena_height = 280;
+    private static final int ARENA_WIDTH = 531;
+    private static final int ARENA_HEIGHT = 280;
+
+    private static final int CANNON_BOX_Y = 530;
+    private static final int TEXT_X = 10;
+    private static final int SCORE_Y = 70;
+    private static final int POWER_Y = 130;
 
     /**
      * Public constructor.
@@ -100,7 +80,7 @@ public class Game extends BasicGameState implements Observer {
     /**
      * Start function to initialize the player.
      */
-    public void initialisePlayer() {
+    public final void initialisePlayer() {
         this.player = new Player("Player1");
         this.player.getScore().addAsObserver(this);
     }
@@ -112,7 +92,8 @@ public class Game extends BasicGameState implements Observer {
     private void startGame() {
         Log.log(this, "Game Started");
         this.bubbleslist = new ArrayList<Bubble>();
-        this.arena = new Arena(Game.arena_x, Game.arena_y, Game.arena_width, Game.arena_height);
+        this.arena = new Arena(ARENA_X, ARENA_Y,
+                Game.ARENA_WIDTH, Game.ARENA_HEIGHT);
         this.cannon = new Cannon(this);
     }
 
@@ -154,9 +135,10 @@ public class Game extends BasicGameState implements Observer {
      * @throws SlickException any type of slick exception
      */
     public final void init(final GameContainer game,
-                           final StateBasedGame stateBasedGame) throws SlickException {
+                           final StateBasedGame stateBasedGame)
+            throws SlickException {
         this.sbg = stateBasedGame;
-        this.pause = new Button("Pause", Game.button_X, GameConfig.SECOND_LINE,
+        this.pause = new Button("Pause", Game.BUTTON_X, GameConfig.SECOND_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         this.player.reset();
         Bubble.reset();
@@ -166,16 +148,17 @@ public class Game extends BasicGameState implements Observer {
     /**
      * Renders the BasicGameState.
      *
-     * @param container the game container
-     * @param sbg       the state based game
-     * @param g         Graphics object
+     * @param container      the game container
+     * @param stateBasedGame the state based game
+     * @param delta          time difference between moving
      * @throws SlickException any type of slick exception
      */
 
     public final void update(final GameContainer container,
-                             final StateBasedGame sbg, final int delta)
+                             final StateBasedGame stateBasedGame,
+                             final int delta)
             throws SlickException {
-        this.sbg = sbg;
+        this.sbg = stateBasedGame;
         this.cannon.update(container, delta);
 
         for (Bubble b1 : bubbleslist) {
@@ -192,7 +175,7 @@ public class Game extends BasicGameState implements Observer {
         }
         if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)
                 && pause.isInBounds(container.getInput())) {
-                this.pauseGame();
+            this.pauseGame();
         }
     }
 
@@ -201,19 +184,20 @@ public class Game extends BasicGameState implements Observer {
      *
      * @param game           the game container
      * @param stateBasedGame the state based game
-     * @param i              delta of time exceeded
+     * @param g              canvas to draw on
      * @throws SlickException any type of slick exception
      */
 
     public final void render(final GameContainer game,
-                             final StateBasedGame stateBasedGame, final Graphics g)
+                             final StateBasedGame stateBasedGame,
+                             final Graphics g)
             throws SlickException {
         g.setColor(Color.gray);
-        g.fillRect(0, 530, 640, 580);
+        g.fillRect(0, CANNON_BOX_Y, App.getGameWidth(), App.getGameHeight());
         g.setColor(Color.white);
-        g.drawString("Score:" + this.score, 10, 70);
-        g.drawString("Fire power: x" + (double) Math.round(Bubble.getSpeed() * 10
-                / 3) / 10, 10, 130);
+        g.drawString("Score:" + this.score, TEXT_X, SCORE_Y);
+        g.drawString("Fire power: x" + Math.round(Bubble.getSpeed() / 2),
+                TEXT_X, POWER_Y);
         cannon.draw(g);
         player.draw(g);
         arena.draw(g);
@@ -244,6 +228,33 @@ public class Game extends BasicGameState implements Observer {
 
     public final Arena getArena() {
         return this.arena;
+    }
+
+    /**
+     * Getter method for the Player of the game.
+     *
+     * @return player object
+     */
+    public final Player getPlayer() {
+        return player;
+    }
+
+    /**
+     * Getter method for the cannon of the game.
+     *
+     * @return Cannon object
+     */
+    public final Cannon getCannon() {
+        return cannon;
+    }
+
+    /**
+     * Getter method for the bubbleslist.
+     *
+     * @return ArrayList of Bubble
+     */
+    public final ArrayList<Bubble> getBubbleslist() {
+        return bubbleslist;
     }
 
     /**

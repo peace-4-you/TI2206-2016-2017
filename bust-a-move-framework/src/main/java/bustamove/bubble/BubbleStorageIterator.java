@@ -33,7 +33,7 @@ public class BubbleStorageIterator implements Iterator<Bubble> {
      * Creates BubbleStorageIterator instance.
      * @param list  LinkedList of arrays to iterate over.
      */
-    public BubbleStorageIterator(LinkedList<Bubble[]> list) {
+    public BubbleStorageIterator(final LinkedList<Bubble[]> list) {
         this.bubbles = list;
         listIt = new LinkedListIterator<Bubble[]>(bubbles);
         rowIt = new ArrayIterator<Bubble>(listIt.next());
@@ -42,7 +42,7 @@ public class BubbleStorageIterator implements Iterator<Bubble> {
      * Returns the next Bubble in the iteration.
      * @return Bubble  next Bubble.
      */
-    public Bubble next() {
+    public final Bubble next() {
         Bubble bubble = rowIt.next();
         if (!rowIt.hasNext() && listIt.hasNext()) {
             rowIt = new ArrayIterator<Bubble>(listIt.next());
@@ -53,7 +53,7 @@ public class BubbleStorageIterator implements Iterator<Bubble> {
      * Returns if there is a next Bubble in the iteration.
      * @return boolean  true if there is a next Bubble, false otherwise.
      */
-    public boolean hasNext() {
+    public final boolean hasNext() {
         if (rowIt.hasNext()) {
           return true;
         }

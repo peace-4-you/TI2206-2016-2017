@@ -68,7 +68,7 @@ public class VictoryScreen extends BasicGameState implements Observer, Screen {
             throws SlickException {
         wonText = new Text("You Won", GameConfig.FIRST_LINE);
         wonText.centerText(game);
-        nameText = new Text("Player: " + App.getGame().player.getName(),
+        nameText = new Text("Player: " + App.getGame().getPlayer().getName(),
                 GameConfig.SECOND_LINE);
         nameText.centerText(game);
         scoreText = new Text("Score: " + this.score,
@@ -80,7 +80,7 @@ public class VictoryScreen extends BasicGameState implements Observer, Screen {
         restart = new Button("Restart", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         restart.centerButton(game);
-        App.getGame().player.getScore().addAsObserver(this);
+        App.getGame().getPlayer().getScore().addAsObserver(this);
     }
     /**
      * Renders the BasicGameState.
@@ -110,7 +110,7 @@ public class VictoryScreen extends BasicGameState implements Observer, Screen {
                              final StateBasedGame stateBasedGame,
                              final int i)
             throws SlickException {
-        nameText.setText("Player: " + App.getGame().player.getName());
+        nameText.setText("Player: " + App.getGame().getPlayer().getName());
         nameText.centerText(game);
         scoreText.setText("Score: " + this.score);
         scoreText.centerText(game);
