@@ -26,6 +26,7 @@ import bustamove.player.PlayerObserver;
 
 /**
  * The Game class represents a single game model.
+ *
  * @author Maurice Willemsen
  * @version 11.10.2016
  */
@@ -35,7 +36,7 @@ public class GameData implements PlayerObserver {
      */
     public enum GameDataState {
         RUNNING, WON, LOSE
-    };
+    }
 
     private GameDataState state;
     /**
@@ -69,8 +70,9 @@ public class GameData implements PlayerObserver {
 
     /**
      * Constructor for the GameData.
+     *
      * @param drawingoffset integer of the drawing offset
-     * @param modelnr integer of the GameData model
+     * @param modelnr       integer of the GameData model
      */
     public GameData(final int drawingoffset, final int modelnr) {
         Log.log(this, "GameData initialised");
@@ -91,13 +93,15 @@ public class GameData implements PlayerObserver {
 
     /**
      * Updates the BasicGameState.
+     *
      * @param container the game container
-     * @param sbg the state based game
-     * @param delta delta of time exceeded
+     * @param sbg       the state based game
+     * @param delta     delta of time exceeded
      * @throws SlickException any type of slick exception
      */
     public final void update(final GameContainer container,
-            final StateBasedGame sbg, final int delta) throws SlickException {
+                             final StateBasedGame sbg,
+                             final int delta) throws SlickException {
         if (this.state == GameDataState.RUNNING) {
             this.cannon.update(container, delta, this);
             arena.getCollision().setGameHead(this);
@@ -117,20 +121,23 @@ public class GameData implements PlayerObserver {
 
     /**
      * Renders the BasicGameState.
+     *
      * @param container the game container
-     * @param sbg the state based game
-     * @param g Graphics object
+     * @param sbg       the state based game
+     * @param g         Graphics object
      * @throws SlickException any type of slick exception
      */
     public final void render(final GameContainer container,
-            final StateBasedGame sbg, final Graphics g) throws SlickException {
+                             final StateBasedGame sbg,
+                             final Graphics g) throws SlickException {
         g.setColor(Color.white);
         g.drawString("Score:" + this.scorePlayer,
                 GameConfig.MARGIN_LEFT + this.offset, GameConfig.SECOND_LINE);
         g.drawString("Name:" + this.namePlayer, GameConfig.MARGIN_LEFT
                 + this.offset, GameConfig.FIRST_LINE);
-        g.drawString("Fire speed: x" + (double) Math.round(this.bubblespeed
-                        * 10 / 3) / 10, GameConfig.MARGIN_LEFT + this.offset,
+        g.drawString("Fire speed: x"
+                        + (double) Math.round(this.bubblespeed / 2),
+                GameConfig.MARGIN_LEFT + this.offset,
                 GameConfig.THIRD_LINE);
         cannon.draw(g);
         player.draw(g);
@@ -144,6 +151,7 @@ public class GameData implements PlayerObserver {
 
     /**
      * Method to return the arena object inside gamedata class.
+     *
      * @return Arena object inside gamedata class
      */
     public final Arena getArena() {
@@ -152,6 +160,7 @@ public class GameData implements PlayerObserver {
 
     /**
      * Method to return the player object inside gamedata class.
+     *
      * @return Player object inside gamedata class
      */
     public final Player getPlayer() {
@@ -160,6 +169,7 @@ public class GameData implements PlayerObserver {
 
     /**
      * Method to return the cannon object inside gamedata class.
+     *
      * @return Cannon object inside gamedata class
      */
     public final Cannon getCannon() {
@@ -168,6 +178,7 @@ public class GameData implements PlayerObserver {
 
     /**
      * Method to return the gamedatastate object inside gamedata class.
+     *
      * @return GameDataState object inside gamedata class
      */
     public final GameDataState getState() {
@@ -176,6 +187,7 @@ public class GameData implements PlayerObserver {
 
     /**
      * Method to return the bubblespeed inside gamedata class.
+     *
      * @return Double bubblespeed object inside gamedata class
      */
     public final double getBubbleSpeed() {
@@ -184,6 +196,7 @@ public class GameData implements PlayerObserver {
 
     /**
      * Method to return the bubbleslist inside gamedata class.
+     *
      * @return ArrayList of bubbles inside gamedata class
      */
     public final ArrayList<Bubble> getBubbles() {
@@ -192,6 +205,7 @@ public class GameData implements PlayerObserver {
 
     /**
      * Method to set the BubbleSpeed.
+     *
      * @param speed double to set speed to
      */
     public final void setBubbleSpeed(final double speed) {
@@ -200,6 +214,7 @@ public class GameData implements PlayerObserver {
 
     /**
      * Empty update method from PlayerObserver interface.
+     *
      * @param playerAmount integer about amount of players
      */
     public final void update(final int playerAmount) {
@@ -208,12 +223,13 @@ public class GameData implements PlayerObserver {
 
     /**
      * Updated by Observable. Sets data
+     *
      * @param number integer of player number
-     * @param name String of player name
-     * @param score integer of player score
+     * @param name   String of player name
+     * @param score  integer of player score
      */
     public final void update(final int number, final String name,
-            final int score) {
+                             final int score) {
         if (number == playerNr) {
             this.scorePlayer = score;
             this.namePlayer = name;

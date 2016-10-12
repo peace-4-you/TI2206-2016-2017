@@ -27,10 +27,16 @@ import bustamove.gamestate.VictoryScreen;
 
 public class App extends StateBasedGame {
     /**
-     * Dimensions of the game window.
+     * Width dimension of the single player game window.
      */
     public static final int GAME_WIDTH = 640;
+    /**
+     * Width dimension of the 2 player game window.
+     */
     public static final int GAME_WIDTH_MULTIPLAYER = 1040;
+    /**
+     * Height dimension of the game window.
+     */
     public static final int GAME_HEIGHT = 580;
     /**
      * Values for fps of the game.
@@ -46,6 +52,7 @@ public class App extends StateBasedGame {
 
     /**
      * Constructor for the launcher of the game.
+     *
      * @param title the name of the game
      */
     public App(final String title) {
@@ -55,6 +62,7 @@ public class App extends StateBasedGame {
     /**
      * This is the main() of the program. This method is called when the program
      * runs.
+     *
      * @param args argument included at program call
      * @throws SlickException any type of Slick exception
      */
@@ -68,9 +76,10 @@ public class App extends StateBasedGame {
 
     /**
      * Initialize all the game states that are used in the game.
+     *
      * @param container the container holding the game
      * @throws SlickException indicates a failure to initialise the state based
-     *         game resources
+     *                        game resources
      */
     public final void initStatesList(final GameContainer container)
             throws SlickException {
@@ -90,6 +99,7 @@ public class App extends StateBasedGame {
 
     /**
      * Getter function for game object.
+     *
      * @return the game object associated to this class
      */
     public static final Game getGame() {
@@ -98,6 +108,7 @@ public class App extends StateBasedGame {
 
     /**
      * Getter function for pausedScreen object.
+     *
      * @return the screen associated to this class
      */
     public static final PausedScreen getPauseScreen() {
@@ -106,6 +117,7 @@ public class App extends StateBasedGame {
 
     /**
      * Getter function for defeatScreen object.
+     *
      * @return the screen associated to this class
      */
     public static final DefeatScreen getDefeatScreen() {
@@ -114,6 +126,7 @@ public class App extends StateBasedGame {
 
     /**
      * Getter function for victoryScreen object.
+     *
      * @return the screen associated to this class
      */
     public static final VictoryScreen getVictoryScreen() {
@@ -122,6 +135,7 @@ public class App extends StateBasedGame {
 
     /**
      * Setter function for game object.
+     *
      * @param g game object
      */
     public final void setGame(final Game g) {
