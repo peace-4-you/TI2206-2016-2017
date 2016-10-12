@@ -379,7 +379,7 @@ public class Bubble {
      *
      * @param nextSPEED new speed value
      */
-    //CHECKSTYLE:OM: DesignForExtension
+    //CHECKSTYLE:ON: DesignForExtension
     public final void setSpeed(final double nextSPEED) {
         speed = nextSPEED;
     }

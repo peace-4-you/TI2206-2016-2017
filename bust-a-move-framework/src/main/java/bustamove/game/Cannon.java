@@ -41,17 +41,21 @@ public class Cannon {
     private static final int X_LOAD = (int) (320 - Bubble.DIAMETER / 2);
     private static final int Y_LOAD = (int) (530 - Bubble.DIAMETER / 2);
     /**
-     * The length of the cannon barrel.
+     * Cannon related variables.
      */
     private int length = GameConfig.DEFAULT_CANNON_LENGTH;
-
-    /**
-     * The color of the cannon barrel.
-     */
     private Color cannonColour;
     private int angle = 0;
+
+    /**
+     * Variables for the current and next bubble.
+     */
     private Bubble currBubble;
     private Bubble nextBubble;
+
+    /**
+     * Game to which this cannon is tied to.
+     */
     private Game game;
     /**
      * Time delta for last shot fired and movement left and right.

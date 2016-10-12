@@ -1,3 +1,11 @@
+/*
+ * File: Score.java
+ * Class: Score
+ *
+ * Version: 0.0.1
+ * Date: September 19th, 2016
+ */
+
 /**
  * The Score class represents a score entity
  *
