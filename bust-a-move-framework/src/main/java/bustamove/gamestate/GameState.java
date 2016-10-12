@@ -1,10 +1,13 @@
 /*
  * File: GameState.java
+ *
  * Class: GameState
  *
  * Version: 0.0.1
+ *
  * Date: September 15th, 2016
  */
+
 
 package bustamove.gamestate;
 
@@ -37,4 +40,12 @@ public abstract class GameState {
      * Integer number of DefeatScreen game state.
      */
     public static final int DEFEAT_SCREEN = 6;
+    /**
+     * Integer number of setting name screen.
+     */
+    public static final int NAME_SCREEN = 7;
+    /**
+     * Integer number of setting names screen.
+     */
+    public static final int NAMES_SCREEN = 8;
 }

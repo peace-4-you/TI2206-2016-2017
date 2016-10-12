@@ -1,30 +1,23 @@
 /*
  * File: Score.java
+ *
  * Class: Score
  *
  * Version: 0.0.1
+ *
  * Date: September 19th, 2016
  */
 
-/**
- * The Score class represents a score entity
- *
- * @author Maurice Willemsen
- */
 
 package bustamove.player;
-
-import java.util.Observable;
-import java.util.Observer;
-
 import bustamove.system.Log;
 
 /**
- * The Game class represents a game entity.
+ * The Score class represents a score entity.
  *
  * @author Maurice Willemsen
  */
-public class Score extends Observable {
+public class Score {
     /**
      * Integer variable to store the score value.
      */
@@ -37,25 +30,30 @@ public class Score extends Observable {
      * Default points a dropped bubble is worth.
      */
     private static final int DEFAULT_DROPPED_POINTS = 20;
+    /**
+     * Player owner.
+     */
+    private final Player owner;
 
     /**
      * Constructor of the Score class.
+     * @param player the owner of this score
      */
-    public Score() {
+    public Score(final Player player) {
         Log.log(this, "Score initialised");
         this.score = 0;
-        this.updateObserver();
+        this.owner = player;
+        this.owner.notifyObserver();
     }
 
     /**
      * sets the player's score.
-     *
      * @param scoreVal integer value to set score to
      */
     public final void setScore(final int scoreVal) {
         Log.log(this, "Score Set to " + scoreVal);
         this.score = scoreVal;
-        this.updateObserver();
+        this.owner.notifyObserver();
     }
 
     /**
@@ -64,85 +62,55 @@ public class Score extends Observable {
     public final void reset() {
         Log.log(this, "Score Reset");
         this.score = 0;
-        this.updateObserver();
+        this.owner.notifyObserver();
     }
 
     /**
      * Add to the player's score.
-     *
      * @param scoreVal integer value to add to score
      */
     public final void addScore(final int scoreVal) {
         Log.log(this, "Score added with " + scoreVal);
         this.score += scoreVal;
-        this.updateObserver();
+        this.owner.notifyObserver();
     }
 
     /**
-     * Add popped bubble points to the player's score by algorithm.
-     * Each popped bubble is worth DEFAULT_POINTS points.
-     *
+     * Add popped bubble points to the player's score by algorithm. Each popped
+     * bubble is worth DEFAULT_POINTS points.
      * @param bubbles number of bubbles popped
      */
     public final void scoreBubblesPopped(final int bubbles) {
         if (bubbles > 0) {
             int scoreVal = DEFAULT_POPPED_POINTS * bubbles;
-            Log.log(this, bubbles + " Bubbles Popped.  "
-                    + "Score added with " + scoreVal);
+            Log.log(this, bubbles + " Bubbles Popped.  " + "Score added with "
+                    + scoreVal);
             this.score += scoreVal;
-            this.updateObserver();
+            this.owner.notifyObserver();
         }
     }
 
     /**
-     * Add dropped bubble points to the player's score by algorithm.
-     * Each dropped bubble is worth
-     *
+     * Add dropped bubble points to the player's score by algorithm. Each
+     * dropped bubble is worth
      * @param bubbles number of bubbles popped
      */
     public final void scoreBubblesDropped(final int bubbles) {
         if (bubbles > 0) {
             int scoreVal = (int) (DEFAULT_DROPPED_POINTS
                     * Math.pow(2, bubbles));
-            Log.log(this, bubbles + " bBubbles Dropped. "
-                    + "Score added with " + scoreVal);
+            Log.log(this, bubbles + " bBubbles Dropped. " + "Score added with "
+                    + scoreVal);
             this.score += scoreVal;
-            this.updateObserver();
+            this.owner.notifyObserver();
         }
     }
 
     /**
      * Getter method: returns the score.
-     *
      * @return int score
      */
     public final int getScore() {
         return this.score;
-    }
-
-    /**
-     * Updates connected observers.
-     */
-    private void updateObserver() {
-        this.setChanged();
-        this.notifyObservers(this.score);
-    }
-
-    /**
-     * Adds class object to observer list.
-     *
-     * @param o Class Object
-     */
-    public final void addAsObserver(final Object o) {
-        this.addObserver((Observer) o);
-    }
-
-    /**
-     * Deletes class object from observer list.
-     *
-     * @param o Class Object
-     */
-    public final void deleteAsObser(final Object o) {
-        this.deleteObserver((Observer) o);
     }
 }

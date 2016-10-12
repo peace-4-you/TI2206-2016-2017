@@ -1,11 +1,21 @@
+/*
+ * File: BubbleStorage.java
+ *
+ * Class: BubbleStorage
+ *
+ * Version: 0.0.1
+ *
+ * Date: September 26th, 2016
+ *
+ */
+
+
 package bustamove.bubble;
 
 import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
 import org.newdawn.slick.Graphics;
-
 import bustamove.game.Arena;
-
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -13,7 +23,6 @@ import java.util.Random;
  * Created by Jason Xie on 26/09/2016.
  */
 public final class BubbleStorage {
-
     /**
      * BubbleStorage variables.
      */
@@ -21,18 +30,15 @@ public final class BubbleStorage {
     private static final int HEIGHT_STORAGE = 12;
     private static final int START_ROWS = 5;
     private static final int NEIGHBOURS_AMOUNT = 6;
-
     /**
      * Structure that contains all the rows of bubbles.
      */
     private LinkedList<Bubble[]> bubble2DArray;
-
     /**
      * The x and ycoordinate of the left bound of the arena.
      */
     private int xBound;
     private int yBound;
-
     /**
      * Container of this storage.
      */
@@ -178,7 +184,6 @@ public final class BubbleStorage {
      *
      * @return return boolean indicating whether storage is full or not
      */
-
     public boolean isFull() {
         return bubble2DArray.size() >= HEIGHT_STORAGE;
     }
@@ -239,7 +244,6 @@ public final class BubbleStorage {
         if (height <= row) {
             return neighbors;
         }
-
         Bubble[] currRow = bubble2DArray.get(row);
         int offset = 1;
         if (currRow.length == WIDTH_STORAGE) {
@@ -387,13 +391,5 @@ public final class BubbleStorage {
             }
         }
     }
-
-    /**
-     * creates a new BubbleStorageIterator.
-     *
-     * @return a BubbleStorageIterator
-     */
-    public BubbleStorageIterator iterator() {
-        return new BubbleStorageIterator(bubble2DArray);
-    }
 }
+

@@ -1,14 +1,15 @@
 /*
  * File: cannon.java
+ *
  * Class: Cannon
  *
  * Version: 0.0.3
+ *
  * Date: September 12th, 2016
  */
 
 package bustamove.game;
 
-import bustamove.system.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -17,13 +18,13 @@ import org.newdawn.slick.Input;
 import bustamove.bubble.Bubble;
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
+import bustamove.system.Log;
 
 /**
  * The Cannon class represents a cannon entity.
  *
  * @author Maurice Willemsen
  */
-
 public class Cannon {
     /**
      * X and Y coordinate of the cannon.
@@ -52,11 +53,11 @@ public class Cannon {
      */
     private Bubble currBubble;
     private Bubble nextBubble;
-
     /**
-     * Game to which this cannon is tied to.
+     * GameData reference.
      */
-    private Game game;
+    private GameData game;
+
     /**
      * Time delta for last shot fired and movement left and right.
      */
@@ -96,14 +97,24 @@ public class Cannon {
     private static final int DISPLAY_WARNING_Y = 500;
 
     /**
-     * Creates Cannon instance.
-     *
-     * @param g game object for reference
+     * DataModel drawing offset and player number.
      */
-    public Cannon(final Game g) {
+    private final int offset;
+    private final int playernr;
+
+    /**
+     * Creates Cannon instance.
+     * @param g gamedata object for reference
+     * @param drawingoffset amount of drawing pixels to shift
+     * @param modelnr       amount of players in the game
+     */
+    public Cannon(final GameData g, final int drawingoffset,
+                  final int modelnr) {
         Log.log(this, "Cannon initialised");
         this.cannonColour = Color.red;
         this.game = g;
+        this.offset = drawingoffset;
+        this.playernr = modelnr;
         this.nextBubble = getNextBubble();
         this.loadNextBubble();
         this.loadNextBubble();
@@ -115,20 +126,19 @@ public class Cannon {
     private void loadNextBubble() {
         this.currBubble = this.nextBubble;
         this.nextBubble = this.getNextBubble();
-        this.currBubble.setX(Cannon.X_LOAD);
+        this.currBubble.setX(Cannon.X_LOAD + this.offset);
         this.currBubble.setY(Cannon.Y_LOAD);
-        this.game.getBubbleslist().add(this.nextBubble);
+        this.game.getBubbles().add(this.nextBubble);
     }
 
     /**
      * Determines next bubble.
-     *
      * @return newly created bubble
      */
     private Bubble getNextBubble() {
         Log.log(this, "Next bubble loaded to cannon");
-        Bubble newBubble = Bubble.randomColor((float) Cannon.X_LAUNCH,
-                (float) Cannon.Y_LAUNCH,
+        Bubble newBubble = Bubble.randomColor(
+                (float) Cannon.X_LAUNCH + this.offset, (float) Cannon.Y_LAUNCH,
                 game.getArena().getBubbleStorage().getColorsOnArena(), true);
         if (GameConfig.ENABLE_POWERUPS) {
             newBubble = PowerUp.apply(newBubble);
@@ -141,6 +151,7 @@ public class Cannon {
      */
     public final void fire() {
         Log.log(this, "Cannon fired a bubble");
+        this.currBubble.setGameHead(game);
         this.currBubble.fire(this.angle);
         this.loadNextBubble();
         this.timeShotFired = 0;
@@ -167,71 +178,108 @@ public class Cannon {
 
     /**
      * Update the cannon.
-     *
      * @param container game container
-     * @param delta     time passed
+     * @param delta time passed
+     * @param gamehead the gamedata where its part of
      */
-    public final void update(final GameContainer container, final int delta) {
+    public final void update(final GameContainer container, final int delta,
+            final GameData gamehead) {
         timeShotFired += delta;
-        if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
-            if (container.getInput().isKeyPressed(Input.KEY_RIGHT)) {
-                Log.log(this, "Cannon moving to the right");
-            }
-            this.timePassedKeyRight += delta;
-            if (this.timePassedKeyRight > INPUT_SCAN_DELAY) {
-                stepDown();
+        game = gamehead;
+        if (this.playernr == 1) {
+            if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
+                if (container.getInput().isKeyPressed(Input.KEY_RIGHT)) {
+                    Log.log(this, "Cannon moving to the right");
+                }
+                this.timePassedKeyRight += delta;
+                if (this.timePassedKeyRight > INPUT_SCAN_DELAY) {
+                    stepDown();
+                    this.timePassedKeyRight = 0;
+                }
+            } else {
                 this.timePassedKeyRight = 0;
             }
-        } else {
-            this.timePassedKeyRight = 0;
-        }
-        if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
-            if (container.getInput().isKeyPressed(Input.KEY_LEFT)) {
-                Log.log(this, "Cannon moving to the left");
-            }
-            this.timePassedKeyLeft += delta;
-            if (this.timePassedKeyLeft > INPUT_SCAN_DELAY) {
-                stepUp();
+            if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
+                if (container.getInput().isKeyPressed(Input.KEY_LEFT)) {
+                    Log.log(this, "Cannon moving to the left");
+                }
+                this.timePassedKeyLeft += delta;
+                if (this.timePassedKeyLeft > INPUT_SCAN_DELAY) {
+                    stepUp();
+                    this.timePassedKeyLeft = 0;
+                }
+            } else {
                 this.timePassedKeyLeft = 0;
             }
-        } else {
-            this.timePassedKeyLeft = 0;
+            if (container.getInput().isKeyPressed(Input.KEY_UP)) {
+                fire();
+            }
+        } else if (this.playernr == 2) {
+            if (container.getInput().isKeyDown(Input.KEY_D)) {
+                if (container.getInput().isKeyPressed(Input.KEY_D)) {
+                    Log.log(this, "Cannon moving to the right");
+                }
+                this.timePassedKeyRight += delta;
+                if (this.timePassedKeyRight > INPUT_SCAN_DELAY) {
+                    stepDown();
+                    this.timePassedKeyRight = 0;
+                }
+            } else {
+                this.timePassedKeyRight = 0;
+            }
+            if (container.getInput().isKeyDown(Input.KEY_A)) {
+                if (container.getInput().isKeyPressed(Input.KEY_A)) {
+                    Log.log(this, "Cannon moving to the left");
+                }
+                this.timePassedKeyLeft += delta;
+                if (this.timePassedKeyLeft > INPUT_SCAN_DELAY) {
+                    stepUp();
+                    this.timePassedKeyLeft = 0;
+                }
+            } else {
+                this.timePassedKeyLeft = 0;
+            }
+            if (container.getInput().isKeyPressed(Input.KEY_W)) {
+                fire();
+            }
         }
-        if (container.getInput().isKeyPressed(Input.KEY_UP)) {
-            fire();
-        }
+
         if (this.timeShotFired > TIME_TO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
             displayWarning = true;
         }
+
         if (this.timeShotFired > TIME_TO_SHOOT) {
-            Log.log(this, "Time elapsed, "
-                    + "shooting automatically");
+            Log.log(this, "Time elapsed, " + "shooting automatically");
             fire();
             timePassedKeyRight = 0;
+            timePassedKeyLeft = 0;
+            timeShotFired = 0;
             displayWarning = false;
         }
     }
 
     /**
      * Draws the graphics on the screen.
-     *
      * @param g graphics
      */
     public final void draw(final Graphics g) {
         g.setColor(this.cannonColour);
-        double rad = Math.toRadians(angle + ANGLE_OFFSET);
-        g.drawLine(Cannon.X, Cannon.Y,
-                (int) (X + Math.cos(rad) * length),
-                (int) (Y - Math.sin(rad) * length));
+        g.drawLine(Cannon.X + this.offset, Cannon.Y,
+                (int) (Cannon.X + this.offset
+                        + Math.cos(Math.toRadians(this.angle + ANGLE_OFFSET))
+                                * this.length),
+                (int) (Cannon.Y
+                        - Math.sin(Math.toRadians(this.angle + ANGLE_OFFSET))
+                                * this.length));
         if (displayWarning) {
-            g.drawString("Hurry up!", DISPLAY_WARNING_X, DISPLAY_WARNING_Y);
+            g.drawString("Hurry up!", DISPLAY_WARNING_X + this.offset,
+                    DISPLAY_WARNING_Y);
         }
     }
 
     /**
      * Getter method: length.
-     *
-     * @return int  Cannon length
+     * @return int Cannon length
      */
     public final int getLength() {
         return this.length;
@@ -239,10 +287,10 @@ public class Cannon {
 
     /**
      * Setter method: length.
-     *
      * @param l Cannon length
      */
     public final void setLength(final int l) {
         this.length = l;
     }
 }
+

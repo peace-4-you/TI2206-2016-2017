@@ -12,13 +12,15 @@
 package bustamove.bubble;
 
 import bustamove.system.Log;
+import bustamove.game.GameData;
+import bustamove.bubble.powerup.PowerUp;
+import bustamove.gamestate.GameConfig;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
-import bustamove.bubble.powerup.PowerUp;
-import bustamove.gamestate.GameConfig;
 
 import java.util.LinkedList;
 
@@ -35,7 +37,7 @@ public class Bubble {
     /**
      * Firing speed of a bubble.
      */
-    private static double speed = GameConfig.DEFAULT_BUBBLE_SPEED;
+    private static double dropSpeed = GameConfig.DEFAULT_BUBBLE_SPEED;
     /**
      * Colors of the bubble.
      */
@@ -43,7 +45,6 @@ public class Bubble {
     private static final Color BLUE_COLOR = Color.blue;
     private static final Color YELLOW_COLOR = Color.yellow;
     private static final Color GREEN_COLOR = Color.green;
-
     /**
      * Angle offset constant.
      */
@@ -81,6 +82,12 @@ public class Bubble {
      */
     //CHECKSTYLE:OFF: VisibilityModifier
     protected Bubble bubble;
+    //CHECKSTYLE:ON: VisibilityModifier
+    /**
+     * GameData Object where the bubbles belong to. Needed by powerups
+     */
+    //CHECKSTYLE:OFF: VisibilityModifier
+    protected GameData gamehead;
     //CHECKSTYLE:ON: VisibilityModifier
 
     /**
@@ -144,6 +151,16 @@ public class Bubble {
                 break;
         }
     }
+
+    /**
+     * Sets the gamehead, this is a instance of GameData.
+     * @param game the gamehead to refer to
+     */
+    //CHECKSTYLE:OFF: DesignForExtension
+    public void setGameHead(final GameData game) {
+      this.gamehead = game;
+    }
+    //CHECKSTYLE:ON: DesignForExtension
 
     /**
      * Draws the Bubble.
@@ -217,10 +234,10 @@ public class Bubble {
     public void fire(final int angle) {
         this.setState(State.FIRING);
         this.setXSpeed(Math.cos(Math.toRadians(angle + ANGLE_OFFSET))
-                * speed);
+                * gamehead.getBubbleSpeed());
         this.setYSpeed(-Math.sin(Math.toRadians(angle + ANGLE_OFFSET))
-                * speed);
-    }
+                * gamehead.getBubbleSpeed());
+      }
 
     /**
      * Pops the Bubble by setting state to POPPED and setting xSpeed
@@ -238,7 +255,7 @@ public class Bubble {
     public void drop() {
         this.setState(State.DROPPING);
         this.setXSpeed(0);
-        this.setYSpeed(speed);
+        this.setYSpeed(dropSpeed);
     }
 
     /**
@@ -255,13 +272,6 @@ public class Bubble {
         } else {
             return null;
         }
-    }
-
-    /**
-     * sets class variables to defaults.
-     */
-    public static final void reset() {
-        speed = GameConfig.DEFAULT_BUBBLE_SPEED;
     }
 
     /**
@@ -377,20 +387,38 @@ public class Bubble {
     /**
      * Setter method: for a Bubble's firing speed.
      *
-     * @param nextSPEED new speed value
+     * @param nextSpeed new speed value
      */
     //CHECKSTYLE:ON: DesignForExtension
-    public final void setSpeed(final double nextSPEED) {
-        speed = nextSPEED;
+    public final void setFireSpeed(final double nextSpeed) {
+        gamehead.setBubbleSpeed(nextSpeed);
     }
 
     /**
-     * Getter method for the Speed of the bubble.
+     * Getter method for the Firing Speed of the bubble.
      *
      * @return double speed value
      */
-    public static final double getSpeed() {
-        return speed;
+    public final double getFireSpeed() {
+        return gamehead.getBubbleSpeed();
+    }
+
+    /**
+     * Setter method: for a Bubble's dropping speed.
+     *
+     * @param nextSpeed new speed value
+     */
+    public final void setDropSpeed(final double nextSpeed) {
+        dropSpeed = nextSpeed;
+    }
+
+    /**
+     * Getter method for the Dropping speed of the bubble.
+     *
+     * @return double speed value
+     */
+    public final double getDropSpeed() {
+        return dropSpeed;
     }
 
     /**

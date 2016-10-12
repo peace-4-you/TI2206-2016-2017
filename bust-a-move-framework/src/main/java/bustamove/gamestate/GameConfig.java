@@ -5,6 +5,7 @@
  * Date: September 27th, 2016
  */
 
+
 package bustamove.gamestate;
 
 import bustamove.bubble.Bubble;
@@ -43,6 +44,10 @@ public abstract class GameConfig {
      */
     public static final int SEVENTH_LINE = 280;
     /**
+     * Vertical Position of the eigth line to display on the screen.
+     */
+    public static final int EIGTH_LINE = 320;
+    /**
      * Width of something to display on the screen.
      */
     public static final int WIDTH1 = 100;
@@ -63,6 +68,10 @@ public abstract class GameConfig {
      * the screen.
      */
     public static final int CENTRAL = 220;
+    /**
+     * X position of something with a margin of 10 to the left.
+     */
+    public static final int MARGIN_LEFT = 10;
     /**
      * Text Size.
      */
