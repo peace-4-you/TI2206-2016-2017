@@ -53,9 +53,10 @@ public final class Arena {
      * @param yVal     Y coordinate of the background
      * @param heightBg height of the background
      * @param widthBg  width of the background
+     * @param score    container that holds the score of a GameData object
      */
     public Arena(final int xVal, final int yVal,
-                 final int heightBg, final int widthBg,final Score score) {
+                 final int heightBg, final int widthBg, final Score score) {
         xPos = xVal;
         yPos = yVal;
         height = heightBg;

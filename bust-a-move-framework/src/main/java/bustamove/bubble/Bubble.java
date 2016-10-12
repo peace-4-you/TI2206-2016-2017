@@ -45,7 +45,6 @@ public class Bubble {
     private static final Color BLUE_COLOR = Color.blue;
     private static final Color YELLOW_COLOR = Color.yellow;
     private static final Color GREEN_COLOR = Color.green;
-
     /**
      * Angle offset constant.
      */
@@ -81,12 +80,16 @@ public class Bubble {
     /**
      * Wrapped bubble component.
      */
+    //CHECKSTYLE:OFF: VisibilityModifier
     protected Bubble bubble;
+    //CHECKSTYLE:ON: VisibilityModifier
     /**
      * GameData Object where the bubbles belong to. Needed by powerups
      */
+    //CHECKSTYLE:OFF: VisibilityModifier
     protected GameData gamehead;
-    
+    //CHECKSTYLE:ON: VisibilityModifier
+
     /**
      * Enum of all the values a State variable can take.
      */
@@ -145,25 +148,26 @@ public class Bubble {
                 this.drawColor = Bubble.GREEN_COLOR;
                 break;
             default:
-                //TODO: throw exception?
                 break;
         }
     }
-    
+
     /**
-     * Sets the gamehead, this is a instance of GameData. 
+     * Sets the gamehead, this is a instance of GameData.
      * @param game the gamehead to refer to
      */
-    public void setGameHead(GameData game){
-  	  this.gamehead = game;
+    //CHECKSTYLE:OFF: DesignForExtension
+    public void setGameHead(final GameData game) {
+      this.gamehead = game;
     }
-
+    //CHECKSTYLE:ON: DesignForExtension
 
     /**
      * Draws the Bubble.
      *
      * @param g Java Graphics instance
      */
+    //CHECKSTYLE:OFF: DesignForExtension
     public void draw(final Graphics g) {
         g.setColor(this.drawColor);
         g.fillOval((int) this.pos.getX(), (int) this.pos.getY(),
@@ -193,7 +197,6 @@ public class Bubble {
                 this.setY(nextY);
                 break;
             default:
-                //TODO: throw exception?
                 break;
         }
     }
@@ -386,6 +389,7 @@ public class Bubble {
      *
      * @param nextSpeed new speed value
      */
+    //CHECKSTYLE:ON: DesignForExtension
     public final void setFireSpeed(final double nextSpeed) {
         gamehead.setBubbleSpeed(nextSpeed);
     }
@@ -398,7 +402,7 @@ public class Bubble {
     public final double getFireSpeed() {
         return gamehead.getBubbleSpeed();
     }
-    
+
     /**
      * Setter method: for a Bubble's dropping speed.
      *

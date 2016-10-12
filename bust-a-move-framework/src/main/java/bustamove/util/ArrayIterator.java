@@ -16,8 +16,8 @@ package bustamove.util;
  * ArrayIterator is an Iterator realized for arrays
  * with null element support.
  *
+ * @param <T> Type of object to be iterated over
  * @author Calvin Nhieu
- *
  */
 public class ArrayIterator<T> implements Iterator<T> {
     private T[] items;
@@ -25,13 +25,14 @@ public class ArrayIterator<T> implements Iterator<T> {
 
     /**
      * Creates ArrayIterator instance.
-     * @param array  array to iterate over.
+     *
+     * @param array array to iterate over.
      */
-    public ArrayIterator(T[] array) {
+    public ArrayIterator(final T[] array) {
         this.items = array;
         this.position = 0;
-        advanceToNext();
     }
+
     /**
      * Advances iterator to next non null item.
      */
@@ -47,21 +48,25 @@ public class ArrayIterator<T> implements Iterator<T> {
             position++;
         }
     }
+
     /**
      * Returns the next item in the iteration.
+     *
      * @return T  next item.
      */
-    public T next() {
+    public final T next() {
         T item = items[position];
         position++;
         advanceToNext();
         return item;
     }
+
     /**
      * Returns if there is a next item in the iteration.
+     *
      * @return boolean  true if there is a next item.
      */
-    public boolean hasNext() {
+    public final boolean hasNext() {
         if (position >= items.length) {
             return false;
         }

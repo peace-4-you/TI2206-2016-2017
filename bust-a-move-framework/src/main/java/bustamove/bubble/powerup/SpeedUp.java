@@ -53,7 +53,8 @@ public class SpeedUp extends PowerUp {
     public final void pop() {
         this.bubble.pop();
         if (gamehead.getBubbleSpeed() < GameConfig.MAX_BUBBLE_SPEED) {
-            gamehead.setBubbleSpeed(gamehead.getBubbleSpeed() + GameConfig.BUBBLE_SPEEDUP);
+            gamehead.setBubbleSpeed(gamehead.getBubbleSpeed()
+                    + GameConfig.BUBBLE_SPEEDUP);
         }
     }
 }

@@ -1,3 +1,15 @@
+/*
+ * File: BubbleStorage.java
+ *
+ * Class: BubbleStorage
+ *
+ * Version: 0.0.1
+ *
+ * Date: September 26th, 2016
+ *
+ */
+
+
 package bustamove.bubble;
 
 import bustamove.gamestate.GameConfig;
@@ -11,7 +23,6 @@ import java.util.Random;
  * Created by Jason Xie on 26/09/2016.
  */
 public final class BubbleStorage {
-
     /**
      * BubbleStorage variables.
      */
@@ -19,18 +30,15 @@ public final class BubbleStorage {
     private static final int HEIGHT_STORAGE = 12;
     private static final int START_ROWS = 5;
     private static final int NEIGHBOURS_AMOUNT = 6;
-
     /**
      * Structure that contains all the rows of bubbles.
      */
     private LinkedList<Bubble[]> bubble2DArray;
-
     /**
      * The x and ycoordinate of the left bound of the arena.
      */
     private int xBound;
     private int yBound;
-
     /**
      * Container of this storage.
      */
@@ -53,7 +61,6 @@ public final class BubbleStorage {
             addBubbleRow(true);
         }
     }
-    
 
     /**
      * Adds a new row of bubbles to the arena.
@@ -177,7 +184,6 @@ public final class BubbleStorage {
      *
      * @return return boolean indicating whether storage is full or not
      */
-
     public boolean isFull() {
         return bubble2DArray.size() >= HEIGHT_STORAGE;
     }

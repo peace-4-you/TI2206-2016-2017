@@ -89,7 +89,7 @@ public abstract class PowerUp extends Bubble {
      *
      * @param g Java Graphics instance
      */
-    public abstract void draw(final Graphics g);
+    public abstract void draw(Graphics g);
 
     /**
      * Updates the Bubble's position per game tick.
@@ -262,9 +262,13 @@ public abstract class PowerUp extends Bubble {
     public final int getpowerupOffset() {
         return powerupOffset;
     }
-    
-    public final void setGameHead(GameData game){
-  	  this.gamehead = game;
-  	  this.bubble.setGameHead(game);
+
+    /**
+     * Setter method: sets the gamedata object that corresponds to this PowerUp.
+     * @param game the gamehead to refer to
+     */
+    public final void setGameHead(final GameData game) {
+      this.gamehead = game;
+      this.bubble.setGameHead(game);
     }
 }

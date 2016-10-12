@@ -17,8 +17,8 @@ import java.util.LinkedList;
 /**
  * LinkedListIterator is an Iterator realized for LinkedLists.
  *
+ * @param <T> type of object to be iterated over
  * @author Calvin Nhieu
- *
  */
 public class LinkedListIterator<T> implements Iterator<T> {
     private LinkedList<T> items;
@@ -26,26 +26,31 @@ public class LinkedListIterator<T> implements Iterator<T> {
 
     /**
      * Creates LinkedListIterator instance.
-     * @param LinkedList  linked list to iterate over.
+     *
+     * @param list linked list to iterate over.
      */
-    public LinkedListIterator(LinkedList<T> list) {
+    public LinkedListIterator(final LinkedList<T> list) {
         this.items = list;
         this.position = 0;
     }
+
     /**
      * Returns the next item in the iteration.
+     *
      * @return T  next item.
      */
-    public T next() {
+    public final T next() {
         T item = items.get(position);
         position++;
         return item;
     }
+
     /**
      * Returns if there is a next item in the iteration.
+     *
      * @return boolean  true if there is a next item.
      */
-    public boolean hasNext() {
+    public final boolean hasNext() {
         if (position >= items.size()) {
             return false;
         }
