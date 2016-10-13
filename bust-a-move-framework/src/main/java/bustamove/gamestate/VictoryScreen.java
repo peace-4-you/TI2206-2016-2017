@@ -134,13 +134,13 @@ public class VictoryScreen extends BasicGameState implements PlayerObserver {
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (main.isInBounds(input)) {
-            	SoundHandler.playClickSound();
+                SoundHandler.playClickSound();
                 App.getGame().destroyGame();
                 stateBasedGame.enterState(GameState.MAIN_MENU,
                         new FadeOutTransition(), new FadeInTransition());
             }
             if (restart.isInBounds(input)) {
-            	SoundHandler.playClickSound();
+                SoundHandler.playClickSound();
                 App.getGame().destroyGame();
                 if (players == 2) {
                     App.getGame().start2Player();

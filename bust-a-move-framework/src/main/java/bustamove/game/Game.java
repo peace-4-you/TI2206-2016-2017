@@ -28,7 +28,6 @@ import bustamove.gamestate.Button;
 import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.GameState;
 import bustamove.system.Log;
-import bustamove.player.Player;
 import bustamove.sound.SoundHandler;
 
 /**
@@ -64,7 +63,7 @@ public class Game extends BasicGameState {
      * Public constructor.
      */
     public Game() {
-    	SoundHandler.init();
+        SoundHandler.init();
         this.gamedata = new ArrayList<GameData>();
         Log.log(this, "Game initialised");
     }
