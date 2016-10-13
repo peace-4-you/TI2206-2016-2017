@@ -21,6 +21,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
+import bustamove.sound.SoundHandler;
 
 /**
  * Generates a DefeatScreen as a instance of GameState.
@@ -118,12 +119,14 @@ public class DefeatScreen extends BasicGameState implements Observer, Screen {
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (restart.isInBounds(input)) {
+                SoundHandler.playClickSound();
                 stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
                         stateBasedGame);
                 stateBasedGame.enterState(GameState.GAME_ACTIVE,
                         new FadeOutTransition(), new FadeInTransition());
             }
             if (mainmenu.isInBounds(input)) {
+                SoundHandler.playClickSound();
                 stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
                         stateBasedGame);
                 stateBasedGame.enterState(GameState.MAIN_MENU,

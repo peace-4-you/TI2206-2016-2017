@@ -194,6 +194,7 @@ public class Game extends BasicGameState implements Observer {
         }
         if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)
                 && pause.isInBounds(container.getInput())) {
+            SoundHandler.playClickSound();
                 this.pauseGame();
         }
     }

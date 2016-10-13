@@ -20,6 +20,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
+import bustamove.sound.SoundHandler;
 
 /**
  * Generates a PausedScreen as a instance of GameState.
@@ -115,10 +116,12 @@ public class PausedScreen extends BasicGameState implements Observer,Screen {
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (resume.isInBounds(input)) {
+                SoundHandler.playClickSound();
                 stateBasedGame.enterState(GameState.GAME_ACTIVE,
                         new FadeOutTransition(), new FadeInTransition());
             }
             if (quit.isInBounds(input)) {
+                SoundHandler.playClickSound();
                 stateBasedGame.enterState(GameState.MAIN_MENU,
                         new FadeOutTransition(), new FadeInTransition());
             }

@@ -20,6 +20,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
+import bustamove.sound.SoundHandler;
 
 /**
  * Generates a VictoryScreen as a instance of GameState.
@@ -117,6 +118,7 @@ public class VictoryScreen extends BasicGameState implements Observer, Screen {
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (main.isInBounds(input)) {
+                SoundHandler.playClickSound();
                 stateBasedGame.getState(
                         GameState.GAME_ACTIVE).init(
                                 game,
@@ -126,6 +128,7 @@ public class VictoryScreen extends BasicGameState implements Observer, Screen {
                         new FadeInTransition());
             }
             if (restart.isInBounds(input)) {
+                SoundHandler.playClickSound();
                 stateBasedGame.getState(
                         GameState.GAME_ACTIVE).init(
                                 game,
