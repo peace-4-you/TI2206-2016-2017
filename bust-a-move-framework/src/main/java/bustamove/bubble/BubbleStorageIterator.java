@@ -36,8 +36,9 @@ public class BubbleStorageIterator implements Iterator<Bubble> {
     public BubbleStorageIterator(final LinkedList<Bubble[]> list) {
         this.bubbles = list;
         listIt = new LinkedListIterator<Bubble[]>(bubbles);
-        rowIt = listIt.hasNext() ? new ArrayIterator<Bubble>(listIt.next()) : null;
-        if (rowIt != null) {
+        rowIt = null;
+        if (listIt.hasNext()) {
+            rowIt = new ArrayIterator<Bubble>(listIt.next());
             while (!rowIt.hasNext() && listIt.hasNext()) {
                 rowIt = new ArrayIterator<Bubble>(listIt.next());
             }
