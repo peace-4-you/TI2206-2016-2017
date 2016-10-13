@@ -124,6 +124,7 @@ public class Game extends BasicGameState implements Observer {
 
     private void wonGame() {
         Log.log(this, "Game Won");
+        SoundHandler.playWinSound();
         sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
@@ -134,6 +135,7 @@ public class Game extends BasicGameState implements Observer {
 
     private void failedGame() {
         Log.log(this, "Game Failed");
+        SoundHandler.playLoseSound();
         sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }

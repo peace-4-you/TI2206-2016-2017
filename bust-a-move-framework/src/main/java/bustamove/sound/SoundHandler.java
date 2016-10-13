@@ -33,6 +33,14 @@ public final class SoundHandler {
      * The button clicking sound.
      */
     private static Sound clickSound;
+    /**
+     * The game winning sound.
+     */
+    private static Sound winSound;
+    /**
+     * The game losing sound.
+     */
+    private static Sound loseSound;
 
     /**
      * Initializes the SoundHandler static class.
@@ -45,6 +53,8 @@ public final class SoundHandler {
             fireSound = new Sound("res/fire.ogg");
             popSound = new Sound("res/pop.ogg");
             clickSound = new Sound("res/click.ogg");
+            winSound = new Sound("res/win.ogg");
+            loseSound = new Sound("res/lose.ogg");
         } catch (SlickException e) {
             Log.log("Error loading a sound.");
         }
@@ -79,6 +89,24 @@ public final class SoundHandler {
     public static void playClickSound() {
         if (clickSound != null) {
             clickSound.play(1.0f, volume);
+        }
+    }
+
+    /**
+     * Plays a game winning sound.
+     */
+    public static void playWinSound() {
+        if (winSound != null) {
+            winSound.play(1.0f, volume);
+        }
+    }
+
+    /**
+     * Plays a game losing sound.
+     */
+    public static void playLoseSound() {
+        if (loseSound != null) {
+            loseSound.play(1.0f, volume);
         }
     }
 }
