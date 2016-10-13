@@ -73,4 +73,12 @@ public class ArrayIterator<T> implements Iterator<T> {
         }
         return true;
     }
+    /**
+     * Returns the index of the next element.
+     *
+     * @return int  index of the next element.
+     */
+    public final int getPosition() {
+        return position;
+    }
 }
