@@ -1,13 +1,19 @@
 /*
  * File: Player.java
+ *
  * Class: Player
  *
  * Version: 0.0.1
+ *
  * Date: September 8th, 2016
  */
 
+
 package bustamove.player;
 
+import java.util.Vector;
+
+import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -16,7 +22,7 @@ import org.newdawn.slick.Graphics;
  * The Player class represents a player entity.
  * @author Calvin Nhieu, Maurice Willemsen
  */
-public class Player {
+public class Player implements PlayerObservable {
     /**
      * Contains the name of the player.
      */
@@ -30,30 +36,28 @@ public class Player {
      */
     private Score score;
     /**
-     * X coordinate where the name will be printed.
+     * Drawing offset and id number of the GameModel the cannon belongs to.
      */
-    private static final float NAME_XPOS = 10;
+    private final int offset;
+    private final int id;
     /**
-     * Y coordinate where the name will be printed.
+     * Vector of all Observer that are subscribed.
      */
-    private static final float NAME_YPOS = 40;
-    /**
-     * X coordinate where the combo value will be printed.
-     */
-    private static final float COMBO_XPOS = 10;
-    /**
-     * Y coordinate where the combo value will be printed.
-     */
-    private static final float COMBO_YPOS = 100;
+    private Vector<PlayerObserver> observers;
 
     /**
      * Constructor of Player class.
      * @param s player's name
+     * @param drawingoffset the x offset that drawings get
+     * @param playerid the id of the player in the game
      */
-    public Player(final String s) {
+    public Player(final String s, final int drawingoffset, final int playerid) {
         Log.log(this, "Player initialiased");
+        this.observers = new Vector<PlayerObserver>();
+        this.offset = drawingoffset;
+        this.id = playerid;
         this.setName(s);
-        this.score = new Score();
+        this.score = new Score(this);
         this.combo = 1;
     }
 
@@ -72,6 +76,16 @@ public class Player {
     public final void setName(final String s) {
         Log.log(this, "Name " + this.name + " changed to " + s);
         this.name = s;
+        this.notifyObserver();
+    }
+
+    /**
+     * Sets the player's members to default values.
+     */
+    public final void reset() {
+        Log.log(this, "Player Reset");
+        this.score.reset();
+        this.combo = 1;
     }
 
     /**
@@ -100,21 +114,49 @@ public class Player {
     }
 
     /**
-     * Sets the player's members to default values.
-     */
-    public final void reset() {
-        Log.log(this, "Player Reset");
-        this.score.reset();
-        this.combo = 1;
-    }
-
-    /**
      * Draws player info.
      * @param g object
      */
     public final void draw(final Graphics g) {
         g.setColor(Color.white);
-        g.drawString("Name:" + this.name, NAME_XPOS, NAME_YPOS);
-        g.drawString("Combo:" + this.combo, COMBO_XPOS, COMBO_YPOS);
+
+        g.drawString("Combo:" + this.combo, GameConfig.MARGIN_LEFT
+                + this.offset, GameConfig.FOURTH_LINE);
+    }
+
+    /**
+     * Notify's all observers.
+     */
+    public final void notifyObserver() {
+        for (PlayerObserver o : observers) {
+            o.update(this.id, this.name, this.score.getScore());
+        }
+    }
+
+    /**
+     * Notify's about the amount of observables.
+     * @param amount integer of the amount of observables.
+     */
+    public final void notifyAmountObserver(final int amount) {
+        for (PlayerObserver o : observers) {
+            o.update(amount);
+        }
+    }
+
+    /**
+     * Register a observer to the observable.
+     * @param o A playerObserver object.
+     */
+    public final void registerObserver(final PlayerObserver o) {
+        this.observers.addElement(o);
+    }
+
+    /**
+     * Remove a observer from the observable.
+     * @param o A playerObserver object.
+     */
+    public final void removeObserver(final PlayerObserver o) {
+        this.observers.remove(o);
     }
 }
+

@@ -12,6 +12,7 @@
 package bustamove.game;
 
 import bustamove.gamestate.GameConfig;
+import bustamove.player.Score;
 import bustamove.system.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -52,15 +53,16 @@ public final class Arena {
      * @param yVal     Y coordinate of the background
      * @param heightBg height of the background
      * @param widthBg  width of the background
+     * @param score    container that holds the score of a GameData object
      */
     public Arena(final int xVal, final int yVal,
-                 final int heightBg, final int widthBg) {
+                 final int heightBg, final int widthBg, final Score score) {
         xPos = xVal;
         yPos = yVal;
         height = heightBg;
         width = widthBg;
         bubbleStorage = new BubbleStorage(xPos, yPos, this);
-        collide = new Collision(bubbleStorage, this);
+        collide = new Collision(bubbleStorage, this, score);
         Log.log(this, "Arena initialised");
     }
 

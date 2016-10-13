@@ -16,7 +16,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import bustamove.bubble.Bubble;
 
-
 /**
  * OBomb is a PowerUp that pops its neighbors in an 'O' shape on pop.
  *

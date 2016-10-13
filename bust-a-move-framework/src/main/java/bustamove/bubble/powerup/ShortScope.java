@@ -15,7 +15,6 @@ package bustamove.bubble.powerup;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import bustamove.App;
 import bustamove.bubble.Bubble;
 import bustamove.game.Cannon;
 import bustamove.gamestate.GameConfig;
@@ -52,7 +51,7 @@ public class ShortScope extends PowerUp {
      * Decreases Cannon scope.
      */
     public final void pop() {
-        Cannon cannon = App.getGame().cannon;
+        Cannon cannon = this.gamehead.getCannon();
         int length = cannon.getLength();
 
         this.bubble.pop();

@@ -15,18 +15,21 @@ package bustamove.util;
 /**
  * Iterator interface makes an object iterable.
  *
+ * @param <T> type of object to iterator over.
  * @author Calvin Nhieu
- *
  */
 public interface Iterator<T> {
     /**
      * Returns next element in iteration.
-     * @return  next Object.
+     *
+     * @return next Object.
      */
     T next();
+
     /**
      * Returns if there is a next element.
-     * @return  true if there is a next element, false otherwise.
+     *
+     * @return true if there is a next element, false otherwise.
      */
     boolean hasNext();
 }

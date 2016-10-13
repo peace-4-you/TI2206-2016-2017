@@ -1,26 +1,40 @@
+/*
+ * File: Collision.java
+ *
+ * Class: Collision
+ *
+ * Version: 0.0.1
+ *
+ * Date: September 29th, 2016
+ *
+ */
+
+
 package bustamove.bubble;
 
 import bustamove.gamestate.GameConfig;
+import bustamove.player.Score;
 import bustamove.system.Log;
 import org.newdawn.slick.Graphics;
 
 import bustamove.App;
 import bustamove.game.Arena;
+import bustamove.game.GameData;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
+ * This class contains the bubble collision detection algorithm.
+ *
  * Created by Jason Xie on 29/09/2016.
  */
 public final class Collision {
-
     /**
      * Minimum amount of bubbles that need to be connected before pop.
      */
     private static final int POP_AMOUNT = 3;
     private static final int ADD_ROW_COUNT = 10;
-
     /**
      * LinkedList for temporarily storing dropping bubbles.
      */
@@ -29,28 +43,40 @@ public final class Collision {
      * Shot bubbles counter for adding a new row on top.
      */
     private int bubbleCount;
-
     /**
      * The object to check collisions on.
      */
     private BubbleStorage bubbleStorage;
     /**
-     * The container of this ojbect.
+     * The container of this object.
      */
     private Arena arenaCont;
-
+    private GameData gamehead;
+    private Score scorekeeper;
 
     /**
      * Constructor for creating an object just for checking collisions.
      *
      * @param bubbles container to check collisions on
-     * @param arena   container thtat contains this object
+     * @param arena   container that contains this object
+     * @param score   container that keeps the score of a GameData object
      */
-    public Collision(final BubbleStorage bubbles, final Arena arena) {
+    public Collision(final BubbleStorage bubbles, final Arena arena,
+                     final Score score) {
         this.bubbleStorage = bubbles;
         this.arenaCont = arena;
+        this.scorekeeper = score;
         droppingBubbles = new LinkedList<Bubble>();
         bubbleCount = 0;
+    }
+
+    /**
+     * Update GameData object.
+     *
+     * @param game GameData object to store
+     */
+    public void setGameHead(final GameData game) {
+        this.gamehead = game;
     }
 
     /**
@@ -131,7 +157,6 @@ public final class Collision {
         float yPos = (float) (row * GameConfig.ROW_OFFSET);
         shotBubble.land(xPos + arenaCont.getxPos(), yPos + arenaCont.getyPos());
 
-        //Should be removed but w/e.
         bubbleCount++;
         if (bubbleCount > ADD_ROW_COUNT) {
             bubbleCount = 0;
@@ -168,7 +193,8 @@ public final class Collision {
      * @param bubble Bubble to pop
      */
     public void popBubble(final Bubble bubble) {
-        App.getGame().player.getScore().scoreBubblesPopped(1);
+        bubble.setGameHead(this.gamehead);
+        this.scorekeeper.scoreBubblesPopped(1);
         bubbleStorage.removeBubble(bubble);
         bubble.pop();
     }
@@ -266,7 +292,7 @@ public final class Collision {
             }
         }
         if (dropCount > 0) {
-            App.getGame().player.getScore().scoreBubblesDropped(dropCount);
+            scorekeeper.scoreBubblesDropped(dropCount);
         }
 
         return visited;
@@ -300,13 +326,10 @@ public final class Collision {
 
         if (!addedSomething) {
             return visited;
+        } else {
+            visited = checkBubblesToDrop(visited);
+            return visited;
         }
-
-        // else do a recursive call with the new list
-        visited =
-
-                checkBubblesToDrop(visited);
-        return visited;
     }
     //CHECKSTYLE:ON: FinalParameters
 
@@ -335,7 +358,7 @@ public final class Collision {
                 ite.remove();
                 continue;
             }
-            bubble.setY(bubble.getY() + (float) Bubble.getSpeed());
+            bubble.setY(bubble.getY() + (float) bubble.getDropSpeed());
             bubble.draw(g);
         }
     }

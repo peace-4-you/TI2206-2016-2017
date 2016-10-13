@@ -2,15 +2,15 @@
  * File: game.java
  * Class: Game
  *
- * Version: 0.0.3
- * Date: September 12th, 2016
+ * Version: 2.0
+ * Date: October 11, 2016
  */
+
 
 package bustamove.game;
 
+import org.newdawn.slick.AppGameContainer;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -22,7 +22,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import bustamove.bubble.Bubble;
+import bustamove.App;
+import bustamove.game.GameData.GameDataState;
 import bustamove.gamestate.Button;
 import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.GameState;
@@ -31,97 +32,79 @@ import bustamove.player.Player;
 import bustamove.sound.SoundHandler;
 
 /**
- * The Game class represents a game entity.
- *
+ * The Game class represents a game entity. Contains all GameModels.
  * @author Maurice Willemsen
+ * @version 11.10.2016
  */
-
-public class Game extends BasicGameState implements Observer {
-
+public class Game extends BasicGameState {
     /**
-     * Score of the game, updated by observer.
-     */
-    private int score;
-    /**
-     * Cannon instance for the game.
-     */
-    public Cannon cannon;
-    /**
-     * Arraylist of bubbles.
-     */
-    public ArrayList<Bubble> bubbleslist;
-    /**
-     * Player instance for the game.
-     */
-    public Player player;
-    /**
-     * Log instance for logging the game.
-     */
-    public Log Log;
-    /**
-     * Arena instance for in the game.
-     */
-    public Arena arena;
-    /**
-     * Button instance for a pause button.
-     */
-    private Button pause;
-    /**
-     * The statebasedgame instance.
+     * The statebasedgame and container for runing BasicGameState instance.
      */
     private StateBasedGame sbg;
+    private GameContainer container;
     /**
-     * X position for the button.
+     * lists of all Game Data objects.
      */
-    private static final int button_X = 503;
+    private ArrayList<GameData> gamedata;
     /**
-     * X position for the arena.
+     * Button instance and x coordinate for a pause button.
      */
-    private static final int arena_x = 180;
+    private Button pause;
+    private static final int BUTTON_X = 503;
+    private static final int DRAWING_OFFSET = 500;
     /**
-     * Y position for the arena.
+     * Dimensions of the gray rectangle at the bottom of the game.
      */
-    private static final int arena_y = 0;
-    /**
-     * width for the arena.
-     */
-    private static final int arena_width = 531;
-    /**
-     * height  for the arena.
-     */
-    private static final int arena_height = 280;
+    private static final int GRAYRECT_X = 0;
+    private static final int GRAYRECT_Y = 530;
+    private static final int GRAYRECT_WIDTH = 1040;
+    private static final int GRAYRECT_HEIGHT = 580;
 
     /**
      * Public constructor.
      */
     public Game() {
     	SoundHandler.init();
+        this.gamedata = new ArrayList<GameData>();
         Log.log(this, "Game initialised");
     }
 
     /**
-     * Start function to initialize the player.
+     * Starts a 2 player mode.
+     * @throws SlickException all kind of SlickException
      */
-    public void initialisePlayer() {
-        this.player = new Player("Player1");
-        this.player.getScore().addAsObserver(this);
+    public final void start2Player() throws SlickException {
+        AppGameContainer gc = (AppGameContainer) this.container;
+        gc.setDisplayMode(App.GAME_WIDTH_MULTIPLAYER, App.GAME_HEIGHT, false);
+        GameData firstplayer = new GameData(0, 2);
+        GameData secondplayer = new GameData(DRAWING_OFFSET, 1);
+        this.gamedata.add(firstplayer);
+        this.gamedata.add(secondplayer);
+        firstplayer.getPlayer().notifyAmountObserver(2);
     }
 
     /**
-     * Starts game, creates new arena, cannon, BubbleFactory instance, and a
-     * bubblelist array.
+     * Starts a 1 player mode.
      */
-    private void startGame() {
-        Log.log(this, "Game Started");
-        this.bubbleslist = new ArrayList<Bubble>();
-        this.arena = new Arena(Game.arena_x, Game.arena_y, Game.arena_width, Game.arena_height);
-        this.cannon = new Cannon(this);
+    public final void start1Player() {
+        GameData firstplayer = new GameData(0, 1);
+        this.gamedata.add(firstplayer);
+        firstplayer.getPlayer().notifyAmountObserver(1);
+    }
+
+    /**
+     * Clears the game, Emptys the list of GameDatas.
+     * @throws SlickException All Kind of SlickException
+     */
+    public final void destroyGame() throws SlickException {
+        this.gamedata.clear();
+        AppGameContainer gc = (AppGameContainer) this.container;
+        gc.setDisplayMode(App.GAME_WIDTH, App.GAME_HEIGHT, false);
     }
 
     /**
      * Ends game, changes state to WON.
      */
-
     private void wonGame() {
         Log.log(this, "Game Won");
         SoundHandler.playWinSound();
@@ -132,7 +115,6 @@ public class Game extends BasicGameState implements Observer {
     /**
      * Ends game, changes state to FAILED.
      */
-
     private void failedGame() {
         Log.log(this, "Game Failed");
         SoundHandler.playLoseSound();
@@ -143,7 +125,6 @@ public class Game extends BasicGameState implements Observer {
     /**
      * Pauses game, changes state to PAUSE.
      */
-
     private void pauseGame() {
         Log.log(this, "Game Paused");
         sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(),
@@ -152,113 +133,83 @@ public class Game extends BasicGameState implements Observer {
 
     /**
      * Called when BasicGameState initializes.
-     *
-     * @param game           the game container
+     * @param game the game container
      * @param stateBasedGame the state based game
      * @throws SlickException any type of slick exception
      */
     public final void init(final GameContainer game,
-                           final StateBasedGame stateBasedGame) throws SlickException {
+            final StateBasedGame stateBasedGame) throws SlickException {
         this.sbg = stateBasedGame;
-        this.pause = new Button("Pause", Game.button_X, GameConfig.SECOND_LINE,
+        this.container = game;
+        this.pause = new Button("Pause", Game.BUTTON_X, GameConfig.SEVENTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
-        this.player.reset();
-        Bubble.reset();
-        this.startGame();
-    }
-
-    /**
-     * Renders the BasicGameState.
-     *
-     * @param container the game container
-     * @param sbg       the state based game
-     * @param g         Graphics object
-     * @throws SlickException any type of slick exception
-     */
-
-    public final void update(final GameContainer container,
-                             final StateBasedGame sbg, final int delta)
-            throws SlickException {
-        this.sbg = sbg;
-        this.cannon.update(container, delta);
-
-        for (Bubble b1 : bubbleslist) {
-            b1.move();
-            if (b1.getState() == Bubble.State.FIRING) {
-                arena.checkCollision(b1);
-            }
-        }
-        if (arena.getBubbleStorage().isFull()) {
-            this.failedGame();
-        }
-        if (arena.getBubbleStorage().isEmpty()) {
-            this.wonGame();
-        }
-        if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)
-                && pause.isInBounds(container.getInput())) {
-            SoundHandler.playClickSound();
-                this.pauseGame();
-        }
     }
 
     /**
      * Updates the BasicGameState.
-     *
-     * @param game           the game container
+     * @param game the game container
      * @param stateBasedGame the state based game
-     * @param i              delta of time exceeded
+     * @param delta delta of time exceeded
      * @throws SlickException any type of slick exception
      */
-
-    public final void render(final GameContainer game,
-                             final StateBasedGame stateBasedGame, final Graphics g)
-            throws SlickException {
-        g.setColor(Color.gray);
-        g.fillRect(0, 530, 640, 580);
-        g.setColor(Color.white);
-        g.drawString("Score:" + this.score, 10, 70);
-        g.drawString("Fire power: x" + (double) Math.round(Bubble.getSpeed() * 10
-                / 3) / 10, 10, 130);
-        cannon.draw(g);
-        player.draw(g);
-        arena.draw(g);
-        pause.draw(g);
-        for (Bubble bubble : this.bubbleslist) {
-            if (bubble.getState() != Bubble.State.LANDED) {
-                bubble.draw(g);
+    public final void update(final GameContainer game,
+                             final StateBasedGame stateBasedGame,
+                             final int delta) throws SlickException {
+        this.sbg = stateBasedGame;
+        this.container = game;
+        boolean loosing = true;
+        for (GameData gd : this.gamedata) {
+            gd.update(container, sbg, delta);
+            GameDataState state = gd.getState();
+            if (state == GameDataState.RUNNING) {
+                loosing = false;
+            } else if (state == GameDataState.WON) {
+                this.wonGame();
             }
         }
+        if (loosing) {
+            this.failedGame();
+        }
+        if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)
+                && pause.isInBounds(container.getInput())) {
 
+            SoundHandler.playClickSound();
+            this.pauseGame();
+        }
+    }
+
+    /**
+     * Renders the BasicGameState.
+     * @param game the game container
+     * @param stateBasedGame the state based game
+     * @param g Graphics object
+     * @throws SlickException any type of slick exception
+     */
+    public final void render(final GameContainer game,
+                             final StateBasedGame stateBasedGame,
+                             final Graphics g) throws SlickException {
+        g.setColor(Color.gray);
+        g.fillRect(GRAYRECT_X, GRAYRECT_Y, GRAYRECT_WIDTH, GRAYRECT_HEIGHT);
+        pause.draw(g);
+        for (GameData gd : this.gamedata) {
+            gd.render(game, stateBasedGame, g);
+        }
     }
 
     /**
      * Getter method: for the GameState ID.
-     *
      * @return integer of BasicGameState number.
      */
-
     public final int getID() {
         return GameState.GAME_ACTIVE;
     }
 
     /**
-     * Method to return the arena object inside game class.
-     *
-     * @return Arena object inside game class
+     * Getter method: for the GameData list.
+     * @return List of GameData objects
      */
-
-    public final Arena getArena() {
-        return this.arena;
-    }
-
-    /**
-     * Updates the Observer.
-     *
-     * @param o   the observable item
-     * @param arg the observable argument
-     */
-
-    public final void update(final Observable o, final Object arg) {
-        this.score = (Integer) arg;
+    public final ArrayList<GameData> getGameData() {
+        return this.gamedata;
     }
 }
+
