@@ -31,6 +31,7 @@ public class ArrayIterator<T> implements Iterator<T> {
     public ArrayIterator(final T[] array) {
         this.items = array;
         this.position = 0;
+        advanceToNext();
     }
 
     /**
@@ -42,10 +43,10 @@ public class ArrayIterator<T> implements Iterator<T> {
         }
 
         while (items[position] == null) {
+            position++;
             if (position >= items.length) {
                 return;
             }
-            position++;
         }
     }
 
