@@ -76,7 +76,6 @@ public final class Game extends BasicGameState {
      * Private constructor.
      */
     private Game() {
-    	SoundHandler.init();
         this.gamedata = new ArrayList<GameData>();
         Log.log(this, "Game initialised");
     }
