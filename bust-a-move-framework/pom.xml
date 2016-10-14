@@ -57,13 +57,19 @@
         <version>5.0</version>
     </dependency>
 
-
     <!-- https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305 -->
     <dependency>
         <groupId>com.google.code.findbugs</groupId>
         <artifactId>jsr305</artifactId>
         <version>3.0.1</version>
     </dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+	<dependency>
+		<groupId>org.mockito</groupId>
+		<artifactId>mockito-core</artifactId>
+		<version>1.10.19</version>
+	</dependency>
   </dependencies>
 
   <reporting>
@@ -96,9 +102,9 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>2.17</version>
 
-          <!-- <configuration>
+          <configuration>
             <configLocation>/checkstyle.xml</configLocation>
-          </configuration> -->
+          </configuration>
           <reportSets>
             <reportSet>
               <reports>
@@ -135,10 +141,28 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>nl.tudelft.bust_a_move20162017.bust_a_move_framework.App</mainClass>
+              <mainClass>nl.tudelft.bustamove.App</mainClass>
             </manifest>
           </archive>
         </configuration>
+      </plugin>
+
+     <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.17</version>
+          <configuration>
+              <configLocation>/checkstyle.xml</configLocation>
+              <failOnViolation>true</failOnViolation>
+          </configuration>
+          <executions>
+              <execution>
+                  <id>analyze-verify-checkstyle</id>
+                  <goals>
+                      <goal>check</goal>
+                  </goals>
+              </execution>
+          </executions>
       </plugin>
     </plugins>
   </build>
