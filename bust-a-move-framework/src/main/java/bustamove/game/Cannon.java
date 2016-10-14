@@ -18,6 +18,7 @@ import org.newdawn.slick.Input;
 import bustamove.bubble.Bubble;
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
+import bustamove.sound.SoundHandler;
 import bustamove.system.Log;
 
 /**
@@ -151,6 +152,7 @@ public class Cannon {
      */
     public final void fire() {
         Log.log(this, "Cannon fired a bubble");
+        SoundHandler.playFireSound();
         this.currBubble.setGameHead(game);
         this.currBubble.fire(this.angle);
         this.loadNextBubble();
@@ -163,6 +165,7 @@ public class Cannon {
      */
     public final void stepUp() {
         if (this.angle <= RIGHT_ANGLE_LIMIT) {
+            SoundHandler.playClickSound();
             this.angle += 1;
         }
     }
@@ -172,6 +175,7 @@ public class Cannon {
      */
     public final void stepDown() {
         if (this.angle >= LEFT_ANGLE_LIMIT) {
+            SoundHandler.playClickSound();
             this.angle -= 1;
         }
     }
@@ -293,4 +297,3 @@ public class Cannon {
         this.length = l;
     }
 }
-

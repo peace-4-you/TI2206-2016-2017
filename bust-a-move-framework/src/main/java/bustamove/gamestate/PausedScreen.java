@@ -168,4 +168,3 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
         this.players = playeramount;
     }
 }
-

@@ -20,6 +20,7 @@ import bustamove.gamestate.NamesScreen;
 import bustamove.gamestate.PausedScreen;
 import bustamove.gamestate.StartScreen;
 import bustamove.gamestate.VictoryScreen;
+import bustamove.sound.SoundHandler;
 
 /**
  * The App class contains the launcher of the program.
@@ -71,6 +72,7 @@ public class App extends StateBasedGame {
         app.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
         app.setAlwaysRender(true);
         app.setTargetFrameRate(MAX_FPS);
+        SoundHandler.init();
         app.start();
     }
 

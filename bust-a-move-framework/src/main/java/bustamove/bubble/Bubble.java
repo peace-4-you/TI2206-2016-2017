@@ -15,6 +15,7 @@ import bustamove.system.Log;
 import bustamove.game.GameData;
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
+import bustamove.sound.SoundHandler;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -254,6 +255,7 @@ public class Bubble {
      * and ySpeed to zero.
      */
     public void pop() {
+    	SoundHandler.playPopSound();
         this.setXSpeed(0);
         this.setYSpeed(0);
     }

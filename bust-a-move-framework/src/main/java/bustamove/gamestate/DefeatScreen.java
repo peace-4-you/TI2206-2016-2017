@@ -176,4 +176,3 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
         this.players = playeramount;
     }
 }
-

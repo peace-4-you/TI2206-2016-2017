@@ -28,6 +28,7 @@ import bustamove.gamestate.Button;
 import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.GameState;
 import bustamove.system.Log;
+import bustamove.sound.SoundHandler;
 
 /**
  * The Game class represents a game entity. Contains all GameModels.
@@ -117,6 +118,7 @@ public final class Game extends BasicGameState {
      */
     private void wonGame() {
         Log.log(this, "Game Won");
+        SoundHandler.playWinSound();
         sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
@@ -126,6 +128,7 @@ public final class Game extends BasicGameState {
      */
     private void failedGame() {
         Log.log(this, "Game Failed");
+        SoundHandler.playLoseSound();
         sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
