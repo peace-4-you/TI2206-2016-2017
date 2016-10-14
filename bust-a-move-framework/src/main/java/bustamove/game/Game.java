@@ -35,7 +35,12 @@ import bustamove.sound.SoundHandler;
  * @author Maurice Willemsen
  * @version 11.10.2016
  */
-public class Game extends BasicGameState {
+public final class Game extends BasicGameState {
+    /**
+     * private game variable for Singleton.
+     * Uses the eagerly created instance solution.
+     */
+    private static Game gameInstance = new Game();
     /**
      * The statebasedgame and container for runing BasicGameState instance.
      */
@@ -60,10 +65,18 @@ public class Game extends BasicGameState {
     private static final int GRAYRECT_HEIGHT = 580;
 
     /**
-     * Public constructor.
+     * Singleton getInstance function.
+     * @return the singleton game instance
      */
-    public Game() {
-        SoundHandler.init();
+    public static Game getInstance() {
+        return gameInstance;
+    }
+
+    /**
+     * Private constructor.
+     */
+    private Game() {
+    	SoundHandler.init();
         this.gamedata = new ArrayList<GameData>();
         Log.log(this, "Game initialised");
     }
@@ -72,7 +85,7 @@ public class Game extends BasicGameState {
      * Starts a 2 player mode.
      * @throws SlickException all kind of SlickException
      */
-    public final void start2Player() throws SlickException {
+    public void start2Player() throws SlickException {
         AppGameContainer gc = (AppGameContainer) this.container;
         gc.setDisplayMode(App.GAME_WIDTH_MULTIPLAYER, App.GAME_HEIGHT, false);
         GameData firstplayer = new GameData(0, 2);
@@ -85,7 +98,7 @@ public class Game extends BasicGameState {
     /**
      * Starts a 1 player mode.
      */
-    public final void start1Player() {
+    public void start1Player() {
         GameData firstplayer = new GameData(0, 1);
         this.gamedata.add(firstplayer);
         firstplayer.getPlayer().notifyAmountObserver(1);
@@ -95,7 +108,7 @@ public class Game extends BasicGameState {
      * Clears the game, Emptys the list of GameDatas.
      * @throws SlickException All Kind of SlickException
      */
-    public final void destroyGame() throws SlickException {
+    public void destroyGame() throws SlickException {
         this.gamedata.clear();
         AppGameContainer gc = (AppGameContainer) this.container;
         gc.setDisplayMode(App.GAME_WIDTH, App.GAME_HEIGHT, false);
@@ -136,7 +149,7 @@ public class Game extends BasicGameState {
      * @param stateBasedGame the state based game
      * @throws SlickException any type of slick exception
      */
-    public final void init(final GameContainer game,
+    public void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
         this.sbg = stateBasedGame;
         this.container = game;
@@ -151,7 +164,7 @@ public class Game extends BasicGameState {
      * @param delta delta of time exceeded
      * @throws SlickException any type of slick exception
      */
-    public final void update(final GameContainer game,
+    public void update(final GameContainer game,
                              final StateBasedGame stateBasedGame,
                              final int delta) throws SlickException {
         this.sbg = stateBasedGame;
@@ -163,6 +176,7 @@ public class Game extends BasicGameState {
             if (state == GameDataState.RUNNING) {
                 loosing = false;
             } else if (state == GameDataState.WON) {
+                loosing = false;
                 this.wonGame();
             }
         }
@@ -182,7 +196,7 @@ public class Game extends BasicGameState {
      * @param g Graphics object
      * @throws SlickException any type of slick exception
      */
-    public final void render(final GameContainer game,
+    public void render(final GameContainer game,
                              final StateBasedGame stateBasedGame,
                              final Graphics g) throws SlickException {
         g.setColor(Color.gray);
@@ -197,7 +211,7 @@ public class Game extends BasicGameState {
      * Getter method: for the GameState ID.
      * @return integer of BasicGameState number.
      */
-    public final int getID() {
+    public int getID() {
         return GameState.GAME_ACTIVE;
     }
 
@@ -205,7 +219,7 @@ public class Game extends BasicGameState {
      * Getter method: for the GameData list.
      * @return List of GameData objects
      */
-    public final ArrayList<GameData> getGameData() {
+    public ArrayList<GameData> getGameData() {
         return this.gamedata;
     }
 }
