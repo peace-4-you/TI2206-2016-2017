@@ -159,6 +159,7 @@ public class Game extends BasicGameState {
             if (state == GameDataState.RUNNING) {
                 loosing = false;
             } else if (state == GameDataState.WON) {
+                loosing = false;
                 this.wonGame();
             }
         }
