@@ -19,7 +19,6 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
-import bustamove.sound.SoundHandler;
 
 /**
  * Generates a MainMenu as a instance of GameState.
@@ -119,7 +118,6 @@ public class NamesScreen extends BasicGameState {
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (play.isInBounds(input)) {
-                SoundHandler.playClickSound();
                 App.getGame().start2Player();
                 App.getGame().getGameData().get(0).getPlayer()
                         .setName(this.player1name.getText());
@@ -129,7 +127,6 @@ public class NamesScreen extends BasicGameState {
                         new FadeOutTransition(), new FadeInTransition());
             }
             if (mainmenu.isInBounds(input)) {
-                SoundHandler.playClickSound();
                 stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
                         stateBasedGame);
                 stateBasedGame.enterState(GameState.MAIN_MENU,

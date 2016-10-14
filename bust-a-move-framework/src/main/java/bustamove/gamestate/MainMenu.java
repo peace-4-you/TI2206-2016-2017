@@ -19,7 +19,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import bustamove.sound.SoundHandler;
 
 /**
  * Generates a MainMenu as a instance of GameState.
@@ -95,17 +94,14 @@ public class MainMenu extends BasicGameState implements Screen {
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (play1player.isInBounds(input)) {
-                SoundHandler.playClickSound();
                 stateBasedGame.enterState(GameState.NAME_SCREEN,
                         new FadeOutTransition(), new FadeInTransition());
             }
             if (play2players.isInBounds(input)) {
-                SoundHandler.playClickSound();
                 stateBasedGame.enterState(GameState.NAMES_SCREEN,
                         new FadeOutTransition(), new FadeInTransition());
             }
             if (quit.isInBounds(input)) {
-                SoundHandler.playClickSound();
                 game.exit();
             }
         }

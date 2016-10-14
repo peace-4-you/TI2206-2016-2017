@@ -171,8 +171,6 @@ public class Game extends BasicGameState {
         }
         if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)
                 && pause.isInBounds(container.getInput())) {
-
-            SoundHandler.playClickSound();
             this.pauseGame();
         }
     }
