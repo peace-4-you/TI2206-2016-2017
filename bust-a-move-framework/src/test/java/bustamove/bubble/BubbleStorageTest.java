@@ -2,6 +2,8 @@ package bustamove.bubble;
 
 import bustamove.game.Arena;
 import bustamove.gamestate.GameConfig;
+import bustamove.player.Player;
+import bustamove.player.Score;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -26,6 +28,7 @@ public class BubbleStorageTest {
 
     @Before
     public void setUp() {
+        arena = new Arena(0, 0, 200, 200, new Score(new Player("asd", 0, 0)));
         bubbleStorage = new BubbleStorage(200, 200, arena);
     }
 
@@ -130,14 +133,14 @@ public class BubbleStorageTest {
         assertNull(bubbleStorage.get(2)[3]);
     }
 
-//    @Test
-//    public void emptyStorage() {
-//        for (int i = 0; i < bubbleStorage.size(); i++) {
-//            Bubble[] row = bubbleStorage.get(i);
-//            for (int j = 0; j < row.length; j++) {
-//                bubbleStorage.removeBubble(row[j]);
-//            }
-//        }
-//        assertTrue(bubbleStorage.isEmpty());
-//    }
+    @Test
+    public void emptyStorage() {
+        for (int i = 0; i < bubbleStorage.size(); i++) {
+            Bubble[] row = bubbleStorage.get(i);
+            for (int j = 0; j < row.length; j++) {
+                bubbleStorage.removeBubble(row[j]);
+            }
+        }
+        assertTrue(bubbleStorage.isEmpty());
+    }
 }
