@@ -22,7 +22,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
  *
  * @author Jason Xie
  */
-public class StartScreen extends BasicGameState implements Screen {
+public class StartScreen extends BasicGameState {
 
     /**
      * @return integer of BasicGameState number.

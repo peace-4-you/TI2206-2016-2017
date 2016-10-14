@@ -24,7 +24,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
  * Generates a MainMenu as a instance of GameState.
  * @author Jason Xie, Maurice Willemsen
  */
-public class MainMenu extends BasicGameState implements Screen {
+public class MainMenu extends BasicGameState {
     /**
      * Play with 1 player Button.
      */
