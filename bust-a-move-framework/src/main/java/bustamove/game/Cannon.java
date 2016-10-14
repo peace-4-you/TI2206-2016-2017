@@ -165,6 +165,7 @@ public class Cannon {
      */
     public final void stepUp() {
         if (this.angle <= RIGHT_ANGLE_LIMIT) {
+        	SoundHandler.playClickSound();
             this.angle += 1;
         }
     }
@@ -174,6 +175,7 @@ public class Cannon {
      */
     public final void stepDown() {
         if (this.angle >= LEFT_ANGLE_LIMIT) {
+        	SoundHandler.playClickSound();
             this.angle -= 1;
         }
     }
