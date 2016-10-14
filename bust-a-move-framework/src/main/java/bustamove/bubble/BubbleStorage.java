@@ -127,15 +127,11 @@ public final class BubbleStorage {
      * @return the row added
      */
     private Bubble[] addEmptyBubbleRowAbove() {
-        // Move all the other bubbles down by Bubble.DIAMETER
-        for (Bubble[] row : bubble2DArray) {
-            for (int i = 0; i < row.length; i++) {
-                if (row[i] == null) {
-                    continue;
-                }
-                float currentY = row[i].getY();
-                row[i].setY(currentY + (float) GameConfig.ROW_OFFSET);
-            }
+        BubbleStorageIterator it = iterator();
+        while (it.hasNext()) {
+            Bubble curr = it.next();
+            float currentY = curr.getY();
+            curr.setY(currentY + (float) GameConfig.ROW_OFFSET);
         }
 
         Bubble[] bubbleRow;
@@ -159,11 +155,11 @@ public final class BubbleStorage {
         LinkedList<Bubble.ColorChoice> colorList =
                 new LinkedList<Bubble.ColorChoice>();
 
-        for (Bubble[] row : bubble2DArray) {
-            for (Bubble bub : row) {
-                if (bub != null && !colorList.contains(bub.getColor())) {
-                    colorList.add(bub.getColor());
-                }
+        BubbleStorageIterator it = iterator();
+        while (it.hasNext()) {
+            Bubble curr = it.next();
+            if (!colorList.contains(curr.getColor())) {
+                colorList.add(curr.getColor());
             }
         }
         return colorList;
@@ -383,13 +379,18 @@ public final class BubbleStorage {
      * @param g canvas to draw on
      */
     public void draw(final Graphics g) {
-        for (Bubble[] row : bubble2DArray) {
-            for (Bubble b : row) {
-                if (b != null) {
-                    b.draw(g);
-                }
-            }
+        BubbleStorageIterator it = iterator();
+        while (it.hasNext()) {
+            Bubble curr = it.next();
+            curr.draw(g);
         }
     }
+    /**
+     * creates a new BubbleStorageIterator.
+     *
+     * @return a BubbleStorageIterator
+     */
+    public BubbleStorageIterator iterator() {
+        return new BubbleStorageIterator(bubble2DArray);
+    }
 }
-
