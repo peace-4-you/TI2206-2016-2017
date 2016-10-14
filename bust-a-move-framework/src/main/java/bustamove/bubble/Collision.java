@@ -279,16 +279,14 @@ public final class Collision {
 
         // loop over each bubble to see if newVisited contains it
         // if it does not, remove the bubble
-        for (int i = 0; i < bubbleStorage.size(); i++) {
-            Bubble[] row = bubbleStorage.get(i);
-            for (Bubble bubble : row) {
-                if (!newVisited.contains(bubble)) {
-                    bubbleStorage.removeBubble(bubble);
-
-                    dropBubble(bubble);
-
-                    dropCount++;
-                }
+        BubbleStorageIterator it = bubbleStorage.iterator();
+        Bubble curr;
+        while (it.hasNext()) {
+            curr = it.next();
+            if (!newVisited.contains(curr)) {
+                bubbleStorage.removeBubble(curr);
+                dropBubble(curr);
+                dropCount++;
             }
         }
         if (dropCount > 0) {

@@ -164,6 +164,16 @@ public class Bubble {
     //CHECKSTYLE:ON: DesignForExtension
 
     /**
+     * Returns the gamehead.
+     * @return  GameData gamehead
+     */
+     //CHECKSTYLE:OFF: DesignForExtension
+    public GameData getGameHead() {
+      return this.gamehead;
+    }
+    //CHECKSTYLE:ON: DesignForExtension
+
+    /**
      * Draws the Bubble.
      *
      * @param g Java Graphics instance

@@ -51,7 +51,7 @@ public class LongScope extends PowerUp {
      * Increases Cannon scope.
      */
     public final void pop() {
-        Cannon cannon = this.gamehead.getCannon();
+        Cannon cannon = this.getGameHead().getCannon();
         int length = cannon.getLength();
 
         this.bubble.pop();
