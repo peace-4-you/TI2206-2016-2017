@@ -271,4 +271,12 @@ public abstract class PowerUp extends Bubble {
       this.gamehead = game;
       this.bubble.setGameHead(game);
     }
+
+    /**
+     * Getter method: gets the gamedata object that corresponds to this PowerUp.
+     * @return  GameData gamehead;
+     */
+    public final GameData getGameHead() {
+      return this.getRootBubble().getGameHead();
+    }
 }
