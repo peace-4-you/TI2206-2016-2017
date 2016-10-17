@@ -14,8 +14,11 @@ package bustamove.bubble;
 
 import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
-import org.newdawn.slick.Graphics;
 import bustamove.game.Arena;
+import bustamove.bubble.Bubble.ColorChoice;
+
+import org.newdawn.slick.Graphics;
+
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -85,21 +88,20 @@ public final class BubbleStorage {
             offset = GameConfig.COLUMN_OFFSET;
         }
 
-        LinkedList<Bubble.ColorChoice> colors;
+        LinkedList<ColorChoice> colors;
         if (!useAllColors) {
             colors = getColorsOnArena();
         } else {
-            colors = new LinkedList<Bubble.ColorChoice>();
-            for (Bubble.ColorChoice c : Bubble.ColorChoice.values()) {
+            colors = new LinkedList<ColorChoice>();
+            for (ColorChoice c : ColorChoice.values()) {
                 colors.add(c);
             }
         }
         Random rand = new Random();
         for (int i = 0; i < bubbleRow.length; i++) {
-            //
             int xPos = (int) (Bubble.DIAMETER * i + offset + xBound);
-            int yPos = 0 + yBound;
-            Bubble.ColorChoice color = colors.get(rand.nextInt(colors.size()));
+            int yPos = yBound;
+            ColorChoice color = colors.get(rand.nextInt(colors.size()));
             bubbleRow[i] = new Bubble(xPos, yPos, color, false);
         }
     }
@@ -151,9 +153,9 @@ public final class BubbleStorage {
      *
      * @return List<ColorChoice>
      */
-    public LinkedList<Bubble.ColorChoice> getColorsOnArena() {
-        LinkedList<Bubble.ColorChoice> colorList =
-                new LinkedList<Bubble.ColorChoice>();
+    public LinkedList<ColorChoice> getColorsOnArena() {
+        LinkedList<ColorChoice> colorList =
+                new LinkedList<ColorChoice>();
 
         BubbleStorageIterator it = iterator();
         while (it.hasNext()) {
@@ -172,7 +174,7 @@ public final class BubbleStorage {
      * @return return boolean indicating whether storage is empty or not
      */
     public boolean isEmpty() {
-        return bubble2DArray.size() <= 0;
+        return bubble2DArray.size() == 0;
     }
 
     /**
@@ -191,14 +193,9 @@ public final class BubbleStorage {
      */
     public void removeBubble(final Bubble bubble) {
         for (Bubble[] row : bubble2DArray) {
-            boolean finished = false;
-            if (finished) {
-                break;
-            }
             for (int i = 0; i < row.length; i++) {
                 if (row[i] == bubble) {
                     row[i] = null;
-                    finished = true;
                 }
             }
         }
@@ -327,22 +324,12 @@ public final class BubbleStorage {
         int row = getRow(ypos);
         int column = 0;
 
-        int rowWidth = 0;
-        if (bubble2DArray.peekFirst() == null) {
+        if (bubble2DArray.peek() == null) {
             return 0;
         }
-
-        int firstRowLength = bubble2DArray.getFirst().length;
-        if (row % 2 == 0) {
-            rowWidth = firstRowLength;
-        } else {
-            if (firstRowLength == WIDTH_STORAGE) {
-                rowWidth = WIDTH_STORAGE - 1;
-            } else {
-                rowWidth = WIDTH_STORAGE;
-            }
-        }
+        int rowWidth = bubble2DArray.get(row).length;
         double relativeX = xpos - xBound;
+
         if (rowWidth == WIDTH_STORAGE) {
             column = (int) Math.round((relativeX) / Bubble.DIAMETER);
             return Math.min(column, WIDTH_STORAGE - 1);
@@ -385,6 +372,7 @@ public final class BubbleStorage {
             curr.draw(g);
         }
     }
+
     /**
      * creates a new BubbleStorageIterator.
      *
