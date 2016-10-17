@@ -130,7 +130,7 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
         failedText.centerText(game);
         restart.centerButton(game);
         mainmenu.centerButton(game);
-    	player1name.centerText(game);
+        player1name.centerText(game);
         player1score.centerText(game);
         player2name.centerText(game);
         player2score.centerText(game);
