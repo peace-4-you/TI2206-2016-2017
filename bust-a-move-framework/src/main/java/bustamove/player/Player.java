@@ -160,11 +160,11 @@ public class Player implements PlayerObservable {
     }
 
     /**
-     * Getter Method for the observer
+     * Getter Method for the observer.
      * @return observers a vector with the observers registered
      */
-	public final Vector<PlayerObserver> getObservers() {
-	    return this.observers;
-	}
+    public final Vector<PlayerObserver> getObservers() {
+        return this.observers;
+    }
 }
 
