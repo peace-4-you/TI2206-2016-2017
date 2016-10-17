@@ -15,6 +15,9 @@ import java.util.Vector;
 
 import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
+import bustamove.util.PlayerObservable;
+import bustamove.util.PlayerObserver;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 

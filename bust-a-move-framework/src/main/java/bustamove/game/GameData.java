@@ -21,8 +21,8 @@ import bustamove.App;
 import bustamove.bubble.Bubble;
 import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
+import bustamove.util.PlayerObserver;
 import bustamove.player.Player;
-import bustamove.player.PlayerObserver;
 
 /**
  * The Game class represents a single game model.
