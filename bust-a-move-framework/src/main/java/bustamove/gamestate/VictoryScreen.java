@@ -126,6 +126,9 @@ public class VictoryScreen extends BasicGameState implements PlayerObserver {
     public final void update(final GameContainer game,
             final StateBasedGame stateBasedGame, final int i)
             throws SlickException {
+        wonText.centerText(game);
+        restart.centerButton(game);
+        main.centerButton(game);
         player1name.centerText(game);
         player1score.centerText(game);
         player2name.centerText(game);

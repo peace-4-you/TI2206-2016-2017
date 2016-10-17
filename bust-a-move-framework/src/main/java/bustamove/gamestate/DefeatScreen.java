@@ -127,7 +127,10 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
     public final void update(final GameContainer game,
             final StateBasedGame stateBasedGame, final int i)
             throws SlickException {
-        player1name.centerText(game);
+        failedText.centerText(game);
+        restart.centerButton(game);
+        mainmenu.centerButton(game);
+    	player1name.centerText(game);
         player1score.centerText(game);
         player2name.centerText(game);
         player2score.centerText(game);

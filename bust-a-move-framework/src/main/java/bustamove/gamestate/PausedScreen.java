@@ -125,6 +125,9 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
     public final void update(final GameContainer game,
             final StateBasedGame stateBasedGame, final int i)
             throws SlickException {
+        pauseText.centerText(game);
+        resume.centerButton(game);
+        quit.centerButton(game);
         player1name.centerText(game);
         player1score.centerText(game);
         player2name.centerText(game);
