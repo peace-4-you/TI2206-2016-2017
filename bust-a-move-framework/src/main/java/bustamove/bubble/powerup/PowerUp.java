@@ -69,15 +69,15 @@ public abstract class PowerUp extends Bubble {
 
         if (rng < SPEEDUP_CHANCE) {
             puBubble = new SpeedUp(puBubble);
-        } else if (SPEEDUP_CHANCE <= rng && rng < SLOWDOWN_CHANCE) {
+        } else if (rng < SLOWDOWN_CHANCE) {
             puBubble = new SlowDown(puBubble);
-        } else if (SLOWDOWN_CHANCE <= rng && rng < LONGSCOPE_CHANCE) {
+        } else if (rng < LONGSCOPE_CHANCE) {
             puBubble = new LongScope(puBubble);
-        } else if (LONGSCOPE_CHANCE <= rng && rng < SHORTSCOPE_CHANCE) {
+        } else if (rng < SHORTSCOPE_CHANCE) {
             puBubble = new ShortScope(puBubble);
-        } else if (SHORTSCOPE_CHANCE <= rng && rng < OBOMB_CHANCE) {
+        } else if (rng < OBOMB_CHANCE) {
             puBubble = new OBomb(puBubble);
-        } else if (OBOMB_CHANCE <= rng && rng < ROWBOMB_CHANCE) {
+        } else if (rng < ROWBOMB_CHANCE) {
             puBubble = new RowBomb(puBubble);
         }
 
@@ -265,18 +265,20 @@ public abstract class PowerUp extends Bubble {
 
     /**
      * Setter method: sets the gamedata object that corresponds to this PowerUp.
+     *
      * @param game the gamehead to refer to
      */
     public final void setGameHead(final GameData game) {
-      this.gamehead = game;
-      this.bubble.setGameHead(game);
+        this.gamehead = game;
+        this.bubble.setGameHead(game);
     }
 
     /**
      * Getter method: gets the gamedata object that corresponds to this PowerUp.
-     * @return  GameData gamehead;
+     *
+     * @return GameData gamehead;
      */
     public final GameData getGameHead() {
-      return this.getRootBubble().getGameHead();
+        return this.getRootBubble().getGameHead();
     }
 }
