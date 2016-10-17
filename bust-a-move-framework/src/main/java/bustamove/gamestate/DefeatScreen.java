@@ -21,7 +21,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
-import bustamove.player.PlayerObserver;
+import bustamove.util.PlayerObserver;
 
 /**
  * Generates a DefeatScreen as a instance of GameState.
