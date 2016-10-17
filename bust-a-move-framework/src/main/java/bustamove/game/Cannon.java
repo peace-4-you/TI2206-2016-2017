@@ -48,7 +48,6 @@ public class Cannon {
     private int length = GameConfig.DEFAULT_CANNON_LENGTH;
     private Color cannonColour;
     private int angle = 0;
-
     /**
      * Variables for the current and next bubble.
      */
@@ -58,13 +57,17 @@ public class Cannon {
      * GameData reference.
      */
     private GameData game;
-
+    /**
+     * Variables for Key Input Handling.
+     */
+    private static final int[][] INPUTKEY = {{Input.KEY_LEFT, Input.KEY_RIGHT,
+            Input.KEY_UP}, {Input.KEY_A, Input.KEY_D, Input.KEY_W}};
+    private static final String[] MOVE_TEXT = {"left", "right"};
     /**
      * Time delta for last shot fired and movement left and right.
      */
     private int timeShotFired;
-    private int timePassedKeyRight;
-    private int timePassedKeyLeft;
+    private int[] timePassedKey;
     /**
      * Idle time after which the cannon will shot automatically.
      */
@@ -119,6 +122,7 @@ public class Cannon {
         this.nextBubble = getNextBubble();
         this.loadNextBubble();
         this.loadNextBubble();
+        this.timePassedKey = new int[2];
     }
 
     /**
@@ -181,6 +185,18 @@ public class Cannon {
     }
 
     /**
+     * Select the side of the cannon which should be updated.
+     * @param side integer of the side.
+     */
+    private void step(final int side) {
+        if (side == 0) {
+            stepUp();
+        } else if (side == 1) {
+            stepDown();
+        }
+    }
+
+    /**
      * Update the cannon.
      * @param container game container
      * @param delta time passed
@@ -190,73 +206,30 @@ public class Cannon {
             final GameData gamehead) {
         timeShotFired += delta;
         game = gamehead;
-        if (this.playernr == 1) {
-            if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
-                if (container.getInput().isKeyPressed(Input.KEY_RIGHT)) {
-                    Log.log(this, "Cannon moving to the right");
+        for (int i = 0; i < 2; i++) {
+            if (container.getInput().isKeyDown(INPUTKEY[playernr - 1][i])) {
+                this.timePassedKey[i] += delta;
+                if (this.timePassedKey[i] > INPUT_SCAN_DELAY) {
+                    step(i);
+                    this.timePassedKey[i] = 0;
                 }
-                this.timePassedKeyRight += delta;
-                if (this.timePassedKeyRight > INPUT_SCAN_DELAY) {
-                    stepDown();
-                    this.timePassedKeyRight = 0;
-                }
-            } else {
-                this.timePassedKeyRight = 0;
             }
-            if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
-                if (container.getInput().isKeyPressed(Input.KEY_LEFT)) {
-                    Log.log(this, "Cannon moving to the left");
-                }
-                this.timePassedKeyLeft += delta;
-                if (this.timePassedKeyLeft > INPUT_SCAN_DELAY) {
-                    stepUp();
-                    this.timePassedKeyLeft = 0;
-                }
-            } else {
-                this.timePassedKeyLeft = 0;
-            }
-            if (container.getInput().isKeyPressed(Input.KEY_UP)) {
-                fire();
-            }
-        } else if (this.playernr == 2) {
-            if (container.getInput().isKeyDown(Input.KEY_D)) {
-                if (container.getInput().isKeyPressed(Input.KEY_D)) {
-                    Log.log(this, "Cannon moving to the right");
-                }
-                this.timePassedKeyRight += delta;
-                if (this.timePassedKeyRight > INPUT_SCAN_DELAY) {
-                    stepDown();
-                    this.timePassedKeyRight = 0;
-                }
-            } else {
-                this.timePassedKeyRight = 0;
-            }
-            if (container.getInput().isKeyDown(Input.KEY_A)) {
-                if (container.getInput().isKeyPressed(Input.KEY_A)) {
-                    Log.log(this, "Cannon moving to the left");
-                }
-                this.timePassedKeyLeft += delta;
-                if (this.timePassedKeyLeft > INPUT_SCAN_DELAY) {
-                    stepUp();
-                    this.timePassedKeyLeft = 0;
-                }
-            } else {
-                this.timePassedKeyLeft = 0;
-            }
-            if (container.getInput().isKeyPressed(Input.KEY_W)) {
-                fire();
+            if (container.getInput().isKeyPressed(INPUTKEY[playernr - 1][i])) {
+                 String log = "Cannon moving to the " + MOVE_TEXT[i];
+                 Log.log(this, log);
             }
         }
-
+        if (container.getInput().isKeyPressed(INPUTKEY[playernr - 1][2])) {
+            fire();
+        }
         if (this.timeShotFired > TIME_TO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
             displayWarning = true;
         }
-
         if (this.timeShotFired > TIME_TO_SHOOT) {
             Log.log(this, "Time elapsed, " + "shooting automatically");
             fire();
-            timePassedKeyRight = 0;
-            timePassedKeyLeft = 0;
+            timePassedKey[0] = 0;
+            timePassedKey[1] = 0;
             timeShotFired = 0;
             displayWarning = false;
         }
