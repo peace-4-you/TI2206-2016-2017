@@ -187,6 +187,8 @@ public class Cannon {
     /**
      * Select the side of the cannon which should be updated.
      * @param side integer of the side.
+     * 0 = move left;
+     * 1 = move right;
      */
     private void step(final int side) {
         if (side == 0) {
