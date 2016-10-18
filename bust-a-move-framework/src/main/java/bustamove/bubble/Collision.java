@@ -102,7 +102,8 @@ public final class Collision {
         double xPos = bubble.getX();
         double wallPos = arenaCont.getxPos();
         if (xPos <= wallPos
-                || xPos + AbstractBubble.DIAMETER >= wallPos + arenaCont.getWidth()) {
+                || xPos + AbstractBubble.DIAMETER
+                >= wallPos + arenaCont.getWidth()) {
             bubble.hitWall();
         }
     }

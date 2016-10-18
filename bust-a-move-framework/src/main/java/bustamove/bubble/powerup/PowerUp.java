@@ -118,11 +118,11 @@ public abstract class PowerUp extends AbstractBubble {
         rootBubble.fire(angle);
     }
     /**
-     * Pops the root AbstractBubble.
+     * Pops the root SimpleBubble.
      */
     public abstract void pop();
     /**
-     * Drops the AbstractBubble by setting state to DROPPING and setting xSpeed
+     * Drops the SimpleBubble by setting state to DROPPING and setting xSpeed
      * to zero and ySpeed to speed.
      */
     public final void drop() {
@@ -132,7 +132,7 @@ public abstract class PowerUp extends AbstractBubble {
      * Recursively traverses the PowerUp hierarchy to find the root
      * Bubble instance.
      *
-     * @return the root AbstractBubble instance
+     * @return the root SimpleBubble instance
      */
     public final SimpleBubble getRootBubble() {
         return bubble.getRootBubble();

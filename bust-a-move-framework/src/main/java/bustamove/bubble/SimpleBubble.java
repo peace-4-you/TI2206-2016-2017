@@ -13,11 +13,8 @@ package bustamove.bubble;
 
 import bustamove.system.Log;
 import bustamove.game.GameData;
-import bustamove.bubble.powerup.PowerUp;
-import bustamove.gamestate.GameConfig;
 import bustamove.sound.SoundHandler;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
@@ -56,7 +53,8 @@ public class SimpleBubble extends AbstractBubble {
         } else {
             this.state = State.LANDED;
         }
-        boundingBox = new Circle((float) (pos.getX() + SimpleBubble.DIAMETER / 2),
+        boundingBox = new Circle(
+                (float) (pos.getX() + SimpleBubble.DIAMETER / 2),
                 (float) (pos.getY() + SimpleBubble.DIAMETER / 2),
                 (float) SimpleBubble.DIAMETER / 2);
 

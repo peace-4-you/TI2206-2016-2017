@@ -36,8 +36,10 @@ public class Cannon {
     /**
      * X and Y coordinate of the next bubble.
      */
-    private static final int X_LAUNCH = (int) (375 - AbstractBubble.DIAMETER / 2);
-    private static final int Y_LAUNCH = (int) (555 - AbstractBubble.DIAMETER / 2);
+    private static final int X_LAUNCH =
+        (int) (375 - AbstractBubble.DIAMETER / 2);
+    private static final int Y_LAUNCH =
+        (int) (555 - AbstractBubble.DIAMETER / 2);
     /**
      * X and Y coordinate of the current bubble.
      */

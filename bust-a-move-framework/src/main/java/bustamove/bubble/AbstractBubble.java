@@ -11,19 +11,13 @@
 
 package bustamove.bubble;
 
-import bustamove.system.Log;
 import bustamove.game.GameData;
-import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
-import bustamove.sound.SoundHandler;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
-
-
-import java.util.LinkedList;
 
 /**
  * The AbstractBubble class represents a single bubble entity.
@@ -38,6 +32,7 @@ public abstract class AbstractBubble {
     /**
      * Firing speed of a bubble.
      */
+    //CHECKSTYLE:OFF: VisibilityModifier
     protected static double dropSpeed = GameConfig.DEFAULT_BUBBLE_SPEED;
     /**
      * Colors of the bubble.
@@ -81,13 +76,10 @@ public abstract class AbstractBubble {
     /**
      * Wrapped bubble component.
      */
-    //CHECKSTYLE:OFF: VisibilityModifier
     protected AbstractBubble bubble;
-    //CHECKSTYLE:ON: VisibilityModifier
     /**
      * GameData Object where the bubbles belong to. Needed by powerups
      */
-    //CHECKSTYLE:OFF: VisibilityModifier
     protected GameData gamehead;
     //CHECKSTYLE:ON: VisibilityModifier
     /**

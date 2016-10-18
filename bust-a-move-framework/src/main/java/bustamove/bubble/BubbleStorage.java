@@ -90,7 +90,8 @@ public final class BubbleStorage {
             colors = getColorsOnArena();
         } else {
             colors = new LinkedList<AbstractBubble.ColorChoice>();
-            for (AbstractBubble.ColorChoice c : AbstractBubble.ColorChoice.values()) {
+            for (AbstractBubble.ColorChoice c
+                : AbstractBubble.ColorChoice.values()) {
                 colors.add(c);
             }
         }
@@ -99,7 +100,8 @@ public final class BubbleStorage {
             //
             int xPos = (int) (AbstractBubble.DIAMETER * i + offset + xBound);
             int yPos = 0 + yBound;
-            AbstractBubble.ColorChoice color = colors.get(rand.nextInt(colors.size()));
+            AbstractBubble.ColorChoice color =
+                colors.get(rand.nextInt(colors.size()));
             bubbleRow[i] = new SimpleBubble(xPos, yPos, color, false);
         }
     }
@@ -202,7 +204,8 @@ public final class BubbleStorage {
                 }
             }
         }
-        LinkedList<AbstractBubble[]> rowsToRemove = new LinkedList<AbstractBubble[]>();
+        LinkedList<AbstractBubble[]> rowsToRemove =
+            new LinkedList<AbstractBubble[]>();
         // remove empty rows
         boolean alreadyRemovedRow = false;
         for (AbstractBubble[] row : bubble2DArray) {
