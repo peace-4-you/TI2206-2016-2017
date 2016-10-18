@@ -38,7 +38,7 @@ public final class Collision {
     /**
      * LinkedList for temporarily storing dropping bubbles.
      */
-    private LinkedList<Bubble> droppingBubbles;
+    private LinkedList<AbstractBubble> droppingBubbles;
     /**
      * Shot bubbles counter for adding a new row on top.
      */
@@ -66,7 +66,7 @@ public final class Collision {
         this.bubbleStorage = bubbles;
         this.arenaCont = arena;
         this.scorekeeper = score;
-        droppingBubbles = new LinkedList<Bubble>();
+        droppingBubbles = new LinkedList<AbstractBubble>();
         bubbleCount = 0;
     }
 
@@ -82,9 +82,9 @@ public final class Collision {
     /**
      * Wrapper for checking the collisions.
      *
-     * @param bubble Bubble to check collisions on.
+     * @param bubble AbstractBubble to check collisions on.
      */
-    public void checkCollision(final Bubble bubble) {
+    public void checkCollision(final AbstractBubble bubble) {
         checkWallCollision(bubble);
         if (bubble.getY() <= 0) {
             landBubble(bubble);
@@ -96,13 +96,13 @@ public final class Collision {
     /**
      * Check collision between bubble and arena wall.
      *
-     * @param bubble Bubble to check collisions on.
+     * @param bubble AbstractBubble to check collisions on.
      */
-    private void checkWallCollision(final Bubble bubble) {
+    private void checkWallCollision(final AbstractBubble bubble) {
         double xPos = bubble.getX();
         double wallPos = arenaCont.getxPos();
         if (xPos <= wallPos
-                || xPos + Bubble.DIAMETER >= wallPos + arenaCont.getWidth()) {
+                || xPos + AbstractBubble.DIAMETER >= wallPos + arenaCont.getWidth()) {
             bubble.hitWall();
         }
     }
@@ -112,13 +112,13 @@ public final class Collision {
      *
      * @param shotBubble bubble that was fired.
      */
-    private void checkGridCollision(final Bubble shotBubble) {
+    private void checkGridCollision(final AbstractBubble shotBubble) {
         collisionLoop:
         for (int i = 0; i < bubbleStorage.size(); i++) {
             for (int j = 0; j < bubbleStorage.get(i).length; j++) {
-                Bubble bubble = bubbleStorage.get(i)[j];
+                AbstractBubble bubble = bubbleStorage.get(i)[j];
                 if (bubble != null && shotBubble != bubble
-                        && bubble.getState() == Bubble.State.LANDED
+                        && bubble.getState() == AbstractBubble.State.LANDED
                         && shotBubble.getBoundingBox().intersects(
                         bubble.getBoundingBox())) {
                     Log.log(this, "Fired Bubble collision! "
@@ -138,7 +138,7 @@ public final class Collision {
      *
      * @param shotBubble The bubble shot by the cannon
      */
-    private void landBubble(final Bubble shotBubble) {
+    private void landBubble(final AbstractBubble shotBubble) {
         int row = bubbleStorage.getRow(shotBubble.getY());
         int column = 0;
 
@@ -153,7 +153,7 @@ public final class Collision {
         if (bubbleStorage.get(row).length % 2 == 0) {
             offset = 0;
         }
-        float xPos = (float) (column * Bubble.DIAMETER + offset);
+        float xPos = (float) (column * AbstractBubble.DIAMETER + offset);
         float yPos = (float) (row * GameConfig.ROW_OFFSET);
         shotBubble.land(xPos + arenaCont.getxPos(), yPos + arenaCont.getyPos());
 
@@ -170,15 +170,15 @@ public final class Collision {
      *
      * @param popBubble The bubble to be popped
      */
-    public void popBubbles(final Bubble popBubble) {
-        LinkedList<Bubble> popList = new LinkedList<Bubble>();
+    public void popBubbles(final AbstractBubble popBubble) {
+        LinkedList<AbstractBubble> popList = new LinkedList<AbstractBubble>();
 
         popList = checkBubblesToPop(popBubble, popList);
 
         /* Check if 3 or more bubbles are connected */
         if (popList.size() >= POP_AMOUNT) {
           while (popList.size() != 0) {
-                Bubble bubbleToPop = popList.pop();
+                AbstractBubble bubbleToPop = popList.pop();
 
                 popBubble(bubbleToPop);
             }
@@ -192,7 +192,7 @@ public final class Collision {
      *
      * @param bubble Bubble to pop
      */
-    public void popBubble(final Bubble bubble) {
+    public void popBubble(final AbstractBubble bubble) {
         bubble.setGameHead(this.gamehead);
         this.scorekeeper.scoreBubblesPopped(1);
         bubbleStorage.removeBubble(bubble);
@@ -204,10 +204,10 @@ public final class Collision {
      *
      * @param bubble RowBomb to be popped
      */
-    public void popRowBomb(final Bubble bubble) {
+    public void popRowBomb(final AbstractBubble bubble) {
         int row = bubbleStorage.getRow(bubble.getY());
         if (row < bubbleStorage.size()) {
-            for (Bubble b : bubbleStorage.get(row)) {
+            for (AbstractBubble b : bubbleStorage.get(row)) {
                 if (b != null) {
                     popBubble(b);
                 }
@@ -224,9 +224,9 @@ public final class Collision {
      * @return LinkedList with all bubbles that should be popped.
      */
     //CHECKSTYLE:OFF: FinalParameters
-    private LinkedList<Bubble> checkBubblesToPop(
-            final Bubble lastBubble, LinkedList<Bubble> popList) {
-        Bubble[] neighbors;
+    private LinkedList<AbstractBubble> checkBubblesToPop(
+            final AbstractBubble lastBubble, LinkedList<AbstractBubble> popList) {
+        AbstractBubble[] neighbors;
         double xPos = lastBubble.getX();
         double yPos = lastBubble.getY();
         int row = bubbleStorage.getRow(yPos);
@@ -236,7 +236,7 @@ public final class Collision {
         neighbors = bubbleStorage.getNeighbors(row, column);
         popList.add(lastBubble);
 
-        for (Bubble b : neighbors) {
+        for (AbstractBubble b : neighbors) {
             if (b != null) {
                 empty = false;
                 break;
@@ -247,7 +247,7 @@ public final class Collision {
             return popList;
         }
 
-        for (Bubble b : neighbors) {
+        for (AbstractBubble b : neighbors) {
             if (b != null && b.getColor() == lastBubble.getColor()
                     && !popList.contains(b)) {
                     popList = checkBubblesToPop(b, popList);
@@ -262,25 +262,25 @@ public final class Collision {
      *
      * @return LinkedList of bubbles to be dropped.
      */
-    private LinkedList<Bubble> checkBubblesToDrop() {
+    private LinkedList<AbstractBubble> checkBubblesToDrop() {
         int dropCount = 0;
-        LinkedList<Bubble> visited = new LinkedList<Bubble>();
+        LinkedList<AbstractBubble> visited = new LinkedList<AbstractBubble>();
         Log.log(this, "Checking for bubbles to drop");
 
 
         if (!bubbleStorage.isEmpty() && bubbleStorage.get(0) != null) {
-            for (Bubble b : bubbleStorage.get(0)) {
+            for (AbstractBubble b : bubbleStorage.get(0)) {
                 visited.add(b);
             }
         }
 
         // Recursive call
-        LinkedList<Bubble> newVisited = checkBubblesToDrop(visited);
+        LinkedList<AbstractBubble> newVisited = checkBubblesToDrop(visited);
 
         // loop over each bubble to see if newVisited contains it
         // if it does not, remove the bubble
         BubbleStorageIterator it = bubbleStorage.iterator();
-        Bubble curr;
+        AbstractBubble curr;
         while (it.hasNext()) {
             curr = it.next();
             if (!newVisited.contains(curr)) {
@@ -303,18 +303,18 @@ public final class Collision {
      * @return LinkedList with bubbles to be dropped
      */
     //CHECKSTYLE:OFF: FinalParameters
-    private LinkedList<Bubble> checkBubblesToDrop(
-            LinkedList<Bubble> visited) {
+    private LinkedList<AbstractBubble> checkBubblesToDrop(
+            LinkedList<AbstractBubble> visited) {
         boolean addedSomething = false;
         for (int i = 0; i < visited.size(); i++) {
-            Bubble b = visited.get(i);
+            AbstractBubble b = visited.get(i);
             if (b == null) {
                 continue;
             }
             int row = bubbleStorage.getRow(b.getY());
             int column = bubbleStorage.getColumn(b.getX(), b.getY());
-            Bubble[] neighbours = bubbleStorage.getNeighbors(row, column);
-            for (Bubble nb : neighbours) {
+            AbstractBubble[] neighbours = bubbleStorage.getNeighbors(row, column);
+            for (AbstractBubble nb : neighbours) {
                 if (!visited.contains(nb)) {
                     visited.addLast(nb);
                     addedSomething = true;
@@ -336,9 +336,9 @@ public final class Collision {
      *
      * @param bubble Object to be dropped
      */
-    public void dropBubble(final Bubble bubble) {
+    public void dropBubble(final AbstractBubble bubble) {
         if (bubble != null && !droppingBubbles.contains(bubble)) {
-            bubble.setState(Bubble.State.DROPPING);
+            bubble.setState(AbstractBubble.State.DROPPING);
             droppingBubbles.add(bubble);
         }
     }
@@ -349,9 +349,9 @@ public final class Collision {
      * @param g canvas to draw on
      */
     public void draw(final Graphics g) {
-        Iterator<Bubble> ite = droppingBubbles.iterator();
+        Iterator<AbstractBubble> ite = droppingBubbles.iterator();
         while (ite.hasNext()) {
-            Bubble bubble = ite.next();
+            AbstractBubble bubble = ite.next();
             if (bubble.getY() > App.getGameHeight()) {
                 ite.remove();
                 continue;

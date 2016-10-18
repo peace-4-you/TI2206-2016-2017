@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import bustamove.bubble.Bubble.ColorChoice;
+import bustamove.bubble.AbstractBubble.ColorChoice;
 
 import java.util.LinkedList;
 
@@ -93,18 +93,18 @@ public class BubbleStorageTest {
     @Test
     public void getNeighbours() {
         // Row width 7
-        Bubble[] neighbours = bubbleStorage.getNeighbors(3, 4);
-        for (Bubble b : neighbours) {
-            assertTrue(b instanceof Bubble);
+        AbstractBubble[] neighbours = bubbleStorage.getNeighbors(3, 4);
+        for (AbstractBubble b : neighbours) {
+            assertTrue(b instanceof AbstractBubble);
         }
         // Row width 8
         neighbours = bubbleStorage.getNeighbors(2, 4);
-        for (Bubble b : neighbours) {
-            assertTrue(b instanceof Bubble);
+        for (AbstractBubble b : neighbours) {
+            assertTrue(b instanceof AbstractBubble);
         }
         // Invalid case
         neighbours = bubbleStorage.getNeighbors(5, 4);
-        for (Bubble b : neighbours) {
+        for (AbstractBubble b : neighbours) {
             assertEquals(null, b);
         }
     }
@@ -119,7 +119,7 @@ public class BubbleStorageTest {
 
     @Test
     public void getColumn() {
-        Bubble b = bubbleStorage.get(2)[3];
+        AbstractBubble b = bubbleStorage.get(2)[3];
         assertEquals(3, bubbleStorage.getColumn(b.getX(), b.getY()));
 
         b = bubbleStorage.get(1)[4];
@@ -128,7 +128,7 @@ public class BubbleStorageTest {
 
     @Test
     public void removeBubble() {
-        Bubble b = bubbleStorage.get(2)[3];
+        AbstractBubble b = bubbleStorage.get(2)[3];
         bubbleStorage.removeBubble(b);
         assertNull(bubbleStorage.get(2)[3]);
     }
@@ -136,7 +136,7 @@ public class BubbleStorageTest {
     @Test
     public void emptyStorage() {
         for (int i = 0; i < bubbleStorage.size(); i++) {
-            Bubble[] row = bubbleStorage.get(i);
+            AbstractBubble[] row = bubbleStorage.get(i);
             for (int j = 0; j < row.length; j++) {
                 bubbleStorage.removeBubble(row[j]);
             }

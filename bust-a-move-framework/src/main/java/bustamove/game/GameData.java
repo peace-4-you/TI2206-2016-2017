@@ -18,7 +18,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.App;
-import bustamove.bubble.Bubble;
+import bustamove.bubble.AbstractBubble;
 import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
 import bustamove.util.PlayerObserver;
@@ -53,7 +53,7 @@ public class GameData implements PlayerObserver {
     /**
      * Arraylist of bubbles and their speed.
      */
-    private ArrayList<Bubble> bubbleslist;
+    private ArrayList<AbstractBubble> bubbleslist;
     private double bubblespeed;
     /**
      * position for the arena.
@@ -79,7 +79,7 @@ public class GameData implements PlayerObserver {
         this.offset = drawingoffset;
         this.playerNr = modelnr;
         this.state = GameDataState.RUNNING;
-        this.bubbleslist = new ArrayList<Bubble>();
+        this.bubbleslist = new ArrayList<AbstractBubble>();
         this.player = new Player("Player1", this.offset, this.playerNr);
         this.player.registerObserver((PlayerObserver) App.getPauseScreen());
         this.player.registerObserver((PlayerObserver) App.getDefeatScreen());
@@ -105,9 +105,9 @@ public class GameData implements PlayerObserver {
         if (this.state == GameDataState.RUNNING) {
             this.cannon.update(container, delta, this);
             arena.getCollision().setGameHead(this);
-            for (Bubble b1 : bubbleslist) {
+            for (AbstractBubble b1 : bubbleslist) {
                 b1.move();
-                if (b1.getState() == Bubble.State.FIRING) {
+                if (b1.getState() == AbstractBubble.State.FIRING) {
                     arena.checkCollision(b1);
                 }
             }
@@ -142,8 +142,8 @@ public class GameData implements PlayerObserver {
         cannon.draw(g);
         player.draw(g);
         arena.draw(g);
-        for (Bubble bubble : this.bubbleslist) {
-            if (bubble.getState() != Bubble.State.LANDED) {
+        for (AbstractBubble bubble : this.bubbleslist) {
+            if (bubble.getState() != AbstractBubble.State.LANDED) {
                 bubble.draw(g);
             }
         }
@@ -199,7 +199,7 @@ public class GameData implements PlayerObserver {
      *
      * @return ArrayList of bubbles inside gamedata class
      */
-    public final ArrayList<Bubble> getBubbles() {
+    public final ArrayList<AbstractBubble> getBubbles() {
         return this.bubbleslist;
     }
 

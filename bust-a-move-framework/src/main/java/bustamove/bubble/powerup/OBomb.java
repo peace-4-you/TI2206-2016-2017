@@ -14,7 +14,7 @@ package bustamove.bubble.powerup;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import bustamove.bubble.Bubble;
+import bustamove.bubble.AbstractBubble;
 
 /**
  * OBomb is a PowerUp that pops its neighbors in an 'O' shape on pop.
@@ -25,14 +25,14 @@ public class OBomb extends PowerUp {
     /**
      * Creates OBomb instance.
      *
-     * @param bubble wrapped Bubble component.
+     * @param bubble wrapped AbstractBubble component.
      */
-    public OBomb(final Bubble bubble) {
+    public OBomb(final AbstractBubble bubble) {
         super(bubble);
     }
 
     /**
-     * Draws the PowerUp'd Bubble.
+     * Draws the PowerUp'd AbstractBubble.
      *
      * @param g Java Graphics instance
      */

@@ -8,7 +8,8 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 
-import bustamove.bubble.Bubble;
+import bustamove.bubble.SimpleBubble;
+import bustamove.bubble.AbstractBubble;
 import bustamove.game.GameData;
 import bustamove.gamestate.GameConfig;
 
@@ -19,14 +20,14 @@ import static org.junit.Assert.*;
  */
 @RunWith(Parameterized.class)
 public class ShortScopePopTest {
-    private Bubble bubble;
+    private AbstractBubble bubble;
     private int initialCannonLength;
     private int expectedLength;
     private String message;
 
     @Before
     public void setUp() throws Exception {
-        bubble = new Bubble(200, 200, Bubble.ColorChoice.BLUE, false);
+        bubble = new SimpleBubble(200, 200, SimpleBubble.ColorChoice.BLUE, false);
         bubble = new ShortScope(bubble);
         bubble.setGameHead(new GameData(0, 1));
         bubble.getGameHead().getCannon().setLength(initialCannonLength);

@@ -33,7 +33,7 @@ public final class BubbleStorage {
     /**
      * Structure that contains all the rows of bubbles.
      */
-    private LinkedList<Bubble[]> bubble2DArray;
+    private LinkedList<AbstractBubble[]> bubble2DArray;
     /**
      * The x and ycoordinate of the left bound of the arena.
      */
@@ -52,7 +52,7 @@ public final class BubbleStorage {
      * @param arena arena container of this bubblestorage object
      */
     public BubbleStorage(final int x, final int y, final Arena arena) {
-        bubble2DArray = new LinkedList<Bubble[]>();
+        bubble2DArray = new LinkedList<AbstractBubble[]>();
         xBound = x;
         yBound = y;
         arenaCont = arena;
@@ -79,28 +79,28 @@ public final class BubbleStorage {
 
         Log.log(this, "Adding a row of bubbles to the storage.");
 
-        Bubble[] bubbleRow = addEmptyBubbleRowAbove();
+        AbstractBubble[] bubbleRow = addEmptyBubbleRowAbove();
         double offset = 0;
         if (bubbleRow.length != WIDTH_STORAGE) {
             offset = GameConfig.COLUMN_OFFSET;
         }
 
-        LinkedList<Bubble.ColorChoice> colors;
+        LinkedList<AbstractBubble.ColorChoice> colors;
         if (!useAllColors) {
             colors = getColorsOnArena();
         } else {
-            colors = new LinkedList<Bubble.ColorChoice>();
-            for (Bubble.ColorChoice c : Bubble.ColorChoice.values()) {
+            colors = new LinkedList<AbstractBubble.ColorChoice>();
+            for (AbstractBubble.ColorChoice c : AbstractBubble.ColorChoice.values()) {
                 colors.add(c);
             }
         }
         Random rand = new Random();
         for (int i = 0; i < bubbleRow.length; i++) {
             //
-            int xPos = (int) (Bubble.DIAMETER * i + offset + xBound);
+            int xPos = (int) (AbstractBubble.DIAMETER * i + offset + xBound);
             int yPos = 0 + yBound;
-            Bubble.ColorChoice color = colors.get(rand.nextInt(colors.size()));
-            bubbleRow[i] = new Bubble(xPos, yPos, color, false);
+            AbstractBubble.ColorChoice color = colors.get(rand.nextInt(colors.size()));
+            bubbleRow[i] = new SimpleBubble(xPos, yPos, color, false);
         }
     }
 
@@ -109,13 +109,13 @@ public final class BubbleStorage {
      *
      * @return the row added
      */
-    public Bubble[] addEmptyBubbleRowBelow() {
-        Bubble[] bubbleRow;
+    public AbstractBubble[] addEmptyBubbleRowBelow() {
+        AbstractBubble[] bubbleRow;
         if (bubble2DArray.size() > 0
                 && bubble2DArray.getLast().length == WIDTH_STORAGE) {
-            bubbleRow = new Bubble[WIDTH_STORAGE - 1];
+            bubbleRow = new AbstractBubble[WIDTH_STORAGE - 1];
         } else {
-            bubbleRow = new Bubble[WIDTH_STORAGE];
+            bubbleRow = new AbstractBubble[WIDTH_STORAGE];
         }
         bubble2DArray.addLast(bubbleRow);
         return bubbleRow;
@@ -126,20 +126,20 @@ public final class BubbleStorage {
      *
      * @return the row added
      */
-    private Bubble[] addEmptyBubbleRowAbove() {
+    private AbstractBubble[] addEmptyBubbleRowAbove() {
         BubbleStorageIterator it = iterator();
         while (it.hasNext()) {
-            Bubble curr = it.next();
+            AbstractBubble curr = it.next();
             float currentY = curr.getY();
             curr.setY(currentY + (float) GameConfig.ROW_OFFSET);
         }
 
-        Bubble[] bubbleRow;
+        AbstractBubble[] bubbleRow;
         if (bubble2DArray.size() > 0
                 && bubble2DArray.getFirst().length == WIDTH_STORAGE) {
-            bubbleRow = new Bubble[WIDTH_STORAGE - 1];
+            bubbleRow = new AbstractBubble[WIDTH_STORAGE - 1];
         } else {
-            bubbleRow = new Bubble[WIDTH_STORAGE];
+            bubbleRow = new AbstractBubble[WIDTH_STORAGE];
         }
         bubble2DArray.addFirst(bubbleRow);
         return bubbleRow;
@@ -151,13 +151,13 @@ public final class BubbleStorage {
      *
      * @return List<ColorChoice>
      */
-    public LinkedList<Bubble.ColorChoice> getColorsOnArena() {
-        LinkedList<Bubble.ColorChoice> colorList =
-                new LinkedList<Bubble.ColorChoice>();
+    public LinkedList<AbstractBubble.ColorChoice> getColorsOnArena() {
+        LinkedList<AbstractBubble.ColorChoice> colorList =
+                new LinkedList<AbstractBubble.ColorChoice>();
 
         BubbleStorageIterator it = iterator();
         while (it.hasNext()) {
-            Bubble curr = it.next();
+            AbstractBubble curr = it.next();
             if (!colorList.contains(curr.getColor())) {
                 colorList.add(curr.getColor());
             }
@@ -189,8 +189,8 @@ public final class BubbleStorage {
      *
      * @param bubble bubble to be removed
      */
-    public void removeBubble(final Bubble bubble) {
-        for (Bubble[] row : bubble2DArray) {
+    public void removeBubble(final AbstractBubble bubble) {
+        for (AbstractBubble[] row : bubble2DArray) {
             boolean finished = false;
             if (finished) {
                 break;
@@ -202,12 +202,12 @@ public final class BubbleStorage {
                 }
             }
         }
-        LinkedList<Bubble[]> rowsToRemove = new LinkedList<Bubble[]>();
+        LinkedList<AbstractBubble[]> rowsToRemove = new LinkedList<AbstractBubble[]>();
         // remove empty rows
         boolean alreadyRemovedRow = false;
-        for (Bubble[] row : bubble2DArray) {
+        for (AbstractBubble[] row : bubble2DArray) {
             boolean empty = true;
-            for (Bubble b : row) {
+            for (AbstractBubble b : row) {
                 if (b != null) {
                     empty = false;
                 }
@@ -218,8 +218,8 @@ public final class BubbleStorage {
             }
         }
 
-        for (Bubble[] row : rowsToRemove) {
-            for (Bubble b : row) {
+        for (AbstractBubble[] row : rowsToRemove) {
+            for (AbstractBubble b : row) {
                 arenaCont.getCollision().dropBubble(b);
             }
             bubble2DArray.remove(row);
@@ -233,14 +233,14 @@ public final class BubbleStorage {
      * @param column column-th entry of the array
      * @return array of surrounding bubble neighbours
      */
-    public Bubble[] getNeighbors(final int row, final int column) {
-        Bubble[] neighbors = new Bubble[NEIGHBOURS_AMOUNT];
+    public AbstractBubble[] getNeighbors(final int row, final int column) {
+        AbstractBubble[] neighbors = new AbstractBubble[NEIGHBOURS_AMOUNT];
 
         int height = bubble2DArray.size();
         if (height <= row) {
             return neighbors;
         }
-        Bubble[] currRow = bubble2DArray.get(row);
+        AbstractBubble[] currRow = bubble2DArray.get(row);
         int offset = 1;
         if (currRow.length == WIDTH_STORAGE) {
             offset = 0;
@@ -249,7 +249,7 @@ public final class BubbleStorage {
         // Neighbours on upper row
         int index = 0;
         if (row > 0) {
-            Bubble[] upperRow = bubble2DArray.get(row - 1);
+            AbstractBubble[] upperRow = bubble2DArray.get(row - 1);
             if (column - 1 + offset >= 0) {
                 neighbors[index] = upperRow[column - 1 + offset];
             }
@@ -272,7 +272,7 @@ public final class BubbleStorage {
 
         // Neighbours on lower row.
         if (row + 1 < height) {
-            Bubble[] upperRow = bubble2DArray.get(row + 1);
+            AbstractBubble[] upperRow = bubble2DArray.get(row + 1);
             if (column - 1 + offset >= 0) {
                 neighbors[index] = upperRow[column - 1 + offset];
             }
@@ -285,12 +285,12 @@ public final class BubbleStorage {
     }
 
     /**
-     * Return a Bubble[] row.
+     * Return a AbstractBubble[] row.
      *
      * @param n index of row to get
-     * @return Bubble[] is n is valid, else null.
+     * @return AbstractBubble[] is n is valid, else null.
      */
-    public Bubble[] get(final int n) {
+    public AbstractBubble[] get(final int n) {
         if (n < bubble2DArray.size()) {
             return bubble2DArray.get(n);
         }
@@ -344,12 +344,12 @@ public final class BubbleStorage {
         }
         double relativeX = xpos - xBound;
         if (rowWidth == WIDTH_STORAGE) {
-            column = (int) Math.round((relativeX) / Bubble.DIAMETER);
+            column = (int) Math.round((relativeX) / AbstractBubble.DIAMETER);
             return Math.min(column, WIDTH_STORAGE - 1);
         } else {
             if (relativeX >= GameConfig.COLUMN_OFFSET) {
                 column = (int) Math.round((relativeX - GameConfig.COLUMN_OFFSET)
-                        / Bubble.DIAMETER);
+                        / AbstractBubble.DIAMETER);
             }
             return Math.min(column, (WIDTH_STORAGE - 1) - 1);
         }
@@ -381,7 +381,7 @@ public final class BubbleStorage {
     public void draw(final Graphics g) {
         BubbleStorageIterator it = iterator();
         while (it.hasNext()) {
-            Bubble curr = it.next();
+            AbstractBubble curr = it.next();
             curr.draw(g);
         }
     }

@@ -15,7 +15,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
-import bustamove.bubble.Bubble;
+import bustamove.bubble.SimpleBubble;
+import bustamove.bubble.AbstractBubble;
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
 import bustamove.sound.SoundHandler;
@@ -35,13 +36,13 @@ public class Cannon {
     /**
      * X and Y coordinate of the next bubble.
      */
-    private static final int X_LAUNCH = (int) (375 - Bubble.DIAMETER / 2);
-    private static final int Y_LAUNCH = (int) (555 - Bubble.DIAMETER / 2);
+    private static final int X_LAUNCH = (int) (375 - AbstractBubble.DIAMETER / 2);
+    private static final int Y_LAUNCH = (int) (555 - AbstractBubble.DIAMETER / 2);
     /**
      * X and Y coordinate of the current bubble.
      */
-    private static final int X_LOAD = (int) (320 - Bubble.DIAMETER / 2);
-    private static final int Y_LOAD = (int) (530 - Bubble.DIAMETER / 2);
+    private static final int X_LOAD = (int) (320 - AbstractBubble.DIAMETER / 2);
+    private static final int Y_LOAD = (int) (530 - AbstractBubble.DIAMETER / 2);
     /**
      * Cannon related variables.
      */
@@ -52,8 +53,8 @@ public class Cannon {
     /**
      * Variables for the current and next bubble.
      */
-    private Bubble currBubble;
-    private Bubble nextBubble;
+    private AbstractBubble currBubble;
+    private AbstractBubble nextBubble;
     /**
      * GameData reference.
      */
@@ -136,9 +137,9 @@ public class Cannon {
      * Determines next bubble.
      * @return newly created bubble
      */
-    private Bubble getNextBubble() {
+    private AbstractBubble getNextBubble() {
         Log.log(this, "Next bubble loaded to cannon");
-        Bubble newBubble = Bubble.randomColor(
+        AbstractBubble newBubble = SimpleBubble.randomColor(
                 (float) Cannon.X_LAUNCH + this.offset, (float) Cannon.Y_LAUNCH,
                 game.getArena().getBubbleStorage().getColorsOnArena(), true);
         if (GameConfig.ENABLE_POWERUPS) {

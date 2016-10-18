@@ -15,12 +15,12 @@ package bustamove.bubble.powerup;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import bustamove.bubble.Bubble;
+import bustamove.bubble.AbstractBubble;
 import bustamove.gamestate.GameConfig;
 
 
 /**
- * SlowDown is a PowerUp that slows down Bubbles fired from the Cannon.
+ * SlowDown is a PowerUp that slows down AbstractBubbles fired from the Cannon.
  *
  * @author Calvin Nhieu
  */
@@ -28,14 +28,14 @@ public class SlowDown extends PowerUp {
     /**
      * Creates SlowDown instance.
      *
-     * @param bubble wrapped Bubble component.
+     * @param bubble wrapped AbstractBubble component.
      */
-    public SlowDown(final Bubble bubble) {
+    public SlowDown(final AbstractBubble bubble) {
         super(bubble);
     }
 
     /**
-     * Draws the PowerUp'd Bubble.
+     * Draws the PowerUp'd AbstractBubble.
      *
      * @param g Java Graphics instance
      */
@@ -52,8 +52,8 @@ public class SlowDown extends PowerUp {
      */
     public final void pop() {
         this.bubble.pop();
-      if (gamehead.getBubbleSpeed() > GameConfig.MIN_BUBBLE_SPEED) {
-            gamehead.setBubbleSpeed(gamehead.getBubbleSpeed()
+      if (getGameHead().getBubbleSpeed() > GameConfig.MIN_BUBBLE_SPEED) {
+            getGameHead().setBubbleSpeed(getGameHead().getBubbleSpeed()
                     - GameConfig.BUBBLE_SPEEDUP);
       }
     }

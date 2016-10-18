@@ -15,20 +15,21 @@ package bustamove.bubble.powerup;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
-import bustamove.bubble.Bubble;
+import bustamove.bubble.SimpleBubble;
+import bustamove.bubble.AbstractBubble;
 import bustamove.game.GameData;
 
 /**
  * PowerUp provides an abstract representation of a PowerUp
- * that can be recursively applied to a Bubble.
+ * that can be recursively applied to a AbstractBubble.
  *
  * @author Calvin Nhieu
  */
-public abstract class PowerUp extends Bubble {
+public abstract class PowerUp extends AbstractBubble {
     /**
      * Root bubble component.
      */
-    private Bubble rootBubble;
+    private SimpleBubble rootBubble;
 
     private final int powerupOffset = 7;
 
@@ -45,27 +46,25 @@ public abstract class PowerUp extends Bubble {
      */
     public PowerUp() {
     }
-
     /**
      * Creates PowerUp instance.
      *
-     * @param bubble wrapped Bubble component.
+     * @param bubble wrapped AbstractBubble component.
      */
-    public PowerUp(final Bubble bubble) {
+    public PowerUp(final AbstractBubble bubble) {
         this.bubble = bubble;
-        this.rootBubble = this.getRootBubble();
+        rootBubble = this.getRootBubble();
     }
-
     /**
-     * Applies a random PowerUp to the supplied Bubble
+     * Applies a random PowerUp to the supplied AbstractBubble
      * (can be none).
      *
-     * @param bubble Bubble to apply PowerUps to.
-     * @return Bubble  PowerUp'd Bubble.
+     * @param bubble AbstractBubble to apply PowerUps to.
+     * @return AbstractBubble  PowerUp'd AbstractBubble.
      */
-    public static Bubble apply(final Bubble bubble) {
+    public static AbstractBubble apply(final AbstractBubble bubble) {
         double rng = Math.random();
-        Bubble puBubble = bubble;
+        AbstractBubble puBubble = bubble;
 
         if (rng < SPEEDUP_CHANCE) {
             puBubble = new SpeedUp(puBubble);
@@ -83,177 +82,165 @@ public abstract class PowerUp extends Bubble {
 
         return puBubble;
     }
-
     /**
-     * Draws the PowerUp'd Bubble.
+     * Draws the PowerUp'd AbstractBubble.
      *
      * @param g Java Graphics instance
      */
     public abstract void draw(Graphics g);
-
     /**
-     * Updates the Bubble's position per game tick.
+     * Updates the AbstractBubble's position per game tick.
      */
     public final void move() {
-        this.rootBubble.move();
+        rootBubble.move();
     }
-
     /**
-     * Stops the Bubble, adjusts bubble's position.
+     * Stops the AbstractBubble, adjusts bubble's position.
      *
      * @param xPos at adjusted x position
      * @param yPos at adjusted y position
      */
-    public final void land(final double xPos, final double yPos) {
-        this.rootBubble.land((float) xPos, (float) yPos);
+    public final void land(final float xPos, final float yPos) {
+        rootBubble.land((float) xPos, (float) yPos);
     }
-
     /**
      * Wall collision detection, inverts ball's xSpeed.
      */
     public final void hitWall() {
-        this.rootBubble.hitWall();
+        rootBubble.hitWall();
     }
-
     /**
-     * Fires the Bubble by setting the state, xSpeed and ySpeed.
+     * Fires the AbstractBubble by setting the state, xSpeed and ySpeed.
      *
      * @param angle the angle at which the bubble is fired at
      */
     public final void fire(final int angle) {
-        this.rootBubble.fire(angle);
+        rootBubble.fire(angle);
     }
-
     /**
-     * Pops the root Bubble.
+     * Pops the root AbstractBubble.
      */
     public abstract void pop();
-
     /**
-     * Drops the Bubble by setting state to DROPPING and setting xSpeed
+     * Drops the AbstractBubble by setting state to DROPPING and setting xSpeed
      * to zero and ySpeed to speed.
      */
     public final void drop() {
-        this.rootBubble.drop();
+        rootBubble.drop();
     }
-
+    /**
+     * Recursively traverses the PowerUp hierarchy to find the root
+     * Bubble instance.
+     *
+     * @return the root AbstractBubble instance
+     */
+    public final SimpleBubble getRootBubble() {
+        return bubble.getRootBubble();
+    }
     /**
      * Getter method: for X coordinate of the bubble.
      *
      * @return x value
      */
     public final float getX() {
-        return this.rootBubble.getX();
+        return rootBubble.getX();
     }
-
     /**
      * Setter method: for the X coordinate of the bubble.
      *
      * @param xPos double value to set x to
      */
     public final void setX(final float xPos) {
-        this.rootBubble.setX(xPos);
+        rootBubble.setX(xPos);
     }
-
     /**
      * Getter method: for the Y coordinate of the bubble.
      *
      * @return y value
      */
     public final float getY() {
-        return this.rootBubble.getY();
+        return rootBubble.getY();
     }
-
     /**
      * Setter method: for the Y coordinate of the bubble.
      *
      * @param yPos double value to set y to
      */
     public final void setY(final float yPos) {
-        this.rootBubble.setY(yPos);
+        rootBubble.setY(yPos);
     }
-
     /**
      * Getter method: for the xSpeed value.
      *
      * @return xSpeed value
      */
     public final double getXSpeed() {
-        return this.rootBubble.getXSpeed();
+        return rootBubble.getXSpeed();
     }
-
     /**
      * Setter method: for the xSpeed value.
      *
      * @param xSpeed double value to set xSpeed to
      */
     public final void setXSpeed(final double xSpeed) {
-        this.rootBubble.setXSpeed(xSpeed);
+        rootBubble.setXSpeed(xSpeed);
     }
-
     /**
      * Getter method: for the ySpeed value.
      *
      * @return ySpeed value
      */
     public final double getYSpeed() {
-        return this.rootBubble.getYSpeed();
+        return rootBubble.getYSpeed();
     }
-
     /**
      * Setter method: for the ySpeed value.
      *
      * @param ySpeed double value to set ySpeed to
      */
     public final void setYSpeed(final double ySpeed) {
-        this.rootBubble.setYSpeed(ySpeed);
+        rootBubble.setYSpeed(ySpeed);
     }
-
     /**
      * Getter method: for the Color value.
      *
      * @return color value
      */
     public final ColorChoice getColor() {
-        return this.rootBubble.getColor();
+        return rootBubble.getColor();
     }
-
     /**
      * Getter method: for the state.
      *
      * @return state value
      */
     public final State getState() {
-        return this.rootBubble.getState();
+        return rootBubble.getState();
     }
-
     /**
      * Setter method: for the state.
      *
      * @param newState State enum value to set state to
      */
     public final void setState(final State newState) {
-        this.rootBubble.setState(newState);
+        rootBubble.setState(newState);
     }
-
     /**
      * Getter method: for the boundingBox.
      *
      * @return circle object
      */
     public final Circle getBoundingBox() {
-        return this.rootBubble.getBoundingBox();
+        return rootBubble.getBoundingBox();
     }
-
     /**
      * Getter method: for the wrapped Bubble component.
      *
      * @return bubble component
      */
-    public final Bubble getBubble() {
+    public final AbstractBubble getBubble() {
         return this.bubble;
     }
-
     /**
      * Returns the x offset for drawing the powerup string.
      *
@@ -262,23 +249,38 @@ public abstract class PowerUp extends Bubble {
     public final int getpowerupOffset() {
         return powerupOffset;
     }
-
     /**
      * Setter method: sets the gamedata object that corresponds to this PowerUp.
      *
      * @param game the gamehead to refer to
      */
     public final void setGameHead(final GameData game) {
-        this.gamehead = game;
+        // this.gamehead = game;
         this.bubble.setGameHead(game);
     }
-
     /**
      * Getter method: gets the gamedata object that corresponds to this PowerUp.
      *
      * @return GameData gamehead;
      */
     public final GameData getGameHead() {
-        return this.getRootBubble().getGameHead();
+        return rootBubble.getGameHead();
+    }
+    /**
+     * Setter method: for a AbstractBubble's firing speed.
+     *
+     * @param nextSpeed new speed value
+     */
+    //CHECKSTYLE:ON: DesignForExtension
+    public final void setFireSpeed(final double nextSpeed) {
+        rootBubble.getGameHead().setBubbleSpeed(nextSpeed);
+    }
+    /**
+     * Getter method for the Firing Speed of the bubble.
+     *
+     * @return double speed value
+     */
+    public final double getFireSpeed() {
+        return rootBubble.getGameHead().getBubbleSpeed();
     }
 }
