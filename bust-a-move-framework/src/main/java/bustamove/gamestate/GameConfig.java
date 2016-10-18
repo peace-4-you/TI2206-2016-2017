@@ -121,4 +121,17 @@ public abstract class GameConfig {
      * Cannon length increment value.
      */
     public static final int CANNON_LENGTH_INCREMENT = 20;
+    /**
+     * Amount of entries stored in the high scores.
+     */
+    public static final int HIGHSCORE_ENTRIES = 10;
+    /**
+     * The offset used for displaying scores in the highscores screen.
+     */
+    public static final double HIGHSCORE_NAME_OFFSET = 0.3;
+    /**
+     * The offset used for displaying names in the highscores screen.
+     */
+    public static final double HIGHSCORE_SCORE_OFFSET = 0.6;
+
 }

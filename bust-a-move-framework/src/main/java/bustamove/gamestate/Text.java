@@ -36,8 +36,8 @@ public class Text {
     /**
      * The font the text should be displayed in.
      */
-    private TrueTypeFont font = new TrueTypeFont(new Font("Verdana", Font.BOLD,
-        GameConfig.TEXT_SIZE), true);
+    private static final TrueTypeFont FONT = new TrueTypeFont(
+            new Font("Verdana", Font.BOLD, GameConfig.TEXT_SIZE), true);
 
     /**
      * Constructor for a text without x parameter.
@@ -51,7 +51,7 @@ public class Text {
         this.text = s;
         xPos = 0;
         yPos = y;
-        tWidth = font.getWidth(this.text);
+        tWidth = FONT.getWidth(this.text);
     }
 
     /**
@@ -72,7 +72,7 @@ public class Text {
      */
     public final void draw(final Graphics g) {
         g.setColor(Color.white);
-        font.drawString(xPos, yPos, text, Color.white);
+        FONT.drawString(xPos, yPos, text, Color.white);
     }
 
     /**
@@ -91,5 +91,5 @@ public class Text {
     public final void setText(final String s) {
         this.text = s;
     }
-}
 
+}

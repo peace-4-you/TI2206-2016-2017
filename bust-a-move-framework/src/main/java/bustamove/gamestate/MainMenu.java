@@ -37,6 +37,10 @@ public class MainMenu extends BasicGameState {
      * Quit Button.
      */
     private Button quit;
+    /**
+     * High scores button.
+     */
+    private Button highScores;
 
     /**
      * @return integer of BasicGameState number.
@@ -59,7 +63,10 @@ public class MainMenu extends BasicGameState {
         play2players = new Button("2 Players", GameConfig.THIRD_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         play2players.centerButton(game);
-        quit = new Button("Quit", GameConfig.FOURTH_LINE, GameConfig.WIDTH1,
+        highScores = new Button("Highscores", GameConfig.FOURTH_LINE,
+                GameConfig.WIDTH2, GameConfig.HEIGHT);
+        highScores.centerButton(game);
+        quit = new Button("Quit", GameConfig.FIFTH_LINE, GameConfig.WIDTH1,
                 GameConfig.HEIGHT);
         quit.centerButton(game);
     }
@@ -78,6 +85,7 @@ public class MainMenu extends BasicGameState {
         play1player.draw(graphics);
         play2players.draw(graphics);
         quit.draw(graphics);
+        highScores.draw(graphics);
     }
 
     /**
@@ -100,6 +108,9 @@ public class MainMenu extends BasicGameState {
             if (play2players.isInBounds(input)) {
                 stateBasedGame.enterState(GameState.NAMES_SCREEN,
                         new FadeOutTransition(), new FadeInTransition());
+            }
+            if (highScores.isInBounds(input)) {
+                stateBasedGame.enterState(GameState.HIGHSCORES_SCREEN);
             }
             if (quit.isInBounds(input)) {
                 game.exit();

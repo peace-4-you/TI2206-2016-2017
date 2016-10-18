@@ -27,6 +27,7 @@ import bustamove.game.GameData.GameDataState;
 import bustamove.gamestate.Button;
 import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.GameState;
+import bustamove.player.Player;
 import bustamove.system.Log;
 import bustamove.sound.SoundHandler;
 
@@ -119,6 +120,10 @@ public final class Game extends BasicGameState {
     private void wonGame() {
         Log.log(this, "Game Won");
         SoundHandler.playWinSound();
+        for (GameData gd : gamedata) {
+            Highscore.getInstance().addEntryAndSave(gd.getPlayer().getName(),
+                    gd.getPlayer().getScore().getScore());
+        }
         sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
@@ -129,6 +134,11 @@ public final class Game extends BasicGameState {
     private void failedGame() {
         Log.log(this, "Game Failed");
         SoundHandler.playLoseSound();
+        for (GameData gd : gamedata) {
+            Player p = gd.getPlayer();
+            Highscore.getInstance().addEntryAndSave(p.getName(),
+                    p.getScore().getScore());
+        }
         sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
@@ -221,5 +231,5 @@ public final class Game extends BasicGameState {
     public ArrayList<GameData> getGameData() {
         return this.gamedata;
     }
-}
 
+}

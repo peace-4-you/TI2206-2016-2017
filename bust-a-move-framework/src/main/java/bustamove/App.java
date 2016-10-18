@@ -14,6 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.game.Game;
 import bustamove.gamestate.DefeatScreen;
+import bustamove.gamestate.HighscoreScreen;
 import bustamove.gamestate.MainMenu;
 import bustamove.gamestate.NameScreen;
 import bustamove.gamestate.NamesScreen;
@@ -97,6 +98,7 @@ public class App extends StateBasedGame {
         addState(defeatScreen);
         addState(new NameScreen());
         addState(new NamesScreen());
+        addState(new HighscoreScreen());
     }
 
     /**
