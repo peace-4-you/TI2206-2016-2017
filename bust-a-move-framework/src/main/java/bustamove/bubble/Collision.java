@@ -216,6 +216,22 @@ public final class Collision {
         }
         checkBubblesToDrop();
     }
+    /**
+     * Pops an OBomb, pops all neighboring bubbles.
+     *
+     * @param bubble OBomb to be popped
+     */
+    public void popOBomb(final Bubble bubble) {
+        int col = bubbleStorage.getColumn(bubble.getX(), bubble.getY());
+        int row = bubbleStorage.getRow(bubble.getY());
+        Bubble[] neighbors = bubbleStorage.getNeighbors(row, col);
+        for (Bubble b : neighbors) {
+            if (b != null) {
+                popBubble(b);
+            }
+        }
+        checkBubblesToDrop();
+    }
 
     /**
      * Checks which bubble needs to be popped using recursive calls.
