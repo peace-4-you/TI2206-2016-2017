@@ -90,6 +90,7 @@ public class Text {
      */
     public final void setText(final String s) {
         this.text = s;
+        tWidth = font.getWidth(this.text);
     }
 }
 

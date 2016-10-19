@@ -25,6 +25,11 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class StartScreen extends BasicGameState {
 
     /**
+     * Text showed on start.
+     */
+    private Text starttext;
+
+    /**
      * @return integer of BasicGameState number.
      */
 
@@ -42,6 +47,8 @@ public class StartScreen extends BasicGameState {
     public final void init(final GameContainer game,
                            final StateBasedGame stateBasedGame)
             throws SlickException {
+        starttext = new Text("Click anywhere to start", GameConfig.SIXT_LINE);
+        starttext.centerText(game);
     }
 
     /**
@@ -56,9 +63,7 @@ public class StartScreen extends BasicGameState {
                              final StateBasedGame stateBasedGame,
                              final Graphics graphics)
             throws SlickException {
-        graphics.drawString("Click anywhere to start",
-                game.getWidth() / (float) 2,
-                game.getHeight() / (float) 2);
+        starttext.draw(graphics);
     }
 
     /**
