@@ -8,14 +8,15 @@
 
 package bustamove.gamestate;
 
-import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.*;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import java.awt.*;
 
 /**
  * Generates a StartScreen as a instance of GameState.
@@ -28,6 +29,8 @@ public class StartScreen extends BasicGameState {
      * Text showed on start.
      */
     private Text starttext;
+    private TrueTypeFont font = new TrueTypeFont(new java.awt.Font("Verdana", java.awt.Font.BOLD,
+            GameConfig.TEXT_SIZE), true);
 
     /**
      * @return integer of BasicGameState number.
@@ -47,6 +50,8 @@ public class StartScreen extends BasicGameState {
     public final void init(final GameContainer game,
                            final StateBasedGame stateBasedGame)
             throws SlickException {
+        Button.setFont(font);
+        Text.setFont(font);
         starttext = new Text("Click anywhere to start", GameConfig.SIXT_LINE);
         starttext.centerText(game);
     }
