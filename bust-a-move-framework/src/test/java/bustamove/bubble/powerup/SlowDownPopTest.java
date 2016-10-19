@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import bustamove.bubble.SimpleBubble;
-import bustamove.bubble.AbstractBubble;
+import bustamove.bubble.Bubble;
 import bustamove.game.GameData;
 import bustamove.gamestate.GameConfig;
 
@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(Parameterized.class)
 public class SlowDownPopTest {
-    private AbstractBubble bubble;
+    private Bubble bubble;
     private double initialSpeed;
     private double expectedSpeed;
     private String message;

@@ -15,7 +15,7 @@ package bustamove.bubble.powerup;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import bustamove.bubble.AbstractBubble;
+import bustamove.bubble.Bubble;
 import bustamove.game.Cannon;
 import bustamove.gamestate.GameConfig;
 
@@ -28,19 +28,19 @@ public class LongScope extends PowerUp {
     /**
      * Creates LongScope instance.
      *
-     * @param bubble wrapped AbstractBubble component.
+     * @param bubble wrapped Bubble component.
      */
-    public LongScope(final AbstractBubble bubble) {
+    public LongScope(final Bubble bubble) {
         super(bubble);
     }
 
     /**
-     * Draws the PowerUp'd AbstractBubble.
+     * Draws the PowerUp'd Bubble.
      *
      * @param g Java Graphics instance
      */
     public final void draw(final Graphics g) {
-        this.bubble.draw(g);
+        getBubble().draw(g);
         g.setColor(Color.black);
         g.drawString("+C", this.getX() + getpowerupOffset(),
                 this.getY() + getpowerupOffset());
@@ -54,7 +54,7 @@ public class LongScope extends PowerUp {
         Cannon cannon = this.getGameHead().getCannon();
         int length = cannon.getLength();
 
-        this.bubble.pop();
+        getBubble().pop();
         if (length < GameConfig.MAX_CANNON_LENGTH) {
             cannon.setLength(length + GameConfig.CANNON_LENGTH_INCREMENT);
         }

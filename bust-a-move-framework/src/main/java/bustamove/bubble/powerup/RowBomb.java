@@ -15,7 +15,7 @@ package bustamove.bubble.powerup;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import bustamove.bubble.AbstractBubble;
+import bustamove.bubble.Bubble;
 
 /**
  * RowBomb is a PowerUp that pops its respective row on pop.
@@ -26,9 +26,9 @@ public class RowBomb extends PowerUp {
     /**
      * Creates RowBomb instance.
      *
-     * @param bubble wrapped AbstractBubble component.
+     * @param bubble wrapped Bubble component.
      */
-    public RowBomb(final AbstractBubble bubble) {
+    public RowBomb(final Bubble bubble) {
         super(bubble);
     }
 
@@ -38,7 +38,7 @@ public class RowBomb extends PowerUp {
      * @param g Java Graphics instance
      */
     public final void draw(final Graphics g) {
-        this.bubble.draw(g);
+        getBubble().draw(g);
         g.setColor(Color.black);
         g.drawString("RB", this.getX() + getpowerupOffset(),
                 this.getY() + getpowerupOffset());
@@ -49,7 +49,7 @@ public class RowBomb extends PowerUp {
      * Pops respective row.
      */
     public final void pop() {
-        this.bubble.pop();
+        getBubble().pop();
         this.getGameHead().getArena().getCollision().popRowBomb(this);
     }
 }

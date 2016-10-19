@@ -15,12 +15,11 @@ package bustamove.bubble.powerup;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import bustamove.bubble.AbstractBubble;
+import bustamove.bubble.Bubble;
 import bustamove.gamestate.GameConfig;
 
 
-/**
- * SpeedUp is a PowerUp that speeds up AbstractBubbles fired from the Cannon.
+/** SpeedUp is a PowerUp that speeds up Bubbles fired from the Cannon.
  *
  * @author Calvin Nhieu
  */
@@ -28,19 +27,19 @@ public class SpeedUp extends PowerUp {
     /**
      * Creates SpeedUp instance.
      *
-     * @param bubble wrapped AbstractBubble component.
+     * @param bubble wrapped Bubble component.
      */
-    public SpeedUp(final AbstractBubble bubble) {
+    public SpeedUp(final Bubble bubble) {
         super(bubble);
     }
 
     /**
-     * Draws the PowerUp'd AbstractBubble.
+     * Draws the PowerUp'd Bubble.
      *
      * @param g Java Graphics instance
      */
     public final void draw(final Graphics g) {
-        this.bubble.draw(g);
+        getBubble().draw(g);
         g.setColor(Color.black);
         g.drawString("+", this.getX() + getpowerupOffset(),
                 this.getY() + getpowerupOffset());
@@ -51,7 +50,7 @@ public class SpeedUp extends PowerUp {
      * Increases Cannon firing speed.
      */
     public final void pop() {
-        this.bubble.pop();
+        getBubble().pop();
         if (getGameHead().getBubbleSpeed() < GameConfig.MAX_BUBBLE_SPEED) {
             getGameHead().setBubbleSpeed(getGameHead().getBubbleSpeed()
                     + GameConfig.BUBBLE_SPEEDUP);

@@ -15,6 +15,7 @@ import bustamove.system.Log;
 import bustamove.game.GameData;
 import bustamove.sound.SoundHandler;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
@@ -27,7 +28,50 @@ import java.util.LinkedList;
  *
  * @author Calvin Nhieu
  */
-public class SimpleBubble extends AbstractBubble {
+public class SimpleBubble extends Bubble {
+    /**
+     * Colors of the bubble.
+     */
+    private static final Color RED_COLOR = Color.red;
+    private static final Color BLUE_COLOR = Color.blue;
+    private static final Color YELLOW_COLOR = Color.yellow;
+    private static final Color GREEN_COLOR = Color.green;
+    /**
+     * Angle offset constant.
+     */
+    private static final int ANGLE_OFFSET = 90;
+    /**
+     * The position of the bubble.
+     */
+    private Point pos = new Point(0, 0);
+    /**
+     * Horizontal component of speed.
+     */
+    private double xSpeed;
+    /**
+     * Vertical component of speed.
+     */
+    private double ySpeed;
+    /**
+     * The color of the bubble.
+     */
+    private ColorChoice color;
+    /**
+     * Color used for rendering of the bubble.
+     */
+    private Color drawColor;
+    /**
+     * State of the bubble.
+     */
+    private State state;
+    /**
+     * Collision space of the bubble.
+     */
+    private Circle boundingBox;
+    /**
+     * GameData Object where the bubbles belong to. Needed by powerups
+     */
+    private GameData gamehead;
     /**
      * Empty constructor per abstract class specification.
      */
@@ -182,7 +226,7 @@ public class SimpleBubble extends AbstractBubble {
     public final void drop() {
         this.setState(State.DROPPING);
         this.setXSpeed(0);
-        this.setYSpeed(dropSpeed);
+        this.setYSpeed(Bubble.DROP_SPEED);
     }
     /**
      * Recursively traverses the PowerUp hierarchy to find the root
@@ -288,7 +332,7 @@ public class SimpleBubble extends AbstractBubble {
      *
      * @return bubble component
      */
-    public final AbstractBubble getBubble() {
+    public final Bubble getBubble() {
         return null;
     }
     /**

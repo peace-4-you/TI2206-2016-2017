@@ -16,20 +16,24 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
 import bustamove.bubble.SimpleBubble;
-import bustamove.bubble.AbstractBubble;
+import bustamove.bubble.Bubble;
 import bustamove.game.GameData;
 
 /**
  * PowerUp provides an abstract representation of a PowerUp
- * that can be recursively applied to a AbstractBubble.
+ * that can be recursively applied to a Bubble.
  *
  * @author Calvin Nhieu
  */
-public abstract class PowerUp extends AbstractBubble {
+public abstract class PowerUp extends Bubble {
     /**
      * Root bubble component.
      */
     private SimpleBubble rootBubble;
+    /**
+     * Wrapped bubble component.
+     */
+    private Bubble bubble;
 
     private final int powerupOffset = 7;
 
@@ -49,22 +53,22 @@ public abstract class PowerUp extends AbstractBubble {
     /**
      * Creates PowerUp instance.
      *
-     * @param bubble wrapped AbstractBubble component.
+     * @param b  wrapped Bubble component.
      */
-    public PowerUp(final AbstractBubble bubble) {
-        this.bubble = bubble;
+    public PowerUp(final Bubble b) {
+        this.bubble = b;
         rootBubble = this.getRootBubble();
     }
     /**
-     * Applies a random PowerUp to the supplied AbstractBubble
+     * Applies a random PowerUp to the supplied Bubble
      * (can be none).
      *
-     * @param bubble AbstractBubble to apply PowerUps to.
-     * @return AbstractBubble  PowerUp'd AbstractBubble.
+     * @param bubble Bubble to apply PowerUps to.
+     * @return Bubble  PowerUp'd Bubble.
      */
-    public static AbstractBubble apply(final AbstractBubble bubble) {
+    public static Bubble apply(final Bubble bubble) {
         double rng = Math.random();
-        AbstractBubble puBubble = bubble;
+        Bubble puBubble = bubble;
 
         if (rng < SPEEDUP_CHANCE) {
             puBubble = new SpeedUp(puBubble);
@@ -83,19 +87,19 @@ public abstract class PowerUp extends AbstractBubble {
         return puBubble;
     }
     /**
-     * Draws the PowerUp'd AbstractBubble.
+     * Draws the PowerUp'd Bubble.
      *
      * @param g Java Graphics instance
      */
     public abstract void draw(Graphics g);
     /**
-     * Updates the AbstractBubble's position per game tick.
+     * Updates the Bubble's position per game tick.
      */
     public final void move() {
         rootBubble.move();
     }
     /**
-     * Stops the AbstractBubble, adjusts bubble's position.
+     * Stops the Bubble, adjusts bubble's position.
      *
      * @param xPos at adjusted x position
      * @param yPos at adjusted y position
@@ -110,7 +114,7 @@ public abstract class PowerUp extends AbstractBubble {
         rootBubble.hitWall();
     }
     /**
-     * Fires the AbstractBubble by setting the state, xSpeed and ySpeed.
+     * Fires the Bubble by setting the state, xSpeed and ySpeed.
      *
      * @param angle the angle at which the bubble is fired at
      */
@@ -238,8 +242,8 @@ public abstract class PowerUp extends AbstractBubble {
      *
      * @return bubble component
      */
-    public final AbstractBubble getBubble() {
-        return this.bubble;
+    public final Bubble getBubble() {
+        return bubble;
     }
     /**
      * Returns the x offset for drawing the powerup string.
@@ -256,7 +260,7 @@ public abstract class PowerUp extends AbstractBubble {
      */
     public final void setGameHead(final GameData game) {
         // this.gamehead = game;
-        this.bubble.setGameHead(game);
+        bubble.setGameHead(game);
     }
     /**
      * Getter method: gets the gamedata object that corresponds to this PowerUp.
@@ -267,7 +271,7 @@ public abstract class PowerUp extends AbstractBubble {
         return rootBubble.getGameHead();
     }
     /**
-     * Setter method: for a AbstractBubble's firing speed.
+     * Setter method: for a Bubble's firing speed.
      *
      * @param nextSpeed new speed value
      */

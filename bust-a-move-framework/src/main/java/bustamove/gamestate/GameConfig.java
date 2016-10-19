@@ -8,7 +8,7 @@
 
 package bustamove.gamestate;
 
-import bustamove.bubble.AbstractBubble;
+import bustamove.bubble.Bubble;
 
 /**
  * Contains static integervalues of all GameConfig.
@@ -79,30 +79,30 @@ public abstract class GameConfig {
     /**
      * Horizontal distance between each bubble in the arena.
      */
-    public static final double COLUMN_OFFSET = AbstractBubble.DIAMETER / 2.0;
+    public static final double COLUMN_OFFSET = Bubble.DIAMETER / 2.0;
     /**
      * Vertical distance between each bubble in the arena.
      */
-    public static final double ROW_OFFSET = (double) AbstractBubble.DIAMETER
+    public static final double ROW_OFFSET = (double) Bubble.DIAMETER
             * Math.tan(60) + COLUMN_OFFSET + 2;
     /**
      * PowerUp feature flag.
      */
     public static final boolean ENABLE_POWERUPS = true;
     /**
-     * Default AbstractBubble speed.
+     * Default Bubble speed.
      */
     public static final double DEFAULT_BUBBLE_SPEED = 3.0;
     /**
-     * Maximum AbstractBubble speed.
+     * Maximum Bubble speed.
      */
     public static final double MAX_BUBBLE_SPEED = 7.5;
     /**
-     * Minimum AbstractBubble speed.
+     * Minimum Bubble speed.
      */
     public static final double MIN_BUBBLE_SPEED = 1;
     /**
-     * AbstractBubble speed up/slow down factor.
+     * Bubble speed up/slow down factor.
      */
     public static final double BUBBLE_SPEEDUP = 0.5;
     /**

@@ -16,7 +16,7 @@ import bustamove.player.Score;
 import bustamove.system.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import bustamove.bubble.AbstractBubble;
+import bustamove.bubble.Bubble;
 import bustamove.bubble.BubbleStorage;
 import bustamove.bubble.Collision;
 
@@ -72,7 +72,7 @@ public final class Arena {
      * @param bubble to check on collision
      */
 
-    public void checkCollision(final AbstractBubble bubble) {
+    public void checkCollision(final Bubble bubble) {
         collide.checkCollision(bubble);
     }
 

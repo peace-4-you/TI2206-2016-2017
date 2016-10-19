@@ -13,8 +13,8 @@ import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
-import bustamove.bubble.AbstractBubble.ColorChoice;
-import bustamove.bubble.AbstractBubble.State;
+import bustamove.bubble.Bubble.ColorChoice;
+import bustamove.bubble.Bubble.State;
 
 import bustamove.gamestate.GameConfig;
 import bustamove.game.GameData;
@@ -144,7 +144,7 @@ public class BubbleTest {
     public void bubbleDropSpeed() {
         try {
             Assume.assumeTrue(type == Type.DROPSPEED);
-            assertEquals(expectedResult, parameterizedBubble.getDropSpeed());
+            assertEquals(expectedResult, Bubble.DROP_SPEED);
         } catch (AssumptionViolatedException e) {
             // These exceptions are intentional
         }
@@ -236,7 +236,7 @@ public class BubbleTest {
     public void bubbleGameHead() {
         GameData gameData = new GameData(0, 1);
         bubble1.setGameHead(gameData);
-        assertEquals(gameData, bubble1.gamehead);
+        assertEquals(gameData, bubble1.getGameHead());
     }
 
     @Test
@@ -244,7 +244,7 @@ public class BubbleTest {
         bubble1.drop();
         assertEquals(State.DROPPING, bubble1.getState());
         assertEquals(0, bubble1.getXSpeed(), epsilon);
-        assertEquals(GameConfig.DEFAULT_BUBBLE_SPEED, bubble1.getDropSpeed(), epsilon);
+        assertEquals(GameConfig.DEFAULT_BUBBLE_SPEED, Bubble.DROP_SPEED, epsilon);
 
         double xpos = bubble1.getX();
         double ypos = bubble1.getY();

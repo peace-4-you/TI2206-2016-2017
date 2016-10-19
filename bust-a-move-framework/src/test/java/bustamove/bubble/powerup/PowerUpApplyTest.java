@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import bustamove.bubble.SimpleBubble;
-import bustamove.bubble.AbstractBubble;
+import bustamove.bubble.Bubble;
 
 import static org.junit.Assert.*;
 
@@ -18,8 +18,8 @@ import static org.junit.Assert.*;
  */
 @RunWith(Parameterized.class)
 public class PowerUpApplyTest {
-    private AbstractBubble bubble;
-    private AbstractBubble puBubble;
+    private Bubble bubble;
+    private Bubble puBubble;
     private int numTests;
 
     @Before
