@@ -4,12 +4,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
-
 import bustamove.sound.SoundHandler;
-
 import org.newdawn.slick.GameContainer;
 
-import java.awt.Font;
 
 /**
  * This class creates and renders a button on the screen.

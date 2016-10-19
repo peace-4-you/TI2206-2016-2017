@@ -10,8 +10,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.GameContainer;
 
-import java.awt.Font;
-
 /**
  * This class create and draws a String on screen.
  *
