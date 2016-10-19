@@ -45,13 +45,11 @@ public class Button {
     /**
      * Font of the text.
      */
-    private TrueTypeFont font = new TrueTypeFont(
-            new Font("Verdana", Font.BOLD, fontSize), true);
-
-
+    private static TrueTypeFont font;
 
     /**
      * Constructor for a button without x parameter.
+     *
      * @param text   text that will be displayed on the button
      * @param y      y coordinate of the button(upper bound)
      * @param width  width of the button
@@ -71,9 +69,9 @@ public class Button {
         bHeight = height;
     }
 
-
     /**
      * Constructor with parameter for x coordinate.
+     *
      * @param text   text that will be displayed on the button
      * @param x      x coordinates of the button
      * @param y      y coordinate of the button(upper bound)
@@ -88,9 +86,9 @@ public class Button {
 
     }
 
-
     /**
      * Draw the button with the text centered.
+     *
      * @param g Graphics object to draw on/in
      */
     public final void draw(final Graphics g) {
@@ -106,6 +104,7 @@ public class Button {
 
     /**
      * Check whether the mouse in within the bounds of the button.
+     *
      * @param mouse mouse event input
      * @return true if the mouse coordinates are inside the bounds
      */
@@ -123,6 +122,7 @@ public class Button {
     /**
      * Center the button on the xPos-axis(so center it vertically) for
      * the lazy people.
+     *
      * @param game the game container
      */
     public final void centerButton(final GameContainer game) {
@@ -131,18 +131,11 @@ public class Button {
 
     /**
      * Setter of the font.
+     *
      * @param f font type
      */
-    public final void setFont(final TrueTypeFont f) {
-        this.font = f;
-    }
-
-    /**
-     * Getter of the font used.
-     * @return font tupe
-     */
-    public final TrueTypeFont getFont() {
-        return font;
+    public static final void setFont(final TrueTypeFont f) {
+        font = f;
     }
 
 }
