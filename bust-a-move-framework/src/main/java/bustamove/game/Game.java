@@ -28,7 +28,7 @@ import bustamove.gamestate.Button;
 import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.GameState;
 import bustamove.system.Log;
-import bustamove.sound.SoundHandler;
+import bustamove.system.SoundHandler;
 
 /**
  * The Game class represents a game entity. Contains all GameModels.

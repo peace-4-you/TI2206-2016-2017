@@ -1,10 +1,8 @@
-package bustamove.sound;
+package bustamove.system;
 
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
-
-import bustamove.system.Log;
 
 /**
  * The SoundHandler class plays all the sounds in the game.

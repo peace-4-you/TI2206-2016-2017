@@ -1,10 +1,18 @@
 package bustamove.gamestate;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
-import bustamove.sound.SoundHandler;
+import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import bustamove.system.Log;
+import bustamove.system.SoundHandler;
+
 import org.newdawn.slick.GameContainer;
 
 
@@ -43,6 +51,10 @@ public class Button {
      * Font of the text.
      */
     private static TrueTypeFont font;
+    /**
+     * List of actions that should be run when a button is clicked.
+     */
+    private ArrayList<Runnable> actions;
 
     /**
      * Constructor for a button without x parameter.
@@ -64,6 +76,12 @@ public class Button {
         yPos = y;
         bWidth = width;
         bHeight = height;
+        actions = new ArrayList<Runnable>();
+        actions.add(new Runnable() {
+            public void run() {
+                SoundHandler.playClickSound();
+            }
+        });
     }
 
     /**
@@ -144,4 +162,38 @@ public class Button {
         return font;
     }
 
+    /**
+     * Adds an action to be performed when the button is clicked.
+     * @param r The Runneable action to be performed.
+     */
+    public final void addAction(final Runnable r) {
+        actions.add(r);
+    }
+
+    /**
+     * Performs this buttons click action.
+     */
+    public final void click() {
+        Log.log("Click!");
+        for (Runnable r : actions) {
+            r.run();
+        }
+    }
+
+    /**
+     * Adds a game state change action to this button.
+     * @param sbg
+     *            The state based game object.
+     * @param state
+     *            The state id to change to. (GameState.)
+     */
+    public final void addGameStateChangeAction(final StateBasedGame sbg,
+            final int state) {
+        addAction(new Runnable() {
+            public void run() {
+                sbg.enterState(state, new FadeOutTransition(),
+                        new FadeInTransition());
+            }
+        });
+    }
 }

@@ -12,10 +12,10 @@
 package bustamove.bubble;
 
 import bustamove.system.Log;
+import bustamove.system.SoundHandler;
 import bustamove.game.GameData;
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
-import bustamove.sound.SoundHandler;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
