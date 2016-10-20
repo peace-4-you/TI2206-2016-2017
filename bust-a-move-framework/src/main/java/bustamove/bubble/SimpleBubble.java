@@ -180,8 +180,8 @@ public class SimpleBubble extends Bubble {
         this.setState(State.LANDED);
         this.setXSpeed(0);
         this.setYSpeed(0);
-        Log.log(this, "Adjusting bubble land position to: (" + (int) pos.getX()
-                + " ; " + (int) pos.getY() + ")");
+        Log.getInstance().log(this, "Adjusting bubble land position to: ("
+                + (int) pos.getX() + " ; " + (int) pos.getY() + ")");
         this.setX(xPos);
         this.setY(yPos);
     }
