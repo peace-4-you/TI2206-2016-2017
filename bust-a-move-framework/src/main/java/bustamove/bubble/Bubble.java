@@ -53,22 +53,17 @@ public abstract class Bubble {
      * Sets the gamehead, this is a instance of GameData.
      * @param game the gamehead to refer to
      */
-    //CHECKSTYLE:OFF: DesignForExtension
     public abstract void setGameHead(final GameData game);
-    //CHECKSTYLE:ON: DesignForExtension
     /**
      * Returns the gamehead.
      * @return  GameData gamehead
      */
-    //CHECKSTYLE:OFF: DesignForExtension
     public abstract GameData getGameHead();
-    //CHECKSTYLE:ON: DesignForExtension
     /**
      * Draws the Bubble.
      *
      * @param g Java Graphics instance
      */
-    //CHECKSTYLE:OFF: DesignForExtension
     public abstract void draw(final Graphics g);
     /**
      * Updates the Bubble's position per game tick.
@@ -107,7 +102,7 @@ public abstract class Bubble {
      *
      * @return the root SimpleBubble instance
      */
-    public abstract SimpleBubble getRootBubble();
+    public abstract Bubble getRootBubble();
     /**
      * Getter method: for X coordinate of the bubble.
      *
@@ -191,7 +186,6 @@ public abstract class Bubble {
      *
      * @param nextSpeed new speed value
      */
-    //CHECKSTYLE:ON: DesignForExtension
     public abstract void setFireSpeed(final double nextSpeed);
     /**
      * Getter method for the Firing Speed of the bubble.

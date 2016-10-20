@@ -124,26 +124,21 @@ public class SimpleBubble extends Bubble {
      * Sets the gamehead, this is a instance of GameData.
      * @param game the gamehead to refer to
      */
-    //CHECKSTYLE:OFF: DesignForExtension
     public final void setGameHead(final GameData game) {
       this.gamehead = game;
     }
-    //CHECKSTYLE:ON: DesignForExtension
     /**
      * Returns the gamehead.
      * @return  GameData gamehead
      */
-     //CHECKSTYLE:OFF: DesignForExtension
     public final GameData getGameHead() {
       return this.gamehead;
     }
-    //CHECKSTYLE:ON: DesignForExtension
     /**
      * Draws the SimpleBubble.
      *
      * @param g Java Graphics instance
      */
-    //CHECKSTYLE:OFF: DesignForExtension
     public final void draw(final Graphics g) {
         g.setColor(this.drawColor);
         g.fillOval((int) this.pos.getX(), (int) this.pos.getY(),
@@ -215,7 +210,7 @@ public class SimpleBubble extends Bubble {
      * and ySpeed to zero.
      */
     public final void pop() {
-    	SoundHandler.playPopSound();
+        SoundHandler.playPopSound();
         this.setXSpeed(0);
         this.setYSpeed(0);
     }
@@ -234,7 +229,7 @@ public class SimpleBubble extends Bubble {
      *
      * @return the root SimpleBubble instance
      */
-    public final SimpleBubble getRootBubble() {
+    public final Bubble getRootBubble() {
         return this;
     }
     /**
@@ -348,7 +343,6 @@ public class SimpleBubble extends Bubble {
      *
      * @param nextSpeed new speed value
      */
-    //CHECKSTYLE:ON: DesignForExtension
     public final void setFireSpeed(final double nextSpeed) {
         gamehead.setBubbleSpeed(nextSpeed);
     }

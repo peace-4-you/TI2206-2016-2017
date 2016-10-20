@@ -15,7 +15,6 @@ package bustamove.bubble.powerup;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
-import bustamove.bubble.SimpleBubble;
 import bustamove.bubble.Bubble;
 import bustamove.game.GameData;
 
@@ -29,7 +28,7 @@ public abstract class PowerUp extends Bubble {
     /**
      * Root bubble component.
      */
-    private SimpleBubble rootBubble;
+    private Bubble rootBubble;
     /**
      * Wrapped bubble component.
      */
@@ -138,7 +137,7 @@ public abstract class PowerUp extends Bubble {
      *
      * @return the root SimpleBubble instance
      */
-    public final SimpleBubble getRootBubble() {
+    public final Bubble getRootBubble() {
         return bubble.getRootBubble();
     }
     /**
@@ -259,7 +258,6 @@ public abstract class PowerUp extends Bubble {
      * @param game the gamehead to refer to
      */
     public final void setGameHead(final GameData game) {
-        // this.gamehead = game;
         bubble.setGameHead(game);
     }
     /**

@@ -20,7 +20,7 @@ public final class SoundHandler {
     /**
      * The volume at which all audio will be played (between 0 and 1).
      */
-    private static float volume = 0;
+    private static float volume = 1;
     /**
      * The cannon firing sound.
      */
