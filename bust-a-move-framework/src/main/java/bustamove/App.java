@@ -72,7 +72,7 @@ public class App extends StateBasedGame {
         app.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
         app.setAlwaysRender(true);
         app.setTargetFrameRate(MAX_FPS);
-        SoundHandler.init();
+        SoundHandler.getInstance().init();
         app.start();
     }
 

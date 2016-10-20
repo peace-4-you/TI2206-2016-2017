@@ -110,7 +110,7 @@ public class Button {
         float ypos = mouse.getMouseY();
         if (xpos >= xPos && xpos <= xPos + bWidth
                 && ypos >= yPos && ypos <= yPos + bHeight) {
-            SoundHandler.playClickSound();
+            SoundHandler.getInstance().playClickSound();
             return true;
         }
         return false;

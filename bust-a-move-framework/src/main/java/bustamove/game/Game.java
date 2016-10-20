@@ -118,7 +118,7 @@ public final class Game extends BasicGameState {
      */
     private void wonGame() {
         Log.getInstance().log(this, "Game Won");
-        SoundHandler.playWinSound();
+        SoundHandler.getInstance().playWinSound();
         sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
@@ -128,7 +128,7 @@ public final class Game extends BasicGameState {
      */
     private void failedGame() {
         Log.getInstance().log(this, "Game Failed");
-        SoundHandler.playLoseSound();
+        SoundHandler.getInstance().playLoseSound();
         sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }

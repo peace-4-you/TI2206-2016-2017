@@ -15,6 +15,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import bustamove.bubble.SimpleBubble;
 import bustamove.bubble.Bubble;
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
@@ -35,8 +36,10 @@ public class Cannon {
     /**
      * X and Y coordinate of the next bubble.
      */
-    private static final int X_LAUNCH = (int) (375 - Bubble.DIAMETER / 2);
-    private static final int Y_LAUNCH = (int) (555 - Bubble.DIAMETER / 2);
+    private static final int X_LAUNCH =
+        (int) (375 - Bubble.DIAMETER / 2);
+    private static final int Y_LAUNCH =
+        (int) (555 - Bubble.DIAMETER / 2);
     /**
      * X and Y coordinate of the current bubble.
      */
@@ -142,7 +145,7 @@ public class Cannon {
      */
     private Bubble getNextBubble() {
         Log.getInstance().log(this, "Next bubble loaded to cannon");
-        Bubble newBubble = Bubble.randomColor(
+        Bubble newBubble = SimpleBubble.randomColor(
                 (float) Cannon.X_LAUNCH + this.offset, (float) Cannon.Y_LAUNCH,
                 game.getArena().getBubbleStorage().getColorsOnArena(), true);
         if (GameConfig.ENABLE_POWERUPS) {
@@ -156,7 +159,7 @@ public class Cannon {
      */
     public final void fire() {
         Log.getInstance().log(this, "Cannon fired a bubble");
-        SoundHandler.playFireSound();
+        SoundHandler.getInstance().playFireSound();
         this.currBubble.setGameHead(game);
         this.currBubble.fire(this.angle);
         this.loadNextBubble();
@@ -168,8 +171,8 @@ public class Cannon {
      * Updates the Cannon angle per input step.
      */
     public final void stepUp() {
-        if (this.angle <= RIGHT_ANGLE_LIMIT) {
-            SoundHandler.playClickSound();
+        if (this.angle < RIGHT_ANGLE_LIMIT) {
+            SoundHandler.getInstance().playClickSound();
             this.angle += 1;
         }
     }
@@ -178,8 +181,8 @@ public class Cannon {
      * Updates the Cannon angle per input step.
      */
     public final void stepDown() {
-        if (this.angle >= LEFT_ANGLE_LIMIT) {
-            SoundHandler.playClickSound();
+        if (this.angle > LEFT_ANGLE_LIMIT) {
+            SoundHandler.getInstance().playClickSound();
             this.angle -= 1;
         }
     }

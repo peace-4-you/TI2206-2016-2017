@@ -14,6 +14,10 @@ import bustamove.system.Log;
 
 public final class SoundHandler {
     /**
+     * Singleton variable.
+     */
+    private static volatile SoundHandler uniqueSoundHandler;
+    /**
      * The background music.
      */
     private static Music backgroundMusic;
@@ -45,7 +49,7 @@ public final class SoundHandler {
     /**
      * Initializes the SoundHandler static class.
      */
-    public static void init() {
+    public void init() {
         try {
             backgroundMusic = new Music("res/music.ogg");
             backgroundMusic.loop();
@@ -66,9 +70,24 @@ public final class SoundHandler {
     private SoundHandler() { }
 
     /**
+     * Singleton returns the unique instance.
+     * @return unique singleton instance
+     */
+    public static SoundHandler getInstance() {
+        if (uniqueSoundHandler == null) {
+            synchronized (SoundHandler.class) {
+                if (uniqueSoundHandler == null) {
+                    uniqueSoundHandler = new SoundHandler();
+                }
+            }
+        }
+        return uniqueSoundHandler;
+    }
+
+    /**
      * Plays a firing sound.
      */
-    public static void playFireSound() {
+    public void playFireSound() {
         if (fireSound != null) {
             fireSound.play(1.0f, volume);
         }
@@ -77,7 +96,7 @@ public final class SoundHandler {
     /**
      * Plays a popping sound.
      */
-    public static void playPopSound() {
+    public void playPopSound() {
         if (popSound != null) {
             popSound.play(1.0f, volume);
         }
@@ -86,7 +105,7 @@ public final class SoundHandler {
     /**
      * Plays a button clicking sound.
      */
-    public static void playClickSound() {
+    public void playClickSound() {
         if (clickSound != null) {
             clickSound.play(1.0f, volume);
         }
@@ -95,7 +114,7 @@ public final class SoundHandler {
     /**
      * Plays a game winning sound.
      */
-    public static void playWinSound() {
+    public void playWinSound() {
         if (winSound != null) {
             winSound.play(1.0f, volume);
         }
@@ -104,7 +123,7 @@ public final class SoundHandler {
     /**
      * Plays a game losing sound.
      */
-    public static void playLoseSound() {
+    public void playLoseSound() {
         if (loseSound != null) {
             loseSound.play(1.0f, volume);
         }
