@@ -40,7 +40,7 @@ public class LongScope extends PowerUp {
      * @param g Java Graphics instance
      */
     public final void draw(final Graphics g) {
-        this.bubble.draw(g);
+        getBubble().draw(g);
         g.setColor(Color.black);
         g.drawString("+C", this.getX() + getpowerupOffset(),
                 this.getY() + getpowerupOffset());
@@ -54,7 +54,7 @@ public class LongScope extends PowerUp {
         Cannon cannon = this.getGameHead().getCannon();
         int length = cannon.getLength();
 
-        this.bubble.pop();
+        getBubble().pop();
         if (length < GameConfig.MAX_CANNON_LENGTH) {
             cannon.setLength(length + GameConfig.CANNON_LENGTH_INCREMENT);
         }

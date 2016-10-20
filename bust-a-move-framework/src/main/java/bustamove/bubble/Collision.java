@@ -102,7 +102,8 @@ public final class Collision {
         double xPos = bubble.getX();
         double wallPos = arenaCont.getxPos();
         if (xPos <= wallPos
-                || xPos + Bubble.DIAMETER >= wallPos + arenaCont.getWidth()) {
+                || xPos + Bubble.DIAMETER
+                >= wallPos + arenaCont.getWidth()) {
             bubble.hitWall();
         }
     }
@@ -211,6 +212,22 @@ public final class Collision {
                 if (b != null) {
                     popBubble(b);
                 }
+            }
+        }
+        checkBubblesToDrop();
+    }
+    /**
+     * Pops an OBomb, pops all neighboring bubbles.
+     *
+     * @param bubble OBomb to be popped
+     */
+    public void popOBomb(final Bubble bubble) {
+        int col = bubbleStorage.getColumn(bubble.getX(), bubble.getY());
+        int row = bubbleStorage.getRow(bubble.getY());
+        Bubble[] neighbors = bubbleStorage.getNeighbors(row, col);
+        for (Bubble b : neighbors) {
+            if (b != null) {
+                popBubble(b);
             }
         }
         checkBubblesToDrop();
@@ -356,7 +373,7 @@ public final class Collision {
                 ite.remove();
                 continue;
             }
-            bubble.setY(bubble.getY() + (float) bubble.getDropSpeed());
+            bubble.setY(bubble.getY() + (float) Bubble.DROP_SPEED);
             bubble.draw(g);
         }
     }

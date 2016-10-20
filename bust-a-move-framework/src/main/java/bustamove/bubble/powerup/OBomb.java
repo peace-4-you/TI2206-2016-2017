@@ -37,7 +37,7 @@ public class OBomb extends PowerUp {
      * @param g Java Graphics instance
      */
     public final void draw(final Graphics g) {
-        this.bubble.draw(g);
+        getBubble().draw(g);
         g.setColor(Color.black);
         g.drawString("OB", this.getX() + getpowerupOffset(),
                 this.getY() + getpowerupOffset());
@@ -48,6 +48,7 @@ public class OBomb extends PowerUp {
      * Pops neighbors.
      */
     public final void pop() {
-        this.bubble.pop();
+        getBubble().pop();
+        this.getGameHead().getArena().getCollision().popOBomb(this);
     }
 }
