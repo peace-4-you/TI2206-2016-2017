@@ -37,11 +37,6 @@ import bustamove.sound.SoundHandler;
  */
 public final class Game extends BasicGameState {
     /**
-     * private game variable for Singleton.
-     * Uses the eagerly created instance solution.
-     */
-    private static Game gameInstance = new Game();
-    /**
      * The statebasedgame and container for runing BasicGameState instance.
      */
     private StateBasedGame sbg;
@@ -65,17 +60,9 @@ public final class Game extends BasicGameState {
     private static final int GRAYRECT_HEIGHT = 580;
 
     /**
-     * Singleton getInstance function.
-     * @return the singleton game instance
-     */
-    public static Game getInstance() {
-        return gameInstance;
-    }
-
-    /**
      * Private constructor.
      */
-    private Game() {
+    public Game() {
         this.gamedata = new ArrayList<GameData>();
         Log.getInstance().log(this, "Game initialised");
     }
