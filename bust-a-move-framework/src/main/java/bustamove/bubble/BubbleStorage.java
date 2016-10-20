@@ -199,6 +199,7 @@ public final class BubbleStorage {
             for (int i = 0; i < row.length; i++) {
                 if (row[i] == bubble) {
                     row[i] = null;
+                    stop = true;
                 }
             }
             if (stop) {
