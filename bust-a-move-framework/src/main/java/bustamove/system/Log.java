@@ -15,6 +15,11 @@ import java.util.Date;
  * @author Maurice Willemsen
  */
 public final class Log {
+
+    /**
+     * Singleton variable.
+     */
+    private static volatile Log uniqueLog;
     /**
      * Used for timestamping.
      */
@@ -26,10 +31,24 @@ public final class Log {
 
 
     /**
-     * Constructor that you aren't supposed to use.
+     * Constructor of the class.
      */
     private Log() {
-        throw new AssertionError("Not allowed to instantiate.");
+    }
+
+    /**
+     * Singleton returns the unique instance.
+     * @return unique singleton instance
+     */
+    public static Log getInstance() {
+        if (uniqueLog == null) {
+            synchronized (Log.class) {
+                if (uniqueLog == null) {
+                    uniqueLog = new Log();
+                }
+            }
+        }
+        return uniqueLog;
     }
 
     /**
@@ -38,7 +57,7 @@ public final class Log {
      * @param log Log message
      */
     @SuppressWarnings("deprecation")
-    public static void log(final String log) {
+    public void log(final String log) {
         d = new Date();
         number++;
         System.out.format("[Bust-A-Move] -> [Log: %d] -> [%d:%d:%d] -> %s%n",
@@ -54,7 +73,7 @@ public final class Log {
      * @param log Log message
      */
     @SuppressWarnings("deprecation")
-    public static void log(final Object obj, final String log) {
+    public void log(final Object obj, final String log) {
         d = new Date();
         number++;
         System.out.format("[Bust-A-Move] -> [Class: %s] -> [Log: %d] "

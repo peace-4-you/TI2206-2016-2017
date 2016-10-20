@@ -121,7 +121,7 @@ public final class Collision {
                         && bubble.getState() == Bubble.State.LANDED
                         && shotBubble.getBoundingBox().intersects(
                         bubble.getBoundingBox())) {
-                    Log.log(this, "Fired Bubble collision! "
+                    Log.getInstance().log(this, "Fired Bubble collision! "
                             + shotBubble.getColor() + " with "
                             + bubble.getColor());
                     landBubble(shotBubble);
@@ -265,7 +265,7 @@ public final class Collision {
     private LinkedList<Bubble> checkBubblesToDrop() {
         int dropCount = 0;
         LinkedList<Bubble> visited = new LinkedList<Bubble>();
-        Log.log(this, "Checking for bubbles to drop");
+        Log.getInstance().log(this, "Checking for bubbles to drop");
 
 
         if (!bubbleStorage.isEmpty() && bubbleStorage.get(0) != null) {
