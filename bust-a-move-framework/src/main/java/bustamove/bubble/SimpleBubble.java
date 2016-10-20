@@ -210,7 +210,7 @@ public class SimpleBubble extends Bubble {
      * and ySpeed to zero.
      */
     public final void pop() {
-        SoundHandler.playPopSound();
+        SoundHandler.getInstance().playPopSound();
         this.setXSpeed(0);
         this.setYSpeed(0);
     }
