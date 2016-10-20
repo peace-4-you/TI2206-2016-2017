@@ -112,8 +112,9 @@ public class Button {
                 && ypos >= yPos && ypos <= yPos + bHeight) {
             SoundHandler.playClickSound();
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
