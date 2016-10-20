@@ -193,11 +193,15 @@ public final class BubbleStorage {
      */
     public void removeBubble(final Bubble bubble) {
         for (Bubble[] row : bubble2DArray) {
+            boolean stop = false;
             for (int i = 0; i < row.length; i++) {
                 if (row[i] == bubble) {
                     row[i] = null;
-                    break;
+                    stop = true;
                 }
+            }
+            if (stop) {
+                break;
             }
         }
         LinkedList<Bubble[]> rowsToRemove = new LinkedList<Bubble[]>();
