@@ -255,7 +255,7 @@ public class Bubble {
      * and ySpeed to zero.
      */
     public void pop() {
-    	SoundHandler.playPopSound();
+    	SoundHandler.getInstance().playPopSound();
         this.setXSpeed(0);
         this.setYSpeed(0);
     }

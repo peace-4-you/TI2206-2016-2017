@@ -156,7 +156,7 @@ public class Cannon {
      */
     public final void fire() {
         Log.log(this, "Cannon fired a bubble");
-        SoundHandler.playFireSound();
+        SoundHandler.getInstance().playFireSound();
         this.currBubble.setGameHead(game);
         this.currBubble.fire(this.angle);
         this.loadNextBubble();
@@ -169,7 +169,7 @@ public class Cannon {
      */
     public final void stepUp() {
         if (this.angle <= RIGHT_ANGLE_LIMIT) {
-            SoundHandler.playClickSound();
+            SoundHandler.getInstance().playClickSound();
             this.angle += 1;
         }
     }
@@ -179,7 +179,7 @@ public class Cannon {
      */
     public final void stepDown() {
         if (this.angle >= LEFT_ANGLE_LIMIT) {
-            SoundHandler.playClickSound();
+            SoundHandler.getInstance().playClickSound();
             this.angle -= 1;
         }
     }
