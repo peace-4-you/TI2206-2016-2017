@@ -117,7 +117,7 @@ public class Cannon {
      */
     public Cannon(final GameData g, final int drawingoffset,
                   final int modelnr) {
-        Log.log(this, "Cannon initialised");
+        Log.getInstance().log(this, "Cannon initialised");
         this.cannonColour = Color.red;
         this.game = g;
         this.offset = drawingoffset;
@@ -144,7 +144,7 @@ public class Cannon {
      * @return newly created bubble
      */
     private Bubble getNextBubble() {
-        Log.log(this, "Next bubble loaded to cannon");
+        Log.getInstance().log(this, "Next bubble loaded to cannon");
         Bubble newBubble = SimpleBubble.randomColor(
                 (float) Cannon.X_LAUNCH + this.offset, (float) Cannon.Y_LAUNCH,
                 game.getArena().getBubbleStorage().getColorsOnArena(), true);
@@ -158,7 +158,7 @@ public class Cannon {
      * Fires current bubble and loads next bubble.
      */
     public final void fire() {
-        Log.log(this, "Cannon fired a bubble");
+        Log.getInstance().log(this, "Cannon fired a bubble");
         SoundHandler.getInstance().playFireSound();
         this.currBubble.setGameHead(game);
         this.currBubble.fire(this.angle);
@@ -221,7 +221,7 @@ public class Cannon {
             }
             if (container.getInput().isKeyPressed(INPUTKEY[playernr - 1][i])) {
                  String log = "Cannon moving to the " + MOVE_TEXT[i];
-                 Log.log(this, log);
+                 Log.getInstance().log(this, log);
             }
         }
         if (container.getInput().isKeyPressed(INPUTKEY[playernr - 1][2])) {
@@ -231,7 +231,8 @@ public class Cannon {
             displayWarning = true;
         }
         if (this.timeShotFired > TIME_TO_SHOOT) {
-            Log.log(this, "Time elapsed, " + "shooting automatically");
+            Log.getInstance().log(this, "Time elapsed, "
+                    + "shooting automatically");
             fire();
             timePassedKey[0] = 0;
             timePassedKey[1] = 0;

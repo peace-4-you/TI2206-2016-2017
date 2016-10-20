@@ -60,7 +60,7 @@ public final class SoundHandler {
             winSound = new Sound("res/win.ogg");
             loseSound = new Sound("res/lose.ogg");
         } catch (SlickException e) {
-            Log.log("Error loading a sound.");
+            Log.getInstance().log("Error loading a sound.");
         }
     }
 
