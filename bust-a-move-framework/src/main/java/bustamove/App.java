@@ -20,7 +20,7 @@ import bustamove.gamestate.NamesScreen;
 import bustamove.gamestate.PausedScreen;
 import bustamove.gamestate.StartScreen;
 import bustamove.gamestate.VictoryScreen;
-import bustamove.sound.SoundHandler;
+import bustamove.system.SoundHandler;
 
 /**
  * The App class contains the launcher of the program.

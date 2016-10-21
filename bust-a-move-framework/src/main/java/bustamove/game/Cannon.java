@@ -19,8 +19,8 @@ import bustamove.bubble.SimpleBubble;
 import bustamove.bubble.Bubble;
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
-import bustamove.sound.SoundHandler;
 import bustamove.system.Log;
+import bustamove.system.SoundHandler;
 
 /**
  * The Cannon class represents a cannon entity.
