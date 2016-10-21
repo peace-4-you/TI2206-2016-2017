@@ -9,14 +9,14 @@
  */
 package bustamove.gamestate;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
 import bustamove.util.PlayerObserver;
@@ -28,13 +28,9 @@ import bustamove.util.PlayerObserver;
  */
 public class PausedScreen extends BasicGameState implements PlayerObserver {
     /**
-     * Resume Button.
+     * All the buttons.
      */
-    private Button resume;
-    /**
-     * Quit Button.
-     */
-    private Button quit;
+    private ArrayList<Button> buttons;
     /**
      * Contains the player's name.
      */
@@ -80,6 +76,7 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
+        buttons = new ArrayList<Button>();
         gamecontainer = game;
         pauseText = new Text("Game Paused", GameConfig.FIRST_LINE);
         pauseText.centerText(game);
@@ -91,12 +88,27 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
         player2name.centerText(game);
         player2score = new Text("Score:", GameConfig.SEVENTH_LINE);
         player2score.centerText(game);
-        resume = new Button("Resume", GameConfig.FOURTH_LINE, GameConfig.WIDTH2,
-                GameConfig.HEIGHT);
+        Button resume = new Button("Resume", GameConfig.FOURTH_LINE,
+                GameConfig.WIDTH2, GameConfig.HEIGHT);
         resume.centerButton(game);
-        quit = new Button("Quit", GameConfig.FIFTH_LINE, GameConfig.WIDTH2,
-                GameConfig.HEIGHT);
+        resume.addGameStateChangeAction(stateBasedGame,
+                GameState.GAME_ACTIVE);
+        Button quit = new Button("Quit", GameConfig.FIFTH_LINE,
+                GameConfig.WIDTH2, GameConfig.HEIGHT);
         quit.centerButton(game);
+        quit.addAction(new Runnable() {
+            public void run() {
+                try {
+                    App.getGame().destroyGame();
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        quit.addGameStateChangeAction(stateBasedGame,
+                GameState.MAIN_MENU);
+        buttons.add(resume);
+        buttons.add(quit);
     }
 
     /**
@@ -112,8 +124,9 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
         pauseText.draw(graphics);
         player1name.draw(graphics);
         player1score.draw(graphics);
-        resume.draw(graphics);
-        quit.draw(graphics);
+        for (Button b : buttons) {
+            b.draw(graphics);
+        }
         if (this.players == 2) {
             player2name.draw(graphics);
             player2score.draw(graphics);
@@ -133,14 +146,10 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
         gamecontainer = game;
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            if (resume.isInBounds(input)) {
-                stateBasedGame.enterState(GameState.GAME_ACTIVE,
-                        new FadeOutTransition(), new FadeInTransition());
-            }
-            if (quit.isInBounds(input)) {
-                App.getGame().destroyGame();
-                stateBasedGame.enterState(GameState.MAIN_MENU,
-                        new FadeOutTransition(), new FadeInTransition());
+            for (Button b : buttons) {
+                if (b.isInBounds(input)) {
+                    b.click();
+                }
             }
         }
     }
@@ -149,9 +158,10 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
      * Centering all buttons and texts in the screen.
      */
     public final void center() {
+        for (Button b : buttons) {
+            b.centerButton(gamecontainer);
+        }
         pauseText.centerText(gamecontainer);
-        resume.centerButton(gamecontainer);
-        quit.centerButton(gamecontainer);
         player1name.centerText(gamecontainer);
         player1score.centerText(gamecontainer);
         player2name.centerText(gamecontainer);

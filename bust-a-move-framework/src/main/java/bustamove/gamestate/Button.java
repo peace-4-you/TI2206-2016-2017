@@ -44,10 +44,6 @@ public class Button {
      */
     private float bHeight;
     /**
-     * Font size constant.
-     */
-    private final int fontSize = 20;
-    /**
      * Font of the text.
      */
     private static TrueTypeFont font;
