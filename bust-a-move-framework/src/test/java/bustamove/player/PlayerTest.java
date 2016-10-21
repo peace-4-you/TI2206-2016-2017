@@ -37,13 +37,13 @@ public class PlayerTest {
     @Test
     public void setName() {
     	player.setName("NewTestPlayer");
-    	assertThat("Score should be added", player.getName(), equalTo("NewTestPlayer"));		
+    	assertThat("Name should be set", player.getName(), equalTo("NewTestPlayer"));		
     }
         
     @Test
     public void setCombo() {
     	player.setCombo(2);
-    	assertThat("Score should be added", player.getCombo(), equalTo(2));		
+    	assertThat("Combo should be set", player.getCombo(), equalTo(2));		
     }
     
     @Test
@@ -63,7 +63,7 @@ public class PlayerTest {
     public void removeObserver() {
     	player.registerObserver(tester);
     	player.removeObserver(tester);
-    	assertFalse("Observer should be registered", player.getObservers().contains(tester));		
+    	assertFalse("Observer should be removed", player.getObservers().contains(tester));		
     }
     
     @Test
@@ -71,12 +71,12 @@ public class PlayerTest {
     	player.registerObserver(tester);
     	player.setName("tester");
     	player.notifyObserver();    	
-    	assertThat("Observer should be registered",tester.name, equalTo("tester"));		
+    	assertThat("Observer should be notified",tester.name, equalTo("tester"));		
     }
     @Test
     public void notifyAmountObserver() {
     	player.registerObserver(tester);
     	player.notifyAmountObserver(2);    	
-    	assertThat("Observer should be registered",tester.amount, equalTo(2));		
+    	assertThat("Observer should be notified",tester.amount, equalTo(2));		
     }
 }
