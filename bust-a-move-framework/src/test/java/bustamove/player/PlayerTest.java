@@ -63,14 +63,14 @@ public class PlayerTest {
     @Test
     public void addObserver() {
     	player.registerObserver(tester);
-    	assertTrue("Observer should be registered", player.getObservers().contains(tester));		
+    	assertTrue("Observer should be registered", player.getObservers().contains((PlayerObserver)tester));		
     }
     
     @Test
     public void removeObserver() {
     	player.registerObserver(tester);
     	player.removeObserver(tester);
-    	assertFalse("Observer should be removed", player.getObservers().contains(tester));		
+    	assertFalse("Observer should be removed", player.getObservers().contains((PlayerObserver)tester));		
     }
     
     @Test
