@@ -27,10 +27,6 @@ public class ScoreTest {
     	testPlayer = player;
     	score = new Score(testPlayer);
     }
-
-    @Before
-    public void setUp() {
-    }
     	   
     @Test
     public void setScore() {
