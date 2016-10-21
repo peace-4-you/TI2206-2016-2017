@@ -30,7 +30,7 @@ public class BubbleTest {
         CONSTRUCTOR, COLOR, XPOS, YPOS, XSPEED, YSPEED, DROPSPEED
     }
 
-    private Bubble parameterizedBubble;
+    private SimpleBubble parameterizedBubble;
     private Type type;
 
     private float xPos;
@@ -46,7 +46,7 @@ public class BubbleTest {
         currColor = color;
         forCannon = cannon;
         expectedResult = expected;
-        parameterizedBubble = new Bubble(xPos, yPos, currColor, forCannon);
+        parameterizedBubble = new SimpleBubble(xPos, yPos, currColor, forCannon);
     }
 
     @Parameters
@@ -144,7 +144,7 @@ public class BubbleTest {
     public void bubbleDropSpeed() {
         try {
             Assume.assumeTrue(type == Type.DROPSPEED);
-            assertEquals(expectedResult, parameterizedBubble.getDropSpeed());
+            assertEquals(expectedResult, Bubble.DROP_SPEED);
         } catch (AssumptionViolatedException e) {
             // These exceptions are intentional
         }
@@ -152,22 +152,22 @@ public class BubbleTest {
 
     // Here starts the manual testing.
     private double epsilon = 1e-6;
-    private Bubble bubble1;
-    private Bubble bubble2;
+    private SimpleBubble bubble1;
+    private SimpleBubble bubble2;
 
     @Before
     public void setUp() {
-        bubble1 = new Bubble(200, 200, ColorChoice.BLUE, true);
-        bubble2 = new Bubble(123, 465, ColorChoice.GREEN, false);
+        bubble1 = new SimpleBubble(200, 200, ColorChoice.BLUE, true);
+        bubble2 = new SimpleBubble(123, 465, ColorChoice.GREEN, false);
     }
 
     @Test
     public void bubbleBoundingBox() {
-        assertEquals(bubble1.getX() + Bubble.DIAMETER / 2, bubble1.getBoundingBox().getCenterX(), epsilon);
-        assertEquals(bubble1.getY() + Bubble.DIAMETER / 2, bubble1.getBoundingBox().getCenterY(), epsilon);
+        assertEquals(bubble1.getX() + SimpleBubble.DIAMETER / 2, bubble1.getBoundingBox().getCenterX(), epsilon);
+        assertEquals(bubble1.getY() + SimpleBubble.DIAMETER / 2, bubble1.getBoundingBox().getCenterY(), epsilon);
 
-        assertEquals(bubble2.getX() + Bubble.DIAMETER / 2, bubble2.getBoundingBox().getCenterX(), epsilon);
-        assertEquals(bubble2.getY() + Bubble.DIAMETER / 2, bubble2.getBoundingBox().getCenterY(), epsilon);
+        assertEquals(bubble2.getX() + SimpleBubble.DIAMETER / 2, bubble2.getBoundingBox().getCenterX(), epsilon);
+        assertEquals(bubble2.getY() + SimpleBubble.DIAMETER / 2, bubble2.getBoundingBox().getCenterY(), epsilon);
     }
 
     @Test
@@ -236,7 +236,7 @@ public class BubbleTest {
     public void bubbleGameHead() {
         GameData gameData = new GameData(0, 1);
         bubble1.setGameHead(gameData);
-        assertEquals(gameData, bubble1.gamehead);
+        assertEquals(gameData, bubble1.getGameHead());
     }
 
     @Test
@@ -244,7 +244,7 @@ public class BubbleTest {
         bubble1.drop();
         assertEquals(State.DROPPING, bubble1.getState());
         assertEquals(0, bubble1.getXSpeed(), epsilon);
-        assertEquals(GameConfig.DEFAULT_BUBBLE_SPEED, bubble1.getDropSpeed(), epsilon);
+        assertEquals(GameConfig.DEFAULT_BUBBLE_SPEED, Bubble.DROP_SPEED, epsilon);
 
         double xpos = bubble1.getX();
         double ypos = bubble1.getY();

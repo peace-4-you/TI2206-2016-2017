@@ -40,7 +40,7 @@ public class Score {
      * @param player the owner of this score
      */
     public Score(final Player player) {
-        Log.log(this, "Score initialised");
+        Log.getInstance().log(this, "Score initialised");
         this.score = 0;
         this.owner = player;
         this.owner.notifyObserver();
@@ -51,7 +51,7 @@ public class Score {
      * @param scoreVal integer value to set score to
      */
     public final void setScore(final int scoreVal) {
-        Log.log(this, "Score Set to " + scoreVal);
+        Log.getInstance().log(this, "Score Set to " + scoreVal);
         this.score = scoreVal;
         this.owner.notifyObserver();
     }
@@ -60,7 +60,7 @@ public class Score {
      * Sets the player's score to default values.
      */
     public final void reset() {
-        Log.log(this, "Score Reset");
+        Log.getInstance().log(this, "Score Reset");
         this.score = 0;
         this.owner.notifyObserver();
     }
@@ -70,7 +70,7 @@ public class Score {
      * @param scoreVal integer value to add to score
      */
     public final void addScore(final int scoreVal) {
-        Log.log(this, "Score added with " + scoreVal);
+        Log.getInstance().log(this, "Score added with " + scoreVal);
         this.score += scoreVal;
         this.owner.notifyObserver();
     }
@@ -83,8 +83,8 @@ public class Score {
     public final void scoreBubblesPopped(final int bubbles) {
         if (bubbles > 0) {
             int scoreVal = DEFAULT_POPPED_POINTS * bubbles;
-            Log.log(this, bubbles + " Bubbles Popped.  " + "Score added with "
-                    + scoreVal);
+            Log.getInstance().log(this, bubbles + " Bubbles Popped.  "
+                    + "Score added with " + scoreVal);
             this.score += scoreVal;
             this.owner.notifyObserver();
         }
@@ -99,8 +99,8 @@ public class Score {
         if (bubbles > 0) {
             int scoreVal = (int) (DEFAULT_DROPPED_POINTS
                     * Math.pow(2, bubbles));
-            Log.log(this, bubbles + " bBubbles Dropped. " + "Score added with "
-                    + scoreVal);
+            Log.getInstance().log(this, bubbles + " bBubbles Dropped. "
+                    + "Score added with " + scoreVal);
             this.score += scoreVal;
             this.owner.notifyObserver();
         }

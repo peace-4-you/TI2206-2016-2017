@@ -11,17 +11,17 @@
 
 package bustamove.gamestate;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
-import bustamove.player.PlayerObserver;
+import bustamove.util.PlayerObserver;
 
 /**
  * Generates a DefeatScreen as a instance of GameState.
@@ -30,13 +30,9 @@ import bustamove.player.PlayerObserver;
  */
 public class DefeatScreen extends BasicGameState implements PlayerObserver {
     /**
-     * Restart Button.
+     * All the buttons.
      */
-    private Button restart;
-    /**
-     * Mainmenu Button.
-     */
-    private Button mainmenu;
+    private ArrayList<Button> buttons;
     /**
      * Contains the player's name.
      */
@@ -61,6 +57,10 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
      * Amount of players.
      */
     private int players = 0;
+    /**
+     * GameContainer.
+     */
+    private GameContainer gamecontainer;
 
     /**
      * Getter method: for the GameState ID.
@@ -78,6 +78,8 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
+        buttons = new ArrayList<Button>();
+        gamecontainer = game;
         failedText = new Text("You Failed", GameConfig.FIRST_LINE);
         failedText.centerText(game);
         player1name = new Text("Player: ", GameConfig.SECOND_LINE);
@@ -88,12 +90,41 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
         player2name.centerText(game);
         player2score = new Text("Score:", GameConfig.SEVENTH_LINE);
         player2score.centerText(game);
-        restart = new Button("Restart", GameConfig.FOURTH_LINE,
+        Button restart = new Button("Restart", GameConfig.FOURTH_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         restart.centerButton(game);
-        mainmenu = new Button("Go to Main Menu", GameConfig.FIFTH_LINE,
+        restart.addAction(new Runnable() {
+            public void run() {
+                try {
+                    App.getGame().destroyGame();
+                    if (players == 2) {
+                        App.getGame().start2Player();
+                    } else {
+                        App.getGame().start1Player();
+                    }
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        restart.addGameStateChangeAction(stateBasedGame,
+                GameState.GAME_ACTIVE);
+        Button main = new Button("Go to Main Menu", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH3, GameConfig.HEIGHT);
-        mainmenu.centerButton(game);
+        main.addAction(new Runnable() {
+            public void run() {
+                try {
+                    App.getGame().destroyGame();
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        main.addGameStateChangeAction(stateBasedGame,
+                GameState.MAIN_MENU);
+        main.centerButton(game);
+        buttons.add(restart);
+        buttons.add(main);
     }
 
     /**
@@ -109,8 +140,9 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
         failedText.draw(graphics);
         player1name.draw(graphics);
         player1score.draw(graphics);
-        restart.draw(graphics);
-        mainmenu.draw(graphics);
+        for (Button b : buttons) {
+            b.draw(graphics);
+        }
         if (this.players == 2) {
             player2name.draw(graphics);
             player2score.draw(graphics);
@@ -127,28 +159,29 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
     public final void update(final GameContainer game,
             final StateBasedGame stateBasedGame, final int i)
             throws SlickException {
-        player1name.centerText(game);
-        player1score.centerText(game);
-        player2name.centerText(game);
-        player2score.centerText(game);
+        gamecontainer = game;
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            if (restart.isInBounds(input)) {
-                App.getGame().destroyGame();
-                if (players == 2) {
-                    App.getGame().start2Player();
-                } else {
-                    App.getGame().start1Player();
+            for (Button b : buttons) {
+                if (b.isInBounds(input)) {
+                    b.click();
                 }
-                stateBasedGame.enterState(GameState.GAME_ACTIVE,
-                        new FadeOutTransition(), new FadeInTransition());
-            }
-            if (mainmenu.isInBounds(input)) {
-                App.getGame().destroyGame();
-                stateBasedGame.enterState(GameState.MAIN_MENU,
-                        new FadeOutTransition(), new FadeInTransition());
             }
         }
+    }
+
+    /**
+     * Centering all buttons and texts in the screen.
+     */
+    public final void center() {
+        for (Button b : buttons) {
+            b.centerButton(gamecontainer);
+        }
+        failedText.centerText(gamecontainer);
+        player1name.centerText(gamecontainer);
+        player1score.centerText(gamecontainer);
+        player2name.centerText(gamecontainer);
+        player2score.centerText(gamecontainer);
     }
 
     /**
@@ -166,6 +199,7 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
             this.player2name.setText("Player: " + name);
             this.player2score.setText("Score: " + score);
         }
+        this.center();
     }
 
     /**

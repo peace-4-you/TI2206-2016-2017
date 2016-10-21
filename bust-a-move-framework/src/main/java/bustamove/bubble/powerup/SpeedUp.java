@@ -19,8 +19,7 @@ import bustamove.bubble.Bubble;
 import bustamove.gamestate.GameConfig;
 
 
-/**
- * SpeedUp is a PowerUp that speeds up Bubbles fired from the Cannon.
+/** SpeedUp is a PowerUp that speeds up Bubbles fired from the Cannon.
  *
  * @author Calvin Nhieu
  */
@@ -40,7 +39,7 @@ public class SpeedUp extends PowerUp {
      * @param g Java Graphics instance
      */
     public final void draw(final Graphics g) {
-        this.bubble.draw(g);
+        getBubble().draw(g);
         g.setColor(Color.black);
         g.drawString("+", this.getX() + getpowerupOffset(),
                 this.getY() + getpowerupOffset());
@@ -51,9 +50,9 @@ public class SpeedUp extends PowerUp {
      * Increases Cannon firing speed.
      */
     public final void pop() {
-        this.bubble.pop();
-        if (gamehead.getBubbleSpeed() < GameConfig.MAX_BUBBLE_SPEED) {
-            gamehead.setBubbleSpeed(gamehead.getBubbleSpeed()
+        getBubble().pop();
+        if (getGameHead().getBubbleSpeed() < GameConfig.MAX_BUBBLE_SPEED) {
+            getGameHead().setBubbleSpeed(getGameHead().getBubbleSpeed()
                     + GameConfig.BUBBLE_SPEEDUP);
         }
     }

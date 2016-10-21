@@ -63,7 +63,7 @@ public final class Arena {
         width = widthBg;
         bubbleStorage = new BubbleStorage(xPos, yPos, this);
         collide = new Collision(bubbleStorage, this, score);
-        Log.log(this, "Arena initialised");
+        Log.getInstance().log(this, "Arena initialised");
     }
 
     /**

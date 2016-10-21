@@ -33,12 +33,12 @@ public class RowBomb extends PowerUp {
     }
 
     /**
-     * Draws the PowerUp'd Bubble.
+     * Draws the PowerUp'd AbstractBubbgle.
      *
      * @param g Java Graphics instance
      */
     public final void draw(final Graphics g) {
-        this.bubble.draw(g);
+        getBubble().draw(g);
         g.setColor(Color.black);
         g.drawString("RB", this.getX() + getpowerupOffset(),
                 this.getY() + getpowerupOffset());
@@ -49,7 +49,7 @@ public class RowBomb extends PowerUp {
      * Pops respective row.
      */
     public final void pop() {
-        this.bubble.pop();
-        this.gamehead.getArena().getCollision().popRowBomb(this);
+        getBubble().pop();
+        this.getGameHead().getArena().getCollision().popRowBomb(this);
     }
 }

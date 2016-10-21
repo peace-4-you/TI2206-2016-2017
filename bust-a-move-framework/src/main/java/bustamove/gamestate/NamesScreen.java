@@ -8,6 +8,8 @@
 
 package bustamove.gamestate;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -15,8 +17,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
 
@@ -26,13 +26,9 @@ import bustamove.App;
  */
 public class NamesScreen extends BasicGameState {
     /**
-     * Play Button.
+     * All the buttons.
      */
-    private Button play;
-    /**
-     * Mainmenu Button.
-     */
-    private Button mainmenu;
+    private ArrayList<Button> buttons;
     /**
      * Name Textfield player 1.
      */
@@ -66,13 +62,11 @@ public class NamesScreen extends BasicGameState {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
+        buttons = new ArrayList<Button>();
         player1text = new Text("Player 1: ", GameConfig.FIRST_LINE);
         player1text.centerText(game);
         player2text = new Text("Player 2: ", GameConfig.FOURTH_LINE);
         player2text.centerText(game);
-        play = new Button("Play", GameConfig.SEVENTH_LINE, GameConfig.WIDTH1,
-                GameConfig.HEIGHT);
-        play.centerButton(game);
         player1name = new TextField(game, game.getDefaultFont(),
                 GameConfig.CENTRAL, GameConfig.SECOND_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
@@ -81,9 +75,31 @@ public class NamesScreen extends BasicGameState {
                 GameConfig.CENTRAL, GameConfig.FIFTH_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
         player2name.setText("Player2");
-        mainmenu = new Button("Main Menu", GameConfig.EIGTH_LINE,
+        Button play = new Button("Play", GameConfig.SEVENTH_LINE,
+                GameConfig.WIDTH1, GameConfig.HEIGHT);
+        play.centerButton(game);
+        Button main = new Button("Main Menu", GameConfig.EIGTH_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
-        mainmenu.centerButton(game);
+        main.centerButton(game);
+        main.addGameStateChangeAction(stateBasedGame,
+                GameState.MAIN_MENU);
+        play.addAction(new Runnable() {
+            public void run() {
+                try {
+                    App.getGame().start2Player();
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
+                App.getGame().getGameData().get(0).getPlayer()
+                .setName(player1name.getText());
+                App.getGame().getGameData().get(1).getPlayer()
+                .setName(player2name.getText());
+            }
+        });
+        play.addGameStateChangeAction(stateBasedGame,
+                GameState.GAME_ACTIVE);
+        buttons.add(play);
+        buttons.add(main);
 
     }
 
@@ -99,10 +115,11 @@ public class NamesScreen extends BasicGameState {
             throws SlickException {
         player1text.draw(graphics);
         player2text.draw(graphics);
-        play.draw(graphics);
         player1name.render(game, graphics);
         player2name.render(game, graphics);
-        mainmenu.draw(graphics);
+        for (Button b : buttons) {
+            b.draw(graphics);
+        }
     }
 
     /**
@@ -117,20 +134,10 @@ public class NamesScreen extends BasicGameState {
             throws SlickException {
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            if (play.isInBounds(input)) {
-                App.getGame().start2Player();
-                App.getGame().getGameData().get(0).getPlayer()
-                        .setName(this.player1name.getText());
-                App.getGame().getGameData().get(1).getPlayer()
-                        .setName(this.player2name.getText());
-                stateBasedGame.enterState(GameState.GAME_ACTIVE,
-                        new FadeOutTransition(), new FadeInTransition());
-            }
-            if (mainmenu.isInBounds(input)) {
-                stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
-                        stateBasedGame);
-                stateBasedGame.enterState(GameState.MAIN_MENU,
-                        new FadeOutTransition(), new FadeInTransition());
+            for (Button b : buttons) {
+                if (b.isInBounds(input)) {
+                    b.click();
+                }
             }
         }
     }

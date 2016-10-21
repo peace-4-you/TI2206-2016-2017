@@ -1,4 +1,4 @@
-package bustamove.player;
+package bustamove.util;
 
 /**
  * Interface for an observable player object.

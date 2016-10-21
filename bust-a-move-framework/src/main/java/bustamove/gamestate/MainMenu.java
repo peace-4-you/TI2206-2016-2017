@@ -11,14 +11,14 @@
 
 package bustamove.gamestate;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
 
 /**
  * Generates a MainMenu as a instance of GameState.
@@ -26,17 +26,9 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
  */
 public class MainMenu extends BasicGameState {
     /**
-     * Play with 1 player Button.
+     * All the buttons.
      */
-    private Button play1player;
-    /**
-     * Play with 2 players Button.
-     */
-    private Button play2players;
-    /**
-     * Quit Button.
-     */
-    private Button quit;
+    private ArrayList<Button> buttons;
 
     /**
      * @return integer of BasicGameState number.
@@ -53,15 +45,38 @@ public class MainMenu extends BasicGameState {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
-        play1player = new Button("1 Player", GameConfig.SECOND_LINE,
+        buttons = new ArrayList<Button>();
+        // 1 player button
+        Button play1player = new Button("1 Player", GameConfig.SECOND_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         play1player.centerButton(game);
-        play2players = new Button("2 Players", GameConfig.THIRD_LINE,
+        play1player.addGameStateChangeAction(stateBasedGame,
+                GameState.NAME_SCREEN);
+        // 2 player button
+        Button play2players = new Button("2 Players", GameConfig.THIRD_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         play2players.centerButton(game);
-        quit = new Button("Quit", GameConfig.FOURTH_LINE, GameConfig.WIDTH1,
-                GameConfig.HEIGHT);
+        play2players.addGameStateChangeAction(stateBasedGame,
+                GameState.NAMES_SCREEN);
+        // High scores button
+        Button highScores = new Button("Highscores", GameConfig.FOURTH_LINE,
+                GameConfig.WIDTH2, GameConfig.HEIGHT);
+        highScores.centerButton(game);
+        highScores.addGameStateChangeAction(stateBasedGame,
+                GameState.HIGHSCORES_SCREEN);
+        // quit button
+        Button quit = new Button("Quit", GameConfig.FIFTH_LINE,
+                GameConfig.WIDTH1, GameConfig.HEIGHT);
         quit.centerButton(game);
+        quit.addAction(new Runnable() {
+            public void run() {
+                game.exit();
+            }
+        });
+        buttons.add(play1player);
+        buttons.add(play2players);
+        buttons.add(highScores);
+        buttons.add(quit);
     }
 
     /**
@@ -75,9 +90,9 @@ public class MainMenu extends BasicGameState {
     public final void render(final GameContainer game,
             final StateBasedGame stateBasedGame, final Graphics graphics)
             throws SlickException {
-        play1player.draw(graphics);
-        play2players.draw(graphics);
-        quit.draw(graphics);
+        for (Button b : buttons) {
+            b.draw(graphics);
+        }
     }
 
     /**
@@ -93,16 +108,10 @@ public class MainMenu extends BasicGameState {
             throws SlickException {
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            if (play1player.isInBounds(input)) {
-                stateBasedGame.enterState(GameState.NAME_SCREEN,
-                        new FadeOutTransition(), new FadeInTransition());
-            }
-            if (play2players.isInBounds(input)) {
-                stateBasedGame.enterState(GameState.NAMES_SCREEN,
-                        new FadeOutTransition(), new FadeInTransition());
-            }
-            if (quit.isInBounds(input)) {
-                game.exit();
+            for (Button b : buttons) {
+                if (b.isInBounds(input)) {
+                    b.click();
+                }
             }
         }
     }

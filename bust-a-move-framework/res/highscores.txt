@@ -1,0 +1,8 @@
+\return;,5290
+Player1,1360
+Player1,530
+\w,410
+Player1,240
+Player1,180
+\return;,150
+Player1,110

@@ -15,6 +15,9 @@ import java.util.Vector;
 
 import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
+import bustamove.util.PlayerObservable;
+import bustamove.util.PlayerObserver;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -52,7 +55,7 @@ public class Player implements PlayerObservable {
      * @param playerid the id of the player in the game
      */
     public Player(final String s, final int drawingoffset, final int playerid) {
-        Log.log(this, "Player initialiased");
+        Log.getInstance().log(this, "Player initialiased");
         this.observers = new Vector<PlayerObserver>();
         this.offset = drawingoffset;
         this.id = playerid;
@@ -74,7 +77,7 @@ public class Player implements PlayerObservable {
      * @param s String value to set name to
      */
     public final void setName(final String s) {
-        Log.log(this, "Name " + this.name + " changed to " + s);
+        Log.getInstance().log(this, "Name " + this.name + " changed to " + s);
         this.name = s;
         this.notifyObserver();
     }
@@ -83,7 +86,7 @@ public class Player implements PlayerObservable {
      * Sets the player's members to default values.
      */
     public final void reset() {
-        Log.log(this, "Player Reset");
+        Log.getInstance().log(this, "Player Reset");
         this.score.reset();
         this.combo = 1;
     }
@@ -101,7 +104,7 @@ public class Player implements PlayerObservable {
      * @param comboVal integer value to set combo to
      */
     public final void setCombo(final int comboVal) {
-        Log.log(this, "Combo set to " + comboVal);
+        Log.getInstance().log(this, "Combo set to " + comboVal);
         this.combo = comboVal;
     }
 
@@ -157,6 +160,14 @@ public class Player implements PlayerObservable {
      */
     public final void removeObserver(final PlayerObserver o) {
         this.observers.remove(o);
+    }
+
+    /**
+     * Getter Method for the observer.
+     * @return observers a vector with the observers registered
+     */
+    public final Vector<PlayerObserver> getObservers() {
+        return this.observers;
     }
 }
 

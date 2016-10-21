@@ -1,15 +1,20 @@
 package bustamove.gamestate;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import bustamove.sound.SoundHandler;
+import bustamove.system.Log;
+import bustamove.system.SoundHandler;
 
 import org.newdawn.slick.GameContainer;
 
-import java.awt.Font;
 
 /**
  * This class creates and renders a button on the screen.
@@ -39,19 +44,17 @@ public class Button {
      */
     private float bHeight;
     /**
-     * Font size constant.
-     */
-    private final int fontSize = 20;
-    /**
      * Font of the text.
      */
-    private TrueTypeFont font = new TrueTypeFont(
-            new Font("Verdana", Font.BOLD, fontSize), true);
-
-
+    private static TrueTypeFont font;
+    /**
+     * List of actions that should be run when a button is clicked.
+     */
+    private ArrayList<Runnable> actions;
 
     /**
      * Constructor for a button without x parameter.
+     *
      * @param text   text that will be displayed on the button
      * @param y      y coordinate of the button(upper bound)
      * @param width  width of the button
@@ -59,21 +62,22 @@ public class Button {
      */
     public Button(final String text, final float y, final float width,
                   final float height) {
-        assert text != null;
-        assert y >= 0;
-        assert width > 0;
-        assert height > 0;
-
         bText = text;
         xPos = 0;
         yPos = y;
         bWidth = width;
         bHeight = height;
+        actions = new ArrayList<Runnable>();
+        actions.add(new Runnable() {
+            public void run() {
+                SoundHandler.getInstance().playClickSound();
+            }
+        });
     }
-
 
     /**
      * Constructor with parameter for x coordinate.
+     *
      * @param text   text that will be displayed on the button
      * @param x      x coordinates of the button
      * @param y      y coordinate of the button(upper bound)
@@ -83,14 +87,13 @@ public class Button {
     public Button(final String text, final float x, final float y,
                   final float width, final float height) {
         this(text, y, width, height);
-        assert x >= 0;
         xPos = x;
 
     }
 
-
     /**
      * Draw the button with the text centered.
+     *
      * @param g Graphics object to draw on/in
      */
     public final void draw(final Graphics g) {
@@ -106,6 +109,7 @@ public class Button {
 
     /**
      * Check whether the mouse in within the bounds of the button.
+     *
      * @param mouse mouse event input
      * @return true if the mouse coordinates are inside the bounds
      */
@@ -114,15 +118,17 @@ public class Button {
         float ypos = mouse.getMouseY();
         if (xpos >= xPos && xpos <= xPos + bWidth
                 && ypos >= yPos && ypos <= yPos + bHeight) {
-            SoundHandler.playClickSound();
+            SoundHandler.getInstance().playClickSound();
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
      * Center the button on the xPos-axis(so center it vertically) for
      * the lazy people.
+     *
      * @param game the game container
      */
     public final void centerButton(final GameContainer game) {
@@ -131,18 +137,54 @@ public class Button {
 
     /**
      * Setter of the font.
+     *
      * @param f font type
      */
-    public final void setFont(final TrueTypeFont f) {
-        this.font = f;
+    public static final void setFont(final TrueTypeFont f) {
+        font = f;
     }
 
     /**
      * Getter of the font used.
+     *
      * @return font tupe
      */
     public final TrueTypeFont getFont() {
         return font;
     }
 
+    /**
+     * Adds an action to be performed when the button is clicked.
+     * @param r The Runneable action to be performed.
+     */
+    public final void addAction(final Runnable r) {
+        actions.add(r);
+    }
+
+    /**
+     * Performs this buttons click action.
+     */
+    public final void click() {
+        Log.getInstance().log(this, "Click!");
+        for (Runnable r : actions) {
+            r.run();
+        }
+    }
+
+    /**
+     * Adds a game state change action to this button.
+     * @param sbg
+     *            The state based game object.
+     * @param state
+     *            The state id to change to. (GameState.)
+     */
+    public final void addGameStateChangeAction(final StateBasedGame sbg,
+            final int state) {
+        addAction(new Runnable() {
+            public void run() {
+                sbg.enterState(state, new FadeOutTransition(),
+                        new FadeInTransition());
+            }
+        });
+    }
 }
