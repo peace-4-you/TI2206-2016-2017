@@ -60,7 +60,7 @@ public final class Highscore {
             reader.close();
             isr.close();
         } catch (FileNotFoundException e) {
-        	Log.log("File not found.");
+            Log.log("File not found.");
         } catch (IOException e) {
             Log.log("Error loading highscores.");
         }
@@ -138,10 +138,10 @@ public final class Highscore {
      */
     private int saveEntry(final PrintWriter writer,
             final Entry<Integer, ArrayList<String>> entry) {
-    	if(writer == null || entry == null) {
-    		Log.log("Writer of entry null");
-    		return 0;
-    	}
+        if (writer == null || entry == null) {
+            Log.log("Writer of entry null");
+            return 0;
+        }
         int added = 0;
         for (String name : entry.getValue()) {
             writer.println(name + "," + entry.getKey());
@@ -196,11 +196,11 @@ public final class Highscore {
     }
 
     /**
-     * Sets the file to load the highscores from
-     * @param file
+     * Sets the file to load the highscores from.
+     * @param fileName The file name to load the data from.
      */
-    public void setFile(String file) {
-    	this.file = file;
+    public void setFile(final String fileName) {
+        file = fileName;
     }
 
 }

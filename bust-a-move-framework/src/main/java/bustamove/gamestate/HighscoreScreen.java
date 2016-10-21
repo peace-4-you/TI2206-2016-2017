@@ -20,7 +20,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import bustamove.App;
 import bustamove.game.Highscore;
 
 /**
@@ -53,12 +52,13 @@ public class HighscoreScreen extends BasicGameState {
     public final int getID() {
         return GameState.HIGHSCORES_SCREEN;
     }
-    
+
     /**
-     * Creates a highscore screen object.
+     * Initializes a highscore screen object.
+     * @param hs The highscore object to use for this screen.
      */
-    public HighscoreScreen(Highscore hs) {
-    	this.highscores = hs;
+    public HighscoreScreen(final Highscore hs) {
+        this.highscores = hs;
     }
 
     /**
