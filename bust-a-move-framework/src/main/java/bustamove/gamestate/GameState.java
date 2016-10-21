@@ -48,4 +48,8 @@ public abstract class GameState {
      * Integer number of setting names screen.
      */
     public static final int NAMES_SCREEN = 8;
+    /**
+     * Integer number of the high scores screen.
+     */
+    public static final int HIGHSCORES_SCREEN = 9;
 }

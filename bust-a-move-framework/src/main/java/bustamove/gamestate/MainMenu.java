@@ -58,8 +58,14 @@ public class MainMenu extends BasicGameState {
         play2players.centerButton(game);
         play2players.addGameStateChangeAction(stateBasedGame,
                 GameState.NAMES_SCREEN);
+        // High scores button
+        Button highScores = new Button("Highscores", GameConfig.FOURTH_LINE,
+                GameConfig.WIDTH2, GameConfig.HEIGHT);
+        highScores.centerButton(game);
+        highScores.addGameStateChangeAction(stateBasedGame,
+                GameState.HIGHSCORES_SCREEN);
         // quit button
-        Button quit = new Button("Quit", GameConfig.FOURTH_LINE,
+        Button quit = new Button("Quit", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         quit.centerButton(game);
         quit.addAction(new Runnable() {
@@ -69,6 +75,7 @@ public class MainMenu extends BasicGameState {
         });
         buttons.add(play1player);
         buttons.add(play2players);
+        buttons.add(highScores);
         buttons.add(quit);
     }
 
