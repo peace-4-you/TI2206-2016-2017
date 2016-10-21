@@ -20,13 +20,20 @@ public class PlayerTest {
 	private Player player;
 	private TestObserver tester;
 	
+	private String name;
+	private int playerid;
+	private int drawingoffset;
+	
     @Parameterized.Parameters
     public static Object[] input() {
-        return new Object[][]{{new Player("TestPlayer",0,1)}};
+        return new Object[][]{{"TestPlayer",0,1}};
     }
 
-    public PlayerTest(Object expected) {
-    	player = (Player) expected;
+    public PlayerTest(String s, int offset, int id) {
+    	name = s;
+    	drawingoffset = offset;
+    	playerid = id;
+    	player = new Player(name,drawingoffset,playerid);
     }
 
     @Before
