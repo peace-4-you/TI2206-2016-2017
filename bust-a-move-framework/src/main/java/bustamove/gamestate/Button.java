@@ -44,10 +44,6 @@ public class Button {
      */
     private float bHeight;
     /**
-     * Font size constant.
-     */
-    private final int fontSize = 20;
-    /**
      * Font of the text.
      */
     private static TrueTypeFont font;
@@ -66,11 +62,6 @@ public class Button {
      */
     public Button(final String text, final float y, final float width,
                   final float height) {
-        assert text != null;
-        assert y >= 0;
-        assert width > 0;
-        assert height > 0;
-
         bText = text;
         xPos = 0;
         yPos = y;
@@ -96,7 +87,6 @@ public class Button {
     public Button(final String text, final float x, final float y,
                   final float width, final float height) {
         this(text, y, width, height);
-        assert x >= 0;
         xPos = x;
 
     }
@@ -130,8 +120,9 @@ public class Button {
                 && ypos >= yPos && ypos <= yPos + bHeight) {
             SoundHandler.getInstance().playClickSound();
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
