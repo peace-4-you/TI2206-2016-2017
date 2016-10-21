@@ -10,10 +10,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.GameContainer;
 
-import java.awt.Font;
-
 /**
  * This class create and draws a String on screen.
+ *
  * @author Maurice Willemsen
  */
 public class Text {
@@ -36,11 +35,11 @@ public class Text {
     /**
      * The font the text should be displayed in.
      */
-    private static final TrueTypeFont FONT = new TrueTypeFont(
-            new Font("Verdana", Font.BOLD, GameConfig.TEXT_SIZE), true);
+    private static TrueTypeFont font;
 
     /**
      * Constructor for a text without x parameter.
+     *
      * @param s text that will be displayed
      * @param y y coordinate of the text
      */
@@ -51,11 +50,12 @@ public class Text {
         this.text = s;
         xPos = 0;
         yPos = y;
-        tWidth = FONT.getWidth(this.text);
+        tWidth = font.getWidth(this.text);
     }
 
     /**
      * Constructor with parameter for x coordinate.
+     *
      * @param s text that will be displayed
      * @param x x coordinate of the text
      * @param y y coordinate of the text
@@ -68,16 +68,18 @@ public class Text {
 
     /**
      * Draw the text centered.
+     *
      * @param g Graphics object to draw on/in
      */
     public final void draw(final Graphics g) {
         g.setColor(Color.white);
-        FONT.drawString(xPos, yPos, text, Color.white);
+        font.drawString(xPos, yPos, text, Color.white);
     }
 
     /**
      * Center the text on the xPos-axis(so center it vertically) for the lazy
      * people.
+     *
      * @param game to get the width of
      */
     public final void centerText(final GameContainer game) {
@@ -86,10 +88,21 @@ public class Text {
 
     /**
      * Set the text.
+     *
      * @param s the string to set
      */
     public final void setText(final String s) {
         this.text = s;
+        tWidth = font.getWidth(this.text);
     }
 
+    /**
+     * Setter of the font.
+     *
+     * @param f font type
+     */
+    public static final void setFont(final TrueTypeFont f) {
+        font = f;
+    }
 }
+

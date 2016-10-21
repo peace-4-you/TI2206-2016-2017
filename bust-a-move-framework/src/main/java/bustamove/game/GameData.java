@@ -75,7 +75,7 @@ public class GameData implements PlayerObserver {
      * @param modelnr       integer of the GameData model
      */
     public GameData(final int drawingoffset, final int modelnr) {
-        Log.log(this, "GameData initialised");
+        Log.getInstance().log(this, "GameData initialised");
         this.offset = drawingoffset;
         this.playerNr = modelnr;
         this.state = GameDataState.RUNNING;

@@ -60,16 +60,17 @@ public class HighscoreTest {
 	@Test
 	public void testHighscoreEntryPosition() {
 		hs.load();
-		int[] scores = new int[5];
-		String[] names = new String[5];
-		for (int i = 0; i < 5; i++) {
+		int size = 10;
+		int[] scores = new int[size];
+		String[] names = new String[size];
+		for (int i = 0; i < size; i++) {
 			scores[i] = i;
 			names[i] = "name" + i;
 			hs.addEntry(names[i], scores[i]);
 		}
 		
-		for (int i = 0; i < 5; i++) {
-			int iNeg = Math.abs(i - 4);
+		for (int i = 0; i < size; i++) {
+			int iNeg = Math.abs(i - (size - 1));
 			assertEquals(hs.getScore(iNeg), scores[i]);
 			assertEquals(hs.getName(iNeg), names[i]);
 		}

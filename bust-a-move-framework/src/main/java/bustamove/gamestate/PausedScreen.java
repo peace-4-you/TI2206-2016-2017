@@ -59,6 +59,10 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
      * Amount of players.
      */
     private int players = 0;
+    /**
+     * GameContainer.
+     */
+    private GameContainer gamecontainer;
 
     /**
      * Getter method: for the GameState ID.
@@ -76,6 +80,7 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
+        gamecontainer = game;
         pauseText = new Text("Game Paused", GameConfig.FIRST_LINE);
         pauseText.centerText(game);
         player1name = new Text("Player:", GameConfig.SECOND_LINE);
@@ -125,10 +130,7 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
     public final void update(final GameContainer game,
             final StateBasedGame stateBasedGame, final int i)
             throws SlickException {
-        player1name.centerText(game);
-        player1score.centerText(game);
-        player2name.centerText(game);
-        player2score.centerText(game);
+        gamecontainer = game;
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (resume.isInBounds(input)) {
@@ -141,6 +143,19 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
                         new FadeOutTransition(), new FadeInTransition());
             }
         }
+    }
+
+    /**
+     * Centering all buttons and texts in the screen.
+     */
+    public final void center() {
+        pauseText.centerText(gamecontainer);
+        resume.centerButton(gamecontainer);
+        quit.centerButton(gamecontainer);
+        player1name.centerText(gamecontainer);
+        player1score.centerText(gamecontainer);
+        player2name.centerText(gamecontainer);
+        player2score.centerText(gamecontainer);
     }
 
     /**
@@ -158,6 +173,7 @@ public class PausedScreen extends BasicGameState implements PlayerObserver {
             this.player2name.setText("Player: " + name);
             this.player2score.setText("Score: " + score);
         }
+        this.center();
     }
 
     /**

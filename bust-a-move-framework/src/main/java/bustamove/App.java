@@ -23,7 +23,7 @@ import bustamove.gamestate.NamesScreen;
 import bustamove.gamestate.PausedScreen;
 import bustamove.gamestate.StartScreen;
 import bustamove.gamestate.VictoryScreen;
-import bustamove.sound.SoundHandler;
+import bustamove.system.SoundHandler;
 
 /**
  * The App class contains the launcher of the program.
@@ -79,7 +79,7 @@ public class App extends StateBasedGame {
         app.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
         app.setAlwaysRender(true);
         app.setTargetFrameRate(MAX_FPS);
-        SoundHandler.init();
+        SoundHandler.getInstance().init();
         highscores = new Highscore();
         highscores.setFile(GameConfig.HIGHSCORE_FILE);
         highscores.load();
@@ -95,7 +95,7 @@ public class App extends StateBasedGame {
      */
     public final void initStatesList(final GameContainer container)
             throws SlickException {
-        game = Game.getInstance();
+        game = new Game();
         game.setHighscores(highscores);
         pausedScreen = new PausedScreen();
         victoryScreen = new VictoryScreen();

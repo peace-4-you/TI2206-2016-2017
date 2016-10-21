@@ -72,6 +72,8 @@ public class HighscoreScreen extends BasicGameState {
         mainmenu = new Button("Main menu", GameConfig.FIRST_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         mainmenu.centerButton(game);
+        mainmenu.addGameStateChangeAction(stateBasedGame,
+                GameState.MAIN_MENU);
     }
 
     /**
@@ -137,7 +139,7 @@ public class HighscoreScreen extends BasicGameState {
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)
                 && mainmenu.isInBounds(input)) {
-            stateBasedGame.enterState(GameState.MAIN_MENU);
+            mainmenu.click();
         }
     }
 

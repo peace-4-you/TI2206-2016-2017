@@ -46,7 +46,7 @@ public final class Highscore {
      * Loads the high scores from the specified high scores file.
      */
     public void load() {
-        Log.log("Loading highscores...");
+        Log.getInstance().log(this, "Loading highscores...");
         highscores = new TreeMap<Integer, ArrayList<String>>();
         InputStreamReader isr = null;
         BufferedReader reader = null;
@@ -60,9 +60,9 @@ public final class Highscore {
             reader.close();
             isr.close();
         } catch (FileNotFoundException e) {
-            Log.log("File not found.");
+            Log.getInstance().log(this, "File not found.");
         } catch (IOException e) {
-            Log.log("Error loading highscores.");
+            Log.getInstance().log(this, "Error loading highscores.");
         }
     }
 
@@ -73,7 +73,8 @@ public final class Highscore {
     private void addEntry(final String entry) {
         String[] parts = entry.split(",");
         if (parts.length != 2) {
-            Log.log("High score entry has wrong parameters.");
+            Log.getInstance().log(this,
+                    "High score entry has wrong parameters.");
             return;
         }
         int score = 0;
@@ -81,8 +82,8 @@ public final class Highscore {
         try {
             score = Integer.parseInt(parts[1]);
         } catch (NumberFormatException e) {
-            Log.log("Error loading high score entry: [" + entry
-                    + "], score is not an int.");
+            Log.getInstance().log(this, "Error loading high score entry: ["
+                    + entry + "], score is not an int.");
         }
         addEntry(name, score);
     }
@@ -124,9 +125,10 @@ public final class Highscore {
             }
             writer.close();
         } catch (FileNotFoundException e) {
-            Log.log("File not found while writing. (Should never happen)");
+            Log.getInstance().log(this,
+                "File not found while writing. (Should never happen)");
         } catch (UnsupportedEncodingException e) {
-            Log.log("Encoding UTF-8 not supported.");
+            Log.getInstance().log(this, "Encoding UTF-8 not supported.");
         }
     }
 
@@ -139,7 +141,7 @@ public final class Highscore {
     private int saveEntry(final PrintWriter writer,
             final Entry<Integer, ArrayList<String>> entry) {
         if (writer == null || entry == null) {
-            Log.log("Writer of entry null");
+            Log.getInstance().log(this, "Writer of entry null");
             return 0;
         }
         int added = 0;
@@ -157,7 +159,8 @@ public final class Highscore {
      */
     public int getScore(final int position) {
         if (position < 0) {
-            Log.log("Highscore position can not be negative.");
+            Log.getInstance().log(this,
+                "Highscore position can not be negative.");
             return 0;
         }
         Entry<Integer, ArrayList<String>> entry = highscores.lastEntry();
@@ -180,7 +183,8 @@ public final class Highscore {
      */
     public String getName(final int position) {
         if (position < 0) {
-            Log.log("Highscore position can not be negative.");
+            Log.getInstance().log(this,
+                    "Highscore position can not be negative.");
             return null;
         }
         Entry<Integer, ArrayList<String>> entry = highscores.lastEntry();
