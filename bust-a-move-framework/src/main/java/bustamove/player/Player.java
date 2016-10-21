@@ -161,5 +161,13 @@ public class Player implements PlayerObservable {
     public final void removeObserver(final PlayerObserver o) {
         this.observers.remove(o);
     }
+
+    /**
+     * Getter Method for the observer.
+     * @return observers a vector with the observers registered
+     */
+    public final Vector<PlayerObserver> getObservers() {
+        return this.observers;
+    }
 }
 
