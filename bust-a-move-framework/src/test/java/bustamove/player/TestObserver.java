@@ -4,10 +4,10 @@ import bustamove.util.PlayerObserver;
 
 public class TestObserver implements PlayerObserver {
 	
-	int amount;
-	int number;
-	String name;
-	int score;
+	public int amount;
+	public int number;
+	public String name;
+	public int score;
 
 	public void update(int playeramount) {
 		this.amount = playeramount;		

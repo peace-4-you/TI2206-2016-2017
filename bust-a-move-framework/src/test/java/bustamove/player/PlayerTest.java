@@ -1,11 +1,10 @@
 package bustamove.player;
 
+import bustamove.util.PlayerObserver;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import bustamove.util.PlayerObserver;
-
 import org.junit.Before;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertFalse;
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class PlayerTest {
 
 	private Player player;
-	private TestObserver tester;
+	private PlayerObserver tester;
 	
 	private String name;
 	private int playerid;
@@ -81,12 +80,12 @@ public class PlayerTest {
     	player.registerObserver(tester);
     	player.setName("tester");
     	player.notifyObserver();    	
-    	assertThat("Observer should be notified",tester.name, equalTo("tester"));		
+    	assertThat("Observer should be notified",((TestObserver) tester).name, equalTo("tester"));		
     }
     @Test
     public void notifyAmountObserver() {
     	player.registerObserver(tester);
     	player.notifyAmountObserver(2);    	
-    	assertThat("Observer should be notified",tester.amount, equalTo(2));		
+    	assertThat("Observer should be notified",((TestObserver) tester).amount, equalTo(2));		
     }
 }
