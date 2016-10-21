@@ -28,7 +28,7 @@ import bustamove.gamestate.Button;
 import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.GameState;
 import bustamove.system.Log;
-import bustamove.sound.SoundHandler;
+import bustamove.system.SoundHandler;
 
 /**
  * The Game class represents a game entity. Contains all GameModels.
@@ -36,11 +36,6 @@ import bustamove.sound.SoundHandler;
  * @version 11.10.2016
  */
 public final class Game extends BasicGameState {
-    /**
-     * private game variable for Singleton.
-     * Uses the eagerly created instance solution.
-     */
-    private static Game gameInstance = new Game();
     /**
      * The statebasedgame and container for runing BasicGameState instance.
      */
@@ -65,19 +60,11 @@ public final class Game extends BasicGameState {
     private static final int GRAYRECT_HEIGHT = 580;
 
     /**
-     * Singleton getInstance function.
-     * @return the singleton game instance
-     */
-    public static Game getInstance() {
-        return gameInstance;
-    }
-
-    /**
      * Private constructor.
      */
-    private Game() {
+    public Game() {
         this.gamedata = new ArrayList<GameData>();
-        Log.log(this, "Game initialised");
+        Log.getInstance().log(this, "Game initialised");
     }
 
     /**
@@ -117,8 +104,8 @@ public final class Game extends BasicGameState {
      * Ends game, changes state to WON.
      */
     private void wonGame() {
-        Log.log(this, "Game Won");
-        SoundHandler.playWinSound();
+        Log.getInstance().log(this, "Game Won");
+        SoundHandler.getInstance().playWinSound();
         sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
@@ -127,8 +114,8 @@ public final class Game extends BasicGameState {
      * Ends game, changes state to FAILED.
      */
     private void failedGame() {
-        Log.log(this, "Game Failed");
-        SoundHandler.playLoseSound();
+        Log.getInstance().log(this, "Game Failed");
+        SoundHandler.getInstance().playLoseSound();
         sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
@@ -137,7 +124,7 @@ public final class Game extends BasicGameState {
      * Pauses game, changes state to PAUSE.
      */
     private void pauseGame() {
-        Log.log(this, "Game Paused");
+        Log.getInstance().log(this, "Game Paused");
         sbg.enterState(GameState.PAUSE_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }

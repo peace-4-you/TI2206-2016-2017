@@ -40,7 +40,7 @@ public class SlowDown extends PowerUp {
      * @param g Java Graphics instance
      */
     public final void draw(final Graphics g) {
-        this.bubble.draw(g);
+        getBubble().draw(g);
         g.setColor(Color.black);
         g.drawString("-", this.getX() + getpowerupOffset(),
                 this.getY() + getpowerupOffset());
@@ -51,10 +51,10 @@ public class SlowDown extends PowerUp {
      * Decreases Cannon firing speed.
      */
     public final void pop() {
-        this.bubble.pop();
-      if (gamehead.getBubbleSpeed() > GameConfig.MIN_BUBBLE_SPEED) {
-            gamehead.setBubbleSpeed(gamehead.getBubbleSpeed()
-                    - GameConfig.BUBBLE_SPEEDUP);
-      }
+        getBubble().pop();
+        if (getGameHead().getBubbleSpeed() > GameConfig.MIN_BUBBLE_SPEED) {
+              getGameHead().setBubbleSpeed(getGameHead().getBubbleSpeed()
+                      - GameConfig.BUBBLE_SPEEDUP);
+        }
     }
 }

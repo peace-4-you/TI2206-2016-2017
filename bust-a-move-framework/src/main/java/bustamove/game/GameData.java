@@ -21,8 +21,8 @@ import bustamove.App;
 import bustamove.bubble.Bubble;
 import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
+import bustamove.util.PlayerObserver;
 import bustamove.player.Player;
-import bustamove.player.PlayerObserver;
 
 /**
  * The Game class represents a single game model.
@@ -75,7 +75,7 @@ public class GameData implements PlayerObserver {
      * @param modelnr       integer of the GameData model
      */
     public GameData(final int drawingoffset, final int modelnr) {
-        Log.log(this, "GameData initialised");
+        Log.getInstance().log(this, "GameData initialised");
         this.offset = drawingoffset;
         this.playerNr = modelnr;
         this.state = GameDataState.RUNNING;

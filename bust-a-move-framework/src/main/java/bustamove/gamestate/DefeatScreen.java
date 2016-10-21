@@ -21,7 +21,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
-import bustamove.player.PlayerObserver;
+import bustamove.util.PlayerObserver;
 
 /**
  * Generates a DefeatScreen as a instance of GameState.
@@ -61,6 +61,10 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
      * Amount of players.
      */
     private int players = 0;
+    /**
+     * GameContainer.
+     */
+    private GameContainer gamecontainer;
 
     /**
      * Getter method: for the GameState ID.
@@ -78,6 +82,7 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
+        gamecontainer = game;
         failedText = new Text("You Failed", GameConfig.FIRST_LINE);
         failedText.centerText(game);
         player1name = new Text("Player: ", GameConfig.SECOND_LINE);
@@ -127,10 +132,7 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
     public final void update(final GameContainer game,
             final StateBasedGame stateBasedGame, final int i)
             throws SlickException {
-        player1name.centerText(game);
-        player1score.centerText(game);
-        player2name.centerText(game);
-        player2score.centerText(game);
+        gamecontainer = game;
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             if (restart.isInBounds(input)) {
@@ -152,6 +154,19 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
     }
 
     /**
+     * Centering all buttons and texts in the screen.
+     */
+    public final void center() {
+        failedText.centerText(gamecontainer);
+        restart.centerButton(gamecontainer);
+        mainmenu.centerButton(gamecontainer);
+        player1name.centerText(gamecontainer);
+        player1score.centerText(gamecontainer);
+        player2name.centerText(gamecontainer);
+        player2score.centerText(gamecontainer);
+    }
+
+    /**
      * Updated by Observable. Sets data
      * @param number integer of player number
      * @param name String of player name
@@ -166,6 +181,7 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
             this.player2name.setText("Player: " + name);
             this.player2score.setText("Score: " + score);
         }
+        this.center();
     }
 
     /**

@@ -102,7 +102,8 @@ public final class Collision {
         double xPos = bubble.getX();
         double wallPos = arenaCont.getxPos();
         if (xPos <= wallPos
-                || xPos + Bubble.DIAMETER >= wallPos + arenaCont.getWidth()) {
+                || xPos + Bubble.DIAMETER
+                >= wallPos + arenaCont.getWidth()) {
             bubble.hitWall();
         }
     }
@@ -121,7 +122,7 @@ public final class Collision {
                         && bubble.getState() == Bubble.State.LANDED
                         && shotBubble.getBoundingBox().intersects(
                         bubble.getBoundingBox())) {
-                    Log.log(this, "Fired Bubble collision! "
+                    Log.getInstance().log(this, "Fired Bubble collision! "
                             + shotBubble.getColor() + " with "
                             + bubble.getColor());
                     landBubble(shotBubble);
@@ -215,6 +216,22 @@ public final class Collision {
         }
         checkBubblesToDrop();
     }
+    /**
+     * Pops an OBomb, pops all neighboring bubbles.
+     *
+     * @param bubble OBomb to be popped
+     */
+    public void popOBomb(final Bubble bubble) {
+        int col = bubbleStorage.getColumn(bubble.getX(), bubble.getY());
+        int row = bubbleStorage.getRow(bubble.getY());
+        Bubble[] neighbors = bubbleStorage.getNeighbors(row, col);
+        for (Bubble b : neighbors) {
+            if (b != null) {
+                popBubble(b);
+            }
+        }
+        checkBubblesToDrop();
+    }
 
     /**
      * Checks which bubble needs to be popped using recursive calls.
@@ -265,7 +282,7 @@ public final class Collision {
     private LinkedList<Bubble> checkBubblesToDrop() {
         int dropCount = 0;
         LinkedList<Bubble> visited = new LinkedList<Bubble>();
-        Log.log(this, "Checking for bubbles to drop");
+        Log.getInstance().log(this, "Checking for bubbles to drop");
 
 
         if (!bubbleStorage.isEmpty() && bubbleStorage.get(0) != null) {
@@ -356,7 +373,7 @@ public final class Collision {
                 ite.remove();
                 continue;
             }
-            bubble.setY(bubble.getY() + (float) bubble.getDropSpeed());
+            bubble.setY(bubble.getY() + (float) Bubble.DROP_SPEED);
             bubble.draw(g);
         }
     }

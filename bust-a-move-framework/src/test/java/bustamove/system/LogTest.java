@@ -1,4 +1,4 @@
-package bustamove.game;
+package bustamove.system;
 
 import org.junit.Assume;
 import org.junit.AssumptionViolatedException;
@@ -13,11 +13,11 @@ import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Unit testing for the game class
- * Created by Winer Bao on Octorber 14th 2016.
+ * Unit testing for the Log class
+ * Created by Winer Bao on Octorber 20th 2016.
  */
 @RunWith(Parameterized.class)
-public class GameTest {
+public class LogTest {
     private enum Type {
         SINGLETON
     }
@@ -26,7 +26,7 @@ public class GameTest {
     private Object expectedResult;
     private String message;
 
-    public GameTest(Type t, Object expected, String msg) {
+    public LogTest(Type t, Object expected, String msg) {
         type = t;
         expectedResult = expected;
         message = msg;
@@ -35,15 +35,15 @@ public class GameTest {
     @Parameters
     public static Collection<Object[]> input() {
         return Arrays.asList(new Object[][]{
-                {Type.SINGLETON, Game.getInstance(), "Should return the same instance"},
+                {Type.SINGLETON, Log.getInstance(), "Should return the same instance"},
         });
     }
 
     @Test
-    public void bubbleSingleton() {
+    public void LogSingleton() {
         try {
             Assume.assumeTrue(type == Type.SINGLETON);
-            assertEquals(message, expectedResult, Game.getInstance());
+            assertEquals(message, expectedResult, Log.getInstance());
         } catch (AssumptionViolatedException e) {
             // These exceptions are intentional
         }
