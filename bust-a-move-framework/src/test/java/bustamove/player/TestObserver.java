@@ -1,5 +1,7 @@
 package bustamove.player;
 
+import bustamove.util.PlayerObserver;
+
 public class TestObserver implements PlayerObserver {
 	
 	int amount;

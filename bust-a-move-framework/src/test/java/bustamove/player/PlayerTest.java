@@ -3,6 +3,9 @@ package bustamove.player;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+
+import bustamove.util.PlayerObserver;
+
 import org.junit.Before;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertFalse;
@@ -63,14 +66,14 @@ public class PlayerTest {
     @Test
     public void addObserver() {
     	player.registerObserver(tester);
-    	assertTrue("Observer should be registered", player.getObservers().contains((PlayerObserver)tester));		
+    	assertTrue("Observer should be registered", player.getObservers().contains(tester));		
     }
     
     @Test
     public void removeObserver() {
     	player.registerObserver(tester);
     	player.removeObserver(tester);
-    	assertFalse("Observer should be removed", player.getObservers().contains((PlayerObserver)tester));		
+    	assertFalse("Observer should be removed", player.getObservers().contains(tester));		
     }
     
     @Test
