@@ -13,7 +13,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.game.Game;
+import bustamove.game.Highscore;
 import bustamove.gamestate.DefeatScreen;
+import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.HighscoreScreen;
 import bustamove.gamestate.MainMenu;
 import bustamove.gamestate.NameScreen;
@@ -45,6 +47,10 @@ public class App extends StateBasedGame {
      */
     private static final int MAX_FPS = 120;
     /**
+     * The high scores object.
+     */
+    private static Highscore highscores;
+    /**
      * Association with states.
      */
     private static Game game;
@@ -74,6 +80,9 @@ public class App extends StateBasedGame {
         app.setAlwaysRender(true);
         app.setTargetFrameRate(MAX_FPS);
         SoundHandler.init();
+        highscores = new Highscore();
+        highscores.setFile(GameConfig.HIGHSCORE_FILE);
+        highscores.load();
         app.start();
     }
 
@@ -87,6 +96,7 @@ public class App extends StateBasedGame {
     public final void initStatesList(final GameContainer container)
             throws SlickException {
         game = Game.getInstance();
+        game.setHighscores(highscores);
         pausedScreen = new PausedScreen();
         victoryScreen = new VictoryScreen();
         defeatScreen = new DefeatScreen();
@@ -98,7 +108,7 @@ public class App extends StateBasedGame {
         addState(defeatScreen);
         addState(new NameScreen());
         addState(new NamesScreen());
-        addState(new HighscoreScreen());
+        addState(new HighscoreScreen(highscores));
     }
 
     /**

@@ -64,6 +64,10 @@ public final class Game extends BasicGameState {
     private static final int GRAYRECT_Y = 530;
     private static final int GRAYRECT_WIDTH = 1040;
     private static final int GRAYRECT_HEIGHT = 580;
+    /**
+     * The high scores object
+     */
+    private Highscore hs;
 
     /**
      * Singleton getInstance function.
@@ -121,7 +125,7 @@ public final class Game extends BasicGameState {
         Log.log(this, "Game Won");
         SoundHandler.playWinSound();
         for (GameData gd : gamedata) {
-            Highscore.getInstance().addEntryAndSave(gd.getPlayer().getName(),
+            hs.addEntryAndSave(gd.getPlayer().getName(),
                     gd.getPlayer().getScore().getScore());
         }
         sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
@@ -136,7 +140,7 @@ public final class Game extends BasicGameState {
         SoundHandler.playLoseSound();
         for (GameData gd : gamedata) {
             Player p = gd.getPlayer();
-            Highscore.getInstance().addEntryAndSave(p.getName(),
+            hs.addEntryAndSave(p.getName(),
                     p.getScore().getScore());
         }
         sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(),
@@ -230,6 +234,13 @@ public final class Game extends BasicGameState {
      */
     public ArrayList<GameData> getGameData() {
         return this.gamedata;
+    }
+
+    /**
+     * sets the highscores object.
+     */
+    public void setHighscores(Highscore hs) {
+    	this.hs = hs;
     }
 
 }

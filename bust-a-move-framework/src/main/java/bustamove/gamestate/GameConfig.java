@@ -126,12 +126,16 @@ public abstract class GameConfig {
      */
     public static final int HIGHSCORE_ENTRIES = 10;
     /**
-     * The offset used for displaying scores in the highscores screen.
+     * The offset used for displaying scores in the high scores screen.
      */
     public static final double HIGHSCORE_NAME_OFFSET = 0.3;
     /**
-     * The offset used for displaying names in the highscores screen.
+     * The offset used for displaying names in the high scores screen.
      */
     public static final double HIGHSCORE_SCORE_OFFSET = 0.6;
+    /**
+     * The location for the high scores file.
+     */
+    public static final String HIGHSCORE_FILE = "res/highscores.txt";
 
 }
