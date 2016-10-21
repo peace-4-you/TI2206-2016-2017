@@ -8,6 +8,7 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 
+import bustamove.bubble.SimpleBubble;
 import bustamove.bubble.Bubble;
 
 import static org.junit.Assert.*;
@@ -23,7 +24,7 @@ public class PowerUpApplyTest {
 
     @Before
     public void setUp() throws Exception {
-        bubble = new Bubble(200, 200, Bubble.ColorChoice.BLUE, false);
+        bubble = new SimpleBubble(200, 200, SimpleBubble.ColorChoice.BLUE, false);
         puBubble = bubble;
         for (int i = 0; i < numTests; i++) {
             puBubble = PowerUp.apply(puBubble);
@@ -44,7 +45,7 @@ public class PowerUpApplyTest {
     @Test
     public void applyCallRootBubbleTest() throws Exception {
         assertEquals("Should wrap a non-powerup root Bubble component.",
-            false, puBubble.getRootBubble() instanceof PowerUp);
+            true, puBubble.getRootBubble() instanceof SimpleBubble);
         assertEquals("Should wrap initial bubble as root Bubble component.",
             bubble, puBubble.getRootBubble());
     }

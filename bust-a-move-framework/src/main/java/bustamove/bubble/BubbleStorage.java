@@ -56,7 +56,7 @@ public final class BubbleStorage {
         xBound = x;
         yBound = y;
         arenaCont = arena;
-        Log.log(this, "Creating a BubbleStorage.");
+        Log.getInstance().log(this, "Creating a BubbleStorage.");
         for (int i = 0; i < START_ROWS; i++) {
             addBubbleRow(true);
         }
@@ -77,7 +77,7 @@ public final class BubbleStorage {
      */
     private void addBubbleRow(final boolean useAllColors) {
 
-        Log.log(this, "Adding a row of bubbles to the storage.");
+        Log.getInstance().log(this, "Adding a row of bubbles to the storage.");
 
         Bubble[] bubbleRow = addEmptyBubbleRowAbove();
         double offset = 0;
@@ -90,7 +90,8 @@ public final class BubbleStorage {
             colors = getColorsOnArena();
         } else {
             colors = new LinkedList<Bubble.ColorChoice>();
-            for (Bubble.ColorChoice c : Bubble.ColorChoice.values()) {
+            for (Bubble.ColorChoice c
+                : Bubble.ColorChoice.values()) {
                 colors.add(c);
             }
         }
@@ -99,8 +100,9 @@ public final class BubbleStorage {
             //
             int xPos = (int) (Bubble.DIAMETER * i + offset + xBound);
             int yPos = 0 + yBound;
-            Bubble.ColorChoice color = colors.get(rand.nextInt(colors.size()));
-            bubbleRow[i] = new Bubble(xPos, yPos, color, false);
+            Bubble.ColorChoice color =
+                colors.get(rand.nextInt(colors.size()));
+            bubbleRow[i] = new SimpleBubble(xPos, yPos, color, false);
         }
     }
 
@@ -202,7 +204,8 @@ public final class BubbleStorage {
                 }
             }
         }
-        LinkedList<Bubble[]> rowsToRemove = new LinkedList<Bubble[]>();
+        LinkedList<Bubble[]> rowsToRemove =
+            new LinkedList<Bubble[]>();
         // remove empty rows
         boolean alreadyRemovedRow = false;
         for (Bubble[] row : bubble2DArray) {

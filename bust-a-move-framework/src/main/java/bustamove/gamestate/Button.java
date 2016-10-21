@@ -79,7 +79,7 @@ public class Button {
         actions = new ArrayList<Runnable>();
         actions.add(new Runnable() {
             public void run() {
-                SoundHandler.playClickSound();
+                SoundHandler.getInstance().playClickSound();
             }
         });
     }
@@ -128,7 +128,7 @@ public class Button {
         float ypos = mouse.getMouseY();
         if (xpos >= xPos && xpos <= xPos + bWidth
                 && ypos >= yPos && ypos <= yPos + bHeight) {
-            SoundHandler.playClickSound();
+            SoundHandler.getInstance().playClickSound();
             return true;
         }
         return false;
@@ -174,7 +174,7 @@ public class Button {
      * Performs this buttons click action.
      */
     public final void click() {
-        Log.log("Click!");
+        Log.getInstance().log(this, "Click!");
         for (Runnable r : actions) {
             r.run();
         }
