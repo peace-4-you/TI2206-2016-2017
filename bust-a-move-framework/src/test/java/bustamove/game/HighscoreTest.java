@@ -85,8 +85,9 @@ public class HighscoreTest {
 		int score2 = 100;
 		String name1 = "OP";
 		String name2 = "NOOB";
-		hs.addEntry(name2, score2);
-		hs.addEntry(name1, score1);
+		boolean b;
+		b = hs.addEntry(name2, score2);
+		b = hs.addEntry(name1, score1);
 		assertEquals(hs.getName(0), name1);
 		assertEquals(hs.getScore(0), score1);
 		assertEquals(hs.getName(1), name2);
@@ -97,7 +98,7 @@ public class HighscoreTest {
 	@Test
 	public void testHighscoreSaveAndLoad() {
 		hs.load();
-		hs.addEntryAndSave("OP", 1000);
+		boolean b = hs.addEntryAndSave("OP", 1000);
 		
 		hs.load();
 		assertEquals(hs.getName(0), "OP");

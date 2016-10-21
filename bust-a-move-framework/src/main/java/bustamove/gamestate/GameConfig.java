@@ -48,6 +48,10 @@ public abstract class GameConfig {
      */
     public static final int EIGTH_LINE = 320;
     /**
+     * Vertical Position of the eigth line to display on the screen.
+     */
+    public static final int NINTH_LINE = 360;
+    /**
      * Width of something to display on the screen.
      */
     public static final int WIDTH1 = 100;

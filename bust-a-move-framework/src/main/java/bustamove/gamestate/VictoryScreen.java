@@ -20,6 +20,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import bustamove.App;
+import bustamove.game.Highscore;
 import bustamove.util.PlayerObserver;
 
 
@@ -53,6 +54,14 @@ public class VictoryScreen extends BasicGameState implements PlayerObserver {
      */
     private Text player2score;
     /**
+     * The text that contains the highscore text.
+     */
+    private Text player1highscore;
+    /**
+     * The text that contains the highscore text.
+     */
+    private Text player2highscore;
+    /**
      * Contains the fail message.
      */
     private Text wonText;
@@ -61,9 +70,29 @@ public class VictoryScreen extends BasicGameState implements PlayerObserver {
      */
     private int players = 0;
     /**
+     * The player 1s score.
+     */
+    private int player1Score;
+    /**
+     * The player 2s score.
+     */
+    private int player2Score;
+    /**
+     * The player 1s name.
+     */
+    private String player1Name;
+    /**
+     * The player 2s name.
+     */
+    private String player2Name;
+    /**
      * GameContainer.
      */
     private GameContainer gamecontainer;
+    /**
+     * The high scores object.
+     */
+    private Highscore highscores;
 
     /**
      * Getter method: for the GameState ID.
@@ -71,6 +100,14 @@ public class VictoryScreen extends BasicGameState implements PlayerObserver {
      */
     public final int getID() {
         return GameState.WIN_SCREEN;
+    }
+
+    /**
+     * Creates a new VictoryScreen object.
+     * @param highscore The highscores object to use.
+     */
+    public VictoryScreen(final Highscore highscore) {
+        highscores = highscore;
     }
 
     /**
@@ -92,12 +129,38 @@ public class VictoryScreen extends BasicGameState implements PlayerObserver {
         player2name.centerText(game);
         player2score = new Text("Score:", GameConfig.SEVENTH_LINE);
         player2score.centerText(game);
+        player1highscore = new Text("", GameConfig.EIGTH_LINE);
+        player1highscore.centerText(game);
+        player2highscore = new Text("", GameConfig.NINTH_LINE);
+        player2highscore.centerText(game);
         main = new Button("Main Menu", GameConfig.FOURTH_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         main.centerButton(game);
         restart = new Button("Restart", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         restart.centerButton(game);
+    }
+
+    /**
+     * Called when BasicGameState is entered.
+     * @param game the game container
+     * @param stateBasedGame the state based game
+     * @throws SlickException any type of slick exception
+     */
+    public final void enter(final GameContainer game,
+            final StateBasedGame stateBasedGame) throws SlickException {
+        if (highscores.addEntryAndSave(player1Name, player1Score)) {
+            player1highscore.setText(player1Name
+                    + " achieved a highscore of " + player1Score + "!");
+            player1highscore.centerText(game);
+        }
+        if (players == 2
+                && highscores.addEntryAndSave(player2Name, player2Score)) {
+                player2highscore.setText(player2Name
+                        + " achieved a highscore of "
+                        + player2Score + "!");
+                player2highscore.centerText(game);
+        }
     }
 
     /**
@@ -115,6 +178,8 @@ public class VictoryScreen extends BasicGameState implements PlayerObserver {
         player1score.draw(graphics);
         restart.draw(graphics);
         main.draw(graphics);
+        player1highscore.draw(graphics);
+        player2highscore.draw(graphics);
         if (this.players == 2) {
             player2name.draw(graphics);
             player2score.draw(graphics);
@@ -174,9 +239,13 @@ public class VictoryScreen extends BasicGameState implements PlayerObserver {
     public final void update(final int number, final String name,
             final int score) {
         if (number == 1) {
+            this.player1Score = score;
+            this.player1Name = name;
             this.player1name.setText("Player: " + name);
             this.player1score.setText("Score: " + score);
         } else if (number == 2) {
+            this.player1Score = score;
+            this.player1Name = name;
             this.player2name.setText("Player: " + name);
             this.player2score.setText("Score: " + score);
         }
