@@ -8,6 +8,8 @@
 
 package bustamove.gamestate;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -15,8 +17,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
 
@@ -26,13 +26,9 @@ import bustamove.App;
  */
 public class NameScreen extends BasicGameState {
     /**
-     * Play Button.
+     * All the buttons.
      */
-    private Button play;
-    /**
-     * Mainmenu Button.
-     */
-    private Button mainmenu;
+    private ArrayList<Button> buttons;
     /**
      * Name Textfield.
      */
@@ -58,19 +54,32 @@ public class NameScreen extends BasicGameState {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
+        buttons = new ArrayList<Button>();
         nameText = new Text("Player: ", GameConfig.FIRST_LINE);
         nameText.centerText(game);
-        play = new Button("Play", GameConfig.FIFTH_LINE, GameConfig.WIDTH1,
-                GameConfig.HEIGHT);
-        play.centerButton(game);
         namefield = new TextField(game, game.getDefaultFont(),
                 GameConfig.CENTRAL, GameConfig.THIRD_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
         namefield.setText("Player1");
-        mainmenu = new Button("Main Menu", GameConfig.SIXT_LINE,
+        Button play = new Button("Play", GameConfig.FIFTH_LINE,
+                GameConfig.WIDTH1, GameConfig.HEIGHT);
+        play.centerButton(game);
+        Button main = new Button("Main Menu", GameConfig.SIXT_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
-        mainmenu.centerButton(game);
-
+        main.centerButton(game);
+        main.addGameStateChangeAction(stateBasedGame,
+                GameState.MAIN_MENU);
+        play.addAction(new Runnable() {
+            public void run() {
+                App.getGame().start1Player();
+                App.getGame().getGameData().get(0).getPlayer()
+                .setName(namefield.getText());
+            }
+        });
+        play.addGameStateChangeAction(stateBasedGame,
+                GameState.GAME_ACTIVE);
+        buttons.add(play);
+        buttons.add(main);
     }
 
     /**
@@ -84,9 +93,10 @@ public class NameScreen extends BasicGameState {
             final StateBasedGame stateBasedGame, final Graphics graphics)
             throws SlickException {
         nameText.draw(graphics);
-        play.draw(graphics);
         namefield.render(game, graphics);
-        mainmenu.draw(graphics);
+        for (Button b : buttons) {
+            b.draw(graphics);
+        }
     }
 
     /**
@@ -101,18 +111,10 @@ public class NameScreen extends BasicGameState {
             throws SlickException {
         Input input = game.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            if (play.isInBounds(input)) {
-                App.getGame().start1Player();
-                App.getGame().getGameData().get(0).getPlayer()
-                        .setName(this.namefield.getText());
-                stateBasedGame.enterState(GameState.GAME_ACTIVE,
-                        new FadeOutTransition(), new FadeInTransition());
-            }
-            if (mainmenu.isInBounds(input)) {
-                stateBasedGame.getState(GameState.GAME_ACTIVE).init(game,
-                        stateBasedGame);
-                stateBasedGame.enterState(GameState.MAIN_MENU,
-                        new FadeOutTransition(), new FadeInTransition());
+            for (Button b : buttons) {
+                if (b.isInBounds(input)) {
+                    b.click();
+                }
             }
         }
     }
