@@ -6,3 +6,5 @@ Player1,240
 Player1,180
 \return;,150
 Player1,110
+Player1,30
+Player1,0

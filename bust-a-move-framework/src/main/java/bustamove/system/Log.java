@@ -7,7 +7,9 @@
  */
 package bustamove.system;
 
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * The Log class represents a game entity.
@@ -23,7 +25,8 @@ public final class Log {
     /**
      * Used for timestamping.
      */
-    private static Date d;
+    private static Calendar calendar = Calendar.getInstance();
+    private final DateFormat format = new SimpleDateFormat("HH:mm:ss");
     /**
      * Log count.
      */
@@ -38,6 +41,7 @@ public final class Log {
 
     /**
      * Singleton returns the unique instance.
+     *
      * @return unique singleton instance
      */
     public static Log getInstance() {
@@ -56,13 +60,10 @@ public final class Log {
      *
      * @param log Log message
      */
-    @SuppressWarnings("deprecation")
     public void log(final String log) {
-        d = new Date();
-        number++;
-        System.out.format("[Bust-A-Move] -> [Log: %d] -> [%d:%d:%d] -> %s%n",
-                number, d.getHours(), d.getMinutes(),
-                d.getSeconds(), log);
+        increment();
+        System.out.format("[Bust-A-Move] -> [Log: %d] -> [%s] -> %s%n",
+                number, format.format(calendar.getTime()), log);
     }
 
     /**
@@ -72,14 +73,19 @@ public final class Log {
      * @param obj object that generated the Log
      * @param log Log message
      */
-    @SuppressWarnings("deprecation")
     public void log(final Object obj, final String log) {
-        d = new Date();
-        number++;
+        increment();
         System.out.format("[Bust-A-Move] -> [Class: %s] -> [Log: %d] "
-                        + "-> [%d:%d:%d] -> %s%n",
+                        + "-> [%s] -> %s%n",
                 obj.getClass().getSimpleName(), number,
-                d.getHours(), d.getMinutes(), d.getSeconds(),
+                format.format(calendar.getTime()),
                 log);
+    }
+
+    /**
+     * Increase log counter.
+     */
+    public static void increment() {
+        number++;
     }
 }
