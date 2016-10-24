@@ -6,3 +6,9 @@ Player1,240
 Player1,180
 \return;,150
 Player1,110
+fsfdss,50
+fsdfs,30
+Player1,30
+Player1,30
+wwwPlayer2,30
+Player1,0

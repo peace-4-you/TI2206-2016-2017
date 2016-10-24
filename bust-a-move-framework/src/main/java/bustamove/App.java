@@ -18,8 +18,8 @@ import bustamove.gamestate.DefeatScreen;
 import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.HighscoreScreen;
 import bustamove.gamestate.MainMenu;
-import bustamove.gamestate.NameScreen;
-import bustamove.gamestate.NamesScreen;
+import bustamove.gamestate.SingleNameScreen;
+import bustamove.gamestate.DoubleNameScreen;
 import bustamove.gamestate.PausedScreen;
 import bustamove.gamestate.StartScreen;
 import bustamove.gamestate.VictoryScreen;
@@ -106,8 +106,8 @@ public class App extends StateBasedGame {
         addState(pausedScreen);
         addState(victoryScreen);
         addState(defeatScreen);
-        addState(new NameScreen());
-        addState(new NamesScreen());
+        addState(new SingleNameScreen());
+        addState(new DoubleNameScreen());
         addState(new HighscoreScreen(highscores));
     }
 
