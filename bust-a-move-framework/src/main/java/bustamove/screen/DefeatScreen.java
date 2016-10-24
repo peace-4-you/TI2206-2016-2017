@@ -9,13 +9,17 @@
  */
 
 
-package bustamove.gamestate;
+package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.App;
+import bustamove.screen.attributes.Button;
+import bustamove.screen.attributes.Text;
+import bustamove.screen.config.GameConfig;
+import bustamove.screen.config.GameState;
 
 /**
  * Generates a DefeatScreen as a instance of GameState.

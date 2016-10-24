@@ -6,25 +6,30 @@
  * Date: September 26th, 2016
  */
 
-package bustamove.gamestate;
+package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.App;
+import bustamove.screen.attributes.Button;
+import bustamove.screen.attributes.Text;
+import bustamove.screen.config.GameConfig;
+import bustamove.screen.config.GameState;
 
 /**
  * Generates a MainMenu as a instance of GameState.
  * @author Jason Xie, Maurice Willemsen
  */
-public class SingleNameScreen extends NameScreen {
+public class DoubleNameScreen extends NameScreen {
     /**
-     * Getter method for GameState id.
+     * Getter method for Id.
      * @return integer of BasicGameState number.
      */
     public final int getID() {
-        return GameState.NAME_SCREEN;
+        return GameState.NAMES_SCREEN;
     }
 
     /**
@@ -36,20 +41,33 @@ public class SingleNameScreen extends NameScreen {
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
         initNameScreen(game, stateBasedGame);
-        Text nameText = new Text("Player: ", GameConfig.FIRST_LINE);
-        Button play = new Button("Play", GameConfig.FIFTH_LINE,
+        Text player1text = new Text("Player 1: ", GameConfig.FIRST_LINE);
+        Text player2text = new Text("Player 2: ", GameConfig.FOURTH_LINE);
+        getNamefields()[1] = new TextField(game, game.getDefaultFont(),
+                GameConfig.CENTRAL, GameConfig.FIFTH_LINE, GameConfig.WIDTH3,
+                GameConfig.HEIGHT);
+        getNamefields()[1].setText("Player2");
+        Button play = new Button("Play", GameConfig.SEVENTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         play.addAction(new Runnable() {
             public void run() {
-                App.getGame().start1Player();
+                try {
+                    App.getGame().start2Player();
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
                 App.getGame().getGameData().get(0).getPlayer()
                 .setName(getNamefields()[0].getText());
+                App.getGame().getGameData().get(1).getPlayer()
+                .setName(getNamefields()[1].getText());
             }
         });
         play.addGameStateChangeAction(stateBasedGame,
                 GameState.GAME_ACTIVE);
-        getTexts().add(nameText);
         getButtons().add(play);
+        getTexts().add(player1text);
+        getTexts().add(player2text);
+        getTextFields().add(getNamefields()[1]);
         super.center();
     }
 }

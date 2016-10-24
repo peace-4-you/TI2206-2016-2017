@@ -8,7 +8,7 @@
  * Date: October 24th, 2016
  */
 
-package bustamove.gamestate;
+package bustamove.screen;
 
 import java.awt.Font;
 import java.util.ArrayList;
@@ -21,6 +21,10 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import bustamove.screen.attributes.Button;
+import bustamove.screen.attributes.Text;
+import bustamove.screen.config.GameConfig;
 
 /**
  * Screen Super Class.

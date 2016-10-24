@@ -14,16 +14,16 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.game.Game;
 import bustamove.game.Highscore;
-import bustamove.gamestate.DefeatScreen;
-import bustamove.gamestate.GameConfig;
-import bustamove.gamestate.HighscoreScreen;
-import bustamove.gamestate.MainMenu;
-import bustamove.gamestate.SingleNameScreen;
-import bustamove.gamestate.DoubleNameScreen;
-import bustamove.gamestate.PausedScreen;
-import bustamove.gamestate.Screen;
-import bustamove.gamestate.StartScreen;
-import bustamove.gamestate.VictoryScreen;
+import bustamove.screen.DefeatScreen;
+import bustamove.screen.DoubleNameScreen;
+import bustamove.screen.HighscoreScreen;
+import bustamove.screen.MainMenu;
+import bustamove.screen.PausedScreen;
+import bustamove.screen.Screen;
+import bustamove.screen.SingleNameScreen;
+import bustamove.screen.StartScreen;
+import bustamove.screen.VictoryScreen;
+import bustamove.screen.config.GameConfig;
 import bustamove.system.SoundHandler;
 
 /**

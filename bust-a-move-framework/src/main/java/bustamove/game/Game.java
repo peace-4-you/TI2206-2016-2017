@@ -24,10 +24,10 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
 import bustamove.game.GameData.GameDataState;
-import bustamove.gamestate.Button;
-import bustamove.gamestate.GameConfig;
-import bustamove.gamestate.GameState;
 import bustamove.player.Player;
+import bustamove.screen.attributes.Button;
+import bustamove.screen.config.GameConfig;
+import bustamove.screen.config.GameState;
 import bustamove.system.Log;
 import bustamove.system.SoundHandler;
 

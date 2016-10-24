@@ -1,4 +1,4 @@
-package bustamove.gamestate;
+package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -6,6 +6,9 @@ import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.App;
+import bustamove.screen.attributes.Button;
+import bustamove.screen.config.GameConfig;
+import bustamove.screen.config.GameState;
 
 /**
  * Abstract method contains basics for a name input screen.
