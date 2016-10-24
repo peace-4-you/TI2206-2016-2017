@@ -43,12 +43,6 @@ public abstract class Bubble {
     public enum ColorChoice {
         RED, BLUE, YELLOW, GREEN
     }
-
-    /**
-     * Empty constructor per abstract class specification.
-     */
-    public Bubble() {
-    }
     /**
      * Sets the gamehead, this is a instance of GameData.
      * @param game the gamehead to refer to

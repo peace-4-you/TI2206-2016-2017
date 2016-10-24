@@ -73,11 +73,6 @@ public class SimpleBubble extends Bubble {
      */
     private GameData gamehead;
     /**
-     * Empty constructor per abstract class specification.
-     */
-    public SimpleBubble() {
-    }
-    /**
      * Creates SimpleBubble instance.
      *
      * @param xPos      double value for starting x position
@@ -152,15 +147,9 @@ public class SimpleBubble extends Bubble {
         float nextY = (float) (this.getY() + this.getYSpeed());
 
         switch (this.state) {
-            case NEW:
-                break;
-            case LANDED:
-                break;
             case FIRING:
                 this.setX(nextX);
                 this.setY(nextY);
-                break;
-            case POPPED:
                 break;
             case DROPPING:
                 this.setX(nextX);
@@ -355,23 +344,19 @@ public class SimpleBubble extends Bubble {
         return gamehead.getBubbleSpeed();
     }
     /**
-     * Creates a bubble object with a random color from the given list.
+     * Picks a random color from the current colors in the BubbleStorage.
      *
-     * @param x         X coordinate of the new bubble
-     * @param y         Y coordinate of the new bubble
-     * @param colors    list of possible bubble colors
-     * @param forCannon boolean describing if SimpleBubble is for Cannon or not
-     *                  (map otherwise)
-     * @return newly created bubble
+     * @param colors list of possible bubble colors
+     *
+     * @return random ColorChoice
      */
-    public static SimpleBubble randomColor(final float x, final float y,
-                                     final LinkedList<ColorChoice> colors,
-                                     final boolean forCannon) {
+    public static final ColorChoice randomColor(
+        final LinkedList<ColorChoice> colors) {
         if (colors.size() == 0) {
             return null;
         }
         ColorChoice color = colors.get((int) Math.floor(Math.random()
                 * colors.size()));
-        return new SimpleBubble(x, y, color, forCannon);
+        return color;
     }
 }

@@ -16,6 +16,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 import bustamove.bubble.SimpleBubble;
+import bustamove.bubble.Bubble.ColorChoice;
 import bustamove.bubble.Bubble;
 import bustamove.bubble.powerup.PowerUp;
 import bustamove.gamestate.GameConfig;
@@ -145,9 +146,11 @@ public class Cannon {
      */
     private Bubble getNextBubble() {
         Log.getInstance().log(this, "Next bubble loaded to cannon");
-        Bubble newBubble = SimpleBubble.randomColor(
+        ColorChoice c = SimpleBubble.randomColor(
+            game.getArena().getBubbleStorage().getColorsOnArena());
+        Bubble newBubble = new SimpleBubble(
                 (float) Cannon.X_LAUNCH + this.offset, (float) Cannon.Y_LAUNCH,
-                game.getArena().getBubbleStorage().getColorsOnArena(), true);
+                c, true);
         if (GameConfig.ENABLE_POWERUPS) {
             newBubble = PowerUp.apply(newBubble);
         }
