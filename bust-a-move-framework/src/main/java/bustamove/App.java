@@ -21,6 +21,7 @@ import bustamove.gamestate.MainMenu;
 import bustamove.gamestate.SingleNameScreen;
 import bustamove.gamestate.DoubleNameScreen;
 import bustamove.gamestate.PausedScreen;
+import bustamove.gamestate.Screen;
 import bustamove.gamestate.StartScreen;
 import bustamove.gamestate.VictoryScreen;
 import bustamove.system.SoundHandler;
@@ -95,6 +96,7 @@ public class App extends StateBasedGame {
      */
     public final void initStatesList(final GameContainer container)
             throws SlickException {
+        Screen.setFonts();
         game = new Game();
         game.setHighscores(highscores);
         pausedScreen = new PausedScreen();

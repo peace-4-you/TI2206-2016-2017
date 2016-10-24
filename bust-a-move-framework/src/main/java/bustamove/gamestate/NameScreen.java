@@ -7,32 +7,36 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.App;
 
+/**
+ * Abstract method contains basics for a name input screen.
+ * @author Maurice Willemsen
+ */
 public abstract class NameScreen extends Screen {
     /**
-     * Textfields for input names
+     * Textfields for input names.
      */
-	protected TextField[] namefields;
-	
-	/**
+    private TextField[] namefields;
+    /**
      * Getter method: for the GameState ID.
      * @return integer of BasicGameState number.
      */
     public abstract int getID();
-    
+
     /**
-     * Called when BasicGameState initializes.
+     * Called from extending classes.
+     * Calls the top class screen initializer.
+     * Inits a basic Score Screen.
      * @param game the game container
      * @param stateBasedGame the state based game
-     * @throws SlickException any type of slick exception
      */
-    public void init(final GameContainer game,
-            final StateBasedGame stateBasedGame) throws SlickException {
-    	super.init(game,stateBasedGame);
+    public final void initNameScreen(final GameContainer game,
+            final StateBasedGame stateBasedGame) {
+        initBasicScreen(game);
         namefields = new TextField[2];
         namefields[0] = new TextField(game, game.getDefaultFont(),
                 GameConfig.CENTRAL, GameConfig.THIRD_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
-        namefields[0].setText("Player1");  
+        namefields[0].setText("Player1");
         Button main = new Button("Go to Main Menu", GameConfig.EIGTH_LINE,
                 GameConfig.WIDTH3, GameConfig.HEIGHT);
         main.addAction(new Runnable() {
@@ -46,8 +50,16 @@ public abstract class NameScreen extends Screen {
         });
         main.addGameStateChangeAction(stateBasedGame,
                 GameState.MAIN_MENU);
-        textfields.add(namefields[0]);  
-        buttons.add(main);
+        getTextFields().add(namefields[0]);
+        getButtons().add(main);
         super.center();
-    } 
+    }
+
+    /**
+     * Getter method for the namefields.
+     * @return TextField array namefields.
+     */
+    protected final TextField[] getNamefields() {
+        return namefields;
+    }
 }

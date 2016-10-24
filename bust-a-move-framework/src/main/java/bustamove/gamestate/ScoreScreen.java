@@ -7,11 +7,15 @@ import org.newdawn.slick.state.StateBasedGame;
 import bustamove.App;
 import bustamove.util.PlayerObserver;
 
-public abstract class ScoreScreen extends Screen implements PlayerObserver{
+/**
+ * Abstract Screen that contains basics for a score screen.
+ * @author Maurice Willemsen
+ */
+public abstract class ScoreScreen extends Screen implements PlayerObserver {
     /**
      * Amount of players.
      */
-    protected int players = 0;
+    private int players = 0;
     /**
      * Contains the player's name.
      */
@@ -26,23 +30,24 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver{
      * @return integer of BasicGameState number.
      */
     public abstract int getID();
-    
+
     /**
-     * Called when BasicGameState initializes.
-     * @param game the game container
+     * Called from extending classes.
+     * Calls the top class screen initializer.
+     * Inits a basic Score Screen.
      * @param stateBasedGame the state based game
-     * @throws SlickException any type of slick exception
+     * @param game the game container
      */
-    public void init(final GameContainer game,
-            final StateBasedGame stateBasedGame) throws SlickException {
-    	super.init(game,stateBasedGame);
+    public final void initScoreScreen(final GameContainer game,
+            final StateBasedGame stateBasedGame) {
+        initBasicScreen(game);
         playername = new Text[2];
-        playerscore = new Text[2];   
-        playername[0] = new Text("Player: ", GameConfig.SECOND_LINE);        
-        playername[1] = new Text("Player: ", GameConfig.SIXT_LINE);
+        playerscore = new Text[2];
+        playername[0] = new Text("Player: ", GameConfig.SECOND_LINE);
+        playername[1] = new Text("Player: ", GameConfig.FOURTH_LINE);
         playerscore[0] = new Text("Score: ", GameConfig.THIRD_LINE);
-        playerscore[1] = new Text("Score: ", GameConfig.SEVENTH_LINE);     
-        Button main = new Button("Go to Main Menu", GameConfig.FIFTH_LINE,
+        playerscore[1] = new Text("Score: ", GameConfig.FIFTH_LINE);
+        Button main = new Button("Go to Main Menu", GameConfig.SEVENTH_LINE,
                 GameConfig.WIDTH3, GameConfig.HEIGHT);
         main.addAction(new Runnable() {
             public void run() {
@@ -55,13 +60,13 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver{
         });
         main.addGameStateChangeAction(stateBasedGame,
                 GameState.MAIN_MENU);
-        texts.add(playername[0]);
-        texts.add(playername[1]);
-        texts.add(playerscore[0]);
-        texts.add(playerscore[1]);  
-        buttons.add(main);
-    } 
-    
+        getTexts().add(playername[0]);
+        getTexts().add(playername[1]);
+        getTexts().add(playerscore[0]);
+        getTexts().add(playerscore[1]);
+        getButtons().add(main);
+    }
+
     /**
      * Updated by Observable. Sets data
      * @param number integer of player number
@@ -71,9 +76,9 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver{
     public final void update(final int number, final String name,
                              final int score) {
         if (number == 1 || number == 2) {
-            this.playername[number-1].setText("Player: " + name);
-            this.playerscore[number-1].setText("Score: " + score);
-        } 
+            this.playername[number - 1].setText("Player: " + name);
+            this.playerscore[number - 1].setText("Score: " + score);
+        }
         this.center();
     }
 
@@ -82,14 +87,21 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver{
      * @param playeramount integer about amount of players
      */
     public final void update(final int playeramount) {
-    	players=playeramount;
-        if (playeramount==1){
-        	texts.remove(playername[1]);
-        	texts.remove(playerscore[1]);
+        players = playeramount;
+        if (playeramount == 1) {
+            getTexts().remove(playername[1]);
+            getTexts().remove(playerscore[1]);
+        } else if (playeramount == 2) {
+            getTexts().add(playername[1]);
+            getTexts().add(playerscore[1]);
         }
-        else if(playeramount==2){
-        	texts.add(playername[1]);
-        	texts.add(playerscore[1]);
-        }
-    }	
+    }
+
+    /**
+     * Protected getter for the amount of players.
+     * @return int of playeramount
+     */
+    protected final int getPlayerAmount() {
+        return players;
+    }
 }

@@ -36,15 +36,15 @@ public class DoubleNameScreen extends NameScreen {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
-    	super.init(game, stateBasedGame);;
+        initNameScreen(game, stateBasedGame);
         Text player1text = new Text("Player 1: ", GameConfig.FIRST_LINE);
         Text player2text = new Text("Player 2: ", GameConfig.FOURTH_LINE);
-        namefields[1] = new TextField(game, game.getDefaultFont(),
+        getNamefields()[1] = new TextField(game, game.getDefaultFont(),
                 GameConfig.CENTRAL, GameConfig.FIFTH_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
-        namefields[1].setText("Player2"); 
+        getNamefields()[1].setText("Player2");
         Button play = new Button("Play", GameConfig.SEVENTH_LINE,
-                GameConfig.WIDTH1, GameConfig.HEIGHT);  
+                GameConfig.WIDTH1, GameConfig.HEIGHT);
         play.addAction(new Runnable() {
             public void run() {
                 try {
@@ -53,17 +53,17 @@ public class DoubleNameScreen extends NameScreen {
                     e.printStackTrace();
                 }
                 App.getGame().getGameData().get(0).getPlayer()
-                .setName(namefields[0].getText());
+                .setName(getNamefields()[0].getText());
                 App.getGame().getGameData().get(1).getPlayer()
-                .setName(namefields[1].getText());
+                .setName(getNamefields()[1].getText());
             }
         });
         play.addGameStateChangeAction(stateBasedGame,
                 GameState.GAME_ACTIVE);
-        buttons.add(play);        
-        texts.add(player1text);
-        texts.add(player2text);
-        textfields.add(namefields[1]);
+        getButtons().add(play);
+        getTexts().add(player1text);
+        getTexts().add(player2text);
+        getTextFields().add(getNamefields()[1]);
         super.center();
     }
 }

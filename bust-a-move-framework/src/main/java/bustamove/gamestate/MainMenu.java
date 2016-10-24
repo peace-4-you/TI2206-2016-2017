@@ -34,9 +34,9 @@ public class MainMenu extends Screen {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
-        super.init(game, stateBasedGame);
+        initBasicScreen(game);
         // 1 player button
-        Button play1player = new Button("1 hhPlayer", GameConfig.SECOND_LINE,
+        Button play1player = new Button("1 Player", GameConfig.SECOND_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         play1player.addGameStateChangeAction(stateBasedGame,
                 GameState.NAME_SCREEN);
@@ -58,10 +58,10 @@ public class MainMenu extends Screen {
                 game.exit();
             }
         });
-        buttons.add(play1player);
-        buttons.add(play2players);
-        buttons.add(highScores);
-        buttons.add(quit);
+        getButtons().add(play1player);
+        getButtons().add(play2players);
+        getButtons().add(highScores);
+        getButtons().add(quit);
         super.center();
     }
 }

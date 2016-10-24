@@ -10,12 +10,14 @@
 
 package bustamove.gamestate;
 
+import java.awt.Font;
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -25,41 +27,38 @@ import org.newdawn.slick.state.StateBasedGame;
  * @author Maurice Willemsen
  *
  */
-public abstract class Screen extends BasicGameState{
+public abstract class Screen extends BasicGameState {
     /**
-     * All the buttons.
+     * Lists of buttons,texts and textfields.
      */
-    protected ArrayList<Button> buttons;
+    private ArrayList<Button> buttons;
+    private ArrayList<Text> texts;
+    private ArrayList<TextField> textfields;
     /**
-     * All the buttons.
+     * GameContainer.
      */
-    protected ArrayList<Text> texts;
+    private GameContainer gamecontainer;
     /**
-     * All the buttons.
+     * Font for all the texts.
      */
-    protected ArrayList<TextField> textfields;
-    /**
-     * GameContainer
-     */
-    protected GameContainer gamecontainer;
-    
+    private static TrueTypeFont font =
+            new TrueTypeFont(new Font("Verdana", Font.BOLD,
+                    GameConfig.TEXT_SIZE), true);
+
     /**
      * Getter method: for the GameState ID.
      * @return integer of BasicGameState number.
      */
     public abstract int getID();
-    
+
     /**
-     * Called when BasicGameState initializes.
+     * Called from extending class. Inits the lists and sets the gamecontainer
      * @param game the game container
-     * @param stateBasedGame the state based game
-     * @throws SlickException any type of slick exception
      */
-    public void init(final GameContainer game,
-            final StateBasedGame stateBasedGame) throws SlickException {
+    public final void initBasicScreen(final GameContainer game) {
         buttons = new ArrayList<Button>();
-        texts = new ArrayList<Text>(); 
-        textfields = new ArrayList<TextField>(); 
+        texts = new ArrayList<Text>();
+        textfields = new ArrayList<TextField>();
         gamecontainer = game;
     }
 
@@ -80,10 +79,10 @@ public abstract class Screen extends BasicGameState{
             t.draw(graphics);
         }
         for (TextField t : textfields) {
-            t.render(game,graphics);
+            t.render(game, graphics);
         }
     }
-    
+
     /**
      * Centering all buttons and texts in the screen.
      */
@@ -95,7 +94,7 @@ public abstract class Screen extends BasicGameState{
             t.centerText(gamecontainer);
         }
     }
-    
+
     /**
      * Updates the BasicGameState.
      * @param game the game container
@@ -115,5 +114,37 @@ public abstract class Screen extends BasicGameState{
                 }
             }
         }
+    }
+
+    /**
+     * Getter for the buttons lists.
+     * @return Buttons Arraylist.
+     */
+    public final ArrayList<Button> getButtons() {
+        return buttons;
+    }
+
+    /**
+     * Getter for the buttons lists.
+     * @return Buttons Arraylist.
+     */
+    public final ArrayList<Text> getTexts() {
+        return texts;
+    }
+
+    /**
+     * Getter for the buttons lists.
+     * @return Buttons Arraylist.
+     */
+    public final ArrayList<TextField> getTextFields() {
+        return textfields;
+    }
+
+    /**
+     * Static setter for the fonts.
+     */
+    public static void setFonts() {
+        Button.setFont(font);
+        Text.setFont(font);
     }
 }

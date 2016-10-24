@@ -39,15 +39,15 @@ public class DefeatScreen extends ScoreScreen {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
-    	super.init(game, stateBasedGame);
+        initScoreScreen(game, stateBasedGame);
         Text failedText = new Text("You Failed", GameConfig.FIRST_LINE);
-        Button restart = new Button("Restart", GameConfig.FOURTH_LINE,
+        Button restart = new Button("Restart", GameConfig.SIXT_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         restart.addAction(new Runnable() {
             public void run() {
                 try {
                     App.getGame().destroyGame();
-                    if (players == 2) {
+                    if (getPlayerAmount() == 2) {
                         App.getGame().start2Player();
                     } else {
                         App.getGame().start1Player();
@@ -59,8 +59,8 @@ public class DefeatScreen extends ScoreScreen {
         });
         restart.addGameStateChangeAction(stateBasedGame,
                 GameState.GAME_ACTIVE);
-        buttons.add(restart);
-        texts.add(failedText);
+        getButtons().add(restart);
+        getTexts().add(failedText);
         super.center();
     }
 }

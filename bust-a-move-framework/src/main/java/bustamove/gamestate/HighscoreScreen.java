@@ -51,12 +51,12 @@ public class HighscoreScreen extends Screen {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
-    	super.init(game, stateBasedGame);
+        initBasicScreen(game);
         Button mainmenu = new Button("Main menu", GameConfig.FIRST_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         mainmenu.addGameStateChangeAction(stateBasedGame,
                 GameState.MAIN_MENU);
-        buttons.add(mainmenu);
+        getButtons().add(mainmenu);
         super.center();
     }
 
@@ -68,7 +68,7 @@ public class HighscoreScreen extends Screen {
      */
     public final void enter(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
-        texts.clear();
+        getTexts().clear();
         int nameLeftOffset = (int) (game.getWidth()
                 * GameConfig.HIGHSCORE_NAME_OFFSET);
         int scoreLeftOffset = (int) (game.getWidth()
@@ -85,8 +85,8 @@ public class HighscoreScreen extends Screen {
             Text scoreText = new Text(Integer.toString(score),
                     scoreLeftOffset, textYpos);
             textYpos += GameConfig.HEIGHT;
-            texts.add(nameText);
-            texts.add(scoreText);           
+            getTexts().add(nameText);
+            getTexts().add(scoreText);
         }
     }
 }

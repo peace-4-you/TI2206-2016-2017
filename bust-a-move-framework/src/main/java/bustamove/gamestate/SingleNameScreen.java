@@ -35,7 +35,7 @@ public class SingleNameScreen extends NameScreen {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
-        super.init(game, stateBasedGame);
+        initNameScreen(game, stateBasedGame);
         Text nameText = new Text("Player: ", GameConfig.FIRST_LINE);
         Button play = new Button("Play", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
@@ -43,13 +43,13 @@ public class SingleNameScreen extends NameScreen {
             public void run() {
                 App.getGame().start1Player();
                 App.getGame().getGameData().get(0).getPlayer()
-                .setName(namefields[0].getText());
+                .setName(getNamefields()[0].getText());
             }
         });
         play.addGameStateChangeAction(stateBasedGame,
-                GameState.GAME_ACTIVE);     
-        texts.add(nameText);
-        buttons.add(play);        
+                GameState.GAME_ACTIVE);
+        getTexts().add(nameText);
+        getButtons().add(play);
         super.center();
     }
 }

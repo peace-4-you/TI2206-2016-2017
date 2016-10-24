@@ -34,14 +34,14 @@ public class PausedScreen extends ScoreScreen {
      */
     public final void init(final GameContainer game,
             final StateBasedGame stateBasedGame) throws SlickException {
-    	super.init(game, stateBasedGame);
-        Text pauseText = new Text("Game Paused", GameConfig.FIRST_LINE);        
-        Button resume = new Button("Resume", GameConfig.FOURTH_LINE,
+        initScoreScreen(game, stateBasedGame);
+        Text pauseText = new Text("Game Paused", GameConfig.FIRST_LINE);
+        Button resume = new Button("Resume", GameConfig.SIXT_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         resume.addGameStateChangeAction(stateBasedGame,
-                GameState.GAME_ACTIVE);       
-        buttons.add(resume);
-        texts.add(pauseText);
+                GameState.GAME_ACTIVE);
+        getButtons().add(resume);
+        getTexts().add(pauseText);
         super.center();
     }
 }
