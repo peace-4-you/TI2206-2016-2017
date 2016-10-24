@@ -22,6 +22,7 @@ import bustamove.system.Log;
 /**
  * The highscore class represents the class that writes and loads
  * the highscores.
+ *
  * @author Justin Segond
  */
 public final class Highscore {
@@ -40,7 +41,8 @@ public final class Highscore {
     /**
      * Constructs a new High score object.
      */
-    public Highscore() { }
+    public Highscore() {
+    }
 
     /**
      * Loads the high scores from the specified high scores file.
@@ -68,6 +70,7 @@ public final class Highscore {
 
     /**
      * Tries to parse a String and add it to the high scores.
+     *
      * @param entry The string to parse a high score from.
      */
     private void addEntry(final String entry) {
@@ -90,7 +93,8 @@ public final class Highscore {
 
     /**
      * Adds a high score entry.
-     * @param name The player's name.
+     *
+     * @param name  The player's name.
      * @param score The score they achieved.
      * @return True if the entry acquired a new position.
      */
@@ -107,7 +111,8 @@ public final class Highscore {
 
     /**
      * Adds and entry to high scores and saves the highscores to a file.
-     * @param name The player's name
+     *
+     * @param name  The player's name
      * @param score The score they achieved.
      * @return The position the player got.
      */
@@ -135,7 +140,7 @@ public final class Highscore {
             writer.close();
         } catch (FileNotFoundException e) {
             Log.getInstance().log(this,
-                "File not found while writing. (Should never happen)");
+                    "File not found while writing. (Should never happen)");
         } catch (UnsupportedEncodingException e) {
             Log.getInstance().log(this, "Encoding UTF-8 not supported.");
         }
@@ -143,12 +148,13 @@ public final class Highscore {
 
     /**
      * Saves an TreeMap entry to a file.
+     *
      * @param writer The PrintWriter to write the file to.
-     * @param entry The entry to write to the file
+     * @param entry  The entry to write to the file
      * @return an int with how many entries where saved to the file.
      */
     private int saveEntry(final PrintWriter writer,
-            final Entry<Integer, LinkedList<String>> entry) {
+                          final Entry<Integer, LinkedList<String>> entry) {
         if (writer == null || entry == null) {
             Log.getInstance().log(this, "Writer of entry null");
             return 0;
@@ -163,13 +169,14 @@ public final class Highscore {
     /**
      * Gets the name of the person at the given highscore position, e.g.
      * 0 for highest ranked player.
+     *
      * @param position The position of the player
      * @return The name of the player
      */
     public int getScore(final int position) {
         if (position < 0) {
             Log.getInstance().log(this,
-                "Highscore position can not be negative.");
+                    "Highscore position can not be negative.");
             return 0;
         }
         Entry<Integer, LinkedList<String>> entry = highscores.lastEntry();
@@ -187,6 +194,7 @@ public final class Highscore {
     /**
      * Gets the name of the person at the given highscore position, e.g.
      * 0 for highest ranked player.
+     *
      * @param position The position of the player
      * @return The name of the player
      */
@@ -210,6 +218,7 @@ public final class Highscore {
 
     /**
      * Sets the file to load the highscores from.
+     *
      * @param fileName The file name to load the data from.
      */
     public void setFile(final String fileName) {
