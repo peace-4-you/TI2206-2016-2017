@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -22,6 +22,7 @@ import bustamove.system.Log;
 /**
  * The highscore class represents the class that writes and loads
  * the highscores.
+ *
  * @author Justin Segond
  */
 public final class Highscore {
@@ -31,7 +32,7 @@ public final class Highscore {
      * contains the score as an Integer and an ArrayList<String> of
      * names that got the same score.
      */
-    private TreeMap<Integer, ArrayList<String>> highscores;
+    private TreeMap<Integer, LinkedList<String>> highscores;
     /**
      * The location of the high scores file.
      */
@@ -40,14 +41,15 @@ public final class Highscore {
     /**
      * Constructs a new High score object.
      */
-    public Highscore() { }
+    public Highscore() {
+    }
 
     /**
      * Loads the high scores from the specified high scores file.
      */
     public void load() {
         Log.getInstance().log(this, "Loading highscores...");
-        highscores = new TreeMap<Integer, ArrayList<String>>();
+        highscores = new TreeMap<Integer, LinkedList<String>>();
         InputStreamReader isr = null;
         BufferedReader reader = null;
         try {
@@ -68,6 +70,7 @@ public final class Highscore {
 
     /**
      * Tries to parse a String and add it to the high scores.
+     *
      * @param entry The string to parse a high score from.
      */
     private void addEntry(final String entry) {
@@ -90,24 +93,35 @@ public final class Highscore {
 
     /**
      * Adds a high score entry.
-     * @param name The player's name.
+     *
+     * @param name  The player's name.
      * @param score The score they achieved.
+     * @return True if the entry acquired a new position.
      */
-    public void addEntry(final String name, final int score) {
-        if (!highscores.containsKey(score)) {
-            highscores.put(score, new ArrayList<String>());
+    public boolean addEntry(final String name, final int score) {
+        if (getScore(GameConfig.HIGHSCORE_ENTRIES - 1) > score) {
+            return false;
         }
-        highscores.get(score).add(name);
+        if (!highscores.containsKey(score)) {
+            highscores.put(score, new LinkedList<String>());
+        }
+        highscores.get(score).addLast(name);
+        return true;
     }
 
     /**
      * Adds and entry to high scores and saves the highscores to a file.
-     * @param name The player's name
+     *
+     * @param name  The player's name
      * @param score The score they achieved.
+     * @return The position the player got.
      */
-    public void addEntryAndSave(final String name, final int score) {
-        addEntry(name, score);
-        save();
+    public boolean addEntryAndSave(final String name, final int score) {
+        if (addEntry(name, score)) {
+            save();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -117,7 +131,7 @@ public final class Highscore {
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(file, "UTF-8");
-            Entry<Integer, ArrayList<String>> entry = highscores.lastEntry();
+            Entry<Integer, LinkedList<String>> entry = highscores.lastEntry();
             int saved = 0;
             while (entry != null && saved < GameConfig.HIGHSCORE_ENTRIES) {
                 saved += saveEntry(writer, entry);
@@ -126,7 +140,7 @@ public final class Highscore {
             writer.close();
         } catch (FileNotFoundException e) {
             Log.getInstance().log(this,
-                "File not found while writing. (Should never happen)");
+                    "File not found while writing. (Should never happen)");
         } catch (UnsupportedEncodingException e) {
             Log.getInstance().log(this, "Encoding UTF-8 not supported.");
         }
@@ -134,12 +148,13 @@ public final class Highscore {
 
     /**
      * Saves an TreeMap entry to a file.
+     *
      * @param writer The PrintWriter to write the file to.
-     * @param entry The entry to write to the file
+     * @param entry  The entry to write to the file
      * @return an int with how many entries where saved to the file.
      */
     private int saveEntry(final PrintWriter writer,
-            final Entry<Integer, ArrayList<String>> entry) {
+                          final Entry<Integer, LinkedList<String>> entry) {
         if (writer == null || entry == null) {
             Log.getInstance().log(this, "Writer of entry null");
             return 0;
@@ -154,16 +169,17 @@ public final class Highscore {
     /**
      * Gets the name of the person at the given highscore position, e.g.
      * 0 for highest ranked player.
+     *
      * @param position The position of the player
      * @return The name of the player
      */
     public int getScore(final int position) {
         if (position < 0) {
             Log.getInstance().log(this,
-                "Highscore position can not be negative.");
+                    "Highscore position can not be negative.");
             return 0;
         }
-        Entry<Integer, ArrayList<String>> entry = highscores.lastEntry();
+        Entry<Integer, LinkedList<String>> entry = highscores.lastEntry();
         int currentPosition = 0;
         while (entry != null) {
             currentPosition += entry.getValue().size();
@@ -178,6 +194,7 @@ public final class Highscore {
     /**
      * Gets the name of the person at the given highscore position, e.g.
      * 0 for highest ranked player.
+     *
      * @param position The position of the player
      * @return The name of the player
      */
@@ -187,7 +204,7 @@ public final class Highscore {
                     "Highscore position can not be negative.");
             return null;
         }
-        Entry<Integer, ArrayList<String>> entry = highscores.lastEntry();
+        Entry<Integer, LinkedList<String>> entry = highscores.lastEntry();
         int currentPosition = -1;
         while (entry != null) {
             currentPosition += entry.getValue().size();
@@ -201,6 +218,7 @@ public final class Highscore {
 
     /**
      * Sets the file to load the highscores from.
+     *
      * @param fileName The file name to load the data from.
      */
     public void setFile(final String fileName) {

@@ -21,6 +21,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.App;
+import bustamove.game.Highscore;
 import bustamove.util.PlayerObserver;
 
 /**
@@ -46,9 +47,33 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
      */
     private Text player2name;
     /**
+     * The player 1 high score text.
+     */
+    private Text player1highscore;
+    /**
+     * The player 2 high score text.
+     */
+    private Text player2highscore;
+    /**
      * Contains the player 2 score.
      */
     private Text player2score;
+    /**
+     * The player 1s score.
+     */
+    private int player1Score;
+    /**
+     * The player 2s score.
+     */
+    private int player2Score;
+    /**
+     * The player 1s name.
+     */
+    private String player1Name;
+    /**
+     * The player 2s name.
+     */
+    private String player2Name;
     /**
      * Contains the fail message.
      */
@@ -61,6 +86,10 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
      * GameContainer.
      */
     private GameContainer gamecontainer;
+    /**
+     * The highscores object.
+     */
+    private Highscore highscores;
 
     /**
      * Getter method: for the GameState ID.
@@ -68,6 +97,14 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
      */
     public final int getID() {
         return GameState.DEFEAT_SCREEN;
+    }
+
+    /**
+     * Creates a new DefeatScreen object.
+     * @param highscore The highscore to use
+     */
+    public DefeatScreen(final Highscore highscore) {
+        this.highscores = highscore;
     }
 
     /**
@@ -90,6 +127,10 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
         player2name.centerText(game);
         player2score = new Text("Score:", GameConfig.SEVENTH_LINE);
         player2score.centerText(game);
+        player1highscore = new Text("", GameConfig.EIGTH_LINE);
+        player1highscore.centerText(game);
+        player2highscore = new Text("", GameConfig.NINTH_LINE);
+        player2highscore.centerText(game);
         Button restart = new Button("Restart", GameConfig.FOURTH_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         restart.centerButton(game);
@@ -140,6 +181,8 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
         failedText.draw(graphics);
         player1name.draw(graphics);
         player1score.draw(graphics);
+        player1highscore.draw(graphics);
+        player2highscore.draw(graphics);
         for (Button b : buttons) {
             b.draw(graphics);
         }
@@ -193,13 +236,39 @@ public class DefeatScreen extends BasicGameState implements PlayerObserver {
     public final void update(final int number, final String name,
                              final int score) {
         if (number == 1) {
+            this.player1Score = score;
+            this.player1Name = name;
             this.player1name.setText("Player: " + name);
             this.player1score.setText("Score: " + score);
         } else if (number == 2) {
+            this.player2Score = score;
+            this.player2Name = name;
             this.player2name.setText("Player: " + name);
             this.player2score.setText("Score: " + score);
         }
         this.center();
+    }
+
+    /**
+     * Called when BasicGameState is entered.
+     * @param game the game container
+     * @param stateBasedGame the state based game
+     * @throws SlickException any type of slick exception
+     */
+    public final void enter(final GameContainer game,
+            final StateBasedGame stateBasedGame) throws SlickException {
+        if (highscores.addEntryAndSave(player1Name, player1Score)) {
+            player1highscore.setText(player1Name
+                    + " achieved a highscore of " + player1Score + "!");
+            player1highscore.centerText(game);
+        }
+        if (players == 2
+            && highscores.addEntryAndSave(player2Name, player2Score)) {
+            player2highscore.setText(player2Name
+                    + " achieved a highscore of "
+                    + player2Score + "!");
+            player2highscore.centerText(game);
+        }
     }
 
     /**

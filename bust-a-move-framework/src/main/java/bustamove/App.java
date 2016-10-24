@@ -96,10 +96,9 @@ public class App extends StateBasedGame {
     public final void initStatesList(final GameContainer container)
             throws SlickException {
         game = new Game();
-        game.setHighscores(highscores);
         pausedScreen = new PausedScreen();
-        victoryScreen = new VictoryScreen();
-        defeatScreen = new DefeatScreen();
+        victoryScreen = new VictoryScreen(highscores);
+        defeatScreen = new DefeatScreen(highscores);
         addState(new StartScreen());
         addState(new MainMenu());
         addState(game);

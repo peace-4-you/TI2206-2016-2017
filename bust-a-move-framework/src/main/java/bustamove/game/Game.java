@@ -27,7 +27,6 @@ import bustamove.game.GameData.GameDataState;
 import bustamove.gamestate.Button;
 import bustamove.gamestate.GameConfig;
 import bustamove.gamestate.GameState;
-import bustamove.player.Player;
 import bustamove.system.Log;
 import bustamove.system.SoundHandler;
 
@@ -59,10 +58,6 @@ public final class Game extends BasicGameState {
     private static final int GRAYRECT_Y = 530;
     private static final int GRAYRECT_WIDTH = 1040;
     private static final int GRAYRECT_HEIGHT = 580;
-    /**
-     * The high scores object.
-     */
-    private Highscore highscore;
 
     /**
      * Private constructor.
@@ -111,10 +106,6 @@ public final class Game extends BasicGameState {
     private void wonGame() {
         Log.getInstance().log(this, "Game Won");
         SoundHandler.getInstance().playWinSound();
-        for (GameData gd : gamedata) {
-            highscore.addEntryAndSave(gd.getPlayer().getName(),
-                    gd.getPlayer().getScore().getScore());
-        }
         sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
@@ -123,11 +114,6 @@ public final class Game extends BasicGameState {
      * Ends game, changes state to FAILED.
      */
     private void failedGame() {
-        for (GameData gd : gamedata) {
-            Player p = gd.getPlayer();
-            highscore.addEntryAndSave(p.getName(),
-                    p.getScore().getScore());
-        }
         Log.getInstance().log(this, "Game Failed");
         SoundHandler.getInstance().playLoseSound();
         sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(),
@@ -221,14 +207,6 @@ public final class Game extends BasicGameState {
      */
     public ArrayList<GameData> getGameData() {
         return this.gamedata;
-    }
-
-    /**
-     * Sets the highscore object of this class.
-     * @param hs The highscore object.
-     */
-    public void setHighscores(final Highscore hs) {
-        this.highscore = hs;
     }
 
 }
