@@ -60,6 +60,7 @@ public class NameScreen extends BasicGameState {
         namefield = new TextField(game, game.getDefaultFont(),
                 GameConfig.CENTRAL, GameConfig.THIRD_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
+        namefield.setMaxLength(GameConfig.MAX_NAME_LENGTH);
         namefield.setText("Player1");
         Button play = new Button("Play", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);

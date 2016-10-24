@@ -137,5 +137,8 @@ public abstract class GameConfig {
      * The location for the high scores file.
      */
     public static final String HIGHSCORE_FILE = "res/highscores.txt";
-
+    /**
+     * Max player name length.
+     */
+    public static final int MAX_NAME_LENGTH = 13;
 }

@@ -71,10 +71,12 @@ public class NamesScreen extends BasicGameState {
                 GameConfig.CENTRAL, GameConfig.SECOND_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
         player1name.setText("Player1");
+        player1name.setMaxLength(GameConfig.MAX_NAME_LENGTH);
         player2name = new TextField(game, game.getDefaultFont(),
                 GameConfig.CENTRAL, GameConfig.FIFTH_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
         player2name.setText("Player2");
+        player2name.setMaxLength(GameConfig.MAX_NAME_LENGTH);
         Button play = new Button("Play", GameConfig.SEVENTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         play.centerButton(game);
