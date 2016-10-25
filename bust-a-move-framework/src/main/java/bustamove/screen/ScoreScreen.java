@@ -23,6 +23,10 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
     /**
      * Contains the player's name.
      */
+    private String[] playernameString;
+    /**
+     * Contains the player's texts.
+     */
     private Text[] playername;
     /**
      * Contains the player's score.
@@ -46,6 +50,7 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
             final StateBasedGame stateBasedGame) {
         initBasicScreen(game);
         playername = new Text[2];
+        playernameString = new String[2];
         playerscore = new Text[2];
         playername[0] = new Text("Player: ", GameConfig.SECOND_LINE);
         playername[1] = new Text("Player: ", GameConfig.FOURTH_LINE);
@@ -81,6 +86,7 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
                              final int score) {
         if (number == 1 || number == 2) {
             this.playername[number - 1].setText("Player: " + name);
+            this.playernameString[number - 1] = name;
             this.playerscore[number - 1].setText("Score: " + score);
         }
         this.center();
@@ -107,5 +113,13 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
      */
     protected final int getPlayerAmount() {
         return players;
+    }
+
+    /**
+     * Protected getter the player names.
+     * @return String array of playernames
+     */
+    protected final String[] getPlayerNames() {
+        return playernameString;
     }
 }

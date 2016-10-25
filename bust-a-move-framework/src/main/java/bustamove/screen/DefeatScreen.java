@@ -51,11 +51,17 @@ public class DefeatScreen extends ScoreScreen {
             public void run() {
                 try {
                     App.getGame().destroyGame();
+                    String player1name = getPlayerNames()[0];
                     if (getPlayerAmount() == 2) {
+                    	String player2name = getPlayerNames()[1];
                         App.getGame().start2Player();
+                        App.getGame().getGameData().get(1).getPlayer()
+                        .setName(player2name);
                     } else {
                         App.getGame().start1Player();
                     }
+                    App.getGame().getGameData().get(0).getPlayer()
+                    .setName(player1name);
                 } catch (SlickException e) {
                     e.printStackTrace();
                 }

@@ -46,13 +46,19 @@ public class VictoryScreen extends ScoreScreen {
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         restart.addAction(new Runnable() {
             public void run() {
-                try {
+            	try {
                     App.getGame().destroyGame();
+                    String player1name = getPlayerNames()[0];
                     if (getPlayerAmount() == 2) {
-                         App.getGame().start2Player();
+                    	String player2name = getPlayerNames()[1];
+                        App.getGame().start2Player();
+                        App.getGame().getGameData().get(1).getPlayer()
+                        .setName(player2name);
                     } else {
-                         App.getGame().start1Player();
+                        App.getGame().start1Player();
                     }
+                    App.getGame().getGameData().get(0).getPlayer()
+                    .setName(player1name);
                 } catch (SlickException e) {
                     e.printStackTrace();
                 }
