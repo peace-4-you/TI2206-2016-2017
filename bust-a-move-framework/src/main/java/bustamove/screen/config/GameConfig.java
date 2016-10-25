@@ -6,7 +6,7 @@
  */
 
 
-package bustamove.gamestate;
+package bustamove.screen.config;
 
 import bustamove.bubble.Bubble;
 

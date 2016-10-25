@@ -14,15 +14,16 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.game.Game;
 import bustamove.game.Highscore;
-import bustamove.gamestate.DefeatScreen;
-import bustamove.gamestate.GameConfig;
-import bustamove.gamestate.HighscoreScreen;
-import bustamove.gamestate.MainMenu;
-import bustamove.gamestate.NameScreen;
-import bustamove.gamestate.NamesScreen;
-import bustamove.gamestate.PausedScreen;
-import bustamove.gamestate.StartScreen;
-import bustamove.gamestate.VictoryScreen;
+import bustamove.screen.DefeatScreen;
+import bustamove.screen.DoubleNameScreen;
+import bustamove.screen.HighscoreScreen;
+import bustamove.screen.MainMenu;
+import bustamove.screen.PausedScreen;
+import bustamove.screen.Screen;
+import bustamove.screen.SingleNameScreen;
+import bustamove.screen.StartScreen;
+import bustamove.screen.VictoryScreen;
+import bustamove.screen.config.GameConfig;
 import bustamove.system.SoundHandler;
 
 /**
@@ -95,6 +96,7 @@ public class App extends StateBasedGame {
      */
     public final void initStatesList(final GameContainer container)
             throws SlickException {
+        Screen.setFonts();
         game = new Game();
         game.setHighscores(highscores);
         pausedScreen = new PausedScreen();
@@ -106,8 +108,8 @@ public class App extends StateBasedGame {
         addState(pausedScreen);
         addState(victoryScreen);
         addState(defeatScreen);
-        addState(new NameScreen());
-        addState(new NamesScreen());
+        addState(new SingleNameScreen());
+        addState(new DoubleNameScreen());
         addState(new HighscoreScreen(highscores));
     }
 

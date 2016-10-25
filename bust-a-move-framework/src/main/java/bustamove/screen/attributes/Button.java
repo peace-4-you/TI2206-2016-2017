@@ -1,4 +1,4 @@
-package bustamove.gamestate;
+package bustamove.screen.attributes;
 
 import java.util.ArrayList;
 

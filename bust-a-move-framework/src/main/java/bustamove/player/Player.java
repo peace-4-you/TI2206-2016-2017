@@ -13,7 +13,7 @@ package bustamove.player;
 
 import java.util.Vector;
 
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 import bustamove.system.Log;
 import bustamove.util.PlayerObservable;
 import bustamove.util.PlayerObserver;

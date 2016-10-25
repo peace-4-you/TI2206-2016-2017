@@ -17,7 +17,7 @@ import org.newdawn.slick.Graphics;
 
 import bustamove.bubble.Bubble;
 import bustamove.game.Cannon;
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 
 /**
  * ShortScope is a PowerUp that shortens the Cannon's scope.

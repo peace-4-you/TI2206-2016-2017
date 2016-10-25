@@ -9,7 +9,7 @@
  */
 
 
-package bustamove.gamestate;
+package bustamove.screen.config;
 
 /**
  * Contains static integervalues of all GameStates.
