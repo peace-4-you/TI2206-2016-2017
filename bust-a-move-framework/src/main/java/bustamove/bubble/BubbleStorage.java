@@ -12,11 +12,11 @@
 
 package bustamove.bubble;
 
-import bustamove.gamestate.GameConfig;
 import bustamove.system.Log;
 import bustamove.bubble.Bubble.ColorChoice;
 import org.newdawn.slick.Graphics;
 import bustamove.game.Arena;
+import bustamove.screen.config.GameConfig;
 
 import java.util.LinkedList;
 import java.util.Random;

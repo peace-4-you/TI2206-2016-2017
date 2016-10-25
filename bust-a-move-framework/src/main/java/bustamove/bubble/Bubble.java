@@ -12,7 +12,7 @@
 package bustamove.bubble;
 
 import bustamove.game.GameData;
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;

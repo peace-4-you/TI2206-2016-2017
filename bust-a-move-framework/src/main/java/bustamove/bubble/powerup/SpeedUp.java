@@ -16,7 +16,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import bustamove.bubble.Bubble;
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 
 
 /** SpeedUp is a PowerUp that speeds up Bubbles fired from the Cannon.

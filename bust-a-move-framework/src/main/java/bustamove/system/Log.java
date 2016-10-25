@@ -85,7 +85,7 @@ public final class Log {
     /**
      * Increase log counter.
      */
-    public static void increment() {
+    private static void increment() {
         number++;
     }
 }
