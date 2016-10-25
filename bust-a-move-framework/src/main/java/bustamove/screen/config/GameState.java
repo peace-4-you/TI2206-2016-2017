@@ -15,7 +15,12 @@ package bustamove.screen.config;
  * Contains static integervalues of all GameStates.
  * @author Jason Xie
  */
-public abstract class GameState {
+public final class GameState {
+    /**
+     * Utility classes should not be instantiated as per Checkstyle.
+     */
+    private GameState() {
+    }
     /**
      * Integer number of StartScreen game state.
      */

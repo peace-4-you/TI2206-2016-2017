@@ -40,6 +40,7 @@ public abstract class NameScreen extends Screen {
                 GameConfig.CENTRAL, GameConfig.THIRD_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
         namefields[0].setText("Player1");
+        namefields[0].setMaxLength(GameConfig.MAX_NAME_LENGTH);
         Button main = new Button("Go to Main Menu", GameConfig.EIGTH_LINE,
                 GameConfig.WIDTH3, GameConfig.HEIGHT);
         main.addAction(new Runnable() {

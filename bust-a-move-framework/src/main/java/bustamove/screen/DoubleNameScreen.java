@@ -47,6 +47,7 @@ public class DoubleNameScreen extends NameScreen {
                 GameConfig.CENTRAL, GameConfig.FIFTH_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
         getNamefields()[1].setText("Player2");
+        getNamefields()[1].setMaxLength(GameConfig.MAX_NAME_LENGTH);
         Button play = new Button("Play", GameConfig.SEVENTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         play.addAction(new Runnable() {
