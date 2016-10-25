@@ -59,8 +59,10 @@ public class DoubleNameScreen extends NameScreen {
                 }
                 App.getGame().getGameData().get(0).getPlayer()
                 .setName(getNamefields()[0].getText());
+                getNamefields()[0].setText("Player 1");
                 App.getGame().getGameData().get(1).getPlayer()
                 .setName(getNamefields()[1].getText());
+                getNamefields()[1].setText("Player 2");
             }
         });
         play.addGameStateChangeAction(stateBasedGame,

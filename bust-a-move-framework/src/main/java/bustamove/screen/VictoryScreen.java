@@ -46,11 +46,11 @@ public class VictoryScreen extends ScoreScreen {
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         restart.addAction(new Runnable() {
             public void run() {
-            	try {
+                try {
                     App.getGame().destroyGame();
                     String player1name = getPlayerNames()[0];
                     if (getPlayerAmount() == 2) {
-                    	String player2name = getPlayerNames()[1];
+                        String player2name = getPlayerNames()[1];
                         App.getGame().start2Player();
                         App.getGame().getGameData().get(1).getPlayer()
                         .setName(player2name);

@@ -48,6 +48,7 @@ public class SingleNameScreen extends NameScreen {
                 App.getGame().start1Player();
                 App.getGame().getGameData().get(0).getPlayer()
                 .setName(getNamefields()[0].getText());
+                getNamefields()[0].setText("Player 1");
             }
         });
         play.addGameStateChangeAction(stateBasedGame,

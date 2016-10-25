@@ -53,7 +53,7 @@ public class DefeatScreen extends ScoreScreen {
                     App.getGame().destroyGame();
                     String player1name = getPlayerNames()[0];
                     if (getPlayerAmount() == 2) {
-                    	String player2name = getPlayerNames()[1];
+                        String player2name = getPlayerNames()[1];
                         App.getGame().start2Player();
                         App.getGame().getGameData().get(1).getPlayer()
                         .setName(player2name);
