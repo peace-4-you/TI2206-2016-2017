@@ -32,7 +32,6 @@ public final class Log {
      */
     private static int number = 0;
 
-
     /**
      * Constructor of the class.
      */
