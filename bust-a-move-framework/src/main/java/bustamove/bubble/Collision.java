@@ -12,8 +12,8 @@
 
 package bustamove.bubble;
 
-import bustamove.gamestate.GameConfig;
 import bustamove.player.Score;
+import bustamove.screen.config.GameConfig;
 import bustamove.system.Log;
 import org.newdawn.slick.Graphics;
 

@@ -1,9 +1,10 @@
 package bustamove.bubble;
 
 import bustamove.game.Arena;
-import bustamove.gamestate.GameConfig;
 import bustamove.player.Player;
 import bustamove.player.Score;
+import bustamove.screen.config.GameConfig;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

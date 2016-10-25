@@ -18,7 +18,7 @@ import org.newdawn.slick.Input;
 import bustamove.bubble.SimpleBubble;
 import bustamove.bubble.Bubble;
 import bustamove.bubble.powerup.PowerUp;
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 import bustamove.system.Log;
 import bustamove.system.SoundHandler;
 

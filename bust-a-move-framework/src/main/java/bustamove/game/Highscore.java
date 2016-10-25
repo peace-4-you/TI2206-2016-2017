@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 import bustamove.system.Log;
 
 /**
