@@ -9,7 +9,8 @@
 
 package bustamove.game;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import bustamove.bubble.BubbleStorage;
 import bustamove.bubble.Collision;
@@ -21,6 +22,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.App;
 import bustamove.bubble.Bubble;
+import bustamove.bubble.Bubble.State;
 import bustamove.system.Log;
 import bustamove.util.PlayerObserver;
 import bustamove.player.Player;
@@ -56,7 +58,7 @@ public class GameData implements PlayerObserver {
     /**
      * Arraylist of bubbles and their speed.
      */
-    private ArrayList<Bubble> bubbleslist;
+    private LinkedList<Bubble> bubbleslist;
     private double bubblespeed;
     /**
      * position for the arena.
@@ -82,7 +84,7 @@ public class GameData implements PlayerObserver {
         this.offset = drawingoffset;
         this.playerNr = modelnr;
         this.state = GameDataState.RUNNING;
-        this.bubbleslist = new ArrayList<Bubble>();
+        this.bubbleslist = new LinkedList<Bubble>();
         this.player = new Player("Player1", this.offset, this.playerNr);
         this.player.registerObserver((PlayerObserver) App.getPauseScreen());
         this.player.registerObserver((PlayerObserver) App.getDefeatScreen());
@@ -112,10 +114,15 @@ public class GameData implements PlayerObserver {
         if (this.state == GameDataState.RUNNING) {
             this.cannon.update(container, delta, this);
             collide.setGameHead(this);
-            for (Bubble b1 : bubbleslist) {
+            Iterator<Bubble> ite = bubbleslist.iterator();
+            while (ite.hasNext()) {
+                Bubble b1 = ite.next();
                 b1.move();
-                if (b1.getState() == Bubble.State.FIRING) {
+                if (b1.getState() == State.FIRING) {
                     collide.checkCollision(b1);
+                }
+                if (b1.getState() == State.LANDED) {
+                    ite.remove();
                 }
             }
             if (bubbleStorage.isFull()) {
@@ -158,7 +165,7 @@ public class GameData implements PlayerObserver {
         bubbleStorage.draw(g);
         collide.draw(g);
         for (Bubble bubble : this.bubbleslist) {
-            if (bubble.getState() != Bubble.State.LANDED) {
+            if (bubble.getState() != State.LANDED) {
                 bubble.draw(g);
             }
         }
@@ -223,7 +230,7 @@ public class GameData implements PlayerObserver {
      *
      * @return ArrayList of bubbles inside gamedata class
      */
-    public final ArrayList<Bubble> getBubbles() {
+    public final LinkedList<Bubble> getBubbles() {
         return this.bubbleslist;
     }
 
