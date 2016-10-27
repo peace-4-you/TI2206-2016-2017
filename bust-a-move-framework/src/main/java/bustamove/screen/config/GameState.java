@@ -57,4 +57,8 @@ public final class GameState {
      * Integer number of the high scores screen.
      */
     public static final int HIGHSCORES_SCREEN = 9;
+    /**
+     * Integer number of the option screen.
+     */
+    public static final int OPTION_SCREEN = 10;
 }
