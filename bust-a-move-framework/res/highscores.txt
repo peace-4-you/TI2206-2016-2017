@@ -1,4 +1,5 @@
 \return;,5290
+Player1,2300
 Player1,1360
 Player1,530
 \w,410
@@ -6,6 +7,7 @@ Player1,240
 Player1,180
 \return;,150
 Player1,110
+Player1,60
 fsfdss,50
 fsdfs,30
 Player1,30
