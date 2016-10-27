@@ -55,6 +55,9 @@ public class App extends StateBasedGame {
      * Association with states.
      */
     private static Game game;
+    private static DefeatScreen defeatScreen;
+    private static VictoryScreen victoryScreen;
+    private static PausedScreen pausedScreen;
 
     /**
      * Constructor for the launcher of the game.
@@ -96,26 +99,18 @@ public class App extends StateBasedGame {
         Screen.setFonts();
         game = new Game();
         game.setHighscores(highscores);
-        PausedScreen pausedScreen = new PausedScreen();
-        VictoryScreen victoryScreen = new VictoryScreen();
-        DefeatScreen defeatScreen = new DefeatScreen();
-        StartScreen startScreen = new StartScreen();
-        MainMenu mainMenu = new MainMenu();
-        SingleNameScreen singleNameScreen = new SingleNameScreen();
-        DoubleNameScreen doubleNameScreen = new DoubleNameScreen();
-        HighscoreScreen highscoreScreen = new HighscoreScreen(highscores);
-        addState(startScreen);
-        addState(mainMenu);
+        pausedScreen = new PausedScreen();
+        victoryScreen = new VictoryScreen();
+        defeatScreen = new DefeatScreen();
+        addState(new StartScreen());
+        addState(new MainMenu());
         addState(game);
         addState(pausedScreen);
         addState(victoryScreen);
         addState(defeatScreen);
-        addState(singleNameScreen);
-        addState(doubleNameScreen);
-        addState(highscoreScreen);
-        game.registerPlayerObserver(pausedScreen);
-        game.registerPlayerObserver(victoryScreen);
-        game.registerPlayerObserver(defeatScreen);
+        addState(new SingleNameScreen());
+        addState(new DoubleNameScreen());
+        addState(new HighscoreScreen(highscores));
     }
 
     /**
@@ -128,11 +123,56 @@ public class App extends StateBasedGame {
     }
 
     /**
+     * Getter function for pausedScreen object.
+     *
+     * @return the screen associated to this class
+     */
+    public static final PausedScreen getPauseScreen() {
+        return pausedScreen;
+    }
+
+    /**
+     * Getter function for defeatScreen object.
+     *
+     * @return the screen associated to this class
+     */
+    public static final DefeatScreen getDefeatScreen() {
+        return defeatScreen;
+    }
+
+    /**
+     * Getter function for victoryScreen object.
+     *
+     * @return the screen associated to this class
+     */
+    public static final VictoryScreen getVictoryScreen() {
+        return victoryScreen;
+    }
+
+    /**
+     * Setter function for game object.
+     *
+     * @param g game object
+     */
+    public final void setGame(final Game g) {
+        App.game = g;
+    }
+
+    /**
      * Return the height of the game window.
      *
      * @return height in int form
      */
     public static final int getGameHeight() {
         return GAME_HEIGHT;
+    }
+
+    /**
+     * Returns the width of the game window.
+     *
+     * @return width in int form
+     */
+    public static final int getGameWidth() {
+        return GAME_WIDTH;
     }
 }
