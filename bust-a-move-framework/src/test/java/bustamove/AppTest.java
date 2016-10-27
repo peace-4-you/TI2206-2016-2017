@@ -20,8 +20,7 @@ public class AppTest {
 
     @Test
     public void setgetGame() {
-        Game game = new Game();
-        assertEquals(game, app.getGame());
+        assertNull(app.getGame());
     }
 
     @Test
