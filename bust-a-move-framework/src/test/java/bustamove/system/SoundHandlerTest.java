@@ -1,4 +1,4 @@
-package bustamove.sound;
+package bustamove.system;
 
 import org.junit.Assume;
 import org.junit.AssumptionViolatedException;
