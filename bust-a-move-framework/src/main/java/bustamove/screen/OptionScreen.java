@@ -72,7 +72,7 @@ public class OptionScreen extends Screen {
     private Button getMuteUnmuteButton() {
         Button button;
 
-        boolean isMuted = (SoundHandler.getInstance().getVolume() == 0);
+        boolean isMuted = SoundHandler.getInstance().getVolume() == 0;
 
         if (isMuted) {
             button = new Button("Unmute", GameConfig.FOURTH_LINE,
