@@ -43,10 +43,15 @@ public class DoubleNameScreen extends NameScreen {
         initNameScreen(game, stateBasedGame);
         Text player1text = new Text("Player 1: ", GameConfig.FIRST_LINE);
         Text player2text = new Text("Player 2: ", GameConfig.FOURTH_LINE);
+        getNamefields()[0] = new TextField(game, game.getDefaultFont(),
+                GameConfig.CENTRAL, GameConfig.THIRD_LINE, GameConfig.WIDTH3,
+                GameConfig.HEIGHT);
         getNamefields()[1] = new TextField(game, game.getDefaultFont(),
                 GameConfig.CENTRAL, GameConfig.FIFTH_LINE, GameConfig.WIDTH3,
                 GameConfig.HEIGHT);
+        getNamefields()[0].setText("Player1");
         getNamefields()[1].setText("Player2");
+        getNamefields()[0].setMaxLength(GameConfig.MAX_NAME_LENGTH);
         getNamefields()[1].setMaxLength(GameConfig.MAX_NAME_LENGTH);
         Button play = new Button("Play", GameConfig.SEVENTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
@@ -70,6 +75,7 @@ public class DoubleNameScreen extends NameScreen {
         getButtons().add(play);
         getTexts().add(player1text);
         getTexts().add(player2text);
+        getTextFields().add(getNamefields()[0]);
         getTextFields().add(getNamefields()[1]);
         super.center();
     }
