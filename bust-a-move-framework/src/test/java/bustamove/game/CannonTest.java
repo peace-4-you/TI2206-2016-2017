@@ -31,8 +31,9 @@ public class CannonTest {
 
     @Test
     public void fireStraight() {
+        Bubble loaded = game.getBubbles().get(1);
         cannon.fire();
-        Bubble loaded = game.getBubbles().get(2);
+
         assertEquals(Bubble.State.FIRING, loaded.getState());
         assertEquals(0, loaded.getXSpeed(), epsilon);
         assertEquals(-3, loaded.getYSpeed(), epsilon);
@@ -43,8 +44,9 @@ public class CannonTest {
         for (int i = 0; i < 60; i++) {
             cannon.stepUp();
         }
+        Bubble loaded = game.getBubbles().get(1);
         cannon.fire();
-        Bubble loaded = game.getBubbles().get(2);
+
         double xspeed = Math.cos(Math.toRadians(60 + 90)) * 3;
         double yspeed = -Math.sin(Math.toRadians(60 + 90)) * 3;
         assertEquals(xspeed, loaded.getXSpeed(), epsilon);
@@ -56,8 +58,9 @@ public class CannonTest {
         for (int i = 0; i < 70; i++) {
             cannon.stepUp();
         }
+        Bubble loaded = game.getBubbles().get(1);
         cannon.fire();
-        Bubble loaded = game.getBubbles().get(2);
+
         double xspeed = Math.cos(Math.toRadians(60 + 90)) * 3;
         double yspeed = -Math.sin(Math.toRadians(60 + 90)) * 3;
         assertEquals(xspeed, loaded.getXSpeed(), epsilon);
@@ -69,8 +72,9 @@ public class CannonTest {
         for (int i = 0; i < 60; i++) {
             cannon.stepDown();
         }
+        Bubble loaded = game.getBubbles().get(1);
         cannon.fire();
-        Bubble loaded = game.getBubbles().get(2);
+
         double xspeed = Math.cos(Math.toRadians(-60 + 90)) * 3;
         double yspeed = -Math.sin(Math.toRadians(-60 + 90)) * 3;
         assertEquals(xspeed, loaded.getXSpeed(), epsilon);
@@ -82,8 +86,9 @@ public class CannonTest {
         for (int i = 0; i < 70; i++) {
             cannon.stepDown();
         }
+        Bubble loaded = game.getBubbles().get(1);
         cannon.fire();
-        Bubble loaded = game.getBubbles().get(2);
+
         double xspeed = Math.cos(Math.toRadians(-60 + 90)) * 3;
         double yspeed = -Math.sin(Math.toRadians(-60 + 90)) * 3;
         assertEquals(xspeed, loaded.getXSpeed(), epsilon);
