@@ -1,38 +1,75 @@
 package bustamove;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import bustamove.game.Game;
+import bustamove.screen.Screen;
+import bustamove.screen.config.GameConfig;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.doNothing;
 
 /**
- * Unit test for simple App.
+ * Created by Jason Xie on 27/10/2016.
  */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Screen.class)
+public class AppTest {
+
+    private App app;
+    @Mock
+    private GameContainer container;
+
+    @Before
+    public void setUp() {
+        app = new App("Game title");
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @Test
+    public void setgetGame() {
+        Game game = new Game();
+        assertNull(app.getGame());
+        app.setGame(game);
+        assertEquals(game, app.getGame());
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+    @Test
+    public void getGame() {
+        assertNull(app.getGame());
+    }
+
+    @Test
+    public void getPauseScreen() {
+        assertNull(app.getPauseScreen());
+    }
+
+    @Test
+    public void getDefeatScreen() {
+        assertNull(app.getDefeatScreen());
+    }
+
+    @Test
+    public void getVictoryScreen() {
+        assertNull(app.getVictoryScreen());
+    }
+
+
+    @Test
+    public void gameHeight() {
+        assertEquals(580, app.getGameHeight());
+    }
+
+    @Test
+    public void gameWidth() {
+        assertEquals(640, app.getGameWidth());
     }
 }
