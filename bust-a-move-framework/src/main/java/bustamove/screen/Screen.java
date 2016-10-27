@@ -106,7 +106,7 @@ public abstract class Screen extends BasicGameState {
      * @param i delta of time exceeded
      * @throws SlickException any type of slick exception
      */
-    public final void update(final GameContainer game,
+    public void update(final GameContainer game,
             final StateBasedGame stateBasedGame, final int i)
             throws SlickException {
         gamecontainer = game;

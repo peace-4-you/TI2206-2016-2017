@@ -3,6 +3,7 @@ package bustamove.screen;
 import bustamove.screen.attributes.Button;
 import bustamove.screen.config.GameConfig;
 import bustamove.screen.config.GameState;
+import bustamove.system.Log;
 import bustamove.system.SoundHandler;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -25,7 +26,7 @@ public class OptionScreen extends Screen {
      * Initializes a option screen object.
      */
     public OptionScreen() {
-        // Empty
+        Log.getInstance().log(this, "Option Screen initialised");
     }
 
     /**
@@ -40,7 +41,7 @@ public class OptionScreen extends Screen {
         initBasicScreen(game);
         Button mute = getMuteUnmuteButton();
         getButtons().add(mute);
-        Button back = new Button("Back", GameConfig.SECOND_LINE,
+        Button back = new Button("Back", GameConfig.FIFTH_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         back.addGameStateChangeAction(stateBasedGame,
                 GameState.MAIN_MENU);
@@ -49,15 +50,33 @@ public class OptionScreen extends Screen {
     }
 
     /**
+     * Updates the text of the mute button and calls update() of super
+     * class.
+     * @param game the game container
+     * @param stateBasedGame the state based game
+     * @param i delta of time exceeded
+     * @throws SlickException
+     */
+    @Override
+    public final void update(final GameContainer game,
+                             final StateBasedGame stateBasedGame,
+                             final int i)
+            throws SlickException {
+        getButtons().set(0, getMuteUnmuteButton());
+        super.update(game, stateBasedGame, i);
+    }
+
+    /**
      * Create a mute or unmute button.
      * @return Button
      */
     private Button getMuteUnmuteButton() {
         Button button;
+
         boolean isMuted = (SoundHandler.getInstance().getVolume() == 0);
 
         if (isMuted) {
-            button = new Button("Unmute", GameConfig.FIRST_LINE,
+            button = new Button("Unmute", GameConfig.FOURTH_LINE,
                     GameConfig.WIDTH2, GameConfig.HEIGHT);
             button.addAction(new Runnable() {
                 public void run() {
@@ -66,7 +85,7 @@ public class OptionScreen extends Screen {
                 }
             });
         } else {
-            button = new Button("Mute", GameConfig.FIRST_LINE,
+            button = new Button("Mute", GameConfig.FOURTH_LINE,
                     GameConfig.WIDTH2, GameConfig.HEIGHT);
             button.addAction(new Runnable() {
                 public void run() {
