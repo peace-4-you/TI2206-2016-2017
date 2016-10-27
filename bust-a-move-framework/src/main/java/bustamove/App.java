@@ -76,7 +76,6 @@ public class App extends StateBasedGame {
      * @throws SlickException any type of Slick exception
      */
     public static void main(final String[] args) throws SlickException {
-        Screen.setFonts();
         AppGameContainer app = new AppGameContainer(new App("Bust-A-Move!!"));
         app.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
         app.setAlwaysRender(true);
@@ -97,6 +96,7 @@ public class App extends StateBasedGame {
      */
     public final void initStatesList(final GameContainer container)
             throws SlickException {
+        Screen.setFonts();
         game = new Game();
         game.setHighscores(highscores);
         pausedScreen = new PausedScreen();
