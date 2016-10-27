@@ -55,15 +55,14 @@ public class OptionScreen extends Screen {
      * @param game the game container
      * @param stateBasedGame the state based game
      * @param i delta of time exceeded
-     * @throws SlickException
+     * @throws SlickException any Slick exceptions
      */
-    @Override
     public final void update(final GameContainer game,
                              final StateBasedGame stateBasedGame,
                              final int i)
             throws SlickException {
+        super.updateBasicScreen(game, stateBasedGame, i);
         getButtons().set(0, getMuteUnmuteButton());
-        super.update(game, stateBasedGame, i);
     }
 
     /**
