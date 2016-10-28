@@ -29,7 +29,8 @@ public class PopBehaviourTest {
     public void setUp() {
         bubbleStorage = new BubbleStorage(0, 0);
         score = new Score(new Player("name", 0, 0));
-        popBehaviour = new PopBehaviour(bubbleStorage, score);
+        popBehaviour = new PopBehaviour(score);
+        popBehaviour.setBubbleStorage(bubbleStorage);
     }
 
     @Test
