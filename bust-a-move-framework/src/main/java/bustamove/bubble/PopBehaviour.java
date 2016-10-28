@@ -19,12 +19,19 @@ public class PopBehaviour {
     /**
      * Constructor for popbehaviour.
      *
-     * @param bubbles contains all bubbles
-     * @param score   score to be updated to
+     * @param score score to be updated to
      */
-    public PopBehaviour(final BubbleStorage bubbles, final Score score) {
-        this.bubbleStorage = bubbles;
+    public PopBehaviour(final Score score) {
         this.scorekeeper = score;
+    }
+
+    /**
+     * Sets the bubblestorage.
+     *
+     * @param bubbles bubblestorage object.
+     */
+    public final void setBubbleStorage(final BubbleStorage bubbles) {
+        bubbleStorage = bubbles;
     }
 
     /**

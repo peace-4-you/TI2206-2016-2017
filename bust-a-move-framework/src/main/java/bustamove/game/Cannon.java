@@ -149,7 +149,7 @@ public class Cannon {
     private Bubble getNextBubble() {
         Log.getInstance().log(this, "Next bubble loaded to cannon");
         ColorChoice c = SimpleBubble.randomColor(
-                game.getArena().getBubbleStorage().getColorsOnArena());
+            game.getBubbleStorage().getColorsOnArena());
         Bubble newBubble = new SimpleBubble(
                 (float) Cannon.X_LAUNCH + this.offset, (float) Cannon.Y_LAUNCH,
                 c, true);

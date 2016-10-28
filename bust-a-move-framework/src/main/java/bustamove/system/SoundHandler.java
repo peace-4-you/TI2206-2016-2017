@@ -7,7 +7,7 @@ import org.newdawn.slick.Sound;
 /**
  * The SoundHandler class plays all the sounds in the game.
  *
- * @author Justin Segond
+ * @author Justin Segond, Winer Bao
  */
 
 public final class SoundHandler {
@@ -125,5 +125,22 @@ public final class SoundHandler {
         if (loseSound != null) {
             loseSound.play(1.0f, volume);
         }
+    }
+
+    /**
+     * Returns the volume of the game.
+     * @return volume of the game
+     */
+    public float getVolume() {
+        return volume;
+    }
+
+    /**
+     * Sets the volume of the game.
+     * @param vol volume to set to
+     */
+    public void setVolume(final float vol) {
+        volume = vol;
+        backgroundMusic.setVolume(volume);
     }
 }

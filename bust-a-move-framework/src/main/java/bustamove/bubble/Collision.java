@@ -14,7 +14,6 @@ package bustamove.bubble;
 
 import bustamove.screen.config.GameConfig;
 import bustamove.system.Log;
-import bustamove.game.Arena;
 
 /**
  * This class contains the bubble collision detection algorithm.
@@ -38,24 +37,47 @@ public final class Collision {
     /**
      * The container of this object.
      */
-    private Arena arenaCont;
     private PopBehaviour popBehaviour;
+    /**
+     * Wall positions.
+     */
+    private int xPosLeftWall;
+    private int xPosRightWall;
+    private int yPosTopWall;
 
     /**
      * Constructor for creating an object just for checking collisions.
      *
-     * @param arena   container that contains this object
-     * @param bubbles container for bubbles
-     * @param pop     object that contains the pop behaviours.
+     * @param leftWall  x-coordinate of the left wall
+     * @param rightWall x-coordinate of the right wall
+     * @param topWall   y-coordinate of the top wall
      */
-    public Collision(final Arena arena,
-                     final BubbleStorage bubbles, final PopBehaviour pop) {
-        this.arenaCont = arena;
-        bubbleStorage = bubbles;
-        this.popBehaviour = pop;
+    public Collision(final int leftWall, final int rightWall,
+                     final int topWall) {
+        this.xPosLeftWall = leftWall;
+        this.xPosRightWall = rightWall;
+        this.yPosTopWall = topWall;
         bubbleCount = 0;
     }
 
+
+    /**
+     * Update BubbleStorage object.
+     *
+     * @param storage BubbleStorage object to store
+     */
+    public void setBubbleStorage(final BubbleStorage storage) {
+        this.bubbleStorage = storage;
+    }
+
+    /**
+     * Sets the popbehaviour.
+     *
+     * @param pop object that contains the pop behaviours.
+     */
+    public void setPopBehaviour(final PopBehaviour pop) {
+        popBehaviour = pop;
+    }
 
     /**
      * Wrapper for checking the collisions.
@@ -78,10 +100,8 @@ public final class Collision {
      */
     private void checkWallCollision(final Bubble bubble) {
         double xPos = bubble.getX();
-        double wallPos = arenaCont.getxPos();
-        if (xPos <= wallPos
-                || xPos + Bubble.DIAMETER
-                >= wallPos + arenaCont.getWidth()) {
+        double wallPos = xPosLeftWall;
+        if (xPos <= wallPos || xPos + Bubble.DIAMETER >= xPosRightWall) {
             bubble.hitWall();
         }
     }
@@ -134,7 +154,7 @@ public final class Collision {
         }
         float xPos = (float) (column * Bubble.DIAMETER + offset);
         float yPos = (float) (row * GameConfig.ROW_OFFSET);
-        shotBubble.land(xPos + arenaCont.getxPos(), yPos + arenaCont.getyPos());
+        shotBubble.land(xPos + xPosLeftWall, yPos + yPosTopWall);
 
         bubbleCount++;
         if (bubbleCount > ADD_ROW_COUNT) {

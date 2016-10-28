@@ -1,5 +1,7 @@
 package bustamove.bubble;
 
+import bustamove.player.Player;
+import bustamove.player.Score;
 import bustamove.screen.config.GameConfig;
 
 import org.junit.Before;
@@ -17,10 +19,13 @@ import java.util.LinkedList;
 public class BubbleStorageTest {
 
     private BubbleStorage bubbleStorage;
+    private Collision collision;
 
     @Before
     public void setUp() {
+        collision = new Collision(0, 200, 0);
         bubbleStorage = new BubbleStorage(200, 200);
+        collision.setBubbleStorage(bubbleStorage);
     }
 
     @Test

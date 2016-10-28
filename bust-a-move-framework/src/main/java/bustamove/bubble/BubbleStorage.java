@@ -50,8 +50,8 @@ public final class BubbleStorage {
     /**
      * Constructor for bubble storage.
      *
-     * @param x     x-coordinate of upper left corner of the arena
-     * @param y     y-coordinate of upper left corner of the arena
+     * @param x         x-coordinate of upper left corner of the arena
+     * @param y         y-coordinate of upper left corner of the arena
      */
     public BubbleStorage(final int x, final int y) {
         bubble2DArray = new LinkedList<Bubble[]>();
@@ -411,4 +411,5 @@ public final class BubbleStorage {
     public BubbleStorageIterator iterator() {
         return new BubbleStorageIterator(bubble2DArray);
     }
+
 }
