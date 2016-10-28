@@ -30,6 +30,7 @@ import bustamove.screen.config.GameConfig;
 import bustamove.screen.config.GameState;
 import bustamove.system.Log;
 import bustamove.system.SoundHandler;
+import bustamove.util.PlayerObserver;
 
 /**
  * The Game class represents a game entity. Contains all GameModels.
@@ -46,6 +47,10 @@ public final class Game extends BasicGameState {
      * lists of all Game Data objects.
      */
     private ArrayList<GameData> gamedata;
+    /**
+     * The observers that look at the players of this game.
+     */
+    private ArrayList<PlayerObserver> pObservers;
     /**
      * Button instance and x coordinate for a pause button.
      */
@@ -69,6 +74,7 @@ public final class Game extends BasicGameState {
      */
     public Game() {
         this.gamedata = new ArrayList<GameData>();
+        this.pObservers = new ArrayList<PlayerObserver>();
         Log.getInstance().log(this, "Game initialised");
     }
 
@@ -77,12 +83,13 @@ public final class Game extends BasicGameState {
      * @throws SlickException all kind of SlickException
      */
     public void start2Player() throws SlickException {
+        Log.getInstance().log(this, "start2playergame");
         AppGameContainer gc = (AppGameContainer) this.container;
         gc.setDisplayMode(App.GAME_WIDTH_MULTIPLAYER, App.GAME_HEIGHT, false);
         GameData firstplayer = new GameData(0, 2);
         GameData secondplayer = new GameData(DRAWING_OFFSET, 1);
-        this.gamedata.add(firstplayer);
-        this.gamedata.add(secondplayer);
+        addGameData(firstplayer);
+        addGameData(secondplayer);
         firstplayer.getPlayer().notifyAmountObserver(2);
     }
 
@@ -91,7 +98,7 @@ public final class Game extends BasicGameState {
      */
     public void start1Player() {
         GameData firstplayer = new GameData(0, 1);
-        this.gamedata.add(firstplayer);
+        addGameData(firstplayer);
         firstplayer.getPlayer().notifyAmountObserver(1);
     }
 
@@ -229,6 +236,29 @@ public final class Game extends BasicGameState {
      */
     public void setHighscores(final Highscore hs) {
         this.highscore = hs;
+    }
+
+    /**
+     * Add the game data to the list.
+     * @param gd The GameData to add.
+     */
+    private void addGameData(final GameData gd) {
+        this.gamedata.add(gd);
+        for (PlayerObserver o : pObservers) {
+            gd.registerPlayerObservers(o);
+        }
+    }
+
+    /**
+     * Adds observer to all Player objects created and those that will
+     * be created through this game.
+     * @param o The PlayerObserver to add.
+     */
+    public void registerPlayerObserver(final PlayerObserver o) {
+        pObservers.add(o);
+        for (GameData gd : gamedata) {
+            gd.registerPlayerObservers(o);
+        }
     }
 
 }
