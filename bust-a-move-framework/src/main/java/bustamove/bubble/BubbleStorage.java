@@ -332,7 +332,7 @@ public final class BubbleStorage {
         int row = getRow(ypos);
         int column = 0;
 
-        if (bubble2DArray.peek() == null) {
+        if (bubble2DArray.peek() == null || row >= bubble2DArray.size()) {
             return 0;
         }
 
