@@ -1,7 +1,13 @@
 package bustamove.game;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map.Entry;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,6 +30,11 @@ public class HighscoreTest {
 		hs = new Highscore();
 		hs.setFile(highscoreTestFile.getPath());
 		hs.load();
+	}
+	
+	@After
+	public void after() {
+		removeFile();
 	}
 	
 	private void removeFile() {
@@ -93,7 +104,23 @@ public class HighscoreTest {
 		assertEquals(hs.getScore(1), score2);
 		removeFile();
 	}
-	
+
+	@Test
+	public void testHighscoreAddEntryBelow() {
+		hs.load();
+		int score1 = 1000;
+		int score2 = 100;
+		String name1 = "OP";
+		String name2 = "NOOB";
+		hs.addEntry(name1, score1);
+		hs.addEntry(name2, score2);
+		assertEquals(hs.getName(0), name1);
+		assertEquals(hs.getScore(0), score1);
+		assertEquals(hs.getName(1), name2);
+		assertEquals(hs.getScore(1), score2);
+		removeFile();
+	}
+
 	@Test
 	public void testHighscoreSaveAndLoad() {
 		hs.load();
@@ -102,6 +129,51 @@ public class HighscoreTest {
 		hs.load();
 		assertEquals(hs.getName(0), "OP");
 		assertEquals(hs.getScore(0), 1000);
+		
+		removeFile();
+	}
+	
+	@Test
+	public void testAddWrongStringEntry() {
+		hs.load();
+		hs.addEntry("OP,5000,9000");
+		assertEquals(hs.getScore(0), 0);
+		assertEquals(hs.getName(0), null);
+		
+		removeFile();
+	}
+	
+	@Test
+	public void testSaveEntryPrintWriterNull() {
+		hs.load();
+		Entry<Integer, ArrayList<String>> entry;
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("OP");
+		entry = new SimpleImmutableEntry<Integer, ArrayList<String>>(1000, names);
+		PrintWriter pw = null;
+		assertEquals(0, hs.saveEntry(pw, entry));
+		assertEquals(0,hs.saveEntry(pw, null));
+		try {
+			pw = new PrintWriter(highscoreTestFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		assertEquals(0, hs.saveEntry(pw, null));
+		pw.close();
+		removeFile();
+	}
+	
+	@Test
+	public void testAddEntrySameScore() {
+		hs.load();
+		// OP got score first, so is higher placed
+		hs.addEntry("OP", 1000);
+		hs.addEntry("Also OP", 1000);
+		
+		assertEquals(hs.getName(0), "OP");
+		assertEquals(hs.getScore(0), 1000);
+		assertEquals(hs.getName(1), "Also OP");
+		assertEquals(hs.getScore(1), 1000);
 		
 		removeFile();
 	}

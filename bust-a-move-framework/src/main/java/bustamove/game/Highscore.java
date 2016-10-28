@@ -70,7 +70,7 @@ public final class Highscore {
      * Tries to parse a String and add it to the high scores.
      * @param entry The string to parse a high score from.
      */
-    private void addEntry(final String entry) {
+    public void addEntry(final String entry) {
         String[] parts = entry.split(",");
         if (parts.length != 2) {
             Log.getInstance().log(this,
@@ -126,7 +126,7 @@ public final class Highscore {
             writer.close();
         } catch (FileNotFoundException e) {
             Log.getInstance().log(this,
-                    "File not found while writing. (Should never happen)");
+                "File not found while writing. (Should never happen)");
         } catch (UnsupportedEncodingException e) {
             Log.getInstance().log(this, "Encoding UTF-8 not supported.");
         }
@@ -138,8 +138,8 @@ public final class Highscore {
      * @param entry The entry to write to the file
      * @return an int with how many entries where saved to the file.
      */
-    private int saveEntry(final PrintWriter writer,
-                          final Entry<Integer, ArrayList<String>> entry) {
+    public int saveEntry(final PrintWriter writer,
+            final Entry<Integer, ArrayList<String>> entry) {
         if (writer == null || entry == null) {
             Log.getInstance().log(this, "Writer of entry null");
             return 0;
@@ -160,7 +160,7 @@ public final class Highscore {
     public int getScore(final int position) {
         if (position < 0) {
             Log.getInstance().log(this,
-                    "Highscore position can not be negative.");
+                "Highscore position can not be negative.");
             return 0;
         }
         Entry<Integer, ArrayList<String>> entry = highscores.lastEntry();
@@ -192,7 +192,9 @@ public final class Highscore {
         while (entry != null) {
             currentPosition += entry.getValue().size();
             if (position <= currentPosition) {
-                return entry.getValue().get(currentPosition - position);
+                return entry.getValue().get(
+                        Math.abs((currentPosition - position)
+                             - (entry.getValue().size() - 1)));
             }
             entry = highscores.lowerEntry(entry.getKey());
         }
