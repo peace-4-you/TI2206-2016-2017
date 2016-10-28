@@ -10,6 +10,7 @@
 package bustamove.game;
 
 import org.newdawn.slick.AppGameContainer;
+
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
@@ -34,6 +35,7 @@ import bustamove.util.PlayerObserver;
 
 /**
  * The Game class represents a game entity. Contains all GameModels.
+ *
  * @author Maurice Willemsen
  * @version 11.10.2016
  */
@@ -80,6 +82,7 @@ public final class Game extends BasicGameState {
 
     /**
      * Starts a 2 player mode.
+     *
      * @throws SlickException all kind of SlickException
      */
     public void start2Player() throws SlickException {
@@ -104,6 +107,7 @@ public final class Game extends BasicGameState {
 
     /**
      * Clears the game, Emptys the list of GameDatas.
+     *
      * @throws SlickException All Kind of SlickException
      */
     public void destroyGame() throws SlickException {
@@ -152,12 +156,14 @@ public final class Game extends BasicGameState {
 
     /**
      * Called when BasicGameState initializes.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
      * @throws SlickException any type of slick exception
      */
     public void init(final GameContainer game,
-                     final StateBasedGame stateBasedGame) throws SlickException {
+                     final StateBasedGame stateBasedGame)
+            throws SlickException {
         this.sbg = stateBasedGame;
         this.container = game;
         this.pause = new Button("Pause", Game.BUTTON_X, GameConfig.SEVENTH_LINE,
@@ -166,9 +172,10 @@ public final class Game extends BasicGameState {
 
     /**
      * Updates the BasicGameState.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
-     * @param delta delta of time exceeded
+     * @param delta          delta of time exceeded
      * @throws SlickException any type of slick exception
      */
     public void update(final GameContainer game,
@@ -198,9 +205,10 @@ public final class Game extends BasicGameState {
 
     /**
      * Renders the BasicGameState.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
-     * @param g Graphics object
+     * @param g              Graphics object
      * @throws SlickException any type of slick exception
      */
     public void render(final GameContainer game,
@@ -216,6 +224,7 @@ public final class Game extends BasicGameState {
 
     /**
      * Getter method: for the GameState ID.
+     *
      * @return integer of BasicGameState number.
      */
     public int getID() {
@@ -224,6 +233,7 @@ public final class Game extends BasicGameState {
 
     /**
      * Getter method: for the GameData list.
+     *
      * @return List of GameData objects
      */
     public ArrayList<GameData> getGameData() {
@@ -232,6 +242,7 @@ public final class Game extends BasicGameState {
 
     /**
      * Sets the highscore object of this class.
+     *
      * @param hs The highscore object.
      */
     public void setHighscores(final Highscore hs) {
@@ -240,6 +251,7 @@ public final class Game extends BasicGameState {
 
     /**
      * Add the game data to the list.
+     *
      * @param gd The GameData to add.
      */
     private void addGameData(final GameData gd) {
@@ -252,6 +264,7 @@ public final class Game extends BasicGameState {
     /**
      * Adds observer to all Player objects created and those that will
      * be created through this game.
+     *
      * @param o The PlayerObserver to add.
      */
     public void registerPlayerObserver(final PlayerObserver o) {
