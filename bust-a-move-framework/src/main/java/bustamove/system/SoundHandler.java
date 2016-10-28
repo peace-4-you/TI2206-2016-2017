@@ -7,7 +7,7 @@ import org.newdawn.slick.Sound;
 /**
  * The SoundHandler class plays all the sounds in the game.
  *
- * @author Justin Segond
+ * @author Justin Segond, Winer Bao
  */
 
 public final class SoundHandler {
@@ -22,7 +22,7 @@ public final class SoundHandler {
     /**
      * The volume at which all audio will be played (between 0 and 1).
      */
-    private static float volume = 1;
+    private static float volume = 0;
     /**
      * The cannon firing sound.
      */
@@ -58,7 +58,7 @@ public final class SoundHandler {
             winSound = new Sound("res/win.ogg");
             loseSound = new Sound("res/lose.ogg");
         } catch (SlickException e) {
-            Log.getInstance().log("Error loading a sound.");
+            Log.getInstance().log(this, "Error loading a sound.");
         }
     }
 
@@ -125,5 +125,22 @@ public final class SoundHandler {
         if (loseSound != null) {
             loseSound.play(1.0f, volume);
         }
+    }
+
+    /**
+     * Returns the volume of the game.
+     * @return volume of the game
+     */
+    public float getVolume() {
+        return volume;
+    }
+
+    /**
+     * Sets the volume of the game.
+     * @param vol volume to set to
+     */
+    public void setVolume(final float vol) {
+        volume = vol;
+        backgroundMusic.setVolume(volume);
     }
 }

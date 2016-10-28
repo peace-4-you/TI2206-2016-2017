@@ -49,6 +49,6 @@ public class OBomb extends PowerUp {
      */
     public final void pop() {
         getBubble().pop();
-        this.getGameHead().getArena().getCollision().popOBomb(this);
+        this.getGameHead().getPopBehaviour().popOBomb(this);
     }
 }

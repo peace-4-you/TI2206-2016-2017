@@ -1,4 +1,4 @@
-package bustamove.gamestate;
+package bustamove.screen.attributes;
 
 import java.util.ArrayList;
 
@@ -179,12 +179,20 @@ public class Button {
      *            The state id to change to. (GameState.)
      */
     public final void addGameStateChangeAction(final StateBasedGame sbg,
-            final int state) {
+                                               final int state) {
         addAction(new Runnable() {
             public void run() {
                 sbg.enterState(state, new FadeOutTransition(),
                         new FadeInTransition());
             }
         });
+    }
+
+    /**
+     * Setter to change the text inside the button.
+     * @param text  message
+     */
+    public final void setText(final String text) {
+        bText = text;
     }
 }

@@ -14,16 +14,20 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.game.Game;
 import bustamove.game.Highscore;
-import bustamove.gamestate.DefeatScreen;
-import bustamove.gamestate.GameConfig;
-import bustamove.gamestate.HighscoreScreen;
-import bustamove.gamestate.MainMenu;
-import bustamove.gamestate.NameScreen;
-import bustamove.gamestate.NamesScreen;
-import bustamove.gamestate.PausedScreen;
-import bustamove.gamestate.StartScreen;
-import bustamove.gamestate.VictoryScreen;
+import bustamove.screen.DefeatScreen;
+import bustamove.screen.DoubleNameScreen;
+import bustamove.screen.HighscoreScreen;
+import bustamove.screen.CreditsScreen;
+import bustamove.screen.MainMenu;
+import bustamove.screen.PausedScreen;
+import bustamove.screen.Screen;
+import bustamove.screen.SingleNameScreen;
+import bustamove.screen.StartScreen;
+import bustamove.screen.VictoryScreen;
+import bustamove.screen.OptionScreen;
+import bustamove.screen.config.GameConfig;
 import bustamove.system.SoundHandler;
+
 
 /**
  * The App class contains the launcher of the program.
@@ -46,17 +50,22 @@ public class App extends StateBasedGame {
      * Values for fps of the game.
      */
     private static final int MAX_FPS = 120;
+
     /**
-     * The high scores object.
+     * All the states/screens in the game.
      */
-    private static Highscore highscores;
-    /**
-     * Association with states.
-     */
+    private static StartScreen startScreen;
+    private static MainMenu mainMenu;
+    private static SingleNameScreen singleNameScreen;
+    private static DoubleNameScreen doubleNameScreen;
     private static Game game;
     private static DefeatScreen defeatScreen;
     private static VictoryScreen victoryScreen;
     private static PausedScreen pausedScreen;
+    private static Highscore highscores;
+    private static HighscoreScreen highscoreScreen;
+    private static OptionScreen optionScreen;
+    private static CreditsScreen creditsScreen;
 
     /**
      * Constructor for the launcher of the game.
@@ -87,6 +96,28 @@ public class App extends StateBasedGame {
     }
 
     /**
+     * Initializes the screens and the font.
+     */
+    public static void init() {
+        Screen.setFonts();
+        game = new Game();
+        game.setHighscores(highscores);
+        startScreen = new StartScreen();
+        mainMenu = new MainMenu();
+        singleNameScreen = new SingleNameScreen();
+        doubleNameScreen = new DoubleNameScreen();
+        highscoreScreen = new HighscoreScreen(highscores);
+        creditsScreen = new CreditsScreen();
+        pausedScreen = new PausedScreen();
+        victoryScreen = new VictoryScreen();
+        defeatScreen = new DefeatScreen();
+        game.registerPlayerObserver(pausedScreen);
+        game.registerPlayerObserver(victoryScreen);
+        game.registerPlayerObserver(defeatScreen);
+        optionScreen = new OptionScreen();
+    }
+
+    /**
      * Initialize all the game states that are used in the game.
      *
      * @param container the container holding the game
@@ -95,20 +126,18 @@ public class App extends StateBasedGame {
      */
     public final void initStatesList(final GameContainer container)
             throws SlickException {
-        game = new Game();
-        game.setHighscores(highscores);
-        pausedScreen = new PausedScreen();
-        victoryScreen = new VictoryScreen();
-        defeatScreen = new DefeatScreen();
-        addState(new StartScreen());
-        addState(new MainMenu());
+        init();
+        addState(startScreen);
+        addState(mainMenu);
         addState(game);
         addState(pausedScreen);
         addState(victoryScreen);
         addState(defeatScreen);
-        addState(new NameScreen());
-        addState(new NamesScreen());
-        addState(new HighscoreScreen(highscores));
+        addState(singleNameScreen);
+        addState(doubleNameScreen);
+        addState(highscoreScreen);
+        addState(optionScreen);
+        addState(creditsScreen);
     }
 
     /**
@@ -118,42 +147,6 @@ public class App extends StateBasedGame {
      */
     public static final Game getGame() {
         return game;
-    }
-
-    /**
-     * Getter function for pausedScreen object.
-     *
-     * @return the screen associated to this class
-     */
-    public static final PausedScreen getPauseScreen() {
-        return pausedScreen;
-    }
-
-    /**
-     * Getter function for defeatScreen object.
-     *
-     * @return the screen associated to this class
-     */
-    public static final DefeatScreen getDefeatScreen() {
-        return defeatScreen;
-    }
-
-    /**
-     * Getter function for victoryScreen object.
-     *
-     * @return the screen associated to this class
-     */
-    public static final VictoryScreen getVictoryScreen() {
-        return victoryScreen;
-    }
-
-    /**
-     * Setter function for game object.
-     *
-     * @param g game object
-     */
-    public final void setGame(final Game g) {
-        App.game = g;
     }
 
     /**

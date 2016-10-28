@@ -16,9 +16,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 import bustamove.bubble.SimpleBubble;
+import bustamove.bubble.Bubble.ColorChoice;
 import bustamove.bubble.Bubble;
 import bustamove.bubble.powerup.PowerUp;
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 import bustamove.system.Log;
 import bustamove.system.SoundHandler;
 
@@ -37,9 +38,9 @@ public class Cannon {
      * X and Y coordinate of the next bubble.
      */
     private static final int X_LAUNCH =
-        (int) (375 - Bubble.DIAMETER / 2);
+            (int) (375 - Bubble.DIAMETER / 2);
     private static final int Y_LAUNCH =
-        (int) (555 - Bubble.DIAMETER / 2);
+            (int) (555 - Bubble.DIAMETER / 2);
     /**
      * X and Y coordinate of the current bubble.
      */
@@ -111,7 +112,8 @@ public class Cannon {
 
     /**
      * Creates Cannon instance.
-     * @param g gamedata object for reference
+     *
+     * @param g             gamedata object for reference
      * @param drawingoffset amount of drawing pixels to shift
      * @param modelnr       amount of players in the game
      */
@@ -136,18 +138,21 @@ public class Cannon {
         this.nextBubble = this.getNextBubble();
         this.currBubble.setX(Cannon.X_LOAD + this.offset);
         this.currBubble.setY(Cannon.Y_LOAD);
-        this.game.getBubbles().add(this.nextBubble);
+        this.game.getBubbles().addFirst(this.nextBubble);
     }
 
     /**
      * Determines next bubble.
+     *
      * @return newly created bubble
      */
     private Bubble getNextBubble() {
         Log.getInstance().log(this, "Next bubble loaded to cannon");
-        Bubble newBubble = SimpleBubble.randomColor(
+        ColorChoice c = SimpleBubble.randomColor(
+                game.getBubbleStorage().getColorsOnArena());
+        Bubble newBubble = new SimpleBubble(
                 (float) Cannon.X_LAUNCH + this.offset, (float) Cannon.Y_LAUNCH,
-                game.getArena().getBubbleStorage().getColorsOnArena(), true);
+                c, true);
         if (GameConfig.ENABLE_POWERUPS) {
             newBubble = PowerUp.apply(newBubble);
         }
@@ -189,9 +194,10 @@ public class Cannon {
 
     /**
      * Select the side of the cannon which should be updated.
+     *
      * @param side integer of the side.
-     * 0 = move left;
-     * 1 = move right;
+     *             0 = move left;
+     *             1 = move right;
      */
     private void step(final int side) {
         if (side == 0) {
@@ -203,12 +209,13 @@ public class Cannon {
 
     /**
      * Update the cannon.
+     *
      * @param container game container
-     * @param delta time passed
-     * @param gamehead the gamedata where its part of
+     * @param delta     time passed
+     * @param gamehead  the gamedata where its part of
      */
     public final void update(final GameContainer container, final int delta,
-            final GameData gamehead) {
+                             final GameData gamehead) {
         timeShotFired += delta;
         game = gamehead;
         for (int i = 0; i < 2; i++) {
@@ -220,8 +227,8 @@ public class Cannon {
                 }
             }
             if (container.getInput().isKeyPressed(INPUTKEY[playernr - 1][i])) {
-                 String log = "Cannon moving to the " + MOVE_TEXT[i];
-                 Log.getInstance().log(this, log);
+                String log = "Cannon moving to the " + MOVE_TEXT[i];
+                Log.getInstance().log(this, log);
             }
         }
         if (container.getInput().isKeyPressed(INPUTKEY[playernr - 1][2])) {
@@ -243,6 +250,7 @@ public class Cannon {
 
     /**
      * Draws the graphics on the screen.
+     *
      * @param g graphics
      */
     public final void draw(final Graphics g) {
@@ -250,10 +258,10 @@ public class Cannon {
         g.drawLine(Cannon.X + this.offset, Cannon.Y,
                 (int) (Cannon.X + this.offset
                         + Math.cos(Math.toRadians(this.angle + ANGLE_OFFSET))
-                                * this.length),
+                        * this.length),
                 (int) (Cannon.Y
                         - Math.sin(Math.toRadians(this.angle + ANGLE_OFFSET))
-                                * this.length));
+                        * this.length));
         if (displayWarning) {
             g.drawString("Hurry up!", DISPLAY_WARNING_X + this.offset,
                     DISPLAY_WARNING_Y);
@@ -262,6 +270,7 @@ public class Cannon {
 
     /**
      * Getter method: length.
+     *
      * @return int Cannon length
      */
     public final int getLength() {
@@ -270,6 +279,7 @@ public class Cannon {
 
     /**
      * Setter method: length.
+     *
      * @param l Cannon length
      */
     public final void setLength(final int l) {

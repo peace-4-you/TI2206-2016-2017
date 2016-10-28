@@ -13,7 +13,7 @@ package bustamove.player;
 
 import java.util.Vector;
 
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 import bustamove.system.Log;
 import bustamove.util.PlayerObservable;
 import bustamove.util.PlayerObserver;
@@ -77,8 +77,10 @@ public class Player implements PlayerObservable {
      * @param s String value to set name to
      */
     public final void setName(final String s) {
-        Log.getInstance().log(this, "Name " + this.name + " changed to " + s);
-        this.name = s;
+        String formatted = Character.toTitleCase(s.charAt(0)) + s.substring(1);
+        Log.getInstance().log(this, "Name " + this.name
+                + " changed to " + formatted);
+        this.name = formatted;
         this.notifyObserver();
     }
 
@@ -170,4 +172,3 @@ public class Player implements PlayerObservable {
         return this.observers;
     }
 }
-

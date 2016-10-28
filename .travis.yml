@@ -4,5 +4,7 @@ jdk:
 before_script: cd bust-a-move-framework
 script: mvn verify test
 notifications:
-email: off
-slack: ti2206-2016:rG6E1aAD1qqA6x8o70heFHuM
+  slack: ti2206-2016:rG6E1aAD1qqA6x8o70heFHuM
+  email:
+    on_success: never
+    on_failure: always

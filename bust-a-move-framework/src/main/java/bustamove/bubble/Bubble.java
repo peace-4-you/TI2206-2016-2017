@@ -12,7 +12,7 @@
 package bustamove.bubble;
 
 import bustamove.game.GameData;
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
@@ -42,12 +42,6 @@ public abstract class Bubble {
      */
     public enum ColorChoice {
         RED, BLUE, YELLOW, GREEN
-    }
-
-    /**
-     * Empty constructor per abstract class specification.
-     */
-    public Bubble() {
     }
     /**
      * Sets the gamehead, this is a instance of GameData.
