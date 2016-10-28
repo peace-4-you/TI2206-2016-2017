@@ -1,11 +1,11 @@
 /*
- * File: HighscoreScreen.java
+ * File: CreditsScreen.java
  *
- * Class: HighscoreScreen
+ * Class: CreditsScreen
  *
- * Version: 0.0.3
+ * Version: 0.0.1
  *
- * Date: September 26th, 2016
+ * Date: September 28th, 2016
  */
 
 
@@ -28,7 +28,7 @@ public class CreditsScreen extends Screen {
      * All members in a string array.
      */
     private static final String[] MEMBERS = {"Winer Bao", "Calvin Nhieu",
-            "Justing Segond", "Maurice Willemsen", "Jason Xie"};
+            "Justin Segond", "Maurice Willemsen", "Jason Xie"};
     /**
      * Getter method: for the GameState ID.
      * @return integer of BasicGameState number.
