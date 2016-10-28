@@ -36,11 +36,6 @@ public abstract class NameScreen extends Screen {
             final StateBasedGame stateBasedGame) {
         initBasicScreen(game);
         namefields = new TextField[2];
-        namefields[0] = new TextField(game, game.getDefaultFont(),
-                GameConfig.CENTRAL, GameConfig.THIRD_LINE, GameConfig.WIDTH3,
-                GameConfig.HEIGHT);
-        namefields[0].setText("Player1");
-        namefields[0].setMaxLength(GameConfig.MAX_NAME_LENGTH);
         Button main = new Button("Go to Main Menu", GameConfig.EIGTH_LINE,
                 GameConfig.WIDTH3, GameConfig.HEIGHT);
         main.addAction(new Runnable() {
@@ -54,7 +49,6 @@ public abstract class NameScreen extends Screen {
         });
         main.addGameStateChangeAction(stateBasedGame,
                 GameState.MAIN_MENU);
-        getTextFields().add(namefields[0]);
         getButtons().add(main);
         super.center();
     }
