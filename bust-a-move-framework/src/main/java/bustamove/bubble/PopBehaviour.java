@@ -17,7 +17,7 @@ public class PopBehaviour {
     private GameData gamehead;
 
     /**
-     * Constructor for popbehaviour
+     * Constructor for popbehaviour.
      *
      * @param bubbles contains all bubbles
      * @param score   score to be updated to
@@ -28,7 +28,7 @@ public class PopBehaviour {
     }
 
     /**
-     * Sets the gamehead for the popbehaviour
+     * Sets the gamehead for the popbehaviour.
      *
      * @param game gamedata object to set to
      */

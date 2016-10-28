@@ -44,10 +44,12 @@ public final class Collision {
     /**
      * Constructor for creating an object just for checking collisions.
      *
-     * @param arena container that contains this object
-     * @param pop   object that contains the pop behaviours.
+     * @param arena   container that contains this object
+     * @param bubbles container for bubbles
+     * @param pop     object that contains the pop behaviours.
      */
-    public Collision(final Arena arena, final BubbleStorage bubbles, final PopBehaviour pop) {
+    public Collision(final Arena arena,
+                     final BubbleStorage bubbles, final PopBehaviour pop) {
         this.arenaCont = arena;
         bubbleStorage = bubbles;
         this.popBehaviour = pop;
