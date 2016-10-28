@@ -55,12 +55,12 @@ public class MainMenu extends Screen {
         highScores.addGameStateChangeAction(stateBasedGame,
                 GameState.HIGHSCORES_SCREEN);
         // Credits button
-        Button credits = new Button("Credits", GameConfig.FIFTH_LINE,
+        Button credits = new Button("Credits", GameConfig.SIXT_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         credits.addGameStateChangeAction(stateBasedGame,
                 GameState.CREDITS_SCREEN);
         // quit button
-        Button quit = new Button("Quit", GameConfig.SIXT_LINE,
+        Button quit = new Button("Quit", GameConfig.SEVENTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         quit.addAction(new Runnable() {
             public void run() {
