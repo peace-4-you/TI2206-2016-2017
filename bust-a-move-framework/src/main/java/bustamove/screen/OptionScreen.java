@@ -50,48 +50,36 @@ public class OptionScreen extends Screen {
     }
 
     /**
-     * Updates the text of the mute button and calls update() of super
-     * class.
-     * @param game the game container
-     * @param stateBasedGame the state based game
-     * @param i delta of time exceeded
-     * @throws SlickException any Slick exceptions
-     */
-    public final void update(final GameContainer game,
-                             final StateBasedGame stateBasedGame,
-                             final int i)
-            throws SlickException {
-        super.updateBasicScreen(game, stateBasedGame, i);
-        getButtons().set(0, getMuteUnmuteButton());
-    }
-
-    /**
      * Create a mute or unmute button.
      * @return Button
      */
     private Button getMuteUnmuteButton() {
-        Button button;
+        final Button button;
 
-        boolean isMuted = SoundHandler.getInstance().getVolume() == 0;
+        final boolean isMuted = SoundHandler.getInstance().getVolume() == 0;
 
         if (isMuted) {
             button = new Button("Unmute", GameConfig.FOURTH_LINE,
                     GameConfig.WIDTH2, GameConfig.HEIGHT);
-            button.addAction(new Runnable() {
-                public void run() {
-                    // Default volume
-                    SoundHandler.getInstance().setVolume(1);
-                }
-            });
         } else {
             button = new Button("Mute", GameConfig.FOURTH_LINE,
                     GameConfig.WIDTH2, GameConfig.HEIGHT);
-            button.addAction(new Runnable() {
-                public void run() {
+        }
+
+        button.addAction(new Runnable() {
+            public void run() {
+                final boolean isMuted = SoundHandler.getInstance()
+                        .getVolume() == 0;
+
+                if (isMuted) {
+                    button.setText("Mute");
+                    SoundHandler.getInstance().setVolume(1);
+                } else {
+                    button.setText("Unmute");
                     SoundHandler.getInstance().setVolume(0);
                 }
-            });
-        }
+            }
+        });
 
         return button;
     }

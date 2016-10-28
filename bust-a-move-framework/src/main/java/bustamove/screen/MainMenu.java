@@ -74,18 +74,4 @@ public class MainMenu extends Screen {
         getButtons().add(quit);
         super.center();
     }
-
-    /**
-     * Implements the update() from GameState.
-     *
-     * @param game the game container
-     * @param stateBasedGame the state based game
-     * @param i delta of time exceeded
-     * @throws SlickException any type of slick exception
-     */
-    public final void update(final GameContainer game,
-                             final StateBasedGame stateBasedGame, final int i)
-            throws SlickException {
-        updateBasicScreen(game, stateBasedGame, i);
-    }
 }
