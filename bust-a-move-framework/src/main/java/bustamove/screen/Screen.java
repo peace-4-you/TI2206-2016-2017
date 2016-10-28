@@ -107,7 +107,8 @@ public abstract class Screen extends BasicGameState {
      * @throws SlickException any type of slick exception
      */
     public final void update(final GameContainer game,
-            final StateBasedGame stateBasedGame, final int i)
+                                        final StateBasedGame stateBasedGame,
+                                        final int i)
             throws SlickException {
         gamecontainer = game;
         Input input = game.getInput();
@@ -129,16 +130,16 @@ public abstract class Screen extends BasicGameState {
     }
 
     /**
-     * Getter for the buttons lists.
-     * @return Buttons Arraylist.
+     * Getter for the text lists.
+     * @return Text Arraylist.
      */
     public final ArrayList<Text> getTexts() {
         return texts;
     }
 
     /**
-     * Getter for the buttons lists.
-     * @return Buttons Arraylist.
+     * Getter for the textfield lists.
+     * @return TextField Arraylist.
      */
     public final ArrayList<TextField> getTextFields() {
         return textfields;
