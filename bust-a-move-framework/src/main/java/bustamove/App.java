@@ -111,6 +111,9 @@ public class App extends StateBasedGame {
         pausedScreen = new PausedScreen();
         victoryScreen = new VictoryScreen();
         defeatScreen = new DefeatScreen();
+        game.registerPlayerObserver(pausedScreen);
+        game.registerPlayerObserver(victoryScreen);
+        game.registerPlayerObserver(defeatScreen);
         optionScreen = new OptionScreen();
     }
 
@@ -144,33 +147,6 @@ public class App extends StateBasedGame {
      */
     public static final Game getGame() {
         return game;
-    }
-
-    /**
-     * Getter function for pausedScreen object.
-     *
-     * @return the screen associated to this class
-     */
-    public static final PausedScreen getPauseScreen() {
-        return pausedScreen;
-    }
-
-    /**
-     * Getter function for defeatScreen object.
-     *
-     * @return the screen associated to this class
-     */
-    public static final DefeatScreen getDefeatScreen() {
-        return defeatScreen;
-    }
-
-    /**
-     * Getter function for victoryScreen object.
-     *
-     * @return the screen associated to this class
-     */
-    public static final VictoryScreen getVictoryScreen() {
-        return victoryScreen;
     }
 
     /**

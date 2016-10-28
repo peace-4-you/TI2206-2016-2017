@@ -29,28 +29,7 @@ public class AppTest {
     }
 
     @Test
-    public void getPauseScreen() {
-        assertNull(app.getPauseScreen());
-    }
-
-    @Test
-    public void getDefeatScreen() {
-        assertNull(app.getDefeatScreen());
-    }
-
-    @Test
-    public void getVictoryScreen() {
-        assertNull(app.getVictoryScreen());
-    }
-
-
-    @Test
     public void gameHeight() {
         assertEquals(580, app.getGameHeight());
-    }
-
-    @Test
-    public void gameWidth() {
-        assertEquals(640, app.getGameWidth());
     }
 }

@@ -21,7 +21,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import bustamove.App;
 import bustamove.bubble.Bubble;
 import bustamove.bubble.Bubble.State;
 import bustamove.system.Log;
@@ -88,9 +87,6 @@ public class GameData implements PlayerObserver {
         this.state = GameDataState.RUNNING;
         this.bubbleslist = new LinkedList<Bubble>();
         this.player = new Player("Player1", this.offset, this.playerNr);
-        this.player.registerObserver((PlayerObserver) App.getPauseScreen());
-        this.player.registerObserver((PlayerObserver) App.getDefeatScreen());
-        this.player.registerObserver((PlayerObserver) App.getVictoryScreen());
         this.player.registerObserver((PlayerObserver) this);
 
         this.bubbleStorage = new BubbleStorage(ARENA_X + this.offset,
@@ -278,5 +274,13 @@ public class GameData implements PlayerObserver {
             this.scorePlayer = score;
             this.namePlayer = name;
         }
+    }
+
+    /**
+     * Registers an observer of the player of this GameData.
+     * @param o The observer.
+     */
+    public final void registerPlayerObservers(final PlayerObserver o) {
+        player.registerObserver(o);
     }
 }
