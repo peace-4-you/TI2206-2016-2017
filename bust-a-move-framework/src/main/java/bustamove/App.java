@@ -17,14 +17,17 @@ import bustamove.game.Highscore;
 import bustamove.screen.DefeatScreen;
 import bustamove.screen.DoubleNameScreen;
 import bustamove.screen.HighscoreScreen;
+import bustamove.screen.CreditsScreen;
 import bustamove.screen.MainMenu;
 import bustamove.screen.PausedScreen;
 import bustamove.screen.Screen;
 import bustamove.screen.SingleNameScreen;
 import bustamove.screen.StartScreen;
 import bustamove.screen.VictoryScreen;
+import bustamove.screen.OptionScreen;
 import bustamove.screen.config.GameConfig;
 import bustamove.system.SoundHandler;
+
 
 /**
  * The App class contains the launcher of the program.
@@ -61,6 +64,8 @@ public class App extends StateBasedGame {
     private static PausedScreen pausedScreen;
     private static Highscore highscores;
     private static HighscoreScreen highscoreScreen;
+    private static OptionScreen optionScreen;
+    private static CreditsScreen creditsScreen;
 
     /**
      * Constructor for the launcher of the game.
@@ -102,12 +107,14 @@ public class App extends StateBasedGame {
         singleNameScreen = new SingleNameScreen();
         doubleNameScreen = new DoubleNameScreen();
         highscoreScreen = new HighscoreScreen(highscores);
+        creditsScreen = new CreditsScreen();
         pausedScreen = new PausedScreen();
         victoryScreen = new VictoryScreen();
         defeatScreen = new DefeatScreen();
         game.registerPlayerObserver(pausedScreen);
         game.registerPlayerObserver(victoryScreen);
         game.registerPlayerObserver(defeatScreen);
+        optionScreen = new OptionScreen();
     }
 
     /**
@@ -129,6 +136,8 @@ public class App extends StateBasedGame {
         addState(singleNameScreen);
         addState(doubleNameScreen);
         addState(highscoreScreen);
+        addState(optionScreen);
+        addState(creditsScreen);
     }
 
     /**

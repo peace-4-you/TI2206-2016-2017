@@ -54,8 +54,18 @@ public class MainMenu extends Screen {
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         highScores.addGameStateChangeAction(stateBasedGame,
                 GameState.HIGHSCORES_SCREEN);
+        // Option button
+        Button option = new Button("Options", GameConfig.FIFTH_LINE,
+                GameConfig.WIDTH2, GameConfig.HEIGHT);
+        option.addGameStateChangeAction(stateBasedGame,
+                GameState.OPTION_SCREEN);
+        // Credits button
+        Button credits = new Button("Credits", GameConfig.SIXT_LINE,
+                GameConfig.WIDTH2, GameConfig.HEIGHT);
+        credits.addGameStateChangeAction(stateBasedGame,
+                GameState.CREDITS_SCREEN);
         // quit button
-        Button quit = new Button("Quit", GameConfig.FIFTH_LINE,
+        Button quit = new Button("Quit", GameConfig.SEVENTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         quit.addAction(new Runnable() {
             public void run() {
@@ -65,6 +75,8 @@ public class MainMenu extends Screen {
         getButtons().add(play1player);
         getButtons().add(play2players);
         getButtons().add(highScores);
+        getButtons().add(option);
+        getButtons().add(credits);
         getButtons().add(quit);
         super.center();
     }

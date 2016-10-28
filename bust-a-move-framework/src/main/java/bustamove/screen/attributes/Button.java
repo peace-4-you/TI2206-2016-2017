@@ -187,4 +187,12 @@ public class Button {
             }
         });
     }
+
+    /**
+     * Setter to change the text inside the button.
+     * @param text  message
+     */
+    public final void setText(final String text) {
+        bText = text;
+    }
 }
