@@ -26,7 +26,7 @@ import java.util.LinkedList;
 
 /**
  * This class contains the bubble collision detection algorithm.
- *
+ * <p>
  * Created by Jason Xie on 29/09/2016.
  */
 public final class Collision {
@@ -178,7 +178,7 @@ public final class Collision {
 
         /* Check if 3 or more bubbles are connected */
         if (popList.size() >= POP_AMOUNT) {
-          while (popList.size() != 0) {
+            while (popList.size() != 0) {
                 Bubble bubbleToPop = popList.pop();
 
                 popBubble(bubbleToPop);
@@ -216,6 +216,7 @@ public final class Collision {
         }
         checkBubblesToDrop();
     }
+
     /**
      * Pops an OBomb, pops all neighboring bubbles.
      *
@@ -267,7 +268,7 @@ public final class Collision {
         for (Bubble b : neighbors) {
             if (b != null && b.getColor() == lastBubble.getColor()
                     && !popList.contains(b)) {
-                    popList = checkBubblesToPop(b, popList);
+                popList = checkBubblesToPop(b, popList);
             }
         }
         return popList;

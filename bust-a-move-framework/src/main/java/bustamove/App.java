@@ -17,6 +17,7 @@ import bustamove.game.Highscore;
 import bustamove.screen.DefeatScreen;
 import bustamove.screen.DoubleNameScreen;
 import bustamove.screen.HighscoreScreen;
+import bustamove.screen.CreditsScreen;
 import bustamove.screen.MainMenu;
 import bustamove.screen.PausedScreen;
 import bustamove.screen.Screen;
@@ -64,6 +65,7 @@ public class App extends StateBasedGame {
     private static Highscore highscores;
     private static HighscoreScreen highscoreScreen;
     private static OptionScreen optionScreen;
+    private static CreditsScreen creditsScreen;
 
     /**
      * Constructor for the launcher of the game.
@@ -105,6 +107,7 @@ public class App extends StateBasedGame {
         singleNameScreen = new SingleNameScreen();
         doubleNameScreen = new DoubleNameScreen();
         highscoreScreen = new HighscoreScreen(highscores);
+        creditsScreen = new CreditsScreen();
         pausedScreen = new PausedScreen();
         victoryScreen = new VictoryScreen();
         defeatScreen = new DefeatScreen();
@@ -131,6 +134,7 @@ public class App extends StateBasedGame {
         addState(doubleNameScreen);
         addState(highscoreScreen);
         addState(optionScreen);
+        addState(creditsScreen);
     }
 
     /**

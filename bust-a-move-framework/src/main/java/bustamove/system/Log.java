@@ -55,17 +55,6 @@ public final class Log {
     }
 
     /**
-     * Method to output logging with only a Log message.
-     *
-     * @param log Log message
-     */
-    public void log(final String log) {
-        increment();
-        System.out.format("[Bust-A-Move] -> [Log: %d] -> [%s] -> %s%n",
-                number, format.format(calendar.getTime()), log);
-    }
-
-    /**
      * Method to output logging with a Log message and the object that
      * generated that Log.
      *
