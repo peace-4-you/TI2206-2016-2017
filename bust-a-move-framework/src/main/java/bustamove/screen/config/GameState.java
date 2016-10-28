@@ -9,13 +9,18 @@
  */
 
 
-package bustamove.gamestate;
+package bustamove.screen.config;
 
 /**
  * Contains static integervalues of all GameStates.
  * @author Jason Xie
  */
-public abstract class GameState {
+public final class GameState {
+    /**
+     * Utility classes should not be instantiated as per Checkstyle.
+     */
+    private GameState() {
+    }
     /**
      * Integer number of StartScreen game state.
      */
@@ -52,4 +57,12 @@ public abstract class GameState {
      * Integer number of the high scores screen.
      */
     public static final int HIGHSCORES_SCREEN = 9;
+    /**
+     * Integer number of the option screen.
+     */
+    public static final int OPTION_SCREEN = 10;
+    /**
+     * Integer number of the credits screen.
+     */
+    public static final int CREDITS_SCREEN = 11;
 }

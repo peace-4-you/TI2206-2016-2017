@@ -11,7 +11,7 @@ import java.util.Collection;
 import bustamove.bubble.SimpleBubble;
 import bustamove.bubble.Bubble;
 import bustamove.game.GameData;
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 
 import static org.junit.Assert.*;
 

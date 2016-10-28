@@ -61,7 +61,7 @@ public class BubbleStorageIterator implements Iterator<Bubble> {
      */
     public final boolean hasNext() {
         if (rowIt != null && rowIt.hasNext()) {
-          return true;
+            return true;
         }
         return false;
     }

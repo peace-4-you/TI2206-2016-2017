@@ -9,20 +9,24 @@
 
 package bustamove.game;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
+import bustamove.bubble.BubbleStorage;
+import bustamove.bubble.Collision;
+import bustamove.bubble.PopBehaviour;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import bustamove.App;
 import bustamove.bubble.Bubble;
-import bustamove.gamestate.GameConfig;
+import bustamove.bubble.Bubble.State;
 import bustamove.system.Log;
 import bustamove.util.PlayerObserver;
 import bustamove.player.Player;
+import bustamove.screen.config.GameConfig;
 
 /**
  * The Game class represents a single game model.
@@ -45,23 +49,25 @@ public class GameData implements PlayerObserver {
     private int scorePlayer;
     private String namePlayer;
     /**
-     * Cannon, Arena and Player instance for the game.
+     * Cannon, Player, Collision, BubbleStorage instance for the game.
      */
     private Cannon cannon;
     private Player player;
-    private Arena arena;
+    private Collision collide;
+    private BubbleStorage bubbleStorage;
+    private PopBehaviour popBehaviour;
     /**
      * Arraylist of bubbles and their speed.
      */
-    private ArrayList<Bubble> bubbleslist;
+    private LinkedList<Bubble> bubbleslist;
     private double bubblespeed;
     /**
      * position for the arena.
      */
     private static final int ARENA_X = 180;
     private static final int ARENA_Y = 0;
-    private static final int ARENA_WIDTH = 531;
-    private static final int ARENA_HEIGHT = 280;
+    private static final int ARENA_HEIGHT = 531;
+    private static final int ARENA_WIDTH = 280;
     /**
      * GameModel number and the drawing offset.
      */
@@ -79,16 +85,20 @@ public class GameData implements PlayerObserver {
         this.offset = drawingoffset;
         this.playerNr = modelnr;
         this.state = GameDataState.RUNNING;
-        this.bubbleslist = new ArrayList<Bubble>();
+        this.bubbleslist = new LinkedList<Bubble>();
         this.player = new Player("Player1", this.offset, this.playerNr);
-        this.player.registerObserver((PlayerObserver) App.getPauseScreen());
-        this.player.registerObserver((PlayerObserver) App.getDefeatScreen());
-        this.player.registerObserver((PlayerObserver) App.getVictoryScreen());
         this.player.registerObserver((PlayerObserver) this);
-        this.arena = new Arena(ARENA_X + this.offset, ARENA_Y,
-                GameData.ARENA_WIDTH, GameData.ARENA_HEIGHT, player.getScore());
+
+        this.bubbleStorage = new BubbleStorage(ARENA_X + this.offset,
+                ARENA_Y);
+        this.popBehaviour = new PopBehaviour(player.getScore());
+        popBehaviour.setBubbleStorage(bubbleStorage);
+        this.collide = new Collision(ARENA_X + this.offset,
+                ARENA_X + this.offset + ARENA_WIDTH, ARENA_Y);
+        collide.setPopBehaviour(popBehaviour);
         this.cannon = new Cannon(this, this.offset, this.playerNr);
         this.setBubbleSpeed(GameConfig.DEFAULT_BUBBLE_SPEED);
+        collide.setBubbleStorage(bubbleStorage);
     }
 
     /**
@@ -104,16 +114,21 @@ public class GameData implements PlayerObserver {
                              final int delta) throws SlickException {
         if (this.state == GameDataState.RUNNING) {
             this.cannon.update(container, delta, this);
-            arena.getCollision().setGameHead(this);
-            for (Bubble b1 : bubbleslist) {
+            popBehaviour.setGameHead(this);
+            Iterator<Bubble> ite = bubbleslist.iterator();
+            while (ite.hasNext()) {
+                Bubble b1 = ite.next();
                 b1.move();
-                if (b1.getState() == Bubble.State.FIRING) {
-                    arena.checkCollision(b1);
+                if (b1.getState() == State.FIRING) {
+                    collide.checkCollision(b1);
+                }
+                if (b1.getState() == State.LANDED) {
+                    ite.remove();
                 }
             }
-            if (arena.getBubbleStorage().isFull()) {
+            if (bubbleStorage.isFull()) {
                 this.state = GameDataState.LOSE;
-            } else if (arena.getBubbleStorage().isEmpty()) {
+            } else if (bubbleStorage.isEmpty()) {
                 this.state = GameDataState.WON;
             }
         }
@@ -139,23 +154,21 @@ public class GameData implements PlayerObserver {
                         + (double) Math.round(this.bubblespeed / 2),
                 GameConfig.MARGIN_LEFT + this.offset,
                 GameConfig.THIRD_LINE);
+        // Draw the arena borders
+        g.drawRect(ARENA_X + this.offset, ARENA_Y, ARENA_WIDTH,
+                ARENA_HEIGHT);
+        float yPosLine = (float) (bubbleStorage.getHeight()
+                * GameConfig.ROW_OFFSET + ARENA_Y);
+        g.drawLine(ARENA_X + this.offset, yPosLine, ARENA_X + this.offset
+                + ARENA_WIDTH, yPosLine);
         cannon.draw(g);
         player.draw(g);
-        arena.draw(g);
+        bubbleStorage.draw(g);
         for (Bubble bubble : this.bubbleslist) {
-            if (bubble.getState() != Bubble.State.LANDED) {
+            if (bubble.getState() != State.LANDED) {
                 bubble.draw(g);
             }
         }
-    }
-
-    /**
-     * Method to return the arena object inside gamedata class.
-     *
-     * @return Arena object inside gamedata class
-     */
-    public final Arena getArena() {
-        return this.arena;
     }
 
     /**
@@ -174,6 +187,33 @@ public class GameData implements PlayerObserver {
      */
     public final Cannon getCannon() {
         return this.cannon;
+    }
+
+    /**
+     * Method to return the collision object inside gamedata class.
+     *
+     * @return Collision object inside gamedata class
+     */
+    public final Collision getCollision() {
+        return this.collide;
+    }
+
+    /**
+     * Getter for PopBehaviour.
+     *
+     * @return PopBehaviour object.
+     */
+    public final PopBehaviour getPopBehaviour() {
+        return popBehaviour;
+    }
+
+    /**
+     * Method to return the cannon object inside gamedata class.
+     *
+     * @return Cannon object inside gamedata class
+     */
+    public final BubbleStorage getBubbleStorage() {
+        return this.bubbleStorage;
     }
 
     /**
@@ -199,7 +239,7 @@ public class GameData implements PlayerObserver {
      *
      * @return ArrayList of bubbles inside gamedata class
      */
-    public final ArrayList<Bubble> getBubbles() {
+    public final LinkedList<Bubble> getBubbles() {
         return this.bubbleslist;
     }
 
@@ -234,5 +274,13 @@ public class GameData implements PlayerObserver {
             this.scorePlayer = score;
             this.namePlayer = name;
         }
+    }
+
+    /**
+     * Registers an observer of the player of this GameData.
+     * @param o The observer.
+     */
+    public final void registerPlayerObservers(final PlayerObserver o) {
+        player.registerObserver(o);
     }
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import bustamove.gamestate.GameConfig;
+import bustamove.screen.config.GameConfig;
 import bustamove.system.Log;
 
 /**
@@ -126,7 +126,7 @@ public final class Highscore {
             writer.close();
         } catch (FileNotFoundException e) {
             Log.getInstance().log(this,
-                "File not found while writing. (Should never happen)");
+                    "File not found while writing. (Should never happen)");
         } catch (UnsupportedEncodingException e) {
             Log.getInstance().log(this, "Encoding UTF-8 not supported.");
         }
@@ -139,7 +139,7 @@ public final class Highscore {
      * @return an int with how many entries where saved to the file.
      */
     private int saveEntry(final PrintWriter writer,
-            final Entry<Integer, ArrayList<String>> entry) {
+                          final Entry<Integer, ArrayList<String>> entry) {
         if (writer == null || entry == null) {
             Log.getInstance().log(this, "Writer of entry null");
             return 0;
@@ -160,7 +160,7 @@ public final class Highscore {
     public int getScore(final int position) {
         if (position < 0) {
             Log.getInstance().log(this,
-                "Highscore position can not be negative.");
+                    "Highscore position can not be negative.");
             return 0;
         }
         Entry<Integer, ArrayList<String>> entry = highscores.lastEntry();

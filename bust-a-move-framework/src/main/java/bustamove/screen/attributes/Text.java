@@ -3,7 +3,7 @@
  * Class: Text
  * Version: 0.0.3
  */
-package bustamove.gamestate;
+package bustamove.screen.attributes;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -105,4 +105,3 @@ public class Text {
         font = f;
     }
 }
-

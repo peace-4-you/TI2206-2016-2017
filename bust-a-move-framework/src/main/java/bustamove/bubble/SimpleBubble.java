@@ -73,11 +73,6 @@ public class SimpleBubble extends Bubble {
      */
     private GameData gamehead;
     /**
-     * Empty constructor per abstract class specification.
-     */
-    public SimpleBubble() {
-    }
-    /**
      * Creates SimpleBubble instance.
      *
      * @param xPos      double value for starting x position
@@ -87,7 +82,7 @@ public class SimpleBubble extends Bubble {
      *                  Cannon or not (map otherwise)
      */
     public SimpleBubble(final float xPos, final float yPos, final ColorChoice c,
-                  final boolean forCannon) {
+                        final boolean forCannon) {
         this.pos = new Point(xPos, yPos);
         this.xSpeed = 0;
         this.ySpeed = 0;
@@ -125,14 +120,14 @@ public class SimpleBubble extends Bubble {
      * @param game the gamehead to refer to
      */
     public final void setGameHead(final GameData game) {
-      this.gamehead = game;
+        this.gamehead = game;
     }
     /**
      * Returns the gamehead.
      * @return  GameData gamehead
      */
     public final GameData getGameHead() {
-      return this.gamehead;
+        return this.gamehead;
     }
     /**
      * Draws the SimpleBubble.
@@ -152,15 +147,9 @@ public class SimpleBubble extends Bubble {
         float nextY = (float) (this.getY() + this.getYSpeed());
 
         switch (this.state) {
-            case NEW:
-                break;
-            case LANDED:
-                break;
             case FIRING:
                 this.setX(nextX);
                 this.setY(nextY);
-                break;
-            case POPPED:
                 break;
             case DROPPING:
                 this.setX(nextX);
@@ -204,7 +193,7 @@ public class SimpleBubble extends Bubble {
                 * gamehead.getBubbleSpeed());
         this.setYSpeed(-Math.sin(Math.toRadians(angle + ANGLE_OFFSET))
                 * gamehead.getBubbleSpeed());
-      }
+    }
     /**
      * Pops the SimpleBubble by setting state to POPPED and setting xSpeed
      * and ySpeed to zero.
@@ -355,23 +344,19 @@ public class SimpleBubble extends Bubble {
         return gamehead.getBubbleSpeed();
     }
     /**
-     * Creates a bubble object with a random color from the given list.
+     * Picks a random color from the current colors in the BubbleStorage.
      *
-     * @param x         X coordinate of the new bubble
-     * @param y         Y coordinate of the new bubble
-     * @param colors    list of possible bubble colors
-     * @param forCannon boolean describing if SimpleBubble is for Cannon or not
-     *                  (map otherwise)
-     * @return newly created bubble
+     * @param colors list of possible bubble colors
+     *
+     * @return random ColorChoice
      */
-    public static SimpleBubble randomColor(final float x, final float y,
-                                     final LinkedList<ColorChoice> colors,
-                                     final boolean forCannon) {
+    public static final ColorChoice randomColor(
+            final LinkedList<ColorChoice> colors) {
         if (colors.size() == 0) {
             return null;
         }
         ColorChoice color = colors.get((int) Math.floor(Math.random()
                 * colors.size()));
-        return new SimpleBubble(x, y, color, forCannon);
+        return color;
     }
 }

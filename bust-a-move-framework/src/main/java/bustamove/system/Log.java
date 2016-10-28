@@ -7,7 +7,9 @@
  */
 package bustamove.system;
 
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * The Log class represents a game entity.
@@ -23,12 +25,12 @@ public final class Log {
     /**
      * Used for timestamping.
      */
-    private static Date d;
+    private static Calendar calendar = Calendar.getInstance();
+    private final DateFormat format = new SimpleDateFormat("HH:mm:ss");
     /**
      * Log count.
      */
     private static int number = 0;
-
 
     /**
      * Constructor of the class.
@@ -38,6 +40,7 @@ public final class Log {
 
     /**
      * Singleton returns the unique instance.
+     *
      * @return unique singleton instance
      */
     public static Log getInstance() {
@@ -52,34 +55,25 @@ public final class Log {
     }
 
     /**
-     * Method to output logging with only a Log message.
-     *
-     * @param log Log message
-     */
-    @SuppressWarnings("deprecation")
-    public void log(final String log) {
-        d = new Date();
-        number++;
-        System.out.format("[Bust-A-Move] -> [Log: %d] -> [%d:%d:%d] -> %s%n",
-                number, d.getHours(), d.getMinutes(),
-                d.getSeconds(), log);
-    }
-
-    /**
      * Method to output logging with a Log message and the object that
      * generated that Log.
      *
      * @param obj object that generated the Log
      * @param log Log message
      */
-    @SuppressWarnings("deprecation")
     public void log(final Object obj, final String log) {
-        d = new Date();
-        number++;
+        increment();
         System.out.format("[Bust-A-Move] -> [Class: %s] -> [Log: %d] "
-                        + "-> [%d:%d:%d] -> %s%n",
+                        + "-> [%s] -> %s%n",
                 obj.getClass().getSimpleName(), number,
-                d.getHours(), d.getMinutes(), d.getSeconds(),
+                format.format(calendar.getTime()),
                 log);
+    }
+
+    /**
+     * Increase log counter.
+     */
+    private static void increment() {
+        number++;
     }
 }

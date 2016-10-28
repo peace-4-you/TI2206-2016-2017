@@ -15,9 +15,8 @@ import static org.junit.Assert.assertEquals;
 
 import bustamove.bubble.Bubble.ColorChoice;
 import bustamove.bubble.Bubble.State;
-
-import bustamove.gamestate.GameConfig;
 import bustamove.game.GameData;
+import bustamove.screen.config.GameConfig;
 
 /**
  * Created by Jason Xie on 12/10/2016.

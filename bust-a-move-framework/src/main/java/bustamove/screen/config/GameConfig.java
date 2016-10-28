@@ -6,7 +6,7 @@
  */
 
 
-package bustamove.gamestate;
+package bustamove.screen.config;
 
 import bustamove.bubble.Bubble;
 
@@ -47,6 +47,18 @@ public abstract class GameConfig {
      * Vertical Position of the eigth line to display on the screen.
      */
     public static final int EIGTH_LINE = 320;
+    /**
+     * Vertical Position of the eleventh line to display on the screen.
+     */
+    public static final int ELEVENTH_LINE = 440;
+    /**
+     * Vertical Position of the twelfht line to display on the screen.
+     */
+    public static final int TWELFTH_LINE = 480;
+    /**
+     * Vertical Line Distance.
+     */
+    public static final int LINE_DIST = 40;
     /**
      * Width of something to display on the screen.
      */
@@ -137,5 +149,8 @@ public abstract class GameConfig {
      * The location for the high scores file.
      */
     public static final String HIGHSCORE_FILE = "res/highscores.txt";
-
+    /**
+     * Max player name length.
+     */
+    public static final int MAX_NAME_LENGTH = 13;
 }
