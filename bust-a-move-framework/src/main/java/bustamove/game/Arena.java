@@ -63,7 +63,7 @@ public final class Arena {
         yPos = yVal;
         height = heightBg;
         width = widthBg;
-        bubbleStorage = new BubbleStorage(xPos, yPos, this);
+        bubbleStorage = new BubbleStorage(xPos, yPos);
         popBehaviour = new PopBehaviour(bubbleStorage, score);
         collide = new Collision(this, bubbleStorage, popBehaviour);
         Log.getInstance().log(this, "Arena initialised");

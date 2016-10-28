@@ -16,7 +16,6 @@ import bustamove.App;
 import bustamove.system.Log;
 import bustamove.bubble.Bubble.ColorChoice;
 import org.newdawn.slick.Graphics;
-import bustamove.game.Arena;
 import bustamove.screen.config.GameConfig;
 
 import java.util.Iterator;
@@ -47,23 +46,17 @@ public final class BubbleStorage {
      */
     private int xBound;
     private int yBound;
-    /**
-     * Container of this storage.
-     */
-    private Arena arenaCont;
 
     /**
      * Constructor for bubble storage.
      *
      * @param x     x-coordinate of upper left corner of the arena
      * @param y     y-coordinate of upper left corner of the arena
-     * @param arena arena container of this bubblestorage object
      */
-    public BubbleStorage(final int x, final int y, final Arena arena) {
+    public BubbleStorage(final int x, final int y) {
         bubble2DArray = new LinkedList<Bubble[]>();
         xBound = x;
         yBound = y;
-        arenaCont = arena;
         droppingBubbles = new LinkedList<Bubble>();
         Log.getInstance().log(this, "Creating a BubbleStorage.");
         for (int i = 0; i < START_ROWS; i++) {

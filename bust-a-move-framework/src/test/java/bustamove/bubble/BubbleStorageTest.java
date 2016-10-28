@@ -1,16 +1,11 @@
 package bustamove.bubble;
 
-import bustamove.game.Arena;
-import bustamove.player.Player;
-import bustamove.player.Score;
 import bustamove.screen.config.GameConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 import bustamove.bubble.Bubble.ColorChoice;
 
@@ -22,15 +17,10 @@ import java.util.LinkedList;
 public class BubbleStorageTest {
 
     private BubbleStorage bubbleStorage;
-    @Mock
-    private Arena arena;
-    @Mock
-    private Collision collision;
 
     @Before
     public void setUp() {
-        arena = new Arena(0, 0, 200, 200, new Score(new Player("asd", 0, 0)));
-        bubbleStorage = new BubbleStorage(200, 200, arena);
+        bubbleStorage = new BubbleStorage(200, 200);
     }
 
     @Test
