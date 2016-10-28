@@ -12,11 +12,13 @@
 
 package bustamove.bubble;
 
+import bustamove.App;
 import bustamove.system.Log;
 import bustamove.bubble.Bubble.ColorChoice;
 import org.newdawn.slick.Graphics;
 import bustamove.screen.config.GameConfig;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -36,27 +38,26 @@ public final class BubbleStorage {
      */
     private LinkedList<Bubble[]> bubble2DArray;
     /**
+     * LinkedList for temporarily storing dropping bubbles.
+     */
+    private LinkedList<Bubble> droppingBubbles;
+    /**
      * The x and ycoordinate of the left bound of the arena.
      */
     private int xBound;
     private int yBound;
-    /**
-     * Collision detection mechanics.
-     */
-    private Collision collide;
 
     /**
      * Constructor for bubble storage.
      *
      * @param x         x-coordinate of upper left corner of the arena
      * @param y         y-coordinate of upper left corner of the arena
-     * @param collision the collision mechanism
      */
-    public BubbleStorage(final int x, final int y, final Collision collision) {
+    public BubbleStorage(final int x, final int y) {
         bubble2DArray = new LinkedList<Bubble[]>();
         xBound = x;
         yBound = y;
-        collide = collision;
+        droppingBubbles = new LinkedList<Bubble>();
         Log.getInstance().log(this, "Creating a BubbleStorage.");
         for (int i = 0; i < START_ROWS; i++) {
             addBubbleRow(true);
@@ -224,9 +225,21 @@ public final class BubbleStorage {
 
         for (Bubble[] row : rowsToRemove) {
             for (Bubble b : row) {
-                collide.dropBubble(b);
+                dropBubble(b);
             }
             bubble2DArray.remove(row);
+        }
+    }
+
+    /**
+     * Drop a bubble.
+     *
+     * @param bubble Object to be dropped
+     */
+    public void dropBubble(final Bubble bubble) {
+        if (bubble != null && !droppingBubbles.contains(bubble)) {
+            bubble.setState(Bubble.State.DROPPING);
+            droppingBubbles.add(bubble);
         }
     }
 
@@ -378,6 +391,16 @@ public final class BubbleStorage {
             Bubble curr = it.next();
             curr.draw(g);
         }
+        Iterator<Bubble> ite = droppingBubbles.iterator();
+        while (ite.hasNext()) {
+            Bubble bubble = ite.next();
+            if (bubble.getY() > App.getGameHeight()) {
+                ite.remove();
+                continue;
+            }
+            bubble.setY(bubble.getY() + (float) Bubble.DROP_SPEED);
+            bubble.draw(g);
+        }
     }
 
     /**
@@ -388,4 +411,5 @@ public final class BubbleStorage {
     public BubbleStorageIterator iterator() {
         return new BubbleStorageIterator(bubble2DArray);
     }
+
 }

@@ -6,7 +6,6 @@ import bustamove.screen.config.GameConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.junit.Assert.*;
 
@@ -20,14 +19,12 @@ import java.util.LinkedList;
 public class BubbleStorageTest {
 
     private BubbleStorage bubbleStorage;
-
-    @Mock
     private Collision collision;
 
     @Before
     public void setUp() {
-        collision = new Collision(0, 200, 0, new Score(new Player("asd", 0, 0)));
-        bubbleStorage = new BubbleStorage(200, 200, collision);
+        collision = new Collision(0, 200, 0);
+        bubbleStorage = new BubbleStorage(200, 200);
         collision.setBubbleStorage(bubbleStorage);
     }
 

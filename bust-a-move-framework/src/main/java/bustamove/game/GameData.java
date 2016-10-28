@@ -14,6 +14,7 @@ import java.util.LinkedList;
 
 import bustamove.bubble.BubbleStorage;
 import bustamove.bubble.Collision;
+import bustamove.bubble.PopBehaviour;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -54,6 +55,7 @@ public class GameData implements PlayerObserver {
     private Player player;
     private Collision collide;
     private BubbleStorage bubbleStorage;
+    private PopBehaviour popBehaviour;
     /**
      * Arraylist of bubbles and their speed.
      */
@@ -86,11 +88,14 @@ public class GameData implements PlayerObserver {
         this.bubbleslist = new LinkedList<Bubble>();
         this.player = new Player("Player1", this.offset, this.playerNr);
         this.player.registerObserver((PlayerObserver) this);
-        this.collide = new Collision(ARENA_X + this.offset,
-                ARENA_X + this.offset + ARENA_WIDTH, ARENA_Y,
-                player.getScore());
+
         this.bubbleStorage = new BubbleStorage(ARENA_X + this.offset,
-                ARENA_Y, collide);
+                ARENA_Y);
+        this.popBehaviour = new PopBehaviour(player.getScore());
+        popBehaviour.setBubbleStorage(bubbleStorage);
+        this.collide = new Collision(ARENA_X + this.offset,
+                ARENA_X + this.offset + ARENA_WIDTH, ARENA_Y);
+        collide.setPopBehaviour(popBehaviour);
         this.cannon = new Cannon(this, this.offset, this.playerNr);
         this.setBubbleSpeed(GameConfig.DEFAULT_BUBBLE_SPEED);
         collide.setBubbleStorage(bubbleStorage);
@@ -109,7 +114,7 @@ public class GameData implements PlayerObserver {
                              final int delta) throws SlickException {
         if (this.state == GameDataState.RUNNING) {
             this.cannon.update(container, delta, this);
-            collide.setGameHead(this);
+            popBehaviour.setGameHead(this);
             Iterator<Bubble> ite = bubbleslist.iterator();
             while (ite.hasNext()) {
                 Bubble b1 = ite.next();
@@ -159,7 +164,6 @@ public class GameData implements PlayerObserver {
         cannon.draw(g);
         player.draw(g);
         bubbleStorage.draw(g);
-        collide.draw(g);
         for (Bubble bubble : this.bubbleslist) {
             if (bubble.getState() != State.LANDED) {
                 bubble.draw(g);
@@ -192,6 +196,15 @@ public class GameData implements PlayerObserver {
      */
     public final Collision getCollision() {
         return this.collide;
+    }
+
+    /**
+     * Getter for PopBehaviour.
+     *
+     * @return PopBehaviour object.
+     */
+    public final PopBehaviour getPopBehaviour() {
+        return popBehaviour;
     }
 
     /**

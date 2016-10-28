@@ -50,6 +50,6 @@ public class RowBomb extends PowerUp {
      */
     public final void pop() {
         getBubble().pop();
-        this.getGameHead().getCollision().popRowBomb(this);
+        this.getGameHead().getPopBehaviour().popRowBomb(this);
     }
 }
