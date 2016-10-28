@@ -30,12 +30,6 @@ public class GameDataTest {
     }
 
     @Test
-    public void getArena() {
-        assertNotNull(gameData.getArena());
-        assertTrue(gameData.getArena() instanceof Arena);
-    }
-
-    @Test
     public void getCannon() {
         assertNotNull(gameData.getCannon());
         assertTrue(gameData.getCannon() instanceof Cannon);

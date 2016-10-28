@@ -15,7 +15,6 @@ package bustamove.bubble;
 import bustamove.system.Log;
 import bustamove.bubble.Bubble.ColorChoice;
 import org.newdawn.slick.Graphics;
-import bustamove.game.Arena;
 import bustamove.screen.config.GameConfig;
 
 import java.util.LinkedList;
@@ -42,22 +41,22 @@ public final class BubbleStorage {
     private int xBound;
     private int yBound;
     /**
-     * Container of this storage.
+     * Collision detection mechanics.
      */
-    private Arena arenaCont;
+    private Collision collide;
 
     /**
      * Constructor for bubble storage.
      *
-     * @param x     x-coordinate of upper left corner of the arena
-     * @param y     y-coordinate of upper left corner of the arena
-     * @param arena arena container of this bubblestorage object
+     * @param x         x-coordinate of upper left corner of the arena
+     * @param y         y-coordinate of upper left corner of the arena
+     * @param collision the collision mechanism
      */
-    public BubbleStorage(final int x, final int y, final Arena arena) {
+    public BubbleStorage(final int x, final int y, final Collision collision) {
         bubble2DArray = new LinkedList<Bubble[]>();
         xBound = x;
         yBound = y;
-        arenaCont = arena;
+        collide = collision;
         Log.getInstance().log(this, "Creating a BubbleStorage.");
         for (int i = 0; i < START_ROWS; i++) {
             addBubbleRow(true);
@@ -225,7 +224,7 @@ public final class BubbleStorage {
 
         for (Bubble[] row : rowsToRemove) {
             for (Bubble b : row) {
-                arenaCont.getCollision().dropBubble(b);
+                collide.dropBubble(b);
             }
             bubble2DArray.remove(row);
         }

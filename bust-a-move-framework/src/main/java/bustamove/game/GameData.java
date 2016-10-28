@@ -12,6 +12,8 @@ package bustamove.game;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import bustamove.bubble.BubbleStorage;
+import bustamove.bubble.Collision;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -47,11 +49,12 @@ public class GameData implements PlayerObserver {
     private int scorePlayer;
     private String namePlayer;
     /**
-     * Cannon, Arena and Player instance for the game.
+     * Cannon, Player, Collision, BubbleStorage instance for the game.
      */
     private Cannon cannon;
     private Player player;
-    private Arena arena;
+    private Collision collide;
+    private BubbleStorage bubbleStorage;
     /**
      * Arraylist of bubbles and their speed.
      */
@@ -62,8 +65,8 @@ public class GameData implements PlayerObserver {
      */
     private static final int ARENA_X = 180;
     private static final int ARENA_Y = 0;
-    private static final int ARENA_WIDTH = 531;
-    private static final int ARENA_HEIGHT = 280;
+    private static final int ARENA_HEIGHT = 531;
+    private static final int ARENA_WIDTH = 280;
     /**
      * GameModel number and the drawing offset.
      */
@@ -87,10 +90,14 @@ public class GameData implements PlayerObserver {
         this.player.registerObserver((PlayerObserver) App.getDefeatScreen());
         this.player.registerObserver((PlayerObserver) App.getVictoryScreen());
         this.player.registerObserver((PlayerObserver) this);
-        this.arena = new Arena(ARENA_X + this.offset, ARENA_Y,
-                GameData.ARENA_WIDTH, GameData.ARENA_HEIGHT, player.getScore());
+        this.collide = new Collision(ARENA_X + this.offset,
+                ARENA_X + this.offset + ARENA_WIDTH, ARENA_Y,
+                player.getScore());
+        this.bubbleStorage = new BubbleStorage(ARENA_X + this.offset,
+                ARENA_Y, collide);
         this.cannon = new Cannon(this, this.offset, this.playerNr);
         this.setBubbleSpeed(GameConfig.DEFAULT_BUBBLE_SPEED);
+        collide.setBubbleStorage(bubbleStorage);
     }
 
     /**
@@ -106,21 +113,21 @@ public class GameData implements PlayerObserver {
                              final int delta) throws SlickException {
         if (this.state == GameDataState.RUNNING) {
             this.cannon.update(container, delta, this);
-            arena.getCollision().setGameHead(this);
+            collide.setGameHead(this);
             Iterator<Bubble> ite = bubbleslist.iterator();
             while (ite.hasNext()) {
                 Bubble b1 = ite.next();
                 b1.move();
                 if (b1.getState() == State.FIRING) {
-                    arena.checkCollision(b1);
+                    collide.checkCollision(b1);
                 }
                 if (b1.getState() == State.LANDED) {
                     ite.remove();
                 }
             }
-            if (arena.getBubbleStorage().isFull()) {
+            if (bubbleStorage.isFull()) {
                 this.state = GameDataState.LOSE;
-            } else if (arena.getBubbleStorage().isEmpty()) {
+            } else if (bubbleStorage.isEmpty()) {
                 this.state = GameDataState.WON;
             }
         }
@@ -146,23 +153,22 @@ public class GameData implements PlayerObserver {
                         + (double) Math.round(this.bubblespeed / 2),
                 GameConfig.MARGIN_LEFT + this.offset,
                 GameConfig.THIRD_LINE);
+        // Draw the arena borders
+        g.drawRect(ARENA_X + this.offset, ARENA_Y, ARENA_WIDTH,
+                ARENA_HEIGHT);
+        float yPosLine = (float) (bubbleStorage.getHeight()
+                * GameConfig.ROW_OFFSET + ARENA_Y);
+        g.drawLine(ARENA_X + this.offset, yPosLine, ARENA_X + this.offset
+                + ARENA_WIDTH, yPosLine);
         cannon.draw(g);
         player.draw(g);
-        arena.draw(g);
+        bubbleStorage.draw(g);
+        collide.draw(g);
         for (Bubble bubble : this.bubbleslist) {
             if (bubble.getState() != State.LANDED) {
                 bubble.draw(g);
             }
         }
-    }
-
-    /**
-     * Method to return the arena object inside gamedata class.
-     *
-     * @return Arena object inside gamedata class
-     */
-    public final Arena getArena() {
-        return this.arena;
     }
 
     /**
@@ -181,6 +187,24 @@ public class GameData implements PlayerObserver {
      */
     public final Cannon getCannon() {
         return this.cannon;
+    }
+
+    /**
+     * Method to return the collision object inside gamedata class.
+     *
+     * @return Collision object inside gamedata class
+     */
+    public final Collision getCollision() {
+        return this.collide;
+    }
+
+    /**
+     * Method to return the cannon object inside gamedata class.
+     *
+     * @return Cannon object inside gamedata class
+     */
+    public final BubbleStorage getBubbleStorage() {
+        return this.bubbleStorage;
     }
 
     /**

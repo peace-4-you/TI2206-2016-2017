@@ -18,7 +18,6 @@ import bustamove.system.Log;
 import org.newdawn.slick.Graphics;
 
 import bustamove.App;
-import bustamove.game.Arena;
 import bustamove.game.GameData;
 
 import java.util.Iterator;
@@ -50,21 +49,28 @@ public final class Collision {
     /**
      * The container of this object.
      */
-    private Arena arenaCont;
     private GameData gamehead;
     private Score scorekeeper;
+    /**
+     * Wall positions.
+     */
+    private int xPosLeftWall;
+    private int xPosRightWall;
+    private int yPosTopWall;
 
     /**
      * Constructor for creating an object just for checking collisions.
      *
-     * @param bubbles container to check collisions on
-     * @param arena   container that contains this object
-     * @param score   container that keeps the score of a GameData object
+     * @param leftWall  x-coordinate of the left wall
+     * @param rightWall x-coordinate of the right wall
+     * @param topWall   y-coordinate of the top wall
+     * @param score     container that keeps the score of a GameData object
      */
-    public Collision(final BubbleStorage bubbles, final Arena arena,
-                     final Score score) {
-        this.bubbleStorage = bubbles;
-        this.arenaCont = arena;
+    public Collision(final int leftWall, final int rightWall,
+                     final int topWall, final Score score) {
+        this.xPosLeftWall = leftWall;
+        this.xPosRightWall = rightWall;
+        this.yPosTopWall = topWall;
         this.scorekeeper = score;
         droppingBubbles = new LinkedList<Bubble>();
         bubbleCount = 0;
@@ -77,6 +83,14 @@ public final class Collision {
      */
     public void setGameHead(final GameData game) {
         this.gamehead = game;
+    }
+
+    /**
+     * Update BubbleStorage object.
+     * @param storage BubbleStorage object to store
+     */
+    public void setBubbleStorage(final BubbleStorage storage) {
+        this.bubbleStorage = storage;
     }
 
     /**
@@ -100,10 +114,8 @@ public final class Collision {
      */
     private void checkWallCollision(final Bubble bubble) {
         double xPos = bubble.getX();
-        double wallPos = arenaCont.getxPos();
-        if (xPos <= wallPos
-                || xPos + Bubble.DIAMETER
-                >= wallPos + arenaCont.getWidth()) {
+        double wallPos = xPosLeftWall;
+        if (xPos <= wallPos || xPos + Bubble.DIAMETER >= xPosRightWall) {
             bubble.hitWall();
         }
     }
@@ -156,7 +168,7 @@ public final class Collision {
         }
         float xPos = (float) (column * Bubble.DIAMETER + offset);
         float yPos = (float) (row * GameConfig.ROW_OFFSET);
-        shotBubble.land(xPos + arenaCont.getxPos(), yPos + arenaCont.getyPos());
+        shotBubble.land(xPos + xPosLeftWall, yPos + yPosTopWall);
 
         bubbleCount++;
         if (bubbleCount > ADD_ROW_COUNT) {
