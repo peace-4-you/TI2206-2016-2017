@@ -106,7 +106,7 @@ public class GameData implements PlayerObserver {
                              final int delta) throws SlickException {
         if (this.state == GameDataState.RUNNING) {
             this.cannon.update(container, delta, this);
-            arena.getCollision().setGameHead(this);
+            arena.getPopBehaviour().setGameHead(this);
             Iterator<Bubble> ite = bubbleslist.iterator();
             while (ite.hasNext()) {
                 Bubble b1 = ite.next();

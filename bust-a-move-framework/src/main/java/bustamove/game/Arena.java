@@ -11,6 +11,7 @@
 
 package bustamove.game;
 
+import bustamove.bubble.PopBehaviour;
 import bustamove.player.Score;
 import bustamove.screen.config.GameConfig;
 import bustamove.system.Log;
@@ -45,6 +46,7 @@ public final class Arena {
      * Collision instance.
      */
     private Collision collide;
+    private PopBehaviour popBehaviour;
 
     /**
      * Creates Arena for bubbleStorage storage and render variables.
@@ -62,7 +64,8 @@ public final class Arena {
         height = heightBg;
         width = widthBg;
         bubbleStorage = new BubbleStorage(xPos, yPos, this);
-        collide = new Collision(bubbleStorage, this, score);
+        popBehaviour = new PopBehaviour(bubbleStorage, score);
+        collide = new Collision(this, bubbleStorage, popBehaviour);
         Log.getInstance().log(this, "Arena initialised");
     }
 
@@ -84,6 +87,15 @@ public final class Arena {
 
     public Collision getCollision() {
         return collide;
+    }
+
+    /**
+     * Getter for the popbehaviour.
+     *
+     * @return popbehaviour object.
+     */
+    public PopBehaviour getPopBehaviour() {
+        return popBehaviour;
     }
 
     /**
@@ -158,7 +170,6 @@ public final class Arena {
      */
     public void draw(final Graphics g) {
         bubbleStorage.draw(g);
-        collide.draw(g);
         g.setColor(Color.white);
         g.drawRect(xPos, yPos, width, height);
         float yPosLine = (float) (bubbleStorage.getHeight()

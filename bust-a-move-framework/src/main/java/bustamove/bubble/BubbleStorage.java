@@ -12,12 +12,14 @@
 
 package bustamove.bubble;
 
+import bustamove.App;
 import bustamove.system.Log;
 import bustamove.bubble.Bubble.ColorChoice;
 import org.newdawn.slick.Graphics;
 import bustamove.game.Arena;
 import bustamove.screen.config.GameConfig;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -36,6 +38,10 @@ public final class BubbleStorage {
      * Structure that contains all the rows of bubbles.
      */
     private LinkedList<Bubble[]> bubble2DArray;
+    /**
+     * LinkedList for temporarily storing dropping bubbles.
+     */
+    private LinkedList<Bubble> droppingBubbles;
     /**
      * The x and ycoordinate of the left bound of the arena.
      */
@@ -58,6 +64,7 @@ public final class BubbleStorage {
         xBound = x;
         yBound = y;
         arenaCont = arena;
+        droppingBubbles = new LinkedList<Bubble>();
         Log.getInstance().log(this, "Creating a BubbleStorage.");
         for (int i = 0; i < START_ROWS; i++) {
             addBubbleRow(true);
@@ -225,9 +232,21 @@ public final class BubbleStorage {
 
         for (Bubble[] row : rowsToRemove) {
             for (Bubble b : row) {
-                arenaCont.getCollision().dropBubble(b);
+                dropBubble(b);
             }
             bubble2DArray.remove(row);
+        }
+    }
+
+    /**
+     * Drop a bubble.
+     *
+     * @param bubble Object to be dropped
+     */
+    public void dropBubble(final Bubble bubble) {
+        if (bubble != null && !droppingBubbles.contains(bubble)) {
+            bubble.setState(Bubble.State.DROPPING);
+            droppingBubbles.add(bubble);
         }
     }
 
@@ -378,6 +397,16 @@ public final class BubbleStorage {
         while (it.hasNext()) {
             Bubble curr = it.next();
             curr.draw(g);
+        }
+        Iterator<Bubble> ite = droppingBubbles.iterator();
+        while (ite.hasNext()) {
+            Bubble bubble = ite.next();
+            if (bubble.getY() > App.getGameHeight()) {
+                ite.remove();
+                continue;
+            }
+            bubble.setY(bubble.getY() + (float) Bubble.DROP_SPEED);
+            bubble.draw(g);
         }
     }
 
