@@ -62,7 +62,7 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
         playerscore[1] = new Text("Score: ", GameConfig.SEVENTH_LINE);
         droppedbubbles[0] = new Text("Dropped: ", GameConfig.FOURTH_LINE);
         droppedbubbles[1] = new Text("Dropped: ", GameConfig.EIGTH_LINE);
-        poppedbubbles[0] = new Text("Popped: ", GameConfig.FIFTH_LINE);        
+        poppedbubbles[0] = new Text("Popped: ", GameConfig.FIFTH_LINE);
         poppedbubbles[1] = new Text("Popped: ", GameConfig.NINETH_LINE);
         Button main = new Button("Go to Main Menu", GameConfig.ELEVENTH_LINE,
                 GameConfig.WIDTH3, GameConfig.HEIGHT);
@@ -84,7 +84,7 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
         getTexts().add(droppedbubbles[0]);
         getTexts().add(droppedbubbles[1]);
         getTexts().add(poppedbubbles[0]);
-        getTexts().add(poppedbubbles[1]);        
+        getTexts().add(poppedbubbles[1]);
         getButtons().add(main);
     }
 
@@ -94,9 +94,12 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
      * @param number integer of player number
      * @param name   String of player name
      * @param score  integer of player score
+     * @param dropped amount of dropped bubbles
+     * @param popped amount of dropped bubbles
      */
     public final void update(final int number, final String name,
-                             final int score, final int dropped, final int popped) {
+                             final int score, final int dropped,
+                                     final int popped) {
         if (number == 1 || number == 2) {
             this.playername[number - 1].setText("Player: " + name);
             this.playernameString[number - 1] = name;

@@ -82,7 +82,6 @@ public class GameData implements PlayerObserver {
         this.bubbleslist = new LinkedList<Bubble>();
         this.player = new Player("Player1", this.playerNr);
         this.player.registerObserver((PlayerObserver) this);
-
         this.bubbleStorage = new BubbleStorage(ARENA_X + this.offset,
                 ARENA_Y);
         this.popBehaviour = new PopBehaviour(player.getScore());
@@ -264,9 +263,12 @@ public class GameData implements PlayerObserver {
      * @param number integer of player number
      * @param name   String of player name
      * @param score  integer of player score
+     * @param dropped integer of amount of dropped bubbles
+     * @param popped integer of amount of popped bubbles
      */
     public final void update(final int number, final String name,
-                             final int score, final int dropped, final int popped) {
+                             final int score, final int dropped,
+                             final int popped) {
         if (number == playerNr) {
             this.scorePlayer = score;
             this.namePlayer = name;

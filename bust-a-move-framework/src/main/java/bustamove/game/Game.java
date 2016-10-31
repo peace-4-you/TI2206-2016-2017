@@ -37,8 +37,9 @@ import java.util.ArrayList;
  * @version 11.10.2016
  */
 public final class Game extends BasicGameState {
-    private static final int BUTTON_X = 503;
+    private static final int BUTTON_X = 510;
     private static final int DRAWING_OFFSET = 500;
+    private static final int MILLIS_TO_SECONDS = 1000;
     /**
      * Dimensions of the gray rectangle at the bottom of the game.
      */
@@ -91,8 +92,8 @@ public final class Game extends BasicGameState {
         Log.getInstance().log(this, "start2playergame");
         AppGameContainer gc = (AppGameContainer) this.container;
         gc.setDisplayMode(App.GAME_WIDTH_MULTIPLAYER, App.GAME_HEIGHT, false);
-        GameData firstplayer = new GameData(0, 2);
-        GameData secondplayer = new GameData(DRAWING_OFFSET, 1);
+        GameData firstplayer = new GameData(DRAWING_OFFSET, 1);
+        GameData secondplayer = new GameData(0, 2);
         addGameData(firstplayer);
         addGameData(secondplayer);
         firstplayer.getPlayer().notifyAmountObserver(2);
@@ -184,7 +185,7 @@ public final class Game extends BasicGameState {
                        final StateBasedGame stateBasedGame,
                        final int delta) throws SlickException {
         this.time += delta;
-    	this.sbg = stateBasedGame;
+        this.sbg = stateBasedGame;
         this.container = game;
         boolean loosing = true;
         for (GameData gd : this.gamedata) {
@@ -221,7 +222,8 @@ public final class Game extends BasicGameState {
         g.fillRect(GRAYRECT_X, GRAYRECT_Y, GRAYRECT_WIDTH, GRAYRECT_HEIGHT);
         pause.draw(g);
         g.setColor(Color.white);
-        g.drawString("Time:" + this.time/1000 + "s", BUTTON_X, GameConfig.SIXT_LINE);
+        g.drawString("Time:" + this.time / MILLIS_TO_SECONDS + "s",
+                BUTTON_X, GameConfig.SIXT_LINE);
         for (GameData gd : this.gamedata) {
             gd.render(game, stateBasedGame, g);
         }

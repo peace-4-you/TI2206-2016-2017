@@ -90,7 +90,7 @@ public class Score {
             Log.getInstance().log(this, bubbles + " Bubbles Popped.  "
                     + "Score added with " + scoreVal);
             this.score += scoreVal;
-            this.bubblesPopped++;
+            this.bubblesPopped += bubbles;
             this.owner.notifyObserver();
         }
     }
@@ -108,7 +108,7 @@ public class Score {
             Log.getInstance().log(this, bubbles + " bBubbles Dropped. "
                     + "Score added with " + scoreVal);
             this.score += scoreVal;
-            this.bubblesDropped++;
+            this.bubblesDropped += bubbles;
             this.owner.notifyObserver();
         }
     }

@@ -40,9 +40,7 @@ public class Player implements PlayerObservable {
 
     /**
      * Constructor of Player class.
-     *
      * @param s             player's name
-     * @param drawingoffset the x offset that drawings get
      * @param playerid      the id of the player in the game
      */
     public Player(final String s, final int playerid) {
@@ -97,7 +95,9 @@ public class Player implements PlayerObservable {
      */
     public final void notifyObserver() {
         for (PlayerObserver o : observers) {
-            o.update(this.id, this.name, this.score.getScore(),this.score.getBubblesDropped(),this.score.getBubblesPopped());
+            o.update(this.id, this.name, this.score.getScore(),
+                    this.score.getBubblesDropped(),
+                            this.score.getBubblesPopped());
         }
     }
 
