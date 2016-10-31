@@ -34,7 +34,7 @@ public abstract class PowerUp extends Bubble {
      */
     private Bubble bubble;
 
-    private final int powerupOffset = 7;
+    private static final int POWERUP_OFFSET = 7;
 
     private static final double SPEEDUP_CHANCE = 0.15;
     private static final double SLOWDOWN_CHANCE = 0.25;
@@ -274,7 +274,7 @@ public abstract class PowerUp extends Bubble {
      * @return x offset in int format.
      */
     public final int getpowerupOffset() {
-        return powerupOffset;
+        return POWERUP_OFFSET;
     }
 
     /**
