@@ -5,7 +5,6 @@
  * Version: 0.0.3
  * Date: September 26th, 2016
  */
-
 package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
@@ -21,11 +20,13 @@ import bustamove.screen.config.GameState;
 
 /**
  * Generates a MainMenu as a instance of GameState.
+ *
  * @author Jason Xie, Maurice Willemsen
  */
 public class DoubleNameScreen extends NameScreen {
     /**
      * Getter method for Id.
+     *
      * @return integer of BasicGameState number.
      */
     public final int getID() {
@@ -34,12 +35,14 @@ public class DoubleNameScreen extends NameScreen {
 
     /**
      * Called when BasicGameState initializes.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
      * @throws SlickException any type of slick exception
      */
     public final void init(final GameContainer game,
-            final StateBasedGame stateBasedGame) throws SlickException {
+                           final StateBasedGame stateBasedGame)
+            throws SlickException {
         initNameScreen(game, stateBasedGame);
         Text player1text = new Text("Player 1: ", GameConfig.FIRST_LINE);
         Text player2text = new Text("Player 2: ", GameConfig.FOURTH_LINE);
@@ -63,10 +66,10 @@ public class DoubleNameScreen extends NameScreen {
                     e.printStackTrace();
                 }
                 App.getGame().getGameData().get(0).getPlayer()
-                .setName(getNamefields()[0].getText());
+                        .setName(getNamefields()[0].getText());
                 getNamefields()[0].setText("Player 1");
                 App.getGame().getGameData().get(1).getPlayer()
-                .setName(getNamefields()[1].getText());
+                        .setName(getNamefields()[1].getText());
                 getNamefields()[1].setText("Player 2");
             }
         });

@@ -7,8 +7,6 @@
  *
  * Date: September 26th, 2016
  */
-
-
 package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
@@ -23,6 +21,7 @@ import bustamove.screen.config.GameState;
 
 /**
  * Generates a HighscoreScreen as a instance of GameState.
+ *
  * @author Justin Segond
  */
 public class HighscoreScreen extends Screen {
@@ -32,15 +31,8 @@ public class HighscoreScreen extends Screen {
     private Highscore highscores;
 
     /**
-     * Getter method: for the GameState ID.
-     * @return integer of BasicGameState number.
-     */
-    public final int getID() {
-        return GameState.HIGHSCORES_SCREEN;
-    }
-
-    /**
      * Initializes a highscore screen object.
+     *
      * @param hs The highscore object to use for this screen.
      */
     public HighscoreScreen(final Highscore hs) {
@@ -48,13 +40,24 @@ public class HighscoreScreen extends Screen {
     }
 
     /**
+     * Getter method: for the GameState ID.
+     *
+     * @return integer of BasicGameState number.
+     */
+    public final int getID() {
+        return GameState.HIGHSCORES_SCREEN;
+    }
+
+    /**
      * Called when BasicGameState initializes.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
      * @throws SlickException any type of slick exception
      */
     public final void init(final GameContainer game,
-            final StateBasedGame stateBasedGame) throws SlickException {
+                           final StateBasedGame stateBasedGame)
+            throws SlickException {
         initBasicScreen(game);
         Button mainmenu = new Button("Main menu", GameConfig.FIRST_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
@@ -66,12 +69,14 @@ public class HighscoreScreen extends Screen {
 
     /**
      * Called when BasicGameState is entered.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
      * @throws SlickException any type of slick exception
      */
     public final void enter(final GameContainer game,
-            final StateBasedGame stateBasedGame) throws SlickException {
+                            final StateBasedGame stateBasedGame)
+            throws SlickException {
         getTexts().clear();
         int nameLeftOffset = (int) (game.getWidth()
                 * GameConfig.HIGHSCORE_NAME_OFFSET);

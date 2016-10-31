@@ -5,7 +5,6 @@
  * Version: 0.0.3
  * Date: September 26th, 2016
  */
-
 package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
