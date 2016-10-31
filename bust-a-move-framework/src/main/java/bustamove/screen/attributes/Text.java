@@ -96,7 +96,7 @@ public class Text {
      * @param game to get the width of
      */
     public final void centerText(final GameContainer game) {
-    	tWidth = font.getWidth(this.text);
+        tWidth = font.getWidth(this.text);
         xPos = (game.getWidth() - tWidth) / 2;
     }
 
