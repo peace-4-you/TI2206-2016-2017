@@ -118,29 +118,6 @@ public class App extends StateBasedGame {
     }
 
     /**
-     * Initialize all the game states that are used in the game.
-     *
-     * @param container the container holding the game
-     * @throws SlickException indicates a failure to initialise the state based
-     *                        game resources
-     */
-    public final void initStatesList(final GameContainer container)
-            throws SlickException {
-        init();
-        addState(startScreen);
-        addState(mainMenu);
-        addState(game);
-        addState(pausedScreen);
-        addState(victoryScreen);
-        addState(defeatScreen);
-        addState(singleNameScreen);
-        addState(doubleNameScreen);
-        addState(highscoreScreen);
-        addState(optionScreen);
-        addState(creditsScreen);
-    }
-
-    /**
      * Getter function for game object.
      *
      * @return the game object associated to this class
@@ -165,5 +142,28 @@ public class App extends StateBasedGame {
      */
     public static final int getGameWidth() {
         return GAME_WIDTH;
+    }
+
+    /**
+     * Initialize all the game states that are used in the game.
+     *
+     * @param container the container holding the game
+     * @throws SlickException indicates a failure to initialise the state based
+     *                        game resources
+     */
+    public final void initStatesList(final GameContainer container)
+            throws SlickException {
+        init();
+        addState(startScreen);
+        addState(mainMenu);
+        addState(game);
+        addState(pausedScreen);
+        addState(victoryScreen);
+        addState(defeatScreen);
+        addState(singleNameScreen);
+        addState(doubleNameScreen);
+        addState(highscoreScreen);
+        addState(optionScreen);
+        addState(creditsScreen);
     }
 }

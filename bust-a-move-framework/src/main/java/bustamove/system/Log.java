@@ -26,11 +26,11 @@ public final class Log {
      * Used for timestamping.
      */
     private static Calendar calendar = Calendar.getInstance();
-    private final DateFormat format = new SimpleDateFormat("HH:mm:ss");
     /**
      * Log count.
      */
     private static int number = 0;
+    private final DateFormat format = new SimpleDateFormat("HH:mm:ss");
 
     /**
      * Constructor of the class.
@@ -55,6 +55,13 @@ public final class Log {
     }
 
     /**
+     * Increase log counter.
+     */
+    private static void increment() {
+        number++;
+    }
+
+    /**
      * Method to output logging with a Log message and the object that
      * generated that Log.
      *
@@ -68,12 +75,5 @@ public final class Log {
                 obj.getClass().getSimpleName(), number,
                 format.format(calendar.getTime()),
                 log);
-    }
-
-    /**
-     * Increase log counter.
-     */
-    private static void increment() {
-        number++;
     }
 }
