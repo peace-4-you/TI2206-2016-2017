@@ -65,11 +65,11 @@ public class GameDataTest {
         String newname = "Jason";
         int score = Whitebox.getInternalState(gameData, "scorePlayer");
         String name = Whitebox.getInternalState(gameData, "namePlayer");
-        gameData.update(1, newname, newscore);
+        //gameData.update(1, newname, newscore);
         assertNotEquals(newscore, score);
         assertNotEquals(newname, name);
 
-        gameData.update(0, newname, newscore);
+        //gameData.update(0, newname, newscore);
         score = Whitebox.getInternalState(gameData, "scorePlayer");
         name = Whitebox.getInternalState(gameData, "namePlayer");
 

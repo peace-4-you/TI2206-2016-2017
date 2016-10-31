@@ -33,6 +33,14 @@ public class Score {
      * Integer variable to store the score value.
      */
     private int score;
+    /**
+     * Integer variable to store the amount of dropped bubbles.
+     */
+    private int bubblesDropped;
+    /**
+     * Integer variable to store amount of popped bubbles.
+     */
+    private int bubblesPopped;
 
     /**
      * Constructor of the Score class.
@@ -42,6 +50,8 @@ public class Score {
     public Score(final Player player) {
         Log.getInstance().log(this, "Score initialised");
         this.score = 0;
+        this.bubblesDropped = 0;
+        this.bubblesPopped = 0;
         this.owner = player;
         this.owner.notifyObserver();
     }
@@ -52,6 +62,8 @@ public class Score {
     public final void reset() {
         Log.getInstance().log(this, "Score Reset");
         this.score = 0;
+        this.bubblesDropped = 0;
+        this.bubblesPopped = 0;
         this.owner.notifyObserver();
     }
 
@@ -78,6 +90,7 @@ public class Score {
             Log.getInstance().log(this, bubbles + " Bubbles Popped.  "
                     + "Score added with " + scoreVal);
             this.score += scoreVal;
+            this.bubblesPopped++;
             this.owner.notifyObserver();
         }
     }
@@ -95,6 +108,7 @@ public class Score {
             Log.getInstance().log(this, bubbles + " bBubbles Dropped. "
                     + "Score added with " + scoreVal);
             this.score += scoreVal;
+            this.bubblesDropped++;
             this.owner.notifyObserver();
         }
     }
@@ -106,6 +120,22 @@ public class Score {
      */
     public final int getScore() {
         return this.score;
+    }
+    /**
+     * Getter method: returns the dropped bubbles.
+     *
+     * @return int amount of dropped bubbles
+     */
+    public final int getBubblesDropped() {
+        return this.bubblesDropped;
+    }
+    /**
+     * Getter method: returns the popped bubbles.
+     *
+     * @return int amount of popped bubbles
+     */
+    public final int getBubblesPopped() {
+        return this.bubblesPopped;
     }
 
     /**

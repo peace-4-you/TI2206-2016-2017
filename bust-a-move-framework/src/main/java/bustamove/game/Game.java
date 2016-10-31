@@ -67,6 +67,10 @@ public final class Game extends BasicGameState {
      * The high scores object.
      */
     private Highscore highscore;
+    /**
+     * The time keeper.
+     */
+    private long time;
 
     /**
      * Private constructor.
@@ -74,6 +78,7 @@ public final class Game extends BasicGameState {
     public Game() {
         this.gamedata = new ArrayList<GameData>();
         this.pObservers = new ArrayList<PlayerObserver>();
+        this.time = 0;
         Log.getInstance().log(this, "Game initialised");
     }
 
@@ -178,7 +183,8 @@ public final class Game extends BasicGameState {
     public void update(final GameContainer game,
                        final StateBasedGame stateBasedGame,
                        final int delta) throws SlickException {
-        this.sbg = stateBasedGame;
+        this.time += delta;
+    	this.sbg = stateBasedGame;
         this.container = game;
         boolean loosing = true;
         for (GameData gd : this.gamedata) {
@@ -214,6 +220,8 @@ public final class Game extends BasicGameState {
         g.setColor(Color.gray);
         g.fillRect(GRAYRECT_X, GRAYRECT_Y, GRAYRECT_WIDTH, GRAYRECT_HEIGHT);
         pause.draw(g);
+        g.setColor(Color.white);
+        g.drawString("Time:" + this.time/1000 + "s", BUTTON_X, GameConfig.SIXT_LINE);
         for (GameData gd : this.gamedata) {
             gd.render(game, stateBasedGame, g);
         }

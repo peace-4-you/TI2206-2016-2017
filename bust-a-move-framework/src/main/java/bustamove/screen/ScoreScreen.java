@@ -54,6 +54,8 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
         playername = new Text[2];
         playernameString = new String[2];
         playerscore = new Text[2];
+        droppedbubbles = new Text[2];
+        poppedbubbles = new Text[2];
         playername[0] = new Text("Player: ", GameConfig.SECOND_LINE);
         playername[1] = new Text("Player: ", GameConfig.SIXT_LINE);
         playerscore[0] = new Text("Score: ", GameConfig.THIRD_LINE);
@@ -99,8 +101,8 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
             this.playername[number - 1].setText("Player: " + name);
             this.playernameString[number - 1] = name;
             this.playerscore[number - 1].setText("Score: " + score);
-            this.droppedbubbles[number - 1].setText("Dropped: " + score);
-            this.poppedbubbles[number - 1].setText("Popped: " + score);
+            this.droppedbubbles[number - 1].setText("Dropped: " + dropped);
+            this.poppedbubbles[number - 1].setText("Popped: " + popped);
         }
         this.center();
     }
@@ -115,9 +117,13 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
         if (playeramount == 1) {
             getTexts().remove(playername[1]);
             getTexts().remove(playerscore[1]);
+            getTexts().remove(droppedbubbles[1]);
+            getTexts().remove(poppedbubbles[1]);
         } else if (playeramount == 2) {
             getTexts().add(playername[1]);
             getTexts().add(playerscore[1]);
+            getTexts().add(droppedbubbles[1]);
+            getTexts().add(poppedbubbles[1]);
         }
     }
 
