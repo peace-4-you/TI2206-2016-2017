@@ -44,13 +44,9 @@ public class Text {
      * @param y y coordinate of the text
      */
     public Text(final String s, final float y) {
-        assert s != null;
-        assert y >= 0;
-
-        this.text = s;
+        text = s;
         xPos = 0;
         yPos = y;
-        tWidth = font.getWidth(this.text);
     }
 
     /**
@@ -62,7 +58,6 @@ public class Text {
      */
     public Text(final String s, final float x, final float y) {
         this(s, y);
-        assert x >= 0;
         xPos = x;
     }
 
@@ -73,6 +68,15 @@ public class Text {
      */
     public static final void setFont(final TrueTypeFont f) {
         font = f;
+    }
+
+    /**
+     * Getter of the font used.
+     *
+     * @return font type
+     */
+    public final TrueTypeFont getFont() {
+        return font;
     }
 
     /**
@@ -92,6 +96,7 @@ public class Text {
      * @param game to get the width of
      */
     public final void centerText(final GameContainer game) {
+    	tWidth = font.getWidth(this.text);
         xPos = (game.getWidth() - tWidth) / 2;
     }
 
@@ -102,6 +107,5 @@ public class Text {
      */
     public final void setText(final String s) {
         this.text = s;
-        tWidth = font.getWidth(this.text);
     }
 }

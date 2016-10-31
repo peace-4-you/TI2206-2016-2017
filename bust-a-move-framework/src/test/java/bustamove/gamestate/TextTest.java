@@ -1,16 +1,84 @@
 package bustamove.gamestate;
 
-import org.junit.Before;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.*;
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.powermock.reflect.Whitebox;
+
+import bustamove.screen.attributes.Text;
 
 /**
- * Created by Jason Xie on 20/10/2016.
+ * Created by Maurice Willemsen
  */
+@RunWith(Parameterized.class)
 public class TextTest {
-    @Before
-    public void setUp() {
 
+    private Text text;
+
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
+    @Mock
+    private Input mouse;
+    @Mock
+    private TrueTypeFont font;
+    @Mock
+    private GameContainer game;
+    
+
+    @Before
+    public void setUp() throws SlickException {
+        MockitoAnnotations.initMocks(this);
+        exception = ExpectedException.none();        
     }
 
+    public TextTest(float x, float y) {    	
+    	text = new Text("Test", x, y);
+    }
+
+    @Parameters
+    public static Collection<Object[]> input() {
+        return Arrays.asList(new Object[][]{
+                {0, 0},
+                {100, 100},
+        });
+    }
+    
+    @Test
+    public void centerText(){
+    	Text.setFont(font);
+    	text.centerText(game);
+    	//Note: not properly testable due to no game has exactly started. So centering will be at 0.
+    	float x = Whitebox.getInternalState(text, "xPos");
+    	assertEquals(0,x,1);
+    }
+
+    @Test
+    public void setTextFont() {
+        Text.setFont(font);
+        assertEquals(font, text.getFont());
+    }
+     
+    @Test
+    public void setText(){
+    	text.setText("newTest");
+    	String internText = Whitebox.getInternalState(text, "text");
+    	assertEquals("newTest", internText);
+    }
 }
