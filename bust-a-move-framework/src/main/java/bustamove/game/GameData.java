@@ -43,10 +43,12 @@ public class GameData implements PlayerObserver {
     private static final int ARENA_WIDTH = 280;
     private GameDataState state;
     /**
-     * Score and Name of the player, updated by observer.
+     * Stats of the player, updated by observer.
      */
     private int scorePlayer;
     private String namePlayer;
+    private int droppedBubbles;
+    private int poppedBubbles;
     /**
      * Cannon, Player, Collision, BubbleStorage instance for the game.
      */
@@ -142,6 +144,10 @@ public class GameData implements PlayerObserver {
                 GameConfig.MARGIN_LEFT + this.offset, GameConfig.SECOND_LINE);
         g.drawString("Name:" + this.namePlayer, GameConfig.MARGIN_LEFT
                 + this.offset, GameConfig.FIRST_LINE);
+        g.drawString("Dropped:" + this.droppedBubbles, GameConfig.MARGIN_LEFT
+                + this.offset, GameConfig.THIRD_LINE);
+        g.drawString("Popped:" + this.poppedBubbles, GameConfig.MARGIN_LEFT
+                + this.offset, GameConfig.FOURTH_LINE);
         g.drawString("Fire speed: x"
                         + (double) Math.round(this.bubblespeed / 2),
                 GameConfig.MARGIN_LEFT + this.offset,
@@ -261,10 +267,12 @@ public class GameData implements PlayerObserver {
      * @param score  integer of player score
      */
     public final void update(final int number, final String name,
-                             final int score) {
+                             final int score, final int dropped, final int popped) {
         if (number == playerNr) {
             this.scorePlayer = score;
             this.namePlayer = name;
+            this.droppedBubbles = dropped;
+            this.poppedBubbles = popped;
         }
     }
 

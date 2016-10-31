@@ -46,7 +46,7 @@ public class DefeatScreen extends ScoreScreen {
             throws SlickException {
         initScoreScreen(game, stateBasedGame);
         Text failedText = new Text("You Failed", GameConfig.FIRST_LINE);
-        Button restart = new Button("Restart", GameConfig.SIXT_LINE,
+        Button restart = new Button("Restart", GameConfig.TENTH_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         restart.addAction(new Runnable() {
             public void run() {

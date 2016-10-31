@@ -26,13 +26,12 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
      */
     private String[] playernameString;
     /**
-     * Contains the player's texts.
+     * Contains the player's stats.
      */
     private Text[] playername;
-    /**
-     * Contains the player's score.
-     */
     private Text[] playerscore;
+    private Text[] droppedbubbles;
+    private Text[] poppedbubbles;
 
     /**
      * Getter method: for the GameState ID.
@@ -56,10 +55,14 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
         playernameString = new String[2];
         playerscore = new Text[2];
         playername[0] = new Text("Player: ", GameConfig.SECOND_LINE);
-        playername[1] = new Text("Player: ", GameConfig.FOURTH_LINE);
+        playername[1] = new Text("Player: ", GameConfig.SIXT_LINE);
         playerscore[0] = new Text("Score: ", GameConfig.THIRD_LINE);
-        playerscore[1] = new Text("Score: ", GameConfig.FIFTH_LINE);
-        Button main = new Button("Go to Main Menu", GameConfig.SEVENTH_LINE,
+        playerscore[1] = new Text("Score: ", GameConfig.SEVENTH_LINE);
+        droppedbubbles[0] = new Text("Dropped: ", GameConfig.FOURTH_LINE);
+        droppedbubbles[1] = new Text("Dropped: ", GameConfig.EIGTH_LINE);
+        poppedbubbles[0] = new Text("Popped: ", GameConfig.FIFTH_LINE);        
+        poppedbubbles[1] = new Text("Popped: ", GameConfig.NINETH_LINE);
+        Button main = new Button("Go to Main Menu", GameConfig.ELEVENTH_LINE,
                 GameConfig.WIDTH3, GameConfig.HEIGHT);
         main.addAction(new Runnable() {
             public void run() {
@@ -76,6 +79,10 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
         getTexts().add(playername[1]);
         getTexts().add(playerscore[0]);
         getTexts().add(playerscore[1]);
+        getTexts().add(droppedbubbles[0]);
+        getTexts().add(droppedbubbles[1]);
+        getTexts().add(poppedbubbles[0]);
+        getTexts().add(poppedbubbles[1]);        
         getButtons().add(main);
     }
 
@@ -87,11 +94,13 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
      * @param score  integer of player score
      */
     public final void update(final int number, final String name,
-                             final int score) {
+                             final int score, final int dropped, final int popped) {
         if (number == 1 || number == 2) {
             this.playername[number - 1].setText("Player: " + name);
             this.playernameString[number - 1] = name;
             this.playerscore[number - 1].setText("Score: " + score);
+            this.droppedbubbles[number - 1].setText("Dropped: " + score);
+            this.poppedbubbles[number - 1].setText("Popped: " + score);
         }
         this.center();
     }

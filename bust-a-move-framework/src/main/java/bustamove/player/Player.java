@@ -140,7 +140,7 @@ public class Player implements PlayerObservable {
      */
     public final void notifyObserver() {
         for (PlayerObserver o : observers) {
-            o.update(this.id, this.name, this.score.getScore());
+            o.update(this.id, this.name, this.score.getScore(),1,1);
         }
     }
 

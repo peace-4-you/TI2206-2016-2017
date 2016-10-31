@@ -48,6 +48,14 @@ public abstract class GameConfig {
      */
     public static final int EIGTH_LINE = 320;
     /**
+     * Vertical Position of the nineth line to display on the screen.
+     */
+    public static final int NINETH_LINE = 360;
+    /**
+     * Vertical Position of the tenth line to display on the screen.
+     */
+    public static final int TENTH_LINE = 400;
+    /**
      * Vertical Position of the eleventh line to display on the screen.
      */
     public static final int ELEVENTH_LINE = 440;
