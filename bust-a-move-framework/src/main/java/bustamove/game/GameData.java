@@ -5,8 +5,6 @@
  * Version: 1
  * Date: October 11, 2016
  */
-
-
 package bustamove.game;
 
 import java.util.Iterator;
@@ -15,18 +13,19 @@ import java.util.LinkedList;
 import bustamove.bubble.BubbleStorage;
 import bustamove.bubble.Collision;
 import bustamove.bubble.PopBehaviour;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
-
 import bustamove.bubble.Bubble;
 import bustamove.bubble.Bubble.State;
 import bustamove.system.Log;
 import bustamove.util.PlayerObserver;
 import bustamove.player.Player;
 import bustamove.screen.config.GameConfig;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
+
 
 /**
  * The Game class represents a single game model.
@@ -36,12 +35,12 @@ import bustamove.screen.config.GameConfig;
  */
 public class GameData implements PlayerObserver {
     /**
-     * Enum for the state of the game model.
+     * position for the arena.
      */
-    public enum GameDataState {
-        RUNNING, WON, LOSE
-    }
-
+    private static final int ARENA_X = 180;
+    private static final int ARENA_Y = 0;
+    private static final int ARENA_HEIGHT = 531;
+    private static final int ARENA_WIDTH = 280;
     private GameDataState state;
     /**
      * Score and Name of the player, updated by observer.
@@ -61,13 +60,6 @@ public class GameData implements PlayerObserver {
      */
     private LinkedList<Bubble> bubbleslist;
     private double bubblespeed;
-    /**
-     * position for the arena.
-     */
-    private static final int ARENA_X = 180;
-    private static final int ARENA_Y = 0;
-    private static final int ARENA_HEIGHT = 531;
-    private static final int ARENA_WIDTH = 280;
     /**
      * GameModel number and the drawing offset.
      */
@@ -235,21 +227,21 @@ public class GameData implements PlayerObserver {
     }
 
     /**
-     * Method to return the bubbleslist inside gamedata class.
-     *
-     * @return ArrayList of bubbles inside gamedata class
-     */
-    public final LinkedList<Bubble> getBubbles() {
-        return this.bubbleslist;
-    }
-
-    /**
      * Method to set the BubbleSpeed.
      *
      * @param speed double to set speed to
      */
     public final void setBubbleSpeed(final double speed) {
         this.bubblespeed = speed;
+    }
+
+    /**
+     * Method to return the bubbleslist inside gamedata class.
+     *
+     * @return ArrayList of bubbles inside gamedata class
+     */
+    public final LinkedList<Bubble> getBubbles() {
+        return this.bubbleslist;
     }
 
     /**
@@ -278,9 +270,17 @@ public class GameData implements PlayerObserver {
 
     /**
      * Registers an observer of the player of this GameData.
+     *
      * @param o The observer.
      */
     public final void registerPlayerObservers(final PlayerObserver o) {
         player.registerObserver(o);
+    }
+
+    /**
+     * Enum for the state of the game model.
+     */
+    public enum GameDataState {
+        RUNNING, WON, LOSE
     }
 }

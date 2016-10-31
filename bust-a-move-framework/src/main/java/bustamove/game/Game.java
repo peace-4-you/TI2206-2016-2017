@@ -5,23 +5,7 @@
  * Version: 2.0
  * Date: October 11, 2016
  */
-
-
 package bustamove.game;
-
-import org.newdawn.slick.AppGameContainer;
-
-import java.util.ArrayList;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import bustamove.App;
 import bustamove.game.GameData.GameDataState;
@@ -33,6 +17,19 @@ import bustamove.system.Log;
 import bustamove.system.SoundHandler;
 import bustamove.util.PlayerObserver;
 
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import java.util.ArrayList;
+
 /**
  * The Game class represents a game entity. Contains all GameModels.
  *
@@ -40,6 +37,15 @@ import bustamove.util.PlayerObserver;
  * @version 11.10.2016
  */
 public final class Game extends BasicGameState {
+    private static final int BUTTON_X = 503;
+    private static final int DRAWING_OFFSET = 500;
+    /**
+     * Dimensions of the gray rectangle at the bottom of the game.
+     */
+    private static final int GRAYRECT_X = 0;
+    private static final int GRAYRECT_Y = 530;
+    private static final int GRAYRECT_WIDTH = 1040;
+    private static final int GRAYRECT_HEIGHT = 580;
     /**
      * The statebasedgame and container for runing BasicGameState instance.
      */
@@ -57,15 +63,6 @@ public final class Game extends BasicGameState {
      * Button instance and x coordinate for a pause button.
      */
     private Button pause;
-    private static final int BUTTON_X = 503;
-    private static final int DRAWING_OFFSET = 500;
-    /**
-     * Dimensions of the gray rectangle at the bottom of the game.
-     */
-    private static final int GRAYRECT_X = 0;
-    private static final int GRAYRECT_Y = 530;
-    private static final int GRAYRECT_WIDTH = 1040;
-    private static final int GRAYRECT_HEIGHT = 580;
     /**
      * The high scores object.
      */
