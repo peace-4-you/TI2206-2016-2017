@@ -14,46 +14,24 @@ import bustamove.bubble.Bubble;
  * Contains static integervalues of all GameConfig.
  * @author Maurice
  */
-public abstract class GameConfig {
+public final class GameConfig {
     /**
-     * Vertical Position of the first line to display on the screen.
+     * Utility classes should not be instantiated as per Checkstyle.
+     */
+    private GameConfig() {
+    }
+    /**
+     * Vertical Position line to displays on the screen.
      */
     public static final int FIRST_LINE = 40;
-    /**
-     * Vertical Position of the second line to display on the screen.
-     */
     public static final int SECOND_LINE = 80;
-    /**
-     * Vertical Position of the third line to display on the screen.
-     */
     public static final int THIRD_LINE = 120;
-    /**
-     * Vertical Position of the fourth line to display on the screen.
-     */
     public static final int FOURTH_LINE = 160;
-    /**
-     * Vertical Position of the fourth line to display on the screen.
-     */
     public static final int FIFTH_LINE = 200;
-    /**
-     * Vertical Position of the fifth line to display on the screen.
-     */
     public static final int SIXT_LINE = 240;
-    /**
-     * Vertical Position of the seventh line to display on the screen.
-     */
     public static final int SEVENTH_LINE = 280;
-    /**
-     * Vertical Position of the eigth line to display on the screen.
-     */
     public static final int EIGTH_LINE = 320;
-    /**
-     * Vertical Position of the eleventh line to display on the screen.
-     */
     public static final int ELEVENTH_LINE = 440;
-    /**
-     * Vertical Position of the twelfht line to display on the screen.
-     */
     public static final int TWELFTH_LINE = 480;
     /**
      * Vertical Line Distance.
@@ -63,13 +41,7 @@ public abstract class GameConfig {
      * Width of something to display on the screen.
      */
     public static final int WIDTH1 = 100;
-    /**
-     * Width of something to display on the screen.
-     */
     public static final int WIDTH2 = 150;
-    /**
-     * Width of something to display on the screen.
-     */
     public static final int WIDTH3 = 200;
     /**
      * Height of standard button to display on the screen.
