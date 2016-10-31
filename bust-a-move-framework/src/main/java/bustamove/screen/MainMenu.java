@@ -7,7 +7,6 @@
  *
  * Date: September 26th, 2016
  */
-
 package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
@@ -20,6 +19,7 @@ import bustamove.screen.config.GameState;
 
 /**
  * Generates a MainMenu as a instance of GameState.
+ *
  * @author Jason Xie, Maurice Willemsen
  */
 public class MainMenu extends Screen {
@@ -32,12 +32,14 @@ public class MainMenu extends Screen {
 
     /**
      * Called when BasicGameState initializes.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
      * @throws SlickException any type of slick exception
      */
     public final void init(final GameContainer game,
-            final StateBasedGame stateBasedGame) throws SlickException {
+                           final StateBasedGame stateBasedGame)
+            throws SlickException {
         initBasicScreen(game);
         // 1 player button
         Button play1player = new Button("1 Player", GameConfig.SECOND_LINE,

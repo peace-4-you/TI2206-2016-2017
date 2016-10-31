@@ -5,7 +5,6 @@
  * Version: 0.0.3
  * Date: September 26th, 2016
  */
-
 package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
@@ -24,6 +23,7 @@ import bustamove.screen.config.GameState;
 public class StartScreen extends Screen {
     /**
      * Getter method: for the GameState ID.
+     *
      * @return integer of BasicGameState number.
      */
     public final int getID() {

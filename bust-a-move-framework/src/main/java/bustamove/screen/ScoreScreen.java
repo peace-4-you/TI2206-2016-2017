@@ -13,6 +13,7 @@ import bustamove.util.PlayerObserver;
 
 /**
  * Abstract Screen that contains basics for a score screen.
+ *
  * @author Maurice Willemsen
  */
 public abstract class ScoreScreen extends Screen implements PlayerObserver {
@@ -35,6 +36,7 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
 
     /**
      * Getter method: for the GameState ID.
+     *
      * @return integer of BasicGameState number.
      */
     public abstract int getID();
@@ -43,11 +45,12 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
      * Called from extending classes.
      * Calls the top class screen initializer.
      * Inits a basic Score Screen.
+     *
      * @param stateBasedGame the state based game
-     * @param game the game container
+     * @param game           the game container
      */
     public final void initScoreScreen(final GameContainer game,
-            final StateBasedGame stateBasedGame) {
+                                      final StateBasedGame stateBasedGame) {
         initBasicScreen(game);
         playername = new Text[2];
         playernameString = new String[2];
@@ -78,9 +81,10 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
 
     /**
      * Updated by Observable. Sets data
+     *
      * @param number integer of player number
-     * @param name String of player name
-     * @param score integer of player score
+     * @param name   String of player name
+     * @param score  integer of player score
      */
     public final void update(final int number, final String name,
                              final int score) {
@@ -94,6 +98,7 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
 
     /**
      * Updated by Observable, sets amount of playerdata.
+     *
      * @param playeramount integer about amount of players
      */
     public final void update(final int playeramount) {
@@ -109,6 +114,7 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
 
     /**
      * Protected getter for the amount of players.
+     *
      * @return int of playeramount
      */
     protected final int getPlayerAmount() {
@@ -117,6 +123,7 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
 
     /**
      * Protected getter the player names.
+     *
      * @return String array of playernames
      */
     protected final String[] getPlayerNames() {
