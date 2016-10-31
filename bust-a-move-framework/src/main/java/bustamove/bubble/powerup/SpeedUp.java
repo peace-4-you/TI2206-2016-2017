@@ -19,7 +19,8 @@ import bustamove.bubble.Bubble;
 import bustamove.screen.config.GameConfig;
 
 
-/** SpeedUp is a PowerUp that speeds up Bubbles fired from the Cannon.
+/**
+ * SpeedUp is a PowerUp that speeds up Bubbles fired from the Cannon.
  *
  * @author Calvin Nhieu
  */
