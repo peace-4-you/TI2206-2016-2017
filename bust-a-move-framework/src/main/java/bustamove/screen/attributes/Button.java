@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -20,15 +19,10 @@ import bustamove.system.SoundHandler;
  * Created by Jason Xie on 12/09/2016.
  */
 public class Button {
-
     /**
-     * Font of the text.
+     * The Text object of the button
      */
-    private static TrueTypeFont font;
-    /**
-     * Text inside the button.
-     */
-    private String bText;
+    private Text textObject;
     /**
      * X and Y coordinates (top left) of the button.
      */
@@ -57,7 +51,8 @@ public class Button {
      */
     public Button(final String text, final float y, final float width,
                   final float height) {
-        bText = text;
+    	textObject = new Text(text,0,y);
+    	centerTextToButton();
         xPos = 0;
         yPos = y;
         bWidth = width;
@@ -83,7 +78,7 @@ public class Button {
                   final float width, final float height) {
         this(text, y, width, height);
         xPos = x;
-
+        centerTextToButton();
     }
 
     /**
@@ -94,12 +89,15 @@ public class Button {
     public final void draw(final Graphics g) {
         g.setColor(Color.white);
         g.drawRect(xPos, yPos, bWidth, bHeight);
-        float textwidth = font.getWidth(bText);
-        float textheight = font.getHeight(bText);
-        float centerx = xPos + bWidth / 2;
-        float centery = yPos + bHeight / 2;
-        font.drawString(centerx - textwidth / 2, centery - textheight / 2,
-                bText, Color.white);
+        textObject.draw(g);
+    }
+    
+    /**
+     * Creating a new text and centering it to the button.
+     * @param text
+     */
+    public void centerTextToButton(){
+        textObject.setXCentralTo(xPos,bWidth);
     }
 
     /**
@@ -127,25 +125,8 @@ public class Button {
      * @param game the game container
      */
     public final void centerButton(final GameContainer game) {
-        xPos = (game.getWidth() - bWidth) / 2;
-    }
-
-    /**
-     * Getter of the font used.
-     *
-     * @return font tupe
-     */
-    public final TrueTypeFont getFont() {
-        return font;
-    }
-
-    /**
-     * Setter of the font.
-     *
-     * @param f font type
-     */
-    public static final void setFont(final TrueTypeFont f) {
-        font = f;
+        xPos = (game.getWidth() - bWidth) / 2;;
+        textObject.centerText(game);
     }
 
     /**
@@ -189,6 +170,7 @@ public class Button {
      * @param text message
      */
     public final void setText(final String text) {
-        bText = text;
+        textObject.setText(text);
+        centerTextToButton();
     }
 }

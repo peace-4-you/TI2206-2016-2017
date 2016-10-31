@@ -99,10 +99,4 @@ public class ButtonTest {
         button.centerButton(game);
         assertTrue(button.isInBounds(mouse));
     }
-
-    @Test
-    public void ButtonFont() {
-        button.setFont(font);
-        assertEquals(font, button.getFont());
-    }
 }

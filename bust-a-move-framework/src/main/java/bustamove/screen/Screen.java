@@ -53,7 +53,6 @@ public abstract class Screen extends BasicGameState {
      * Static setter for the fonts.
      */
     public static void setFonts() {
-        Button.setFont(font);
         Text.setFont(font);
     }
 
