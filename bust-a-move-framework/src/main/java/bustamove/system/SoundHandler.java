@@ -45,6 +45,28 @@ public final class SoundHandler {
     private static Sound loseSound;
 
     /**
+     * Creates sound handler object.
+     */
+    private SoundHandler() {
+    }
+
+    /**
+     * Singleton returns the unique instance.
+     *
+     * @return unique singleton instance
+     */
+    public static SoundHandler getInstance() {
+        if (uniqueSoundHandler == null) {
+            synchronized (SoundHandler.class) {
+                if (uniqueSoundHandler == null) {
+                    uniqueSoundHandler = new SoundHandler();
+                }
+            }
+        }
+        return uniqueSoundHandler;
+    }
+
+    /**
      * Initializes the SoundHandler static class.
      */
     public void init() {
@@ -60,26 +82,6 @@ public final class SoundHandler {
         } catch (SlickException e) {
             Log.getInstance().log(this, "Error loading a sound.");
         }
-    }
-
-    /**
-     * Creates sound handler object.
-     */
-    private SoundHandler() { }
-
-    /**
-     * Singleton returns the unique instance.
-     * @return unique singleton instance
-     */
-    public static SoundHandler getInstance() {
-        if (uniqueSoundHandler == null) {
-            synchronized (SoundHandler.class) {
-                if (uniqueSoundHandler == null) {
-                    uniqueSoundHandler = new SoundHandler();
-                }
-            }
-        }
-        return uniqueSoundHandler;
     }
 
     /**
@@ -129,6 +131,7 @@ public final class SoundHandler {
 
     /**
      * Returns the volume of the game.
+     *
      * @return volume of the game
      */
     public float getVolume() {
@@ -137,6 +140,7 @@ public final class SoundHandler {
 
     /**
      * Sets the volume of the game.
+     *
      * @param vol volume to set to
      */
     public void setVolume(final float vol) {
