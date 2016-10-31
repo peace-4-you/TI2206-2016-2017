@@ -73,8 +73,7 @@ public class PopBehaviour {
      * @param popList    list of to be popped bubbles
      * @return LinkedList with all bubbles that should be popped.
      */
-    //CHECKSTYLE:OFF: FinalParameters
-    private final LinkedList<Bubble> checkBubblesToPop(
+    private LinkedList<Bubble> checkBubblesToPop(
             final Bubble lastBubble, LinkedList<Bubble> popList) {
         Bubble[] neighbors;
         double xPos = lastBubble.getX();
@@ -105,7 +104,6 @@ public class PopBehaviour {
         }
         return popList;
     }
-    //CHECKSTYLE:ON: FinalParameters
 
     /**
      * Checks which bubble needs to be dropped using recursive calls.
@@ -152,8 +150,7 @@ public class PopBehaviour {
      * @param visited LinkedList with already visited bubbles
      * @return LinkedList with bubbles to be dropped
      */
-    //CHECKSTYLE:OFF: FinalParameters
-    private final LinkedList<Bubble> checkBubblesToDrop(
+    private LinkedList<Bubble> checkBubblesToDrop(
             LinkedList<Bubble> visited) {
         boolean addedSomething = false;
         for (int i = 0; i < visited.size(); i++) {
@@ -179,9 +176,6 @@ public class PopBehaviour {
             return visited;
         }
     }
-
-
-    //CHECKSTYLE:ON: FinalParameters
 
     /**
      * Pops a single bubble and removes it from the graph.
