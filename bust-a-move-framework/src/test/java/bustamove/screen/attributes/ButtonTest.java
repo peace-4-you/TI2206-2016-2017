@@ -1,4 +1,4 @@
-package bustamove.gamestate;
+package bustamove.screen.attributes;
 
 import org.junit.*;
 import org.junit.rules.ExpectedException;
@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -15,7 +14,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.powermock.reflect.Whitebox;
 
 import bustamove.screen.attributes.Button;
-import bustamove.system.SoundHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
