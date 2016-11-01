@@ -44,10 +44,13 @@ public class Text {
      * @param y y coordinate of the text
      */
     public Text(final String s, final float y) {
-        text = s;
-        tWidth = font.getWidth(this.text);
+        assert s != null;
+        assert y >= 0;
+
+        this.text = s;
         xPos = 0;
         yPos = y;
+        tWidth = font.getWidth(this.text);
     }
 
     /**
@@ -59,6 +62,7 @@ public class Text {
      */
     public Text(final String s, final float x, final float y) {
         this(s, y);
+        assert x >= 0;
         xPos = x;
     }
 
@@ -69,15 +73,6 @@ public class Text {
      */
     public static final void setFont(final TrueTypeFont f) {
         font = f;
-    }
-
-    /**
-     * Getter of the font used.
-     *
-     * @return font type
-     */
-    public final TrueTypeFont getFont() {
-        return font;
     }
 
     /**
@@ -106,19 +101,7 @@ public class Text {
      * @param s the string to set
      */
     public final void setText(final String s) {
-    	tWidth = font.getWidth(this.text);
         this.text = s;
-    }
-    
-    /**
-     * Set the text xPos central to its given surroundings.
-     *
-     * @param xPosUpper the x position of the upper
-     * @param widthUpper the width of the upper
-     */
-    public final void setXCentralTo(float xPosUpper, float widthUpper) {
-        float textwidth = tWidth;
-        float centerx = xPosUpper + widthUpper / 2;
-        this.xPos = centerx - textwidth / 2;
+        tWidth = font.getWidth(this.text);
     }
 }
