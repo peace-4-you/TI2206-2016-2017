@@ -1,6 +1,7 @@
-package bustamove.gamestate;
+package bustamove.screen.attributes;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,7 +20,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.powermock.reflect.Whitebox;
-
 import bustamove.screen.attributes.Text;
 
 /**
@@ -63,10 +63,11 @@ public class TextTest {
     @Test
     public void centerText(){
     	Text.setFont(font);
+    	when(font.getWidth("Test")).thenReturn(50);
+    	when(game.getWidth()).thenReturn(500);
     	text.centerText(game);
-    	//Note: not properly testable due to no game has exactly started. So centering will be at 0.
     	float x = Whitebox.getInternalState(text, "xPos");
-    	assertEquals(0,x,1);
+    	assertEquals(225,x,1);
     }
 
     @Test
