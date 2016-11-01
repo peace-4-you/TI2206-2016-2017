@@ -95,15 +95,15 @@ public class Button {
      */
     public final void draw(final Graphics g) {
         g.setColor(Color.white);
-        g.drawRect(xPos, yPos, bWidth, bHeight); 
+        g.drawRect(xPos, yPos, bWidth, bHeight);
         centerText();
-        font.drawString(xPos+xPosText, yPos, bText, Color.white);
+        font.drawString(xPos + xPosText, yPos, bText, Color.white);
     }
-    
+
     /**
      * Centers the text to the button.
      */
-    public final void centerText(){
+    public final void centerText() {
         xPosText = bWidth / 2 - font.getWidth(bText) / 2;
     }
 
