@@ -18,31 +18,31 @@ public final class SoundHandler {
     /**
      * The background music.
      */
-    private static Music backgroundMusic;
+    private Music backgroundMusic;
     /**
      * The volume at which all audio will be played (between 0 and 1).
      */
-    private static float volume = 0;
+    private float volume = 0;
     /**
      * The cannon firing sound.
      */
-    private static Sound fireSound;
+    private Sound fireSound;
     /**
      * The bubble popping sound.
      */
-    private static Sound popSound;
+    private Sound popSound;
     /**
      * The button clicking sound.
      */
-    private static Sound clickSound;
+    private Sound clickSound;
     /**
      * The game winning sound.
      */
-    private static Sound winSound;
+    private Sound winSound;
     /**
      * The game losing sound.
      */
-    private static Sound loseSound;
+    private Sound loseSound;
 
     /**
      * Creates sound handler object.
