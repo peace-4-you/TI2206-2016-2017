@@ -50,7 +50,7 @@ public class PlayerTest {
     @Test
     public void reset() {
         player.reset();
-        assertThat("Dropped should be 0", player.getScore().getScore(), equalTo(0));
+        assertThat("Score should be 0", player.getScore().getScore(), equalTo(0));
     }
 
     @Test
