@@ -25,6 +25,7 @@ public class BubbleStorageTest {
     public void setUp() {
         collision = new Collision(0, 200, 0);
         bubbleStorage = new BubbleStorage(200, 200);
+        bubbleStorage.initRows(5);
         collision.setBubbleStorage(bubbleStorage);
     }
 
