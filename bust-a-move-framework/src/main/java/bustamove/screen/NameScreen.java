@@ -6,6 +6,7 @@ import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.App;
+import bustamove.system.Log;
 import bustamove.screen.attributes.Button;
 import bustamove.screen.attributes.Text;
 import bustamove.screen.config.GameConfig;
@@ -75,12 +76,16 @@ public abstract class NameScreen extends Screen {
             public void run() {
                 setDifficulty(difficulty.next());
                 center();
+                Log.getInstance().log(this,
+                    "Difficulty set to " + getDifficulty());
             }
         });
         difficultyDown.addAction(new Runnable() {
             public void run() {
                 setDifficulty(difficulty.prev());
                 center();
+                Log.getInstance().log(this,
+                    "Difficulty set to " + getDifficulty());
             }
         });
 
