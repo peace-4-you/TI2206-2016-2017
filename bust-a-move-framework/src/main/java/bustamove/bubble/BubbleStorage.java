@@ -31,7 +31,6 @@ public final class BubbleStorage {
      */
     private static final int WIDTH_STORAGE = 8;
     private static final int HEIGHT_STORAGE = 12;
-    private static final int START_ROWS = 5;
     private static final int NEIGHBOURS_AMOUNT = 6;
     /**
      * Structure that contains all the rows of bubbles.
@@ -59,7 +58,15 @@ public final class BubbleStorage {
         yBound = y;
         droppingBubbles = new LinkedList<Bubble>();
         Log.getInstance().log(this, "Creating a BubbleStorage.");
-        for (int i = 0; i < START_ROWS; i++) {
+    }
+
+    /**
+     * Initializes the bubblestorage with the given amount of rows.
+     *
+     * @param rowsamount amount of rows to start with
+     */
+    public void initRows(int rowsamount) {
+        for (int i = 0; i < rowsamount; i++) {
             addBubbleRow(true);
         }
     }
