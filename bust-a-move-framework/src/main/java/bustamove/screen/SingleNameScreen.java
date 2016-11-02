@@ -46,19 +46,20 @@ public class SingleNameScreen extends NameScreen {
                 GameConfig.HEIGHT);
         getNamefields()[0].setText("Player");
         getNamefields()[0].setMaxLength(GameConfig.MAX_NAME_LENGTH);
-        Button play = new Button("Play", GameConfig.SEVENTH_LINE,
+        Button play = new Button("Play", GameConfig.TENTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         play.addAction(new Runnable() {
             public void run() {
-                App.getGame().start1Player();
+                App.getGame().start1Player(getDifficulty());
                 App.getGame().getGameData().get(0).getPlayer()
-                .setName(getNamefields()[0].getText());
+                    .setName(getNamefields()[0].getText());
                 getNamefields()[0].setText("Player");
             }
         });
         play.addGameStateChangeAction(stateBasedGame,
                 GameState.GAME_ACTIVE);
         getTexts().add(nameText);
+        getTexts().add(getDifficultyText());
         getButtons().add(play);
         getTextFields().add(getNamefields()[0]);
         super.center();

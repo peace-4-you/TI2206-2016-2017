@@ -9,6 +9,7 @@ package bustamove.game;
 
 import bustamove.App;
 import bustamove.game.GameData.GameDataState;
+import bustamove.game.GameData.GameDifficulty;
 import bustamove.player.Player;
 import bustamove.screen.attributes.Button;
 import bustamove.screen.config.GameConfig;
@@ -86,14 +87,16 @@ public final class Game extends BasicGameState {
     /**
      * Starts a 2 player mode.
      *
+     * @param d GameDifficulty of game
+     *
      * @throws SlickException all kind of SlickException
      */
-    public void start2Player() throws SlickException {
+    public void start2Player(GameDifficulty d) throws SlickException {
         Log.getInstance().log(this, "start2playergame");
         AppGameContainer gc = (AppGameContainer) this.container;
         gc.setDisplayMode(App.GAME_WIDTH_MULTIPLAYER, App.GAME_HEIGHT, false);
-        GameData firstplayer = new GameData(DRAWING_OFFSET, 1);
-        GameData secondplayer = new GameData(0, 2);
+        GameData firstplayer = new GameData(0, 2, d);
+        GameData secondplayer = new GameData(DRAWING_OFFSET, 1, d);
         addGameData(firstplayer);
         addGameData(secondplayer);
         firstplayer.getPlayer().notifyAmountObserver(2);
@@ -101,9 +104,11 @@ public final class Game extends BasicGameState {
 
     /**
      * Starts a 1 player mode.
+     *
+     * @param d GameDifficulty of game
      */
-    public void start1Player() {
-        GameData firstplayer = new GameData(0, 1);
+    public void start1Player(GameDifficulty d) {
+        GameData firstplayer = new GameData(0, 1, d);
         addGameData(firstplayer);
         firstplayer.getPlayer().notifyAmountObserver(1);
     }
