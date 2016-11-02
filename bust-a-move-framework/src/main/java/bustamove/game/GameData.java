@@ -83,6 +83,7 @@ public class GameData implements PlayerObserver {
 
         this.bubbleStorage = new BubbleStorage(ARENA_X + this.offset,
                 ARENA_Y);
+        bubbleStorage.initRows(GameConfig.MEDIUM_ROWS_AMOUNT);
         this.popBehaviour = new PopBehaviour(player.getScore());
         popBehaviour.setBubbleStorage(bubbleStorage);
         this.collide = new Collision(ARENA_X + this.offset,

@@ -12,6 +12,7 @@ import bustamove.bubble.Bubble;
 
 /**
  * Contains static integervalues of all GameConfig.
+ *
  * @author Maurice
  */
 public abstract class GameConfig {
@@ -153,4 +154,8 @@ public abstract class GameConfig {
      * Max player name length.
      */
     public static final int MAX_NAME_LENGTH = 13;
+    /**
+     * Amount of starting rows for medium difficulty.
+     */
+    public static final int MEDIUM_ROWS_AMOUNT = 5;
 }
