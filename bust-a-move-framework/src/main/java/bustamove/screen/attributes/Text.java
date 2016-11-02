@@ -17,6 +17,10 @@ import org.newdawn.slick.GameContainer;
  */
 public class Text {
     /**
+     * The font the text should be displayed in.
+     */
+    private static TrueTypeFont font;
+    /**
      * String Value of the text.
      */
     private String text;
@@ -32,10 +36,6 @@ public class Text {
      * Width of the text to be displayed.
      */
     private float tWidth;
-    /**
-     * The font the text should be displayed in.
-     */
-    private static TrueTypeFont font;
 
     /**
      * Constructor for a text without x parameter.
@@ -67,6 +67,15 @@ public class Text {
     }
 
     /**
+     * Setter of the font.
+     *
+     * @param f font type
+     */
+    public static final void setFont(final TrueTypeFont f) {
+        font = f;
+    }
+
+    /**
      * Draw the text centered.
      *
      * @param g Graphics object to draw on/in
@@ -95,14 +104,4 @@ public class Text {
         this.text = s;
         tWidth = font.getWidth(this.text);
     }
-
-    /**
-     * Setter of the font.
-     *
-     * @param f font type
-     */
-    public static final void setFont(final TrueTypeFont f) {
-        font = f;
-    }
 }
-

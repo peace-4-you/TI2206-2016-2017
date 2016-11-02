@@ -7,9 +7,8 @@
  *
  * Date: September 19th, 2016
  */
-
-
 package bustamove.player;
+
 import bustamove.system.Log;
 
 /**
@@ -18,10 +17,6 @@ import bustamove.system.Log;
  * @author Maurice Willemsen
  */
 public class Score {
-    /**
-     * Integer variable to store the score value.
-     */
-    private int score;
     /**
      * Default points a popped bubble is worth.
      */
@@ -34,25 +29,20 @@ public class Score {
      * Player owner.
      */
     private final Player owner;
+    /**
+     * Integer variable to store the score value.
+     */
+    private int score;
 
     /**
      * Constructor of the Score class.
+     *
      * @param player the owner of this score
      */
     public Score(final Player player) {
         Log.getInstance().log(this, "Score initialised");
         this.score = 0;
         this.owner = player;
-        this.owner.notifyObserver();
-    }
-
-    /**
-     * sets the player's score.
-     * @param scoreVal integer value to set score to
-     */
-    public final void setScore(final int scoreVal) {
-        Log.getInstance().log(this, "Score Set to " + scoreVal);
-        this.score = scoreVal;
         this.owner.notifyObserver();
     }
 
@@ -67,6 +57,7 @@ public class Score {
 
     /**
      * Add to the player's score.
+     *
      * @param scoreVal integer value to add to score
      */
     public final void addScore(final int scoreVal) {
@@ -78,6 +69,7 @@ public class Score {
     /**
      * Add popped bubble points to the player's score by algorithm. Each popped
      * bubble is worth DEFAULT_POINTS points.
+     *
      * @param bubbles number of bubbles popped
      */
     public final void scoreBubblesPopped(final int bubbles) {
@@ -93,6 +85,7 @@ public class Score {
     /**
      * Add dropped bubble points to the player's score by algorithm. Each
      * dropped bubble is worth
+     *
      * @param bubbles number of bubbles popped
      */
     public final void scoreBubblesDropped(final int bubbles) {
@@ -108,9 +101,21 @@ public class Score {
 
     /**
      * Getter method: returns the score.
+     *
      * @return int score
      */
     public final int getScore() {
         return this.score;
+    }
+
+    /**
+     * sets the player's score.
+     *
+     * @param scoreVal integer value to set score to
+     */
+    public final void setScore(final int scoreVal) {
+        Log.getInstance().log(this, "Score Set to " + scoreVal);
+        this.score = scoreVal;
+        this.owner.notifyObserver();
     }
 }

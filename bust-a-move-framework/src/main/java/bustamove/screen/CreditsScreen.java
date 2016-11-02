@@ -7,13 +7,12 @@
  *
  * Date: September 28th, 2016
  */
-
-
 package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
 import bustamove.screen.attributes.Button;
 import bustamove.screen.attributes.Text;
 import bustamove.screen.config.GameConfig;
@@ -21,6 +20,7 @@ import bustamove.screen.config.GameState;
 
 /**
  * Generates a Screen with the game credits.
+ *
  * @author Maurice Willemsen
  */
 public class CreditsScreen extends Screen {
@@ -29,8 +29,10 @@ public class CreditsScreen extends Screen {
      */
     private static final String[] MEMBERS = {"Winer Bao", "Calvin Nhieu",
             "Justin Segond", "Maurice Willemsen", "Jason Xie"};
+
     /**
      * Getter method: for the GameState ID.
+     *
      * @return integer of BasicGameState number.
      */
     public final int getID() {
@@ -39,12 +41,14 @@ public class CreditsScreen extends Screen {
 
     /**
      * Called when BasicGameState initializes.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
      * @throws SlickException any type of slick exception
      */
     public final void init(final GameContainer game,
-            final StateBasedGame stateBasedGame) throws SlickException {
+                           final StateBasedGame stateBasedGame)
+            throws SlickException {
         initBasicScreen(game);
         Button mainmenu = new Button("Main menu", GameConfig.FIRST_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);

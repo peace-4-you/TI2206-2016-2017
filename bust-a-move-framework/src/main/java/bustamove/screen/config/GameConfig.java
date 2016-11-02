@@ -14,7 +14,12 @@ import bustamove.bubble.Bubble;
  * Contains static integervalues of all GameConfig.
  * @author Maurice
  */
-public abstract class GameConfig {
+public final class GameConfig {
+    /**
+     * Utility classes should not be instantiated as per Checkstyle.
+     */
+    private GameConfig() {
+    }
     /**
      * Vertical Position of the first line to display on the screen.
      */

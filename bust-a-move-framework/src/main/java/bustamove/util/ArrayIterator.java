@@ -8,8 +8,6 @@
  * Date: October 11th, 2016
  *
  */
-
-
 package bustamove.util;
 
 /**
@@ -73,6 +71,7 @@ public class ArrayIterator<T> implements Iterator<T> {
         }
         return true;
     }
+
     /**
      * Returns the index of the next element.
      *

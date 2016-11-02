@@ -60,7 +60,6 @@ public final class Collision {
         bubbleCount = 0;
     }
 
-
     /**
      * Update BubbleStorage object.
      *
