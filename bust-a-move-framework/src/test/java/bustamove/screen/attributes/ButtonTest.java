@@ -56,8 +56,6 @@ public class ButtonTest {
 
 
     public ButtonTest(float x, float y, Object parameter1, Object parameter2, Object expected) {
-    	Button.setFont(font);
-    	//when(Button.font.getWidth()).thenReturn((Integer) param1);
         button = new Button("Button", x, y, 100, 30);
         param1 = parameter1;
         param2 = parameter2;
