@@ -35,9 +35,10 @@ public abstract class Screen extends BasicGameState {
     /**
      * Font for all the texts.
      */
-    private static TrueTypeFont font =
+    private static TrueTypeFont font; 
+    /*=
             new TrueTypeFont(new Font("Verdana", Font.BOLD,
-                    GameConfig.TEXT_SIZE), true);
+                    GameConfig.TEXT_SIZE), true);*/
     /**
      * Lists of buttons,texts and textfields.
      */
@@ -104,10 +105,10 @@ public abstract class Screen extends BasicGameState {
      */
     public final void center() {
         for (Button b : buttons) {
-            b.centerButton(gamecontainer);
+            //b.centerButton(gamecontainer);
         }
         for (Text t : texts) {
-            t.centerText(gamecontainer);
+           // t.centerText(gamecontainer);
         }
     }
 
