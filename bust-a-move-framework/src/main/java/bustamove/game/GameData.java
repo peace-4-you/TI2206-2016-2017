@@ -154,7 +154,7 @@ public class GameData implements PlayerObserver {
                 + this.offset, GameConfig.FOURTH_LINE);
         g.drawString("Fire speed: x"
                         + (double) Math.round(this.bubblespeed / 2),
-                GameConfig.MARGIN_LEFT + this.offset, GameConfig.THIRD_LINE);
+                GameConfig.MARGIN_LEFT + this.offset, GameConfig.SIXT_LINE);
         g.drawString("Difficulty: " + difficulty,
                 GameConfig.MARGIN_LEFT + this.offset, GameConfig.FIFTH_LINE);
         // Draw the arena borders
