@@ -1,22 +1,23 @@
 package bustamove.game;
 
-import bustamove.bubble.Collision;
-import bustamove.bubble.PopBehaviour;
-import bustamove.player.Player;
-import bustamove.screen.config.GameConfig;
-import bustamove.screen.config.GameState;
-import bustamove.util.PlayerObserver;
-import bustamove.game.GameData.GameDifficulty;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Vector;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.ParallelComputer;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 
-import java.util.ArrayList;
-import java.util.Vector;
-
-import static org.junit.Assert.*;
+import bustamove.bubble.Collision;
+import bustamove.bubble.PopBehaviour;
+import bustamove.game.GameData.GameDifficulty;
+import bustamove.player.Player;
+import bustamove.screen.config.GameConfig;
+import bustamove.util.PlayerObserver;
 
 /**
  * Created by Jason Xie on 27/10/2016.
