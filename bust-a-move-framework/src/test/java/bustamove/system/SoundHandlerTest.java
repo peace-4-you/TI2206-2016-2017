@@ -58,7 +58,6 @@ public class SoundHandlerTest {
     	assertTrue((soundHandler.getVolume() == 0.5f));
     	soundHandler.setVolume(0.8f);
     	assertTrue((soundHandler.getVolume() == 0.8f));
-    	soundHandler.setVolume(0f);
     }
 
     @Test
@@ -78,13 +77,4 @@ public class SoundHandlerTest {
     	soundHandler.playLoseSound();
     	soundHandler.playWinSound();
     }
-    
-    /*@Test
-    public void ctestPlaySoundInitialized() {
-    	SoundHandler.getInstance().init();
-    	SoundHandler.getInstance().playClickSound();
-    	SoundHandler.getInstance().playFireSound();
-    	SoundHandler.getInstance().playLoseSound();
-    	SoundHandler.getInstance().playWinSound();
-    }*/
 }
