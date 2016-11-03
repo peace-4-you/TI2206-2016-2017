@@ -20,7 +20,6 @@ import bustamove.system.SoundHandler;
  * Created by Jason Xie on 12/09/2016.
  */
 public class Button {
-
     /**
      * Font of the text.
      */
@@ -30,10 +29,14 @@ public class Button {
      */
     private String bText;
     /**
-     * X and Y coordinates (top left) of the button.
+     * X and Y coordinates of the button.
      */
     private float xPos;
     private float yPos;
+    /**
+     * X coordinates of the text. Compared to the button xPos.
+     */
+    private float xPosText;
     /**
      * Pixel width of the button.
      */
@@ -83,7 +86,6 @@ public class Button {
                   final float width, final float height) {
         this(text, y, width, height);
         xPos = x;
-
     }
 
     /**
@@ -94,12 +96,15 @@ public class Button {
     public final void draw(final Graphics g) {
         g.setColor(Color.white);
         g.drawRect(xPos, yPos, bWidth, bHeight);
-        float textwidth = font.getWidth(bText);
-        float textheight = font.getHeight(bText);
-        float centerx = xPos + bWidth / 2;
-        float centery = yPos + bHeight / 2;
-        font.drawString(centerx - textwidth / 2, centery - textheight / 2,
-                bText, Color.white);
+        centerText();
+        font.drawString(xPos + xPosText, yPos, bText, Color.white);
+    }
+
+    /**
+     * Centers the text to the button.
+     */
+    public final void centerText() {
+        xPosText = bWidth / 2 - font.getWidth(bText) / 2;
     }
 
     /**
