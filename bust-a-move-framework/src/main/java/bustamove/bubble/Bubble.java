@@ -40,10 +40,10 @@ public abstract class Bubble {
     }
 
     /**
-     * Enum of all the values a Colorchoice variable can take.
+     * Enum of all the values a ColorChoice variable can take.
      */
     public enum ColorChoice {
-        RED, BLUE, YELLOW, GREEN
+        RED, BLUE, YELLOW, GREEN, PINK
     }
 
     /**

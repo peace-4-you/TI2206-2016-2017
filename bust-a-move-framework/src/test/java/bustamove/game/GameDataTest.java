@@ -6,6 +6,7 @@ import bustamove.player.Player;
 import bustamove.screen.config.GameConfig;
 import bustamove.screen.config.GameState;
 import bustamove.util.PlayerObserver;
+import bustamove.game.GameData.GameDifficulty;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.ParallelComputer;
@@ -27,7 +28,7 @@ public class GameDataTest {
 
     @Before
     public void setUp() {
-        gameData = new GameData(0, 0);
+        gameData = new GameData(0, 0, GameDifficulty.NORMAL);
     }
 
     @Test

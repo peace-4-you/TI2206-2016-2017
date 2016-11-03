@@ -17,6 +17,7 @@ import bustamove.system.Log;
 import bustamove.bubble.Bubble.ColorChoice;
 import org.newdawn.slick.Graphics;
 import bustamove.screen.config.GameConfig;
+import bustamove.game.GameData.GameDifficulty;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -32,6 +33,8 @@ public final class BubbleStorage {
     private static final int WIDTH_STORAGE = 8;
     private static final int HEIGHT_STORAGE = 12;
     private static final int NEIGHBOURS_AMOUNT = 6;
+    private int startRows;
+    private int numColors;
     /**
      * Structure that contains all the rows of bubbles.
      */
@@ -51,12 +54,32 @@ public final class BubbleStorage {
      *
      * @param x x-coordinate of upper left corner of the arena
      * @param y y-coordinate of upper left corner of the arena
+     * @param difficulty GameDifficulty of the GameData instance
      */
-    public BubbleStorage(final int x, final int y) {
+    public BubbleStorage(final int x, final int y,
+        final GameDifficulty difficulty) {
         bubble2DArray = new LinkedList<Bubble[]>();
         xBound = x;
         yBound = y;
         droppingBubbles = new LinkedList<Bubble>();
+        switch (difficulty) {
+            case EASY:
+                startRows = GameConfig.START_ROWS_EASY;
+                numColors = GameConfig.NUM_COLORS_EASY;
+                break;
+            case NORMAL:
+                startRows = GameConfig.START_ROWS_NORMAL;
+                numColors = GameConfig.NUM_COLORS_NORMAL;
+                break;
+            case HARD:
+                startRows = GameConfig.START_ROWS_HARD;
+                numColors = GameConfig.NUM_COLORS_HARD;
+                break;
+            default:
+                startRows = GameConfig.START_ROWS_NORMAL;
+                numColors = GameConfig.NUM_COLORS_NORMAL;
+                break;
+        }
         Log.getInstance().log(this, "Creating a BubbleStorage.");
     }
 
@@ -67,6 +90,16 @@ public final class BubbleStorage {
      */
     public void initRows(int rowsamount) {
         for (int i = 0; i < rowsamount; i++) {
+            addBubbleRow(true);
+        }
+    }
+
+    /**
+     * Initializes the bubblestorage with the number of rows determined by
+     * the game difficulty.
+     */
+    public void initRows() {
+        for (int i = 0; i < startRows; i++) {
             addBubbleRow(true);
         }
     }
@@ -99,9 +132,8 @@ public final class BubbleStorage {
             colors = getColorsOnArena();
         } else {
             colors = new LinkedList<ColorChoice>();
-            for (ColorChoice c
-                    : ColorChoice.values()) {
-                colors.add(c);
+            for (int i = 0; i < numColors; i++) {
+                colors.add(ColorChoice.values()[i]);
             }
         }
         Random rand = new Random();
