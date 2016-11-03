@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import bustamove.bubble.Bubble.ColorChoice;
 import bustamove.bubble.Bubble.State;
 import bustamove.game.GameData;
+import bustamove.game.GameData.GameDifficulty;
 import bustamove.screen.config.GameConfig;
 
 /**
@@ -233,7 +234,7 @@ public class BubbleTest {
 
     @Test
     public void bubbleGameHead() {
-        GameData gameData = new GameData(0, 1);
+        GameData gameData = new GameData(0, 1, GameDifficulty.NORMAL);
         bubble1.setGameHead(gameData);
         assertEquals(gameData, bubble1.getGameHead());
     }

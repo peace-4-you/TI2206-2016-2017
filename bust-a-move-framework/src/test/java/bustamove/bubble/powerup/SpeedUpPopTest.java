@@ -11,6 +11,7 @@ import java.util.Collection;
 import bustamove.bubble.SimpleBubble;
 import bustamove.bubble.Bubble;
 import bustamove.game.GameData;
+import bustamove.game.GameData.GameDifficulty;
 import bustamove.screen.config.GameConfig;
 
 import static org.junit.Assert.*;
@@ -30,7 +31,7 @@ public class SpeedUpPopTest {
     public void setUp() throws Exception {
         bubble = new SimpleBubble(200, 200, SimpleBubble.ColorChoice.BLUE, false);
         bubble = new SpeedUp(bubble);
-        bubble.setGameHead(new GameData(0, 1));
+        bubble.setGameHead(new GameData(0, 1, GameDifficulty.NORMAL));
         bubble.getGameHead().setBubbleSpeed(initialSpeed);
         bubble.pop();
     }
