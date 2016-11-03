@@ -1,12 +1,19 @@
 package bustamove.game;
 
+import bustamove.bubble.Collision;
+import bustamove.bubble.PopBehaviour;
 import bustamove.player.Player;
 import bustamove.screen.config.GameConfig;
 import bustamove.screen.config.GameState;
+import bustamove.util.PlayerObserver;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.ParallelComputer;
+import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
+
+import java.util.ArrayList;
+import java.util.Vector;
 
 import static org.junit.Assert.*;
 
@@ -60,6 +67,25 @@ public class GameDataTest {
     }
 
     @Test
+    public void getCollision() {
+        assertTrue(gameData.getCollision() instanceof Collision);
+    }
+
+    @Test
+    public void getPopBehaviour() {
+        assertTrue(gameData.getPopBehaviour() instanceof PopBehaviour);
+    }
+
+    @Test
+    public void registerPlayerObserver() {
+        Player player = gameData.getPlayer();
+        Vector<PlayerObserver> observers = Whitebox.getInternalState(player, "observers");
+        PlayerObserver observer = Mockito.mock(PlayerObserver.class);
+        gameData.registerPlayerObservers(observer);
+        assertTrue(observers.contains(observer));
+    }
+
+    @Test
     public void update() {
         int newscore = 100;
         String newname = "Jason";
@@ -75,7 +101,7 @@ public class GameDataTest {
         assertNotEquals(newname, name);
         assertNotEquals(newpopped, popped);
         assertNotEquals(newdropped, dropped);
-        
+
         gameData.update(0, newname, newscore, newdropped, newpopped);
         score = Whitebox.getInternalState(gameData, "scorePlayer");
         name = Whitebox.getInternalState(gameData, "namePlayer");
