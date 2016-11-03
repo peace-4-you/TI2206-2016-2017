@@ -10,7 +10,6 @@
 
 package bustamove.screen;
 
-import java.awt.Font;
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
@@ -24,7 +23,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.screen.attributes.Button;
 import bustamove.screen.attributes.Text;
-import bustamove.screen.config.GameConfig;
 
 /**
  * Screen Super Class.
@@ -32,13 +30,6 @@ import bustamove.screen.config.GameConfig;
  * @author Maurice Willemsen
  */
 public abstract class Screen extends BasicGameState {
-    /**
-     * Font for all the texts.
-     */
-    private static TrueTypeFont font; 
-    /*=
-            new TrueTypeFont(new Font("Verdana", Font.BOLD,
-                    GameConfig.TEXT_SIZE), true);*/
     /**
      * Lists of buttons,texts and textfields.
      */
@@ -52,8 +43,9 @@ public abstract class Screen extends BasicGameState {
 
     /**
      * Static setter for the fonts.
+     * @param font the font to set.
      */
-    public static void setFonts() {
+    public static void setFonts(TrueTypeFont font) {
         Button.setFont(font);
         Text.setFont(font);
     }
@@ -105,10 +97,10 @@ public abstract class Screen extends BasicGameState {
      */
     public final void center() {
         for (Button b : buttons) {
-            //b.centerButton(gamecontainer);
+            b.centerButton(gamecontainer);
         }
         for (Text t : texts) {
-           // t.centerText(gamecontainer);
+            t.centerText(gamecontainer);
         }
     }
 
