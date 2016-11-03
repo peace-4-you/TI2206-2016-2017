@@ -146,7 +146,7 @@ public class CollisionTest {
     }
 
     @Test
-    public void checkCollisionCalls_checkGridCollision() throws Exception{
+    public void checkCollisionCalls_checkGridCollision() throws Exception {
         Collision collisionSpy = PowerMockito.spy(new Collision(0, 200, 0));
         collisionSpy.setBubbleStorage(bubbleStorage);
         collisionSpy.setPopBehaviour(popBehaviour);
@@ -155,7 +155,6 @@ public class CollisionTest {
         Bubble bubble = PowerMockito.mock(Bubble.class);
         Circle mockCircle = new Circle(0, 170, 35);
         Mockito.when(bubble.getBoundingBox()).thenReturn(mockCircle);
-
 
         collisionSpy.checkCollision(bubble);
 
