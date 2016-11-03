@@ -6,24 +6,19 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.newdawn.slick.geom.Circle;
-import org.powermock.api.easymock.PowerMock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 
 import org.powermock.modules.junit4.PowerMockRunner;
-import sun.nio.cs.ext.SimpleEUCEncoder;
-import sun.text.normalizer.CharacterIteratorWrapper;
 
 /**
  * Created by Winer Bao on 1/11/2016.
