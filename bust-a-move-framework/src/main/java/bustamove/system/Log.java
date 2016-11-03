@@ -21,7 +21,7 @@ public final class Log {
     /**
      * Singleton variable.
      */
-	private static Log uniqueLog = new Log();
+    private static Log uniqueLog = new Log();
     /**
      * Used for timestamping.
      */
