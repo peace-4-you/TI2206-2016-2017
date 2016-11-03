@@ -21,7 +21,7 @@ public final class Log {
     /**
      * Singleton variable.
      */
-    private static volatile Log uniqueLog;
+	private static Log uniqueLog = new Log();
     /**
      * Used for timestamping.
      */
@@ -44,13 +44,6 @@ public final class Log {
      * @return unique singleton instance
      */
     public static Log getInstance() {
-        if (uniqueLog == null) {
-            synchronized (Log.class) {
-                if (uniqueLog == null) {
-                    uniqueLog = new Log();
-                }
-            }
-        }
         return uniqueLog;
     }
 
