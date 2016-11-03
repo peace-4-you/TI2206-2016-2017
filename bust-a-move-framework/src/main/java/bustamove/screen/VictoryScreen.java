@@ -46,7 +46,7 @@ public class VictoryScreen extends ScoreScreen {
             throws SlickException {
         initScoreScreen(game, stateBasedGame);
         Text wonText = new Text("You Won", GameConfig.FIRST_LINE);
-        Button restart = new Button("Restart", GameConfig.SIXT_LINE,
+        Button restart = new Button("Restart", GameConfig.TENTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         restart.addAction(new Runnable() {
             public void run() {

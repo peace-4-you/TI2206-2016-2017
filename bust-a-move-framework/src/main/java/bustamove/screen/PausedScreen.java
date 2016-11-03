@@ -41,7 +41,7 @@ public class PausedScreen extends ScoreScreen {
             final StateBasedGame stateBasedGame) throws SlickException {
         initScoreScreen(game, stateBasedGame);
         Text pauseText = new Text("Game Paused", GameConfig.FIRST_LINE);
-        Button resume = new Button("Resume", GameConfig.SIXT_LINE,
+        Button resume = new Button("Resume", GameConfig.TENTH_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         resume.addGameStateChangeAction(stateBasedGame,
                 GameState.GAME_ACTIVE);
