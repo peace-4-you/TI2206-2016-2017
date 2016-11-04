@@ -210,7 +210,8 @@ public class OptionScreen extends Screen {
      * Updates the text for the background music.
      */
     public final void updateBackgroundText() {
-        String backgroundvolumeText = String.format("Background Music: %.1f", soundHandler.getVolumeBackground());
+        String backgroundvolumeText = String.format("Background Music: %.1f",
+                soundHandler.getVolumeBackground());
         backgroundVolumeText.setText(backgroundvolumeText);
     }
 
@@ -218,7 +219,8 @@ public class OptionScreen extends Screen {
      * Updates the text for the sound effects.
      */
     public final void updateEffectsText() {
-        String effectvolumeText = String.format("Sound Effects: %.1f", soundHandler.getVolumeEffects());
+        String effectvolumeText = String.format("Sound Effects: %.1f",
+                soundHandler.getVolumeEffects());
         effectsVolumeText.setText(effectvolumeText);
     }
 }
