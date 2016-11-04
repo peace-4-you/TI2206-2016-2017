@@ -13,8 +13,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.mockito.Mockito;
 
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -52,7 +52,6 @@ public class PopBehaviourTest {
                 {Type.OBOMB, 0, 0, 0, null},
                 {Type.OBOMB, 7, 0, 7, null},
                 {Type.OBOMB, 12, 1, 4, null}
-
         });
     }
 
@@ -160,5 +159,4 @@ public class PopBehaviourTest {
     private enum Type {
         ROWBOMB, OBOMB
     }
-
 }
