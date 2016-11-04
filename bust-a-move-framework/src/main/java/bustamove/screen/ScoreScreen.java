@@ -20,7 +20,7 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
     /**
      * Amount of players.
      */
-    private int players = 0;
+    private int players = 2;
     /**
      * Contains the player's name.
      */
@@ -116,17 +116,18 @@ public abstract class ScoreScreen extends Screen implements PlayerObserver {
      * @param playeramount integer about amount of players
      */
     public final void update(final int playeramount) {
-        players = playeramount;
-        if (playeramount == 1) {
+        if (playeramount == 1 && players != 1) {
             getTexts().remove(playername[1]);
             getTexts().remove(playerscore[1]);
             getTexts().remove(droppedbubbles[1]);
             getTexts().remove(poppedbubbles[1]);
-        } else if (playeramount == 2) {
+            players = 1;
+        } else if (playeramount == 2 && players != 2) {
             getTexts().add(playername[1]);
             getTexts().add(playerscore[1]);
             getTexts().add(droppedbubbles[1]);
             getTexts().add(poppedbubbles[1]);
+            players = 2;
         }
     }
 
