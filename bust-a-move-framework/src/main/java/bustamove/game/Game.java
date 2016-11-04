@@ -174,7 +174,7 @@ public final class Game extends BasicGameState {
             throws SlickException {
         this.sbg = stateBasedGame;
         this.container = game;
-        this.pause = new Button("Pause", Game.BUTTON_X, GameConfig.SEVENTH_LINE,
+        this.pause = new Button("Pause", Game.BUTTON_X, GameConfig.NINETH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
     }
 
@@ -228,7 +228,7 @@ public final class Game extends BasicGameState {
         pause.draw(g);
         g.setColor(Color.white);
         g.drawString("Time:" + this.time / MILLIS_TO_SECONDS + "s",
-                BUTTON_X, GameConfig.SIXT_LINE);
+                BUTTON_X, GameConfig.EIGTH_LINE);
         for (GameData gd : this.gamedata) {
             gd.render(game, stateBasedGame, g);
         }
