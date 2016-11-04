@@ -168,4 +168,53 @@ public final class SoundHandler {
     public void setVolumeEffects(final float vol) {
         volumeEffects = vol;
     }
+
+    /**
+     * Increases the volume of the background.
+     *
+     * @param increment amount of volume increase
+     */
+    public void increaseVolumeBackground(final float increment) {
+        volumeBackground += increment;
+        if (volumeBackground > 1) {
+            volumeBackground = 1;
+        }
+    }
+
+    /**
+     * Increases the volume of the sound effects.
+     *
+     * @param increment amount of volume increase
+     */
+    public void increaseVolumeEffects(final float increment) {
+        volumeEffects += increment;
+        if (volumeEffects > 1) {
+            volumeEffects = 1;
+        }
+    }
+
+    /**
+     * Decreases the volume of the background.
+     *
+     * @param decrement amount of volume increase
+     */
+    public void decreaseVolumeBackground(final float decrement) {
+        volumeBackground -= decrement;
+        if (volumeBackground < 0) {
+            volumeBackground = 0;
+        }
+        setVolumeBackground(volumeBackground);
+    }
+
+    /**
+     * Increases the volume of the sound effects.
+     *
+     * @param decrement amount of volume increase
+     */
+    public void decreaseVolumeEffects(final float decrement) {
+        volumeEffects -= decrement;
+        if (volumeEffects < 0) {
+            volumeEffects = 0;
+        }
+    }
 }

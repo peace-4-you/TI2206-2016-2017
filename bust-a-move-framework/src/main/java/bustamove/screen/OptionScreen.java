@@ -12,6 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * The OptionScreen class display the option menu.
+ *
  * @author Winer bao
  */
 public class OptionScreen extends Screen {
@@ -20,8 +21,22 @@ public class OptionScreen extends Screen {
      */
     private static final float VOLUME_DOWN_XPOS = (640 - GameConfig.WIDTH2) / 2;
     private static final float VOLUME_UP_XPOS = VOLUME_DOWN_XPOS + 100;
+
+    private SoundHandler soundHandler;
+    private static final float VOLUME_STEP = 0.1f;
+
+    private boolean backgroundMuted = true;
+    private boolean effectsMuted = true;
+
+    private Button muteBackground;
+    private Button muteEffects;
+
+    private Text backgroundVolumeText;
+    private Text effectsVolumeText;
+
     /**
      * Getter method: for the GameState ID.
+     *
      * @return integer of BasicGameState number.
      */
     public final int getID() {
@@ -37,7 +52,8 @@ public class OptionScreen extends Screen {
 
     /**
      * Called when BasicGameState initializes.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
      * @throws SlickException any type of slick exception
      */
@@ -45,15 +61,18 @@ public class OptionScreen extends Screen {
                            final StateBasedGame stateBasedGame)
             throws SlickException {
         initBasicScreen(game);
-        Text backgroundMusicText = new Text("Background Music",
+        soundHandler = SoundHandler.getInstance();
+        backgroundVolumeText = new Text("Background Music: "
+                + soundHandler.getVolumeBackground(),
                 GameConfig.FIRST_LINE);
-        getTexts().add(backgroundMusicText);
-        Button muteBackground = getMuteUnmuteBackgroundButton();
+        getTexts().add(backgroundVolumeText);
+        muteBackground = getMuteUnmuteBackgroundButton();
         getButtons().add(muteBackground);
-        Text soundEffectsText = new Text("Sound Effects",
+        effectsVolumeText = new Text("Sound Effects: "
+                + soundHandler.getVolumeEffects(),
                 GameConfig.THIRD_LINE);
-        getTexts().add(soundEffectsText);
-        Button muteEffects = getMuteUnmuteSoundEffectButton();
+        getTexts().add(effectsVolumeText);
+        muteEffects = getMuteUnmuteSoundEffectButton();
         getButtons().add(muteEffects);
         Button back = new Button("Back", GameConfig.SEVENTH_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
@@ -70,15 +89,13 @@ public class OptionScreen extends Screen {
 
     /**
      * Create a mute or unmute Background button.
+     *
      * @return Button
      */
     private Button getMuteUnmuteBackgroundButton() {
         final Button button;
 
-        final boolean isMuted = SoundHandler.getInstance()
-                .getVolumeBackground() == 0;
-
-        if (isMuted) {
+        if (backgroundMuted) {
             button = new Button("Unmute", GameConfig.SECOND_LINE,
                     GameConfig.WIDTH2, GameConfig.HEIGHT);
         } else {
@@ -88,14 +105,15 @@ public class OptionScreen extends Screen {
 
         button.addAction(new Runnable() {
             public void run() {
-                final boolean isMuted = SoundHandler.getInstance()
-                        .getVolumeBackground() == 0;
-
-                if (isMuted) {
+                if (backgroundMuted) {
+                    backgroundMuted = false;
                     button.setText("Mute");
+                    backgroundVolumeText.setText("Background Music: 1.0");
                     SoundHandler.getInstance().setVolumeBackground(1);
                 } else {
+                    backgroundMuted = true;
                     button.setText("Unmute");
+                    backgroundVolumeText.setText("Background Music: 0.0");
                     SoundHandler.getInstance().setVolumeBackground(0);
                 }
             }
@@ -106,15 +124,13 @@ public class OptionScreen extends Screen {
 
     /**
      * Create a mute or unmute sound effect button.
+     *
      * @return Button
      */
     private Button getMuteUnmuteSoundEffectButton() {
         final Button button;
 
-        final boolean isMuted = SoundHandler.getInstance()
-                .getVolumeEffects() == 0;
-
-        if (isMuted) {
+        if (effectsMuted) {
             button = new Button("Unmute", GameConfig.FOURTH_LINE,
                     GameConfig.WIDTH2, GameConfig.HEIGHT);
         } else {
@@ -124,14 +140,15 @@ public class OptionScreen extends Screen {
 
         button.addAction(new Runnable() {
             public void run() {
-                final boolean isMuted = SoundHandler.getInstance()
-                        .getVolumeEffects() == 0;
-
-                if (isMuted) {
+                if (effectsMuted) {
+                    effectsMuted = false;
                     button.setText("Mute");
+                    effectsVolumeText.setText("Sound Effects: 1.0");
                     SoundHandler.getInstance().setVolumeEffects(1);
                 } else {
+                    effectsMuted = true;
                     button.setText("Unmute");
+                    effectsVolumeText.setText("Sound Effects: 0.0");
                     SoundHandler.getInstance().setVolumeEffects(0);
                 }
             }
@@ -142,55 +159,66 @@ public class OptionScreen extends Screen {
 
     /**
      * Create a volume up and down button.
+     *
      * @return Button
      */
     private Button[] getVolumeUpDownButton() {
         final Button[] button = new Button[2];
-        final float volumeStep = 0.1f;
 
         button[0] = new Button("-", VOLUME_DOWN_XPOS, GameConfig.SIXT_LINE,
-                    GameConfig.WIDTH0, GameConfig.HEIGHT);
+                GameConfig.WIDTH0, GameConfig.HEIGHT);
         button[1] = new Button("+", VOLUME_UP_XPOS, GameConfig.SIXT_LINE,
-                    GameConfig.WIDTH0, GameConfig.HEIGHT);
+                GameConfig.WIDTH0, GameConfig.HEIGHT);
 
         button[0].addAction(new Runnable() {
             public void run() {
-                float currentVolume = SoundHandler.getInstance()
-                        .getVolumeBackground();
-                float newVolume = currentVolume - volumeStep;
-                final boolean backgroundIsMuted = SoundHandler.getInstance()
-                        .getVolumeBackground() == 0;
-                final boolean effectsIsMuted = SoundHandler.getInstance()
-                        .getVolumeEffects() == 0;
-
-                if (!backgroundIsMuted) {
-                    SoundHandler.getInstance().setVolumeBackground(newVolume);
+                if (!backgroundMuted) {
+                    soundHandler.decreaseVolumeBackground(VOLUME_STEP);
+                    updateBackgroundText();
+                    if (soundHandler.getVolumeBackground() == 0) {
+                        muteBackground.setText("Unmute");
+                        backgroundMuted = true;
+                    }
                 }
-                if (!effectsIsMuted) {
-                    SoundHandler.getInstance().setVolumeEffects(newVolume);
+                if (!effectsMuted) {
+                    soundHandler.decreaseVolumeEffects(VOLUME_STEP);
+                    updateEffectsText();
+                    if (soundHandler.getVolumeEffects() == 0) {
+                        muteEffects.setText("Unmute");
+                        effectsMuted = true;
+                    }
                 }
             }
         });
 
         button[1].addAction(new Runnable() {
             public void run() {
-                float currentVolume = SoundHandler.getInstance()
-                        .getVolumeBackground();
-                float newVolume = currentVolume + volumeStep;
-                final boolean backgroundIsMuted = SoundHandler.getInstance()
-                        .getVolumeBackground() == 0;
-                final boolean effectsIsMuted = SoundHandler.getInstance()
-                        .getVolumeEffects() == 0;
-
-                if (!backgroundIsMuted) {
-                    SoundHandler.getInstance().setVolumeBackground(newVolume);
+                if (!backgroundMuted) {
+                    soundHandler.increaseVolumeBackground(VOLUME_STEP);
+                    updateBackgroundText();
                 }
-                if (!effectsIsMuted) {
-                    SoundHandler.getInstance().setVolumeEffects(newVolume);
+                if (!effectsMuted) {
+                    soundHandler.increaseVolumeEffects(VOLUME_STEP);
+                    updateEffectsText();
                 }
             }
         });
-
         return button;
+    }
+
+    /**
+     * Updates the text for the background music.
+     */
+    public final void updateBackgroundText() {
+        String backgroundvolumeText = String.format("Background Music: %.1f", soundHandler.getVolumeBackground());
+        backgroundVolumeText.setText(backgroundvolumeText);
+    }
+
+    /**
+     * Updates the text for the sound effects.
+     */
+    public final void updateEffectsText() {
+        String effectvolumeText = String.format("Sound Effects: %.1f", soundHandler.getVolumeEffects());
+        effectsVolumeText.setText(effectvolumeText);
     }
 }
