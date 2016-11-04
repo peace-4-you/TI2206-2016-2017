@@ -18,6 +18,7 @@ import bustamove.screen.attributes.Button;
 import bustamove.screen.attributes.Text;
 import bustamove.screen.config.GameConfig;
 import bustamove.screen.config.GameState;
+import bustamove.game.GameData.GameDifficulty;
 
 /**
  * Generates a VictoryScreen as a instance of GameState.
@@ -46,20 +47,22 @@ public class VictoryScreen extends ScoreScreen {
             throws SlickException {
         initScoreScreen(game, stateBasedGame);
         Text wonText = new Text("You Won", GameConfig.FIRST_LINE);
-        Button restart = new Button("Restart", GameConfig.SIXT_LINE,
+        Button restart = new Button("Restart", GameConfig.TENTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         restart.addAction(new Runnable() {
             public void run() {
                 try {
+                    GameDifficulty difficulty = App.getGame().getGameData()
+                        .get(0).getDifficulty();
                     App.getGame().destroyGame();
                     String player1name = getPlayerNames()[0];
                     if (getPlayerAmount() == 2) {
                         String player2name = getPlayerNames()[1];
-                        App.getGame().start2Player();
+                        App.getGame().start2Player(difficulty);
                         App.getGame().getGameData().get(1).getPlayer()
                                 .setName(player2name);
                     } else {
-                        App.getGame().start1Player();
+                        App.getGame().start1Player(difficulty);
                     }
                     App.getGame().getGameData().get(0).getPlayer()
                             .setName(player1name);

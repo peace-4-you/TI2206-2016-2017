@@ -42,11 +42,14 @@ public class GameData implements PlayerObserver {
     private static final int ARENA_HEIGHT = 531;
     private static final int ARENA_WIDTH = 280;
     private GameDataState state;
+    private GameDifficulty difficulty;
     /**
-     * Score and Name of the player, updated by observer.
+     * Stats of the player, updated by observer.
      */
     private int scorePlayer;
     private String namePlayer;
+    private int droppedBubbles;
+    private int poppedBubbles;
     /**
      * Cannon, Player, Collision, BubbleStorage instance for the game.
      */
@@ -71,19 +74,21 @@ public class GameData implements PlayerObserver {
      *
      * @param drawingoffset integer of the drawing offset
      * @param modelnr       integer of the GameData model
+     * @param gamedifficulty GameDifficulty
      */
-    public GameData(final int drawingoffset, final int modelnr) {
+    public GameData(final int drawingoffset, final int modelnr,
+                    final GameDifficulty gamedifficulty) {
         Log.getInstance().log(this, "GameData initialised");
         this.offset = drawingoffset;
         this.playerNr = modelnr;
         this.state = GameDataState.RUNNING;
+        this.difficulty = gamedifficulty;
         this.bubbleslist = new LinkedList<Bubble>();
-        this.player = new Player("Player1", this.offset, this.playerNr);
+        this.player = new Player("Player1", this.playerNr);
         this.player.registerObserver((PlayerObserver) this);
-
         this.bubbleStorage = new BubbleStorage(ARENA_X + this.offset,
-                ARENA_Y);
-        bubbleStorage.initRows(GameConfig.STARTING_ROWS);
+                ARENA_Y, difficulty);
+        bubbleStorage.initRows();
         this.popBehaviour = new PopBehaviour(player.getScore());
         popBehaviour.setBubbleStorage(bubbleStorage);
         this.collide = new Collision(ARENA_X + this.offset,
@@ -143,10 +148,15 @@ public class GameData implements PlayerObserver {
                 GameConfig.MARGIN_LEFT + this.offset, GameConfig.SECOND_LINE);
         g.drawString("Name:" + this.namePlayer, GameConfig.MARGIN_LEFT
                 + this.offset, GameConfig.FIRST_LINE);
+        g.drawString("Dropped:" + this.droppedBubbles, GameConfig.MARGIN_LEFT
+                + this.offset, GameConfig.THIRD_LINE);
+        g.drawString("Popped:" + this.poppedBubbles, GameConfig.MARGIN_LEFT
+                + this.offset, GameConfig.FOURTH_LINE);
         g.drawString("Fire speed: x"
                         + (double) Math.round(this.bubblespeed / 2),
-                GameConfig.MARGIN_LEFT + this.offset,
-                GameConfig.THIRD_LINE);
+                GameConfig.MARGIN_LEFT + this.offset, GameConfig.SIXT_LINE);
+        g.drawString("Difficulty: " + difficulty,
+                GameConfig.MARGIN_LEFT + this.offset, GameConfig.FIFTH_LINE);
         // Draw the arena borders
         g.drawRect(ARENA_X + this.offset, ARENA_Y, ARENA_WIDTH,
                 ARENA_HEIGHT);
@@ -155,7 +165,6 @@ public class GameData implements PlayerObserver {
         g.drawLine(ARENA_X + this.offset, yPosLine, ARENA_X + this.offset
                 + ARENA_WIDTH, yPosLine);
         cannon.draw(g);
-        player.draw(g);
         bubbleStorage.draw(g);
         for (Bubble bubble : this.bubbleslist) {
             if (bubble.getState() != State.LANDED) {
@@ -246,6 +255,23 @@ public class GameData implements PlayerObserver {
     }
 
     /**
+    * Getter method for difficulty.
+    *
+    * @return GameDifficulty
+    */
+    public final GameDifficulty getDifficulty() {
+        return difficulty;
+    }
+    /**
+    * Setter method for difficulty.
+    *
+    * @param d GameDifficulty to set to
+    */
+    public final void setDifficulty(GameDifficulty d) {
+        difficulty = d;
+    }
+
+    /**
      * Empty update method from PlayerObserver interface.
      *
      * @param playerAmount integer about amount of players
@@ -260,12 +286,17 @@ public class GameData implements PlayerObserver {
      * @param number integer of player number
      * @param name   String of player name
      * @param score  integer of player score
+     * @param dropped integer of amount of dropped bubbles
+     * @param popped integer of amount of popped bubbles
      */
     public final void update(final int number, final String name,
-                             final int score) {
+                             final int score, final int dropped,
+                             final int popped) {
         if (number == playerNr) {
             this.scorePlayer = score;
             this.namePlayer = name;
+            this.droppedBubbles = dropped;
+            this.poppedBubbles = popped;
         }
     }
 
@@ -283,5 +314,40 @@ public class GameData implements PlayerObserver {
      */
     public enum GameDataState {
         RUNNING, WON, LOSE
+    }
+
+    /**
+     * Enum for the game difficulty.
+     */
+    public enum GameDifficulty {
+        EASY, NORMAL, HARD;
+        /**
+         * Static set of difficulty values.
+         */
+        private static GameDifficulty[] values = values();
+        /**
+         * Returns the next difficulty if there is one.
+         *
+         * @return the next difficulty, else self
+         */
+        public GameDifficulty next() {
+            int nextVal = this.ordinal() + 1;
+            if (nextVal < values.length) {
+                return values[nextVal];
+            }
+            return this;
+        }
+        /**
+         * Returns the previous difficulty.
+         *
+         * @return the previous difficulty if there is one, else self
+         */
+        public GameDifficulty prev() {
+            int prevVal = this.ordinal() - 1;
+            if (prevVal >= 0) {
+                return values[prevVal];
+            }
+            return this;
+        }
     }
 }

@@ -34,6 +34,7 @@ public class SimpleBubble extends Bubble {
     private static final Color BLUE_COLOR = Color.blue;
     private static final Color YELLOW_COLOR = Color.yellow;
     private static final Color GREEN_COLOR = Color.green;
+    private static final Color PINK_COLOR = Color.pink;
     /**
      * Angle offset constant.
      */
@@ -108,6 +109,9 @@ public class SimpleBubble extends Bubble {
                 break;
             case GREEN:
                 this.drawColor = SimpleBubble.GREEN_COLOR;
+                break;
+            case PINK:
+                this.drawColor = SimpleBubble.PINK_COLOR;
                 break;
             default:
                 break;

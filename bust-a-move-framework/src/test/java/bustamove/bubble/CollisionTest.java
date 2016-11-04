@@ -1,5 +1,6 @@
 package bustamove.bubble;
 
+import bustamove.game.GameData;
 import bustamove.player.Player;
 import bustamove.player.Score;
 import org.junit.Before;
@@ -40,9 +41,8 @@ public class CollisionTest {
     @Before
     public void setUp() {
         collision = new Collision(0, 200, 0);
-        bubbleStorage = new BubbleStorage(0, 0);
-        //bubble = new SimpleBubble(0, 170, Bubble.ColorChoice.BLUE, true);
-        score = new Score(new Player("name", 0, 0));
+        bubbleStorage = new BubbleStorage(0, 0, GameData.GameDifficulty.NORMAL);
+        score = new Score(new Player("name", 0));
         popBehaviour = new PopBehaviour(score);
         popBehaviour.setBubbleStorage(bubbleStorage);
     }

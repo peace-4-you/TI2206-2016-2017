@@ -9,6 +9,7 @@ package bustamove.game;
 
 import bustamove.App;
 import bustamove.game.GameData.GameDataState;
+import bustamove.game.GameData.GameDifficulty;
 import bustamove.player.Player;
 import bustamove.screen.attributes.Button;
 import bustamove.screen.config.GameConfig;
@@ -37,8 +38,9 @@ import java.util.ArrayList;
  * @version 11.10.2016
  */
 public final class Game extends BasicGameState {
-    private static final int BUTTON_X = 503;
+    private static final int BUTTON_X = 510;
     private static final int DRAWING_OFFSET = 500;
+    private static final int MILLIS_TO_SECONDS = 1000;
     /**
      * Dimensions of the gray rectangle at the bottom of the game.
      */
@@ -67,6 +69,10 @@ public final class Game extends BasicGameState {
      * The high scores object.
      */
     private Highscore highscore;
+    /**
+     * The time keeper.
+     */
+    private long time;
 
     /**
      * Private constructor.
@@ -74,20 +80,23 @@ public final class Game extends BasicGameState {
     public Game() {
         this.gamedata = new ArrayList<GameData>();
         this.pObservers = new ArrayList<PlayerObserver>();
+        this.time = 0;
         Log.getInstance().log(this, "Game initialised");
     }
 
     /**
      * Starts a 2 player mode.
      *
+     * @param d GameDifficulty of game
+     *
      * @throws SlickException all kind of SlickException
      */
-    public void start2Player() throws SlickException {
+    public void start2Player(GameDifficulty d) throws SlickException {
         Log.getInstance().log(this, "start2playergame");
         AppGameContainer gc = (AppGameContainer) this.container;
         gc.setDisplayMode(App.GAME_WIDTH_MULTIPLAYER, App.GAME_HEIGHT, false);
-        GameData firstplayer = new GameData(0, 2);
-        GameData secondplayer = new GameData(DRAWING_OFFSET, 1);
+        GameData firstplayer = new GameData(0, 2, d);
+        GameData secondplayer = new GameData(DRAWING_OFFSET, 1, d);
         addGameData(firstplayer);
         addGameData(secondplayer);
         firstplayer.getPlayer().notifyAmountObserver(2);
@@ -95,9 +104,11 @@ public final class Game extends BasicGameState {
 
     /**
      * Starts a 1 player mode.
+     *
+     * @param d GameDifficulty of game
      */
-    public void start1Player() {
-        GameData firstplayer = new GameData(0, 1);
+    public void start1Player(GameDifficulty d) {
+        GameData firstplayer = new GameData(0, 1, d);
         addGameData(firstplayer);
         firstplayer.getPlayer().notifyAmountObserver(1);
     }
@@ -163,7 +174,7 @@ public final class Game extends BasicGameState {
             throws SlickException {
         this.sbg = stateBasedGame;
         this.container = game;
-        this.pause = new Button("Pause", Game.BUTTON_X, GameConfig.SEVENTH_LINE,
+        this.pause = new Button("Pause", Game.BUTTON_X, GameConfig.NINETH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
     }
 
@@ -178,6 +189,7 @@ public final class Game extends BasicGameState {
     public void update(final GameContainer game,
                        final StateBasedGame stateBasedGame,
                        final int delta) throws SlickException {
+        this.time += delta;
         this.sbg = stateBasedGame;
         this.container = game;
         boolean loosing = true;
@@ -214,6 +226,9 @@ public final class Game extends BasicGameState {
         g.setColor(Color.gray);
         g.fillRect(GRAYRECT_X, GRAYRECT_Y, GRAYRECT_WIDTH, GRAYRECT_HEIGHT);
         pause.draw(g);
+        g.setColor(Color.white);
+        g.drawString("Time:" + this.time / MILLIS_TO_SECONDS + "s",
+                BUTTON_X, GameConfig.EIGTH_LINE);
         for (GameData gd : this.gamedata) {
             gd.render(game, stateBasedGame, g);
         }

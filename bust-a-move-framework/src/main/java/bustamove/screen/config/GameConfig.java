@@ -54,6 +54,14 @@ public final class GameConfig {
      */
     public static final int EIGTH_LINE = 320;
     /**
+     * Vertical Position of the nineth line to display on the screen.
+     */
+    public static final int NINETH_LINE = 360;
+    /**
+     * Vertical Position of the tenth line to display on the screen.
+     */
+    public static final int TENTH_LINE = 400;
+    /**
      * Vertical Position of the eleventh line to display on the screen.
      */
     public static final int ELEVENTH_LINE = 440;
@@ -65,6 +73,10 @@ public final class GameConfig {
      * Vertical Line Distance.
      */
     public static final int LINE_DIST = 40;
+    /**
+     * Width of something to display on the screen.
+     */
+    public static final int WIDTH0 = 50;
     /**
      * Width of something to display on the screen.
      */
@@ -160,7 +172,39 @@ public final class GameConfig {
      */
     public static final int MAX_NAME_LENGTH = 13;
     /**
-     * Amount of starting rows.
+     * Easy difficulty number of starting rows.
      */
-    public static final int STARTING_ROWS = 5;
+    public static final int START_ROWS_EASY = 3;
+    /**
+     * Normal difficulty number of starting rows.
+     */
+    public static final int START_ROWS_NORMAL = 5;
+    /**
+     * Hard difficulty number of starting rows.
+     */
+    public static final int START_ROWS_HARD = 8;
+    /**
+     * Easy difficulty time to shoot.
+     */
+    public static final int TIME_TO_SHOOT_EASY = 8000;
+    /**
+     * Normal difficulty time to shoot.
+     */
+    public static final int TIME_TO_SHOOT_NORMAL = 5000;
+    /**
+     * Hard difficulty time to shoot.
+     */
+    public static final int TIME_TO_SHOOT_HARD = 3000;
+    /**
+     * Easy difficulty number of colors.
+     */
+    public static final int NUM_COLORS_EASY = 3;
+    /**
+     * Normal difficulty number of colors.
+     */
+    public static final int NUM_COLORS_NORMAL = 4;
+    /**
+     * Hard difficulty number of colors.
+     */
+    public static final int NUM_COLORS_HARD = 5;
 }
