@@ -8,9 +8,9 @@
  * Date: October 11th, 2016
  *
  */
-
-
 package bustamove.util;
+
+import java.lang.reflect.Array;
 
 /**
  * ArrayIterator is an Iterator realized for arrays
@@ -29,7 +29,12 @@ public class ArrayIterator<T> implements Iterator<T> {
      * @param array array to iterate over.
      */
     public ArrayIterator(final T[] array) {
-        this.items = array;
+        T[] copy = (T[]) Array.newInstance(
+                array.getClass().getComponentType(), array.length);
+        for (int i = 0; i < array.length; i++) {
+            Array.set(copy, i, array[i]);
+        }
+        this.items = copy;
         this.position = 0;
         advanceToNext();
     }
@@ -73,6 +78,7 @@ public class ArrayIterator<T> implements Iterator<T> {
         }
         return true;
     }
+
     /**
      * Returns the index of the next element.
      *

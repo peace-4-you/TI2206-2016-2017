@@ -47,5 +47,5 @@ public class LogTest {
         } catch (AssumptionViolatedException e) {
             // These exceptions are intentional
         }
-    }
+    }    
 }

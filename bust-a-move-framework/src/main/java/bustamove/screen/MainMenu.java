@@ -7,19 +7,20 @@
  *
  * Date: September 26th, 2016
  */
-
 package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import bustamove.App;
 import bustamove.screen.attributes.Button;
 import bustamove.screen.config.GameConfig;
 import bustamove.screen.config.GameState;
 
 /**
  * Generates a MainMenu as a instance of GameState.
+ *
  * @author Jason Xie, Maurice Willemsen
  */
 public class MainMenu extends Screen {
@@ -32,12 +33,14 @@ public class MainMenu extends Screen {
 
     /**
      * Called when BasicGameState initializes.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
      * @throws SlickException any type of slick exception
      */
     public final void init(final GameContainer game,
-            final StateBasedGame stateBasedGame) throws SlickException {
+                           final StateBasedGame stateBasedGame)
+            throws SlickException {
         initBasicScreen(game);
         // 1 player button
         Button play1player = new Button("1 Player", GameConfig.SECOND_LINE,
@@ -54,27 +57,35 @@ public class MainMenu extends Screen {
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         highScores.addGameStateChangeAction(stateBasedGame,
                 GameState.HIGHSCORES_SCREEN);
+        // Achievements button
+        Button achievements = new Button("Achievements",
+                GameConfig.FIFTH_LINE, GameConfig.WIDTH2,
+                GameConfig.HEIGHT);
+        achievements.addGameStateChangeAction(stateBasedGame,
+                GameState.ACHIEVEMENTS_SCREEN);
         // Option button
-        Button option = new Button("Options", GameConfig.FIFTH_LINE,
+        Button option = new Button("Options", GameConfig.SIXT_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         option.addGameStateChangeAction(stateBasedGame,
                 GameState.OPTION_SCREEN);
         // Credits button
-        Button credits = new Button("Credits", GameConfig.SIXT_LINE,
+        Button credits = new Button("Credits", GameConfig.SEVENTH_LINE,
                 GameConfig.WIDTH2, GameConfig.HEIGHT);
         credits.addGameStateChangeAction(stateBasedGame,
                 GameState.CREDITS_SCREEN);
         // quit button
-        Button quit = new Button("Quit", GameConfig.SEVENTH_LINE,
+        Button quit = new Button("Quit", GameConfig.EIGTH_LINE,
                 GameConfig.WIDTH1, GameConfig.HEIGHT);
         quit.addAction(new Runnable() {
             public void run() {
+                App.getStatistics().write();
                 game.exit();
             }
         });
         getButtons().add(play1player);
         getButtons().add(play2players);
         getButtons().add(highScores);
+        getButtons().add(achievements);
         getButtons().add(option);
         getButtons().add(credits);
         getButtons().add(quit);

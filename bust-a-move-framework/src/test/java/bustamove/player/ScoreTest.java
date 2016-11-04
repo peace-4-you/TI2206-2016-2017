@@ -19,7 +19,7 @@ public class ScoreTest {
     
     @Parameterized.Parameters
     public static Object[] input() {
-        return new Object[][]{{new Player("testPlayer",0,1)}};
+        return new Object[][]{{new Player("testPlayer",1)}};
     }
 
     public ScoreTest(Player player) {
@@ -73,5 +73,21 @@ public class ScoreTest {
     	score.setScore(100);
     	score.scoreBubblesDropped(-1);
     	assertThat("No Score should be added", score.getScore(), equalTo(100));		
+    } 
+    
+    @Test
+    public void GetBubblesDropped() {
+    	score.reset();
+    	score.scoreBubblesDropped(3);
+    	score.scoreBubblesDropped(3);
+    	assertThat("Dropped should be added with 6", score.getBubblesDropped(), equalTo(6));		
+    } 
+    
+    @Test
+    public void GetBubblesPopped() {
+    	score.reset();
+    	score.scoreBubblesPopped(3);
+    	score.scoreBubblesPopped(3);
+    	assertThat("Popped should be added with 6", score.getBubblesPopped(), equalTo(6));		
     } 
 }

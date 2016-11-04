@@ -73,14 +73,14 @@ public class Cannon {
     private int timeShotFired;
     private int[] timePassedKey;
     /**
-     * Idle time after which the cannon will shot automatically.
-     */
-    private static final int TIME_TO_SHOOT = 5000;
-    /**
      * A warning is displayed at the last milliseconds before
      * automatic shooting.
      */
     private static final int TIME_DISPLAY_FIRE_WARNING = 1500;
+    /**
+     * Idle time after which the cannon will shot automatically.
+     */
+    private int timeToShoot;
     /**
      * Flag to enable warning display.
      */
@@ -128,6 +128,21 @@ public class Cannon {
         this.loadNextBubble();
         this.loadNextBubble();
         this.timePassedKey = new int[2];
+
+        switch (g.getDifficulty()) {
+            case EASY:
+                timeToShoot = GameConfig.TIME_TO_SHOOT_EASY;
+                break;
+            case NORMAL:
+                timeToShoot = GameConfig.TIME_TO_SHOOT_NORMAL;
+                break;
+            case HARD:
+                timeToShoot = GameConfig.TIME_TO_SHOOT_HARD;
+                break;
+            default:
+                timeToShoot = GameConfig.TIME_TO_SHOOT_NORMAL;
+                break;
+        }
     }
 
     /**
@@ -234,10 +249,10 @@ public class Cannon {
         if (container.getInput().isKeyPressed(INPUTKEY[playernr - 1][2])) {
             fire();
         }
-        if (this.timeShotFired > TIME_TO_SHOOT - TIME_DISPLAY_FIRE_WARNING) {
+        if (this.timeShotFired > timeToShoot - TIME_DISPLAY_FIRE_WARNING) {
             displayWarning = true;
         }
-        if (this.timeShotFired > TIME_TO_SHOOT) {
+        if (this.timeShotFired > timeToShoot) {
             Log.getInstance().log(this, "Time elapsed, "
                     + "shooting automatically");
             fire();

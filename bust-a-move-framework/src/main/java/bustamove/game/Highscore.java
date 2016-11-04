@@ -2,7 +2,6 @@
  * File: Highscore.java
  * Class: Highscore
  */
-
 package bustamove.game;
 
 import java.io.BufferedReader;
@@ -12,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+
 import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -22,6 +22,7 @@ import bustamove.system.Log;
 /**
  * The highscore class represents the class that writes and loads
  * the highscores.
+ *
  * @author Justin Segond
  */
 public final class Highscore {
@@ -40,7 +41,8 @@ public final class Highscore {
     /**
      * Constructs a new High score object.
      */
-    public Highscore() { }
+    public Highscore() {
+    }
 
     /**
      * Loads the high scores from the specified high scores file.
@@ -68,6 +70,7 @@ public final class Highscore {
 
     /**
      * Tries to parse a String and add it to the high scores.
+     *
      * @param entry The string to parse a high score from.
      */
     private void addEntry(final String entry) {
@@ -90,7 +93,8 @@ public final class Highscore {
 
     /**
      * Adds a high score entry.
-     * @param name The player's name.
+     *
+     * @param name  The player's name.
      * @param score The score they achieved.
      */
     public void addEntry(final String name, final int score) {
@@ -102,7 +106,8 @@ public final class Highscore {
 
     /**
      * Adds and entry to high scores and saves the highscores to a file.
-     * @param name The player's name
+     *
+     * @param name  The player's name
      * @param score The score they achieved.
      */
     public void addEntryAndSave(final String name, final int score) {
@@ -134,8 +139,9 @@ public final class Highscore {
 
     /**
      * Saves an TreeMap entry to a file.
+     *
      * @param writer The PrintWriter to write the file to.
-     * @param entry The entry to write to the file
+     * @param entry  The entry to write to the file
      * @return an int with how many entries where saved to the file.
      */
     private int saveEntry(final PrintWriter writer,
@@ -154,6 +160,7 @@ public final class Highscore {
     /**
      * Gets the name of the person at the given highscore position, e.g.
      * 0 for highest ranked player.
+     *
      * @param position The position of the player
      * @return The name of the player
      */
@@ -178,6 +185,7 @@ public final class Highscore {
     /**
      * Gets the name of the person at the given highscore position, e.g.
      * 0 for highest ranked player.
+     *
      * @param position The position of the player
      * @return The name of the player
      */
@@ -201,10 +209,10 @@ public final class Highscore {
 
     /**
      * Sets the file to load the highscores from.
+     *
      * @param fileName The file name to load the data from.
      */
     public void setFile(final String fileName) {
         file = fileName;
     }
-
 }

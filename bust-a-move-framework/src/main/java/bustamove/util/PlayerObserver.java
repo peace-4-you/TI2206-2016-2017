@@ -16,6 +16,8 @@ public interface PlayerObserver {
      * @param number integer of player number
      * @param name String of player name
      * @param score integer of player score
+     * @param dropped integer of dropper bubbles
+     * @param popped integer of popped bubbles
      */
-    void update(int number, String name, int score);
+    void update(int number, String name, int score, int dropped, int popped);
 }

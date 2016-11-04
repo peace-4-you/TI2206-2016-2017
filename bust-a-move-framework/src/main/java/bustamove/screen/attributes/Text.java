@@ -17,6 +17,10 @@ import org.newdawn.slick.GameContainer;
  */
 public class Text {
     /**
+     * The font the text should be displayed in.
+     */
+    private static TrueTypeFont font;
+    /**
      * String Value of the text.
      */
     private String text;
@@ -33,9 +37,9 @@ public class Text {
      */
     private float tWidth;
     /**
-     * The font the text should be displayed in.
+     * The color of this text.
      */
-    private static TrueTypeFont font;
+    private Color color = Color.white;
 
     /**
      * Constructor for a text without x parameter.
@@ -44,13 +48,9 @@ public class Text {
      * @param y y coordinate of the text
      */
     public Text(final String s, final float y) {
-        assert s != null;
-        assert y >= 0;
-
-        this.text = s;
+        text = s;
         xPos = 0;
         yPos = y;
-        tWidth = font.getWidth(this.text);
     }
 
     /**
@@ -62,8 +62,39 @@ public class Text {
      */
     public Text(final String s, final float x, final float y) {
         this(s, y);
-        assert x >= 0;
         xPos = x;
+    }
+
+    /**
+     * Constructor with parameter for x coordinate.
+     *
+     * @param s text that will be displayed
+     * @param x x coordinate of the text
+     * @param y y coordinate of the text
+     * @param c the color
+     */
+    public Text(final String s, final float x, final float y, Color c) {
+        this(s, y);
+        xPos = x;
+        color = c;
+    }
+
+    /**
+     * Setter of the font.
+     *
+     * @param f font type
+     */
+    public static final void setFont(final TrueTypeFont f) {
+        font = f;
+    }
+
+    /**
+     * Getter of the font used.
+     *
+     * @return font type
+     */
+    public final TrueTypeFont getFont() {
+        return font;
     }
 
     /**
@@ -73,7 +104,7 @@ public class Text {
      */
     public final void draw(final Graphics g) {
         g.setColor(Color.white);
-        font.drawString(xPos, yPos, text, Color.white);
+        font.drawString(xPos, yPos, text, color);
     }
 
     /**
@@ -83,6 +114,7 @@ public class Text {
      * @param game to get the width of
      */
     public final void centerText(final GameContainer game) {
+        tWidth = font.getWidth(this.text);
         xPos = (game.getWidth() - tWidth) / 2;
     }
 
@@ -93,15 +125,5 @@ public class Text {
      */
     public final void setText(final String s) {
         this.text = s;
-        tWidth = font.getWidth(this.text);
-    }
-
-    /**
-     * Setter of the font.
-     *
-     * @param f font type
-     */
-    public static final void setFont(final TrueTypeFont f) {
-        font = f;
     }
 }

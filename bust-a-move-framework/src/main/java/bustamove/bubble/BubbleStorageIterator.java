@@ -22,7 +22,6 @@ import bustamove.util.LinkedListIterator;
  * BubbleStorageIterator is an iterator realization for BubbleStorage.
  *
  * @author Calvin Nhieu
- *
  */
 public class BubbleStorageIterator implements Iterator<Bubble> {
     private LinkedList<Bubble[]> bubbles;
@@ -31,7 +30,8 @@ public class BubbleStorageIterator implements Iterator<Bubble> {
 
     /**
      * Creates BubbleStorageIterator instance.
-     * @param list  LinkedList of arrays to iterate over.
+     *
+     * @param list LinkedList of arrays to iterate over.
      */
     public BubbleStorageIterator(final LinkedList<Bubble[]> list) {
         this.bubbles = list;
@@ -44,8 +44,10 @@ public class BubbleStorageIterator implements Iterator<Bubble> {
             }
         }
     }
+
     /**
      * Returns the next Bubble in the iteration.
+     *
      * @return Bubble  next Bubble.
      */
     public final Bubble next() {
@@ -55,8 +57,10 @@ public class BubbleStorageIterator implements Iterator<Bubble> {
         }
         return bubble;
     }
+
     /**
      * Returns if there is a next Bubble in the iteration.
+     *
      * @return boolean  true if there is a next Bubble, false otherwise.
      */
     public final boolean hasNext() {

@@ -21,16 +21,16 @@ public final class Log {
     /**
      * Singleton variable.
      */
-    private static volatile Log uniqueLog;
+    private static Log uniqueLog = new Log();
     /**
      * Used for timestamping.
      */
     private static Calendar calendar = Calendar.getInstance();
-    private final DateFormat format = new SimpleDateFormat("HH:mm:ss");
     /**
      * Log count.
      */
     private static int number = 0;
+    private final DateFormat format = new SimpleDateFormat("HH:mm:ss");
 
     /**
      * Constructor of the class.
@@ -44,14 +44,14 @@ public final class Log {
      * @return unique singleton instance
      */
     public static Log getInstance() {
-        if (uniqueLog == null) {
-            synchronized (Log.class) {
-                if (uniqueLog == null) {
-                    uniqueLog = new Log();
-                }
-            }
-        }
         return uniqueLog;
+    }
+
+    /**
+     * Increase log counter.
+     */
+    private static void increment() {
+        number++;
     }
 
     /**
@@ -68,12 +68,5 @@ public final class Log {
                 obj.getClass().getSimpleName(), number,
                 format.format(calendar.getTime()),
                 log);
-    }
-
-    /**
-     * Increase log counter.
-     */
-    private static void increment() {
-        number++;
     }
 }

@@ -8,7 +8,6 @@
  * Date: September 13th, 2016
  *
  */
-
 package bustamove.bubble;
 
 import bustamove.system.Log;
@@ -19,7 +18,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
-
 
 import java.util.LinkedList;
 
@@ -36,6 +34,7 @@ public class SimpleBubble extends Bubble {
     private static final Color BLUE_COLOR = Color.blue;
     private static final Color YELLOW_COLOR = Color.yellow;
     private static final Color GREEN_COLOR = Color.green;
+    private static final Color PINK_COLOR = Color.pink;
     /**
      * Angle offset constant.
      */
@@ -72,6 +71,7 @@ public class SimpleBubble extends Bubble {
      * GameData Object where the bubbles belong to. Needed by powerups
      */
     private GameData gamehead;
+
     /**
      * Creates SimpleBubble instance.
      *
@@ -110,6 +110,9 @@ public class SimpleBubble extends Bubble {
             case GREEN:
                 this.drawColor = SimpleBubble.GREEN_COLOR;
                 break;
+            case PINK:
+                this.drawColor = SimpleBubble.PINK_COLOR;
+                break;
             default:
                 break;
         }
@@ -117,18 +120,22 @@ public class SimpleBubble extends Bubble {
 
     /**
      * Sets the gamehead, this is a instance of GameData.
+     *
      * @param game the gamehead to refer to
      */
     public final void setGameHead(final GameData game) {
         this.gamehead = game;
     }
+
     /**
      * Returns the gamehead.
-     * @return  GameData gamehead
+     *
+     * @return GameData gamehead
      */
     public final GameData getGameHead() {
         return this.gamehead;
     }
+
     /**
      * Draws the SimpleBubble.
      *
@@ -139,6 +146,7 @@ public class SimpleBubble extends Bubble {
         g.fillOval((int) this.pos.getX(), (int) this.pos.getY(),
                 (int) SimpleBubble.DIAMETER, (int) SimpleBubble.DIAMETER);
     }
+
     /**
      * Updates the SimpleBubble's position per game tick.
      */
@@ -159,6 +167,7 @@ public class SimpleBubble extends Bubble {
                 break;
         }
     }
+
     /**
      * Stops the SimpleBubble, adjusts bubble's position.
      *
@@ -174,6 +183,7 @@ public class SimpleBubble extends Bubble {
         this.setX(xPos);
         this.setY(yPos);
     }
+
     /**
      * Wall collision detection, inverts ball's xSpeed.
      */
@@ -182,6 +192,7 @@ public class SimpleBubble extends Bubble {
             this.setXSpeed(-this.getXSpeed());
         }
     }
+
     /**
      * Fires the SimpleBubble by setting the state, xSpeed and ySpeed.
      *
@@ -194,6 +205,7 @@ public class SimpleBubble extends Bubble {
         this.setYSpeed(-Math.sin(Math.toRadians(angle + ANGLE_OFFSET))
                 * gamehead.getBubbleSpeed());
     }
+
     /**
      * Pops the SimpleBubble by setting state to POPPED and setting xSpeed
      * and ySpeed to zero.
@@ -203,6 +215,7 @@ public class SimpleBubble extends Bubble {
         this.setXSpeed(0);
         this.setYSpeed(0);
     }
+
     /**
      * Drops the SimpleBubble by setting state to DROPPING and setting xSpeed
      * to zero and ySpeed to speed.
@@ -212,6 +225,7 @@ public class SimpleBubble extends Bubble {
         this.setXSpeed(0);
         this.setYSpeed(Bubble.DROP_SPEED);
     }
+
     /**
      * Recursively traverses the PowerUp hierarchy to find the root
      * Bubble instance.
@@ -221,6 +235,7 @@ public class SimpleBubble extends Bubble {
     public final Bubble getRootBubble() {
         return this;
     }
+
     /**
      * Getter method: for X coordinate of the bubble.
      *
@@ -229,6 +244,7 @@ public class SimpleBubble extends Bubble {
     public final float getX() {
         return this.pos.getX();
     }
+
     /**
      * Setter method: for the X coordinate of the bubble.
      *
@@ -238,6 +254,7 @@ public class SimpleBubble extends Bubble {
         this.pos.setX(xPos);
         this.boundingBox.setX((float) xPos);
     }
+
     /**
      * Getter method: for the Y coordinate of the bubble.
      *
@@ -246,6 +263,7 @@ public class SimpleBubble extends Bubble {
     public final float getY() {
         return this.pos.getY();
     }
+
     /**
      * Setter method: for the Y coordinate of the bubble.
      *
@@ -255,6 +273,7 @@ public class SimpleBubble extends Bubble {
         this.pos.setY(yPos);
         this.boundingBox.setY((float) yPos);
     }
+
     /**
      * Getter method: for the xSpeed value.
      *
@@ -263,6 +282,7 @@ public class SimpleBubble extends Bubble {
     public final double getXSpeed() {
         return this.xSpeed;
     }
+
     /**
      * Setter method: for the xSpeed value.
      *
@@ -271,6 +291,7 @@ public class SimpleBubble extends Bubble {
     public final void setXSpeed(final double xspeed) {
         this.xSpeed = xspeed;
     }
+
     /**
      * Getter method: for the ySpeed value.
      *
@@ -279,6 +300,7 @@ public class SimpleBubble extends Bubble {
     public final double getYSpeed() {
         return this.ySpeed;
     }
+
     /**
      * Setter method: for the ySpeed value.
      *
@@ -287,6 +309,7 @@ public class SimpleBubble extends Bubble {
     public final void setYSpeed(final double yspeed) {
         this.ySpeed = yspeed;
     }
+
     /**
      * Getter method: for the Color value.
      *
@@ -295,6 +318,7 @@ public class SimpleBubble extends Bubble {
     public final ColorChoice getColor() {
         return this.color;
     }
+
     /**
      * Getter method: for the state.
      *
@@ -303,6 +327,7 @@ public class SimpleBubble extends Bubble {
     public final State getState() {
         return this.state;
     }
+
     /**
      * Setter method: for the state.
      *
@@ -311,6 +336,7 @@ public class SimpleBubble extends Bubble {
     public final void setState(final State newState) {
         this.state = newState;
     }
+
     /**
      * Getter method: for the wrapped Bubble component.
      *
@@ -319,6 +345,7 @@ public class SimpleBubble extends Bubble {
     public final Bubble getBubble() {
         return null;
     }
+
     /**
      * Getter method: for the boundingBox.
      *
@@ -327,6 +354,7 @@ public class SimpleBubble extends Bubble {
     public final Circle getBoundingBox() {
         return this.boundingBox;
     }
+
     /**
      * Setter method: for a Bubble's firing speed.
      *
@@ -335,6 +363,7 @@ public class SimpleBubble extends Bubble {
     public final void setFireSpeed(final double nextSpeed) {
         gamehead.setBubbleSpeed(nextSpeed);
     }
+
     /**
      * Getter method for the Firing Speed of the bubble.
      *
@@ -343,11 +372,11 @@ public class SimpleBubble extends Bubble {
     public final double getFireSpeed() {
         return gamehead.getBubbleSpeed();
     }
+
     /**
      * Picks a random color from the current colors in the BubbleStorage.
      *
      * @param colors list of possible bubble colors
-     *
      * @return random ColorChoice
      */
     public static final ColorChoice randomColor(

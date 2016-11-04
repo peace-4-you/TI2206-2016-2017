@@ -2,6 +2,7 @@ package bustamove.game;
 
 import bustamove.bubble.Bubble;
 import bustamove.bubble.Bubble.ColorChoice;
+import bustamove.game.GameData.GameDifficulty;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public class CannonTest {
 
     @Before
     public void setUp() {
-        game = new GameData(0, 0);
+        game = new GameData(0, 0, GameDifficulty.NORMAL);
         cannon = new Cannon(game, 0, 0);
     }
 

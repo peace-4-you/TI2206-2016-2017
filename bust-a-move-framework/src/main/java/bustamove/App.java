@@ -7,16 +7,21 @@
  */
 package bustamove;
 
+import java.awt.Font;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.game.Game;
 import bustamove.game.Highscore;
+import bustamove.player.Statistics;
 import bustamove.screen.DefeatScreen;
 import bustamove.screen.DoubleNameScreen;
 import bustamove.screen.HighscoreScreen;
+import bustamove.screen.AchievementsScreen;
 import bustamove.screen.CreditsScreen;
 import bustamove.screen.MainMenu;
 import bustamove.screen.PausedScreen;
@@ -50,7 +55,10 @@ public class App extends StateBasedGame {
      * Values for fps of the game.
      */
     private static final int MAX_FPS = 120;
-
+    /**
+     * Font for all the texts.
+     */
+    private static TrueTypeFont font;
     /**
      * All the states/screens in the game.
      */
@@ -59,11 +67,13 @@ public class App extends StateBasedGame {
     private static SingleNameScreen singleNameScreen;
     private static DoubleNameScreen doubleNameScreen;
     private static Game game;
+    private static Statistics stats;
     private static DefeatScreen defeatScreen;
     private static VictoryScreen victoryScreen;
     private static PausedScreen pausedScreen;
     private static Highscore highscores;
     private static HighscoreScreen highscoreScreen;
+    private static AchievementsScreen achievementsScreen;
     private static OptionScreen optionScreen;
     private static CreditsScreen creditsScreen;
 
@@ -92,6 +102,7 @@ public class App extends StateBasedGame {
         highscores = new Highscore();
         highscores.setFile(GameConfig.HIGHSCORE_FILE);
         highscores.load();
+        stats = Statistics.read(GameConfig.STATISTICS_FILE);
         app.start();
     }
 
@@ -99,9 +110,12 @@ public class App extends StateBasedGame {
      * Initializes the screens and the font.
      */
     public static void init() {
-        Screen.setFonts();
+        font = new TrueTypeFont(new Font("Verdana", Font.BOLD,
+                GameConfig.TEXT_SIZE), true);
+        Screen.setFonts(font);
         game = new Game();
         game.setHighscores(highscores);
+        game.setStatistics(stats);
         startScreen = new StartScreen();
         mainMenu = new MainMenu();
         singleNameScreen = new SingleNameScreen();
@@ -111,33 +125,11 @@ public class App extends StateBasedGame {
         pausedScreen = new PausedScreen();
         victoryScreen = new VictoryScreen();
         defeatScreen = new DefeatScreen();
+        achievementsScreen = new AchievementsScreen(stats);
         game.registerPlayerObserver(pausedScreen);
         game.registerPlayerObserver(victoryScreen);
         game.registerPlayerObserver(defeatScreen);
         optionScreen = new OptionScreen();
-    }
-
-    /**
-     * Initialize all the game states that are used in the game.
-     *
-     * @param container the container holding the game
-     * @throws SlickException indicates a failure to initialise the state based
-     *                        game resources
-     */
-    public final void initStatesList(final GameContainer container)
-            throws SlickException {
-        init();
-        addState(startScreen);
-        addState(mainMenu);
-        addState(game);
-        addState(pausedScreen);
-        addState(victoryScreen);
-        addState(defeatScreen);
-        addState(singleNameScreen);
-        addState(doubleNameScreen);
-        addState(highscoreScreen);
-        addState(optionScreen);
-        addState(creditsScreen);
     }
 
     /**
@@ -165,5 +157,47 @@ public class App extends StateBasedGame {
      */
     public static final int getGameWidth() {
         return GAME_WIDTH;
+    }
+
+    /**
+     * Returns the Statistics object of this game.
+     *
+     * @return The statistics object.
+     */
+    public static Statistics getStatistics() {
+        return stats;
+    }
+
+    /**
+     * Method that is run before the window is closed.
+     */
+    @Override
+    public final boolean closeRequested() {
+        stats.write();
+        return true;
+    }
+
+    /**
+     * Initialize all the game states that are used in the game.
+     *
+     * @param container the container holding the game
+     * @throws SlickException indicates a failure to initialise the state based
+     *                        game resources
+     */
+    public final void initStatesList(final GameContainer container)
+            throws SlickException {
+        init();
+        addState(startScreen);
+        addState(mainMenu);
+        addState(game);
+        addState(pausedScreen);
+        addState(victoryScreen);
+        addState(defeatScreen);
+        addState(singleNameScreen);
+        addState(doubleNameScreen);
+        addState(highscoreScreen);
+        addState(optionScreen);
+        addState(creditsScreen);
+        addState(achievementsScreen);
     }
 }

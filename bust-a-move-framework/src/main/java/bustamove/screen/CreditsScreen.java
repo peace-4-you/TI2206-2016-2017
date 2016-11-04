@@ -7,13 +7,12 @@
  *
  * Date: September 28th, 2016
  */
-
-
 package bustamove.screen;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
 import bustamove.screen.attributes.Button;
 import bustamove.screen.attributes.Text;
 import bustamove.screen.config.GameConfig;

@@ -10,7 +10,6 @@
 
 package bustamove.screen;
 
-import java.awt.Font;
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
@@ -24,12 +23,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.screen.attributes.Button;
 import bustamove.screen.attributes.Text;
-import bustamove.screen.config.GameConfig;
 
 /**
  * Screen Super Class.
- * @author Maurice Willemsen
  *
+ * @author Maurice Willemsen
  */
 public abstract class Screen extends BasicGameState {
     /**
@@ -42,21 +40,26 @@ public abstract class Screen extends BasicGameState {
      * GameContainer.
      */
     private GameContainer gamecontainer;
+
     /**
-     * Font for all the texts.
+     * Static setter for the fonts.
+     * @param font the Font to set.
      */
-    private static TrueTypeFont font =
-            new TrueTypeFont(new Font("Verdana", Font.BOLD,
-                    GameConfig.TEXT_SIZE), true);
+    public static void setFonts(TrueTypeFont font) {
+        Button.setFont(font);
+        Text.setFont(font);
+    }
 
     /**
      * Getter method: for the GameState ID.
+     *
      * @return integer of BasicGameState number.
      */
     public abstract int getID();
 
     /**
      * Called from extending class. Inits the lists and sets the gamecontainer
+     *
      * @param game the game container
      */
     public final void initBasicScreen(final GameContainer game) {
@@ -68,13 +71,15 @@ public abstract class Screen extends BasicGameState {
 
     /**
      * Renders the BasicGameState.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
-     * @param graphics Graphics object
+     * @param graphics       Graphics object
      * @throws SlickException any type of slick exception
      */
     public final void render(final GameContainer game,
-            final StateBasedGame stateBasedGame, final Graphics graphics)
+                             final StateBasedGame stateBasedGame,
+                             final Graphics graphics)
             throws SlickException {
         for (Button b : buttons) {
             b.draw(graphics);
@@ -101,14 +106,15 @@ public abstract class Screen extends BasicGameState {
 
     /**
      * Updates the BasicGameState.
-     * @param game the game container
+     *
+     * @param game           the game container
      * @param stateBasedGame the state based game
-     * @param i delta of time exceeded
+     * @param i              delta of time exceeded
      * @throws SlickException any type of slick exception
      */
     public final void update(final GameContainer game,
-                                        final StateBasedGame stateBasedGame,
-                                        final int i)
+                             final StateBasedGame stateBasedGame,
+                             final int i)
             throws SlickException {
         gamecontainer = game;
         Input input = game.getInput();
@@ -123,6 +129,7 @@ public abstract class Screen extends BasicGameState {
 
     /**
      * Getter for the buttons lists.
+     *
      * @return Buttons Arraylist.
      */
     public final ArrayList<Button> getButtons() {
@@ -131,6 +138,7 @@ public abstract class Screen extends BasicGameState {
 
     /**
      * Getter for the text lists.
+     *
      * @return Text Arraylist.
      */
     public final ArrayList<Text> getTexts() {
@@ -139,17 +147,10 @@ public abstract class Screen extends BasicGameState {
 
     /**
      * Getter for the textfield lists.
+     *
      * @return TextField Arraylist.
      */
     public final ArrayList<TextField> getTextFields() {
         return textfields;
-    }
-
-    /**
-     * Static setter for the fonts.
-     */
-    public static void setFonts() {
-        Button.setFont(font);
-        Text.setFont(font);
     }
 }

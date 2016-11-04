@@ -6,6 +6,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
@@ -13,28 +14,29 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import bustamove.system.Log;
 import bustamove.system.SoundHandler;
 
-import org.newdawn.slick.GameContainer;
-
-
 /**
  * This class creates and renders a button on the screen.
  * Users use this button to navigate through various menus.
  * Created by Jason Xie on 12/09/2016.
  */
 public class Button {
-
+    /**
+     * Font of the text.
+     */
+    private static TrueTypeFont font;
     /**
      * Text inside the button.
      */
     private String bText;
     /**
-     * X coordinate (top left) of the button.
+     * X and Y coordinates of the button.
      */
     private float xPos;
-    /**
-     * Y coordinate (top left) of the button.
-     */
     private float yPos;
+    /**
+     * X coordinates of the text. Compared to the button xPos.
+     */
+    private float xPosText;
     /**
      * Pixel width of the button.
      */
@@ -43,10 +45,6 @@ public class Button {
      * Pixel height of the button.
      */
     private float bHeight;
-    /**
-     * Font of the text.
-     */
-    private static TrueTypeFont font;
     /**
      * List of actions that should be run when a button is clicked.
      */
@@ -88,7 +86,6 @@ public class Button {
                   final float width, final float height) {
         this(text, y, width, height);
         xPos = x;
-
     }
 
     /**
@@ -99,12 +96,15 @@ public class Button {
     public final void draw(final Graphics g) {
         g.setColor(Color.white);
         g.drawRect(xPos, yPos, bWidth, bHeight);
-        float textwidth = font.getWidth(bText);
-        float textheight = font.getHeight(bText);
-        float centerx = xPos + bWidth / 2;
-        float centery = yPos + bHeight / 2;
-        font.drawString(centerx - textwidth / 2, centery - textheight / 2,
-                bText, Color.white);
+        centerText();
+        font.drawString(xPos + xPosText, yPos, bText, Color.white);
+    }
+
+    /**
+     * Centers the text to the button.
+     */
+    public final void centerText() {
+        xPosText = bWidth / 2.0f - font.getWidth(bText) / 2.0f;
     }
 
     /**
@@ -136,15 +136,6 @@ public class Button {
     }
 
     /**
-     * Setter of the font.
-     *
-     * @param f font type
-     */
-    public static final void setFont(final TrueTypeFont f) {
-        font = f;
-    }
-
-    /**
      * Getter of the font used.
      *
      * @return font tupe
@@ -154,7 +145,17 @@ public class Button {
     }
 
     /**
+     * Setter of the font.
+     *
+     * @param f font type
+     */
+    public static final void setFont(final TrueTypeFont f) {
+        font = f;
+    }
+
+    /**
      * Adds an action to be performed when the button is clicked.
+     *
      * @param r The Runneable action to be performed.
      */
     public final void addAction(final Runnable r) {
@@ -173,10 +174,9 @@ public class Button {
 
     /**
      * Adds a game state change action to this button.
-     * @param sbg
-     *            The state based game object.
-     * @param state
-     *            The state id to change to. (GameState.)
+     *
+     * @param sbg   The state based game object.
+     * @param state The state id to change to. (GameState.)
      */
     public final void addGameStateChangeAction(final StateBasedGame sbg,
                                                final int state) {
@@ -190,7 +190,8 @@ public class Button {
 
     /**
      * Setter to change the text inside the button.
-     * @param text  message
+     *
+     * @param text message
      */
     public final void setText(final String text) {
         bText = text;

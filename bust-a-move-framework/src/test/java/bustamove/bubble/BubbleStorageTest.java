@@ -3,6 +3,7 @@ package bustamove.bubble;
 import bustamove.player.Player;
 import bustamove.player.Score;
 import bustamove.screen.config.GameConfig;
+import bustamove.game.GameData.GameDifficulty;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,8 @@ public class BubbleStorageTest {
     @Before
     public void setUp() {
         collision = new Collision(0, 200, 0);
-        bubbleStorage = new BubbleStorage(200, 200);
+        bubbleStorage = new BubbleStorage(200, 200, GameDifficulty.NORMAL);
+        bubbleStorage.initRows(5);
         collision.setBubbleStorage(bubbleStorage);
     }
 
@@ -32,10 +34,10 @@ public class BubbleStorageTest {
     public void getColors() {
         ColorChoice[] colors = ColorChoice.values();
         LinkedList<ColorChoice> arenaColors = bubbleStorage.getColorsOnArena();
-        for (ColorChoice c : colors) {
-            assertTrue(arenaColors.contains(c));
+        for (int i = 0; i < GameConfig.NUM_COLORS_NORMAL; i++) {
+            assertTrue(arenaColors.contains(ColorChoice.values()[i]));
         }
-        assertEquals(colors.length, arenaColors.size());
+        assertEquals(GameConfig.NUM_COLORS_NORMAL, arenaColors.size());
     }
 
     @Test

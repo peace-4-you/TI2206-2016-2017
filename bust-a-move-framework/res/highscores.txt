@@ -16,6 +16,7 @@ Player1,180
 \return;,150
 Player1,110
 Player1,110
+Player2,110
 Player,70
 Player1,60
 fsfdss,50
@@ -23,6 +24,11 @@ fsdfs,30
 Player1,30
 Player1,30
 wwwPlayer2,30
+Player1,30
 Player1,0
+Player1,0
+Player2,0
+Player1,0
+Player2,0
 Player1,0
 Player2,0

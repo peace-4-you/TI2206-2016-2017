@@ -24,18 +24,16 @@ public class PlayerTest {
 
     private String name;
     private int playerid;
-    private int drawingoffset;
 
     @Parameterized.Parameters
     public static Object[] input() {
-        return new Object[][]{{"TestPlayer",0,1}};
+        return new Object[][]{{"TestPlayer",1}};
     }
 
-    public PlayerTest(String s, int offset, int id) {
+    public PlayerTest(String s, int id) {
         name = s;
-        drawingoffset = offset;
         playerid = id;
-        player = new Player(name,drawingoffset,playerid);
+        player = new Player(name,playerid);
     }
 
     @Before
@@ -50,15 +48,8 @@ public class PlayerTest {
     }
 
     @Test
-    public void setCombo() {
-        player.setCombo(2);
-        assertThat("Combo should be set", player.getCombo(), equalTo(2));
-    }
-
-    @Test
     public void reset() {
         player.reset();
-        assertThat("Combo should be 1", player.getCombo(), equalTo(1));
         assertThat("Score should be 0", player.getScore().getScore(), equalTo(0));
     }
 
