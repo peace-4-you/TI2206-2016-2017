@@ -390,7 +390,8 @@ public final class BubbleStorage {
 
         if (bubble2DArray.size() >= 2) {
             rowWidth = bubble2DArray.get(row % 2).length;
-        } else if (bubble2DArray.size() == 1 && bubble2DArray.get(0).length == WIDTH_STORAGE) {
+        } else if (bubble2DArray.size() == 1 && bubble2DArray.get(0).length
+                == WIDTH_STORAGE) {
             rowWidth = WIDTH_STORAGE - 1;
         } else {
             rowWidth = WIDTH_STORAGE;
