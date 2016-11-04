@@ -72,7 +72,7 @@ public final class GameConfig {
     /**
      * Width of something to display on the screen.
      */
-    public static final int WIDTH2 = 150;
+    public static final int WIDTH2 = 180;
     /**
      * Width of something to display on the screen.
      */
@@ -94,6 +94,10 @@ public final class GameConfig {
      * Text Size.
      */
     public static final int TEXT_SIZE = 20;
+    /**
+     * Small text size.
+     */
+    public static final int TEXT_SIZE_SMALL = 14;
     /**
      * Horizontal distance between each bubble in the arena.
      */
@@ -156,6 +160,10 @@ public final class GameConfig {
      */
     public static final String HIGHSCORE_FILE = "res/highscores.txt";
     /**
+     * The location for the statistics file.
+     */
+    public static final String STATISTICS_FILE = "res/stats.bin";
+    /**
      * Max player name length.
      */
     public static final int MAX_NAME_LENGTH = 13;
@@ -163,4 +171,56 @@ public final class GameConfig {
      * Amount of starting rows.
      */
     public static final int STARTING_ROWS = 5;
+    /**
+     * Amount of milliseconds in a second.
+     */
+    public static final int MILLISECONDS_IN_SECOND = 1000;
+    /**
+     * Achievement "Fast win" seconds.
+     */
+    public static final int ACHIEVEMENT_FAST_WIN = 200;
+    /**
+     * Achievement "Very fast win" seconds.
+     */
+    public static final int ACHIEVEMENT_VERY_FAST_WIN = 120;
+    /**
+     * Achievement "Insane fast win" seconds.
+     */
+    public static final int ACHIEVEMENT_INSANE_FAST_WIN = 60;
+    /**
+     * Achievement "Cheater" seconds.
+     */
+    public static final int ACHIEVEMENT_CHEATER = 20;
+    /**
+     * Achievement "Beginner" times won.
+     */
+    public static final int ACHIEVEMENT_BEGINNER = 1;
+    /**
+     * Achievement "Getting better" times won.
+     */
+    public static final int ACHIEVEMENT_GETTING_BETTER = 5;
+    /**
+     * Achievement "Professional" times won.
+     */
+    public static final int ACHIEVEMENT_PROFESSIONAL = 20;
+    /**
+     * Achievement "Master" times won.
+     */
+    public static final int ACHIEVEMENT_MASTER = 1;
+    /**
+     * Achievement "1 thousand" score.
+     */
+    public static final int ACHIEVEMENT_THOUSAND = 1000;
+    /**
+     * Achievement "over 10000" score.
+     */
+    public static final int ACHIEVEMENT_10K = 10000;
+    /**
+     * Achievement "over 50000" score.
+     */
+    public static final int ACHIEVEMENT_50K = 50000;
+    /**
+     * Achievement "over 1000000" score.
+     */
+    public static final int ACHIEVEMENT_1M = 1000000;
 }

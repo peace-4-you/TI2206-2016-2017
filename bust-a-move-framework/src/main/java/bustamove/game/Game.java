@@ -10,6 +10,7 @@ package bustamove.game;
 import bustamove.App;
 import bustamove.game.GameData.GameDataState;
 import bustamove.player.Player;
+import bustamove.player.Statistics;
 import bustamove.screen.attributes.Button;
 import bustamove.screen.config.GameConfig;
 import bustamove.screen.config.GameState;
@@ -67,6 +68,14 @@ public final class Game extends BasicGameState {
      * The high scores object.
      */
     private Highscore highscore;
+    /**
+     * The statistics object.
+     */
+    private Statistics stats;
+    /**
+     * The current game time in ms.
+     */
+    private long gametime = 0;
 
     /**
      * Private constructor.
@@ -123,6 +132,10 @@ public final class Game extends BasicGameState {
             highscore.addEntryAndSave(gd.getPlayer().getName(),
                     gd.getPlayer().getScore().getScore());
         }
+        stats.win();
+        stats.setTimeWon((int) Math.floor(gametime
+                / GameConfig.MILLISECONDS_IN_SECOND));
+        gametime = 0;
         sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
@@ -138,6 +151,7 @@ public final class Game extends BasicGameState {
         }
         Log.getInstance().log(this, "Game Failed");
         SoundHandler.getInstance().playLoseSound();
+        gametime = 0;
         sbg.enterState(GameState.DEFEAT_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
     }
@@ -180,6 +194,7 @@ public final class Game extends BasicGameState {
                        final int delta) throws SlickException {
         this.sbg = stateBasedGame;
         this.container = game;
+        gametime += delta;
         boolean loosing = true;
         for (GameData gd : this.gamedata) {
             gd.update(container, sbg, delta);
@@ -244,6 +259,15 @@ public final class Game extends BasicGameState {
      */
     public void setHighscores(final Highscore hs) {
         this.highscore = hs;
+    }
+
+    /**
+     * Sets the statistics object of this class.
+     *
+     * @param s The statistics object.
+     */
+    public void setStatistics(final Statistics s) {
+        stats = s;
     }
 
     /**

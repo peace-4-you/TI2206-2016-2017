@@ -14,9 +14,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.game.Game;
 import bustamove.game.Highscore;
+import bustamove.player.Statistics;
 import bustamove.screen.DefeatScreen;
 import bustamove.screen.DoubleNameScreen;
 import bustamove.screen.HighscoreScreen;
+import bustamove.screen.AchievementsScreen;
 import bustamove.screen.CreditsScreen;
 import bustamove.screen.MainMenu;
 import bustamove.screen.PausedScreen;
@@ -59,11 +61,13 @@ public class App extends StateBasedGame {
     private static SingleNameScreen singleNameScreen;
     private static DoubleNameScreen doubleNameScreen;
     private static Game game;
+    private static Statistics stats;
     private static DefeatScreen defeatScreen;
     private static VictoryScreen victoryScreen;
     private static PausedScreen pausedScreen;
     private static Highscore highscores;
     private static HighscoreScreen highscoreScreen;
+    private static AchievementsScreen achievementsScreen;
     private static OptionScreen optionScreen;
     private static CreditsScreen creditsScreen;
 
@@ -92,6 +96,7 @@ public class App extends StateBasedGame {
         highscores = new Highscore();
         highscores.setFile(GameConfig.HIGHSCORE_FILE);
         highscores.load();
+        stats = Statistics.read(GameConfig.STATISTICS_FILE);
         app.start();
     }
 
@@ -102,6 +107,7 @@ public class App extends StateBasedGame {
         Screen.setFonts();
         game = new Game();
         game.setHighscores(highscores);
+        game.setStatistics(stats);
         startScreen = new StartScreen();
         mainMenu = new MainMenu();
         singleNameScreen = new SingleNameScreen();
@@ -111,6 +117,7 @@ public class App extends StateBasedGame {
         pausedScreen = new PausedScreen();
         victoryScreen = new VictoryScreen();
         defeatScreen = new DefeatScreen();
+        achievementsScreen = new AchievementsScreen(stats);
         game.registerPlayerObserver(pausedScreen);
         game.registerPlayerObserver(victoryScreen);
         game.registerPlayerObserver(defeatScreen);
@@ -145,6 +152,24 @@ public class App extends StateBasedGame {
     }
 
     /**
+     * Returns the Statistics object of this game.
+     *
+     * @return The statistics object.
+     */
+    public static Statistics getStatistics() {
+        return stats;
+    }
+
+    /**
+     * Method that is run before the window is closed.
+     */
+    @Override
+    public final boolean closeRequested() {
+        stats.write();
+        return true;
+    }
+
+    /**
      * Initialize all the game states that are used in the game.
      *
      * @param container the container holding the game
@@ -165,5 +190,6 @@ public class App extends StateBasedGame {
         addState(highscoreScreen);
         addState(optionScreen);
         addState(creditsScreen);
+        addState(achievementsScreen);
     }
 }

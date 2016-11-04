@@ -36,6 +36,10 @@ public class Text {
      * Width of the text to be displayed.
      */
     private float tWidth;
+    /**
+     * The color of this text.
+     */
+    private Color color = Color.white;
 
     /**
      * Constructor for a text without x parameter.
@@ -59,6 +63,20 @@ public class Text {
     public Text(final String s, final float x, final float y) {
         this(s, y);
         xPos = x;
+    }
+
+    /**
+     * Constructor with parameter for x coordinate.
+     *
+     * @param s text that will be displayed
+     * @param x x coordinate of the text
+     * @param y y coordinate of the text
+     * @param c the color
+     */
+    public Text(final String s, final float x, final float y, Color c) {
+        this(s, y);
+        xPos = x;
+        color = c;
     }
 
     /**
@@ -86,7 +104,7 @@ public class Text {
      */
     public final void draw(final Graphics g) {
         g.setColor(Color.white);
-        font.drawString(xPos, yPos, text, Color.white);
+        font.drawString(xPos, yPos, text, color);
     }
 
     /**

@@ -65,4 +65,8 @@ public final class GameState {
      * Integer number of the credits screen.
      */
     public static final int CREDITS_SCREEN = 11;
+    /**
+     * Integer number of the achievements screen.
+     */
+    public static final int ACHIEVEMENTS_SCREEN = 12;
 }
