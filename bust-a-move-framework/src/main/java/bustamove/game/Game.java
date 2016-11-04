@@ -78,10 +78,6 @@ public final class Game extends BasicGameState {
      * The current game time in ms.
      */
     private long gametime = 0;
-    /**
-     * The time keeper.
-     */
-    private long time;
 
     /**
      * Private constructor.
@@ -89,7 +85,6 @@ public final class Game extends BasicGameState {
     public Game() {
         this.gamedata = new ArrayList<GameData>();
         this.pObservers = new ArrayList<PlayerObserver>();
-        this.time = 0;
         Log.getInstance().log(this, "Game initialised");
     }
 
@@ -203,7 +198,6 @@ public final class Game extends BasicGameState {
     public void update(final GameContainer game,
                        final StateBasedGame stateBasedGame,
                        final int delta) throws SlickException {
-        this.time += delta;
         this.sbg = stateBasedGame;
         this.container = game;
         gametime += delta;
@@ -242,7 +236,7 @@ public final class Game extends BasicGameState {
         g.fillRect(GRAYRECT_X, GRAYRECT_Y, GRAYRECT_WIDTH, GRAYRECT_HEIGHT);
         pause.draw(g);
         g.setColor(Color.white);
-        g.drawString("Time:" + this.time / MILLIS_TO_SECONDS + "s",
+        g.drawString("Time:" + this.gametime / MILLIS_TO_SECONDS + "s",
                 BUTTON_X, GameConfig.EIGTH_LINE);
         for (GameData gd : this.gamedata) {
             gd.render(game, stateBasedGame, g);
