@@ -54,10 +54,14 @@ public class SoundHandlerTest {
     
     @Test
     public void testSetVolume() {
-    	soundHandler.setVolume(0.5f);
-    	assertTrue((soundHandler.getVolume() == 0.5f));
-    	soundHandler.setVolume(0.8f);
-    	assertTrue((soundHandler.getVolume() == 0.8f));
+    	soundHandler.setVolumeBackground(0.5f);
+    	assertTrue((soundHandler.getVolumeBackground() == 0.5f));
+    	soundHandler.setVolumeBackground(0.8f);
+    	assertTrue((soundHandler.getVolumeBackground() == 0.8f));
+        soundHandler.setVolumeEffects(0.5f);
+        assertTrue((soundHandler.getVolumeEffects() == 0.5f));
+        soundHandler.setVolumeEffects(0.8f);
+        assertTrue((soundHandler.getVolumeBackground() == 0.8f));
     }
 
     @Test
