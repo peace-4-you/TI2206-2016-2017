@@ -382,12 +382,21 @@ public final class BubbleStorage {
     public int getColumn(final double xpos, final double ypos) {
         int row = getRow(ypos);
         int column = 0;
+        int rowWidth;
 
         if (bubble2DArray.peek() == null) {
             return 0;
         }
 
-        int rowWidth = bubble2DArray.get(row).length;
+        if (bubble2DArray.size() >= 2) {
+            rowWidth = bubble2DArray.get(row % 2).length;
+        } else if (bubble2DArray.size() == 1 && bubble2DArray.get(0).length
+                == WIDTH_STORAGE) {
+            rowWidth = WIDTH_STORAGE - 1;
+        } else {
+            rowWidth = WIDTH_STORAGE;
+        }
+
         double relativeX = xpos - xBound;
         if (rowWidth == WIDTH_STORAGE) {
             column = (int) Math.round((relativeX) / Bubble.DIAMETER);
