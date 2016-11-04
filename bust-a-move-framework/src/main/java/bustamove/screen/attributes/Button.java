@@ -104,7 +104,7 @@ public class Button {
      * Centers the text to the button.
      */
     public final void centerText() {
-        xPosText = bWidth / 2 - font.getWidth(bText) / 2;
+        xPosText = bWidth / 2.0f - font.getWidth(bText) / 2.0f;
     }
 
     /**

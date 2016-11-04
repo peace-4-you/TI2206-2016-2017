@@ -24,7 +24,8 @@ public final class SoundHandler {
      */
     private float volumeBackground = 0;
     /**
-     * The volume at which the sound effects audio will be played (between 0 and 1).
+     * The volume at which the sound effects audio will be played
+     * (between 0 and 1).
      */
     private float volumeEffects = 0;
     /**
