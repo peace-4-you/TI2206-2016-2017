@@ -7,9 +7,12 @@
  */
 package bustamove;
 
+import java.awt.Font;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
 import bustamove.game.Game;
@@ -50,7 +53,10 @@ public class App extends StateBasedGame {
      * Values for fps of the game.
      */
     private static final int MAX_FPS = 120;
-
+    /**
+     * Font for all the texts.
+     */
+    private static TrueTypeFont font;
     /**
      * All the states/screens in the game.
      */
@@ -99,7 +105,9 @@ public class App extends StateBasedGame {
      * Initializes the screens and the font.
      */
     public static void init() {
-        Screen.setFonts();
+        font = new TrueTypeFont(new Font("Verdana", Font.BOLD,
+                GameConfig.TEXT_SIZE), true);
+        Screen.setFonts(font);
         game = new Game();
         game.setHighscores(highscores);
         startScreen = new StartScreen();
