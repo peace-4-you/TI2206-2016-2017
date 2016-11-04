@@ -43,7 +43,7 @@ public class MainMenuTest {
     	screen = new MainMenu();    	
     	screen.init(game, sbg);
     	assertThat("Amount of texts should be like expected", screen.getTexts().size(), equalTo(0));
-    	assertThat("Amount of buttons should be like expected", screen.getButtons().size(), equalTo(6));
+    	assertThat("Amount of buttons should be like expected", screen.getButtons().size(), equalTo(7));
     	assertThat("Amount of textfields should be like expected", screen.getTextFields().size(), equalTo(0));
     }
     
