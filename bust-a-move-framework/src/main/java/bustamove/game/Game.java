@@ -140,7 +140,7 @@ public final class Game extends BasicGameState {
         }
         stats.win();
         stats.setTimeWon((int) Math.floor(gametime
-                / GameConfig.MILLISECONDS_IN_SECOND));
+                / (double) GameConfig.MILLISECONDS_IN_SECOND));
         gametime = 0;
         sbg.enterState(GameState.WIN_SCREEN, new FadeOutTransition(),
                 new FadeInTransition());
