@@ -1,6 +1,7 @@
 package bustamove.bubble;
 
 import bustamove.game.GameData;
+import bustamove.game.GameData.GameDifficulty;
 import bustamove.player.Player;
 import bustamove.player.Score;
 import bustamove.bubble.Bubble.ColorChoice;
@@ -57,9 +58,9 @@ public class PopBehaviourTest {
 
     @Before
     public void setUp() {
-        bubbleStorage = new BubbleStorage(0, 0);
+        bubbleStorage = new BubbleStorage(0, 0, GameDifficulty.NORMAL);
         bubbleStorage.initRows(5);
-        score = new Score(new Player("name", 0, 0));
+        score = new Score(new Player("name", 0));
         popBehaviour = new PopBehaviour(score);
         popBehaviour.setBubbleStorage(bubbleStorage);
     }
@@ -97,7 +98,7 @@ public class PopBehaviourTest {
     public void popBubbles() {
         dumbpatheticloop:
         while (true) {
-            bubbleStorage = new BubbleStorage(0, 0);
+            bubbleStorage = new BubbleStorage(0, 0, GameDifficulty.NORMAL);
             bubbleStorage.initRows(1);
             popBehaviour.setBubbleStorage(bubbleStorage);
             BubbleStorageIterator ite = bubbleStorage.iterator();

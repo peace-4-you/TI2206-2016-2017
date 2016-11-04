@@ -14,7 +14,7 @@ public final class SoundHandler {
     /**
      * Singleton variable.
      */
-    private static volatile SoundHandler uniqueSoundHandler;
+    private static SoundHandler uniqueSoundHandler = new SoundHandler();
     /**
      * The background music.
      */
@@ -55,14 +55,7 @@ public final class SoundHandler {
      *
      * @return unique singleton instance
      */
-    public static SoundHandler getInstance() {
-        if (uniqueSoundHandler == null) {
-            synchronized (SoundHandler.class) {
-                if (uniqueSoundHandler == null) {
-                    uniqueSoundHandler = new SoundHandler();
-                }
-            }
-        }
+    public static synchronized SoundHandler getInstance() {
         return uniqueSoundHandler;
     }
 
@@ -81,6 +74,9 @@ public final class SoundHandler {
             loseSound = new Sound("res/lose.ogg");
         } catch (SlickException e) {
             Log.getInstance().log(this, "Error loading a sound.");
+        } catch (UnsatisfiedLinkError e) {
+            e.printStackTrace();
+            Log.getInstance().log(this, "No LWJGL in java.library.path");
         }
     }
 
@@ -145,6 +141,8 @@ public final class SoundHandler {
      */
     public void setVolume(final float vol) {
         volume = vol;
-        backgroundMusic.setVolume(volume);
+        if (backgroundMusic != null) {
+            backgroundMusic.setVolume(volume);
+        }
     }
 }
